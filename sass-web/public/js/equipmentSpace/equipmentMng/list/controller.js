@@ -35,6 +35,59 @@ var equipmentMngList = {
     },
     // 查询专业
     queryProfession: function() {
+
+        return new Promise(function(resolve, reject) {
+
+            setTimeout(function() {
+                resolve({
+                    "data": [{
+                            "code": "AC",
+                            "name": "空调",
+                            "description": "--",
+                            "dict_type": "--"
+                        },
+                        {
+                            "code": "FF",
+                            "name": "消防",
+                            "description": "--",
+                            "dict_type": "--"
+                        },
+                        {
+                            "code": "OT",
+                            "name": "其他",
+                            "description": "其他",
+                            "dict_type": "--"
+                        },
+                        {
+                            "code": "SE",
+                            "name": "强电",
+                            "description": "--",
+                            "dict_type": "--"
+                        },
+                        {
+                            "code": "SP",
+                            "name": "安防",
+                            "description": "--",
+                            "dict_type": "--"
+                        },
+                        {
+                            "code": "WE",
+                            "name": "弱电",
+                            "description": "--",
+                            "dict_type": "--"
+                        },
+                        {
+                            "code": "WS",
+                            "name": "给排水",
+                            "description": "--",
+                            "dict_type": "--"
+                        }
+                    ]
+                }.data)
+            }, 200);
+
+        })
+
         return new Promise(function(resolve, reject) {
 
             pajax.post({

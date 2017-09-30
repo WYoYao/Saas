@@ -58,9 +58,9 @@
     }],
     mainUrl: '/layout',
     // commonLibUrl: 'http://192.168.100.196:9000/',
-    //commonLibUrl: 'http://127.0.0.1:9001/',
-    // commonLibUrl: 'http://192.168.100.196:9000/',
     commonLibUrl: 'http://127.0.0.1:9001/',
+    //commonLibUrl: 'http://192.168.100.196:9000/',
+    // commonLibUrl: 'http://127.0.0.1:9001/',
 
     // commonLibUrl: 'http://127.0.0.1:9001/',
     // serviceUrl: 'http://172.16.0.124:9080/saas',
