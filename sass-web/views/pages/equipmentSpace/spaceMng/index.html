@@ -105,7 +105,7 @@
                     </div>
                 </div>
                 <div class="allSpace singleFloor" v-show="floorShowTitle!='建筑下的全部空间'">
-                    <div class="spaceItem" v-for="item in floorSpace">
+                    <div class="spaceItem" v-for="item in floorSpace" v-on:click="spaceItemClick(item)">
                         <div class="allOrder">
                             <div class="orderItem" v-for="witem in item.work_orders" v-on:click="orderSignClick($event,witem)">
                                 <span class="icon" v-bind:class="{'safeOrder':witem.order_type=='1','repairOrder':witem.order_type=='2','checkOrder':witem.order_type=='3','runOrder':witem.order_type=='4','securOrder':witem.order_type=='5'}"></span>
@@ -135,7 +135,7 @@
                             <div class="title">{{item.floor_local_name}}</div>
                             <div class="noSpace" v-show="item.spaces.length==0"><span>该楼层内尚无空间</span></div>
                             <div class="allSpace" v-show="item.spaces.length>0">
-                                <div class="spaceItem" v-for="sitem in item.spaces">
+                                <div class="spaceItem" v-for="sitem in item.spaces" v-on:click="spaceItemClick(sitem)">
                                     <div class="info">{{sitem.room_func_type_name}}<em>-</em>{{sitem.room_local_id}}</div>
                                     <div class="name">{{sitem.room_local_name}}</div>
                                 </div>
@@ -179,7 +179,7 @@
                         <div class="addItem">
                             <div class="name"><span>楼层性质：</span></div>
                             <div class="cont">
-                                <pcombobox-normal align="left" sel="floorTypeSel">
+                                <pcombobox-normal align="left" sel="floorTypeSel" id="addFloorType">
                                     <header placeholder="请选择楼层性质"></header>
                                     <item datasource="floorTypeArr" text="name"></item>
                                 </pcombobox-normal>
@@ -266,7 +266,7 @@
                             <div class="eachItem leftItem">
                                 <div class="name"><span><em>*</em>所属建筑</span></div>
                                 <div class="cont">
-                                    <pcombobox-normal bind="true" sel="spaceBuildSel"> 
+                                    <pcombobox-normal bind="true" sel="spaceBuildSel" id="'spaceBuildDrop'"> 
                                         <header placeholder="请选择建筑"></header>
                                         <item datasource="allBuild" text="obj_name"></item>
                                     </pcombobox-normal>
@@ -275,7 +275,7 @@
                             <div class="eachItem rightItem">
                                 <div class="name"><span>所属楼层</span></div>
                                 <div class="cont">
-                                    <pcombobox-normal align="left" sel="spaceFloorSel" bind="true">
+                                    <pcombobox-normal align="left" sel="spaceFloorSel" bind="true" id="'spaceFloorDrop'">
                                         <header placeholder="请选择楼层"></header>
                                         <item datasource="spaceFloorArr" text="floor_local_name"></item>
                                     </pcombobox-normal>

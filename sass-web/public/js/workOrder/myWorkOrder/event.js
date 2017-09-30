@@ -336,14 +336,25 @@ var yn_method = {
         return str;
     },
     /*#浮窗中上下键选择*/
-    upDownSelect: function () {
+    upDownSelect: function (which) {
         var num = 0;
+        var hashtagBubble=null;
+        if(which){//输入时的#浮窗
+            // hashtagBubble=$(".textarea-prop .sop-list .aite-list")
+            hashtagBubble=$(".textarea-prop .hashtag-sop")
+        }else{
+            // hashtagBubble=$(".add-sop .sop-list .aite-list")
+            hashtagBubble=$(".add-sop .hashtag-sop")
+
+        }
         $(document).keyup(function (e) {
             var code = e.keyCode;
             // e.preventDefault();
             if (code == 40 && num == 0) {
                 if (!myWorkOrderModel.aite) {
-                    $(".sop-list .aite-list:first-of-type").addClass("updownmove");
+                    // $(".sop-list .aite-list:first-of-type").addClass("updownmove");
+                    // $(hashtagBubble).eq(0).addClass("updownmove");
+                    $(hashtagBubble).find(".aite-list").eq(0).addClass("updownmove");
                 }
                 num++;
             } else {
@@ -355,7 +366,7 @@ var yn_method = {
                             // e.preventDefault();
                             if (prev) {
                                 if (!myWorkOrderModel.aite) {
-                                    $(".sop-list .aite-list").each(function () {
+                                    $(hashtagBubble).find(".aite-list").each(function () {
                                         $(this).removeClass("updownmove");
                                     });
                                     $(prev).addClass("updownmove");
@@ -368,7 +379,7 @@ var yn_method = {
                         case 40://下
                             if (!myWorkOrderModel.aite) {
                                 if (next) {
-                                    $(".sop-list .aite-list").each(function () {
+                                    $(hashtagBubble).find(".aite-list").each(function () {
                                         $(this).removeClass("updownmove");
                                     });
                                     $(next).addClass("updownmove");
@@ -382,9 +393,10 @@ var yn_method = {
                             break;
                         case 32://空格选中
                             if (!myWorkOrderModel.aite) {
-                                var id = $(".sop-list .aite-list.updownmove>div:last-of-type div").attr("id");
-                                $("#" + id).psel(true);//空格选中
-                                $("#able-btn").pdisable(false);
+                                // var id = $(".sop-list .aite-list.updownmove>div:last-of-type>div").attr("id");
+                                var id = $(hashtagBubble).find(".aite-list.updownmove>div:last-of-type>div").attr("id");
+                                $(hashtagBubble).find("#" + id).psel(true);//空格选中
+                                $(hashtagBubble).find("#able-btn").pdisable(false);
                             }
                             break;
                         case 13://回车确定
@@ -393,10 +405,11 @@ var yn_method = {
                              // method_yn.enterSure()
                              }*/
                             if (!myWorkOrderModel.aite) {
-                                var checks = $(".sop-list .aite-list>div:last-of-type").children("div");
+                                // var checks = $(".sop-list .aite-list>div:last-of-type").children("div");
+                                var checks = $(hashtagBubble).find(".aite-list>div:last-of-type").children("div");
                                 var sop = "";
-                                $(checks).each(function (i, dom, arr) {
-                                    var check = $("#" + dom.id).psel();
+                                checks.each(function (i, dom, arr) {
+                                    var check =$(hashtagBubble).find("#" + dom.id).psel();
                                     if (check) {
                                         sop += "#" + $(dom).parent().prev().children().text() + " ";
                                     }
@@ -423,14 +436,25 @@ var yn_method = {
         }
     },
     /*回车确定*/
-    enterSop: function (content) {
+    enterSop: function (e,which) {
+        if(which){//输入时的#浮窗
+            // hashtagBubble=$(".textarea-prop .sop-list .aite-list")
+            hashtagBubble=$(".textarea-prop .hashtag-sop")
+        }else{
+            // hashtagBubble=$(".add-sop .sop-list .aite-list")
+            hashtagBubble=$(".add-sop .hashtag-sop")
+
+        }
         if (!myWorkOrderModel.aite) {
-            var checks = $(".sop-list .aite-list>div:last-of-type").children("div");
+            // var checks = $(".sop-list .aite-list>div:last-of-type").children("div");
+            var checks = $(e.target).parents(".hashtag-bubble").find(".sop-list .aite-list>div:last-of-type").children("div");
+
             var sop = "";
-            $(checks).each(function (i, dom, arr) {
-                var check = $("#" + dom.id).psel();
+            checks.each(function (i, dom, arr) {
+                console.log($("#" + dom.id))
+                var check = $(hashtagBubble).find("#" + dom.id).psel();
                 if (check) {
-                    sop += "#" + $(dom).parent().prev().children().text() + " ";
+                    sop += "#" + $(hashtagBubble).find("#" + dom.id).parent().prev().children().text() + " ";
                 }
             });
             myWorkOrderModel.description += sop;

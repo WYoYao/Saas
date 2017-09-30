@@ -33,6 +33,7 @@ var controller = {
         controller.queryWorkOrderType(workObj);//查询工单类型
         controller.queryWorkOrder('restMyWorkOrderService/queryMyDraftWorkOrder', drafWorkObj);//查询草稿箱内工单
         controller.querySopListForSel(obj);
+        controller.queryUserWoInputMode();//用户输入方式
     },
 
 
@@ -160,7 +161,25 @@ var controller = {
     },
     /*查询用户输入方式*/
     queryUserWoInputMode: function () {
-
+        $('#loadCover').pshow();
+        myWorkOrderModel.workList = [];
+        pajax.post({
+            url: 'restUserService/queryUserWoInputMode',
+            data: {
+            },
+            success: function (result) {
+                var input_mode = result && result.input_mode ? result.input_mode : "";//工单输入方式，0-未记录过，1-自由输入，2-结构化输入
+               console.log(input_mode)
+                myWorkOrderModel.regular=input_mode==0?false:input_mode==1?false:true;
+                $("#switch-slide").psel(myWorkOrderModel.regular);
+            },
+            error: function (err) {
+                $("#myWork-list-notice").pshow({text: '查询失败', state: "failure"});
+            },
+            complete: function () {
+                $('#loadCover').phide();
+            }
+        });
     },
     /*编辑草稿*/
     editDraft: function (index, order_id, event) {

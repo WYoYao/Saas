@@ -62,6 +62,39 @@ var model = {
     rateMonth: '', //月频率数
     rateWeek: '', //周频率数
     rateDay: '', //日频率数
+    weekChoice_List:[//选择星期列表
+        {name:"周一"},
+        {name:"周二"},
+        {name:"周三"},
+        {name:"周四"},
+        {name:"周五"},
+        {name:"周六"},
+        {name:"周日"}
+        ],
+    effectTime_startList:[//生效时间
+    {
+        name:"发布成功后立即"
+    }],
+     effectTime_endList:[
+    {
+        name:"一直有效"
+    }],
+    orderTypeObj:{code:"1",name:""},//工单类型列表存
+    newPlanObj : {//新建计划提交对象
+        plan_name:'',//计划名称
+        order_type:'',//工单类型code,
+        urgency:'',//紧急程度,高、中、低
+        ahead_create_time:'',//提前创建工单时间
+        freq_cycle:'',//ymwd周期
+        freq_num:'',//计划频率次数
+        freq_times:[],//计划频率-时间
+        plan_start_type:'',//计划开始时间1,发布成功立即2,指定时间
+        plan_start_time:'',//开始时间
+        plan_end_time:'',//结束时间
+        draft_matters:[],//工单事项数组草稿matters
+        published_matters:[],//工单事项数组，预览matters
+
+    },
 
 
 
@@ -492,6 +525,79 @@ var methods = {
                 }
             },0)
         }
+    },
+    next_btn_step:function(){//下一步
+        //     newPlanObj : {//新建计划提交对象
+        //     plan_name:'',//计划名称
+        //     order_type:'',//工单类型code,
+        //     urgency:'',//紧急程度,高、中、低
+        //     ahead_create_time:'',//提前创建工单时间
+        //     freq_cycle:'',//ymwd周期
+        //     freq_num:'',//计划频率次数
+        //     freq_times:[],//计划频率-时间,所有选择时间的数组
+        //     plan_start_type:'',//计划开始时间1,发布成功立即2,指定时间
+        //     plan_start_time:'',//开始时间
+        //     plan_end_time:'',//结束时间
+        //     draft_matters:[],//工单事项数组草稿matters
+        //     published_matters:[],//工单事项数组，预览matters
+
+        // },
+
+        model.newPlanObj.plan_name = $("#plan_name").pval();
+        model.newPlanObj.order_type = model.orderTypeObj.code;//需要在列表时赋值
+        model.newPlanObj.urgency = $("#orderUrgency").psel().name;
+        model.newPlanObj.ahead_create_time = $("#aheadCreateTime").pval();
+        
+        var freqCycle = $("#planRateLeft").psel().text;
+        var freqTimes = [];//存储计划频率每一次的时间
+        if(freqCycle == "年"){
+            model.newPlanObj.freq_cycle = "y";
+            var yearArr = [];
+            var arrLength = model.rateYear;
+            console.log(arrLength);
+            for(var i = 0;i<arrLength ;i++){
+                //开始时间
+                var st_str = $("#yearStartTime" + i).psel().startTime;
+                var st_yM = st_str.substr(0,2) + st_str.substr(3,2);
+                var st_h = st_str.substr(6,2);
+                var st_m = st_str.substr(9,2);
+                var obj_st = {
+                    cycle:"y",
+                    time_day:st_yM,
+                    time_hour:st_h,
+                    time_minute:st_m
+                };
+                // 结束时间
+                var ed_str = $("#yearEndTime" + i).psel().startTime;
+                var ed_yM = ed_str.substr(0,2) + ed_str.substr(3,2);
+                var ed_h = ed_str.substr(6,2);
+                var ed_m = ed_str.substr(9,2);
+                var obj_et = {
+                    cycle:"y",
+                    time_day:ed_yM,
+                    time_hour:ed_h,
+                    time_minute:ed_m
+                };
+                yearArr.push({start_time:obj_st,end_time:obj_et});
+            };
+            model.newPlanObj.freq_times = yearArr;
+            console.log(JSON.stringify(yearArr));
+        }else if(freqCycle == "月"){
+            model.newPlanObj.freq_cycle = "m";
+            var yearArr = [];
+            var arrLength = model.rateMonth;
+            for(var i = 0;i<arrLength;i++){
+
+            }
+        }else if(freqCycle == "周"){
+            model.newPlanObj.freq_cycle = "w";
+        }else if(freqCycle == "日"){
+            model.newPlanObj.freq_cycle = "d";
+        }
+        model.newPlanObj.freq_num = $("planRateRig").psel().name;
+        console.log(JSON.stringify(model.newPlanObj))
+
+
     },
 
 

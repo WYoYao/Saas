@@ -2,19 +2,22 @@ var equipmentAddressModal = {
     merchantArr: [],               //商家列表
     selMerchantToInfo: {},          //选择的商家，用于展示详情
     selMerchantToUpdate: {},        //选择的商家，用于更新数据
-    pageEachNumber: 50
+    pageEachNumber: 50,
+
+    tabSelIndex:0 //tab选中
 };
 
 var equipmentAddressVueMethod = {
     /*选项卡的选择事件*/
     tabSel: function (event) {
         var index = event.pEventAttr.index;
+        equipmentAddressModal.tabSelIndex = index;
         tabShow();
         getCurrTabElement().psel(1);
     },
     /*表格某一行的单击事件*/
     gridLineSel: function (model, event) {
-        floatShow();
+        selfloatShow();
         equipmentAddressModal.selMerchantToInfo = model;
         equipmentLogic.getMerchantById();
     },

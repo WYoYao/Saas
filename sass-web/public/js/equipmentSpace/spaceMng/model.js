@@ -18,12 +18,13 @@ spaceInfoModel.instance = function () {
 
                 allSpaceCode: [],//所有空间功能类型
                 allRentalCode: [],//租赁业态类型
-                floorEditSign: true,//是否可以编辑
+                detailEditSign: true,//楼层是否可以编辑
                 floorShowTitle: '建筑下的全部空间',//是否显示所有floor
 
                 spaceFloorArr: [],//空间添加中的楼层
                 selSpaceFloor: {},//空间添加选中的楼层
                 spaceDetail: {},//空间详细信息
+
             },
             methods: {
                 upFloor: function (findex, item) {
@@ -62,9 +63,12 @@ spaceInfoModel.instance = function () {
                     $("#floorCheckFloat .contShow").css({ 'display': 'block' });
                     $("#floorCheckFloat .editShow").css({ 'display': 'none' });
                     spaceInfoController.queryFloorById(item);
+                    this.detailEditSign = true;
                 },
                 spaceItemClick: function (item) {//空间模块的点击事件
                     $("#spaceCheckFloat").pshow();
+                    spaceInfoController.querySpaceById(item);
+                    this.detailEditSign = true;
                 },
                 floorItemClick: function (item) {//楼层模块的点击事件
                     spaceInfoController.querySpaceForFloor(item);

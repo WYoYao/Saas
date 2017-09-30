@@ -43,5 +43,33 @@ var cardPrintController = {
         this.sendAjax('restFloorService/queryFloorList', {
             build_id: buildId
         }, successCall, errCall, completeCall);
+    },
+    /*下载设备名片
+    */
+    downEqCard: function (idArr) {
+        pajax.downloadByParam('restCardService/downloadEquipCard', {
+            equip_ids: idArr
+        });
+    },
+    /*下载空间名片
+    */
+    downSpCard: function (idArr) {
+        pajax.downloadByParam('restCardService/downloadSpaceCard', {
+            space_ids: idArr
+        });
+    },
+    /*获取设备名片设置的可选项
+    */
+    getEqCardInfoArr: function (successCall, errCall, completeCall) {
+        this.sendAjax('restCardService/queryEquipOptions', {}, successCall, errCall, completeCall);
+    },
+    /*获取空间名片设置的可选项
+    */
+    getSpCardInfoArr: function (successCall, errCall, completeCall) {
+        this.sendAjax('restCardService/queryEquipOptions', {}, successCall, errCall, completeCall);
+    },
+    /*保存名片*/
+    saveCard: function (object, successCall, errCall, completeCall) {
+        this.sendUpdate('restCardService/saveEquipCardStyle', object, successCall, errCall, completeCall);
     }
 };

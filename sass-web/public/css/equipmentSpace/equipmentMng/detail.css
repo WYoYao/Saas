@@ -317,7 +317,6 @@
 .equipmentDetail .base .contentb .infos {
     width: 75%;
     margin-left: 20%;
-    height: 823px;
 }
 
 .equipmentDetail .contentb .infos .part {
@@ -326,6 +325,7 @@
 }
 
 .equipmentDetail .infos .pn {
+    position: relative;
     font-size: 16px;
     line-height: 44px;
     color: #aaaaaa;
@@ -342,9 +342,13 @@
 }
 
 .idetext {
+    /* display: inline; */
+    position: absolute;
+    top: 0;
+    right: 0;
     display: none;
-    float: right;
-    line-height: 44px;
+    /* float: right; */
+    /* line-height: 30px; */
     font-family: 'perficon';
     text-align: center;
     cursor: pointer;
@@ -353,7 +357,7 @@
 }
 
 .ideicon {
-    line-height: 44px;
+    /* line-height: 44px; */
     font-family: 'perficon';
     width: 25px;
     text-align: center;
@@ -366,12 +370,19 @@
     color: #68c5b3;
 }
 
+.equipmentDetail .yellowblock {
+    background: #f5f5f5;
+}
+
 .equipmentDetail .infos .part .add {
+    /* background: #f5f5f5; */
     width: 100%;
 }
 
 .equipmentDetail .infos .part .add>li {
     margin: 14px 0;
+    position: relative;
+    line-height: 30px;
     /* overflow: hidden; */
 }
 
@@ -388,7 +399,20 @@
 }
 
 .equipmentDetail .a-box {
+    /* position: relative; */
     /* float: left; */
-    width: 260px;
+    /* width: 260px; */
     margin-left: 90px;
+    /* line-height: 30px; */
+}
+
+.equipmentDetail .a-box .ipt {
+    display: block;
+    margin-right: 50px;
+}
+
+.equipmentDetail .icnb {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

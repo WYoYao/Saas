@@ -394,7 +394,7 @@ var myWorkOrderMethod = {//工单管理模块方法
                 } else if (lastQuanIndex < lastJingIndex) {
                     myWorkOrderModel.aite = false;
                     myWorkOrderMethod.selAllTags();
-                    yn_method.upDownSelect();
+                    yn_method.upDownSelect(true);
                 }
                 var h1 = '<span>' + firstPartStr.substring(0, lastQuanjingIndex) + '</span>';
                 var h2 = '<span>' + firstPartStr.substr(lastQuanjingIndex, 1) + '</span>';
@@ -408,7 +408,8 @@ var myWorkOrderMethod = {//工单管理模块方法
                 var pos = span.offset();
                 var left = pos.left - divpos.left + 18;
                 var top = pos.top - divpos.top + 25;
-                $(textareapop).css({left: left + 'px', top: top + 'px'}).show();
+                $(textareapop).css({left: left + 'px', top: top + 'px'});
+                $(textareapop).show();
 
             }
 

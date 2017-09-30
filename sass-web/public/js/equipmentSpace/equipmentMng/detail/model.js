@@ -92,226 +92,108 @@ var CardInfo = function() {
 ;
 (function() {
 
-    // 保险集合
-    var insuranceArr = [{
-            el: $("#addid_insurer"),
-            type: 1,
-            key: 'insurer',
-            list: this.insurerList,
-            SearchKey: 'company_name',
-        },
-        {
-            el: $("#addid_insurer_num"),
-            type: 1,
-            key: 'insurer_num',
-            list: this.insurer_infos,
-            SearchKey: 'insurer_num',
-        }
-    ];
+    // 通过key 值获取对应的DOM   0文本框  1 下拉框 2 图片上传 3 文件上传 4 日历控件 5 多级联动下拉菜单(具体属性单独处理)
+    var controlType;
 
-    // 供应购买集合
-    var buyArr = [{
-            el: $("#addid_supplier"),
-            type: 1,
-            key: 'supplier',
-            list: this.supplierList,
-            SearchKey: 'company_name',
-        }, {
-            el: $("#addid_contract_id"),
-            type: 0,
-            key: 'contract_id'
-        },
-        {
-            el: $("#addid_asset_id"),
-            type: 0,
-            key: 'asset_id'
-        },
-        {
-            el: $("#addid_purchase_price"),
-            type: 0,
-            key: 'purchase_price'
-        }
-    ];
+    function querycontroTypeByKey(key) {
 
-    // 厂家集合
-    var factoryArr = [{
-            el: $("#addid_manufacturer"),
-            type: 1,
-            key: 'manufacturer',
-            list: this.manufacturerList,
-            SearchKey: 'company_name',
-        },
-        {
-            el: $("#addid_brand"),
-            type: 1,
-            key: 'brand',
-            list: this.brands,
-            SearchKey: 'name',
-        },
-        {
-            el: $("#addid_product_date"),
-            type: 4,
-            key: 'product_date'
-        },
-        {
-            el: $("#addid_serial_num"),
-            type: 0,
-            key: 'serial_num'
-        },
-        {
-            el: $("#addid_specification"),
-            type: 0,
-            key: 'specification'
+        if (!controlType) {
+            controlType = {
+                insurer: 1,
+                insurer_num: 1,
+                supplier: 1,
+                contract_id: 0,
+                asset_id: 0,
+                purchase_price: 0,
+                manufacturer: 1,
+                brand: 1,
+                product_date: 4,
+                serial_num: 0,
+                specification: 0,
+                principal: 0,
+                maintain_id: 0,
+                start_date: 4,
+                maintain_deadline: 0,
+                service_life: 0,
+                warranty: 0,
+                maintain_cycle: 0,
+                maintainer: 1,
+                status: 1,
+                equip_local_name: 0,
+                equip_local_id: 0,
+                BIMID: 0,
+                position: 5,
+                system_name: 1,
+                equip_category_name: 1,
+                length: 0,
+                width: 0,
+                height: 0,
+                mass: 0,
+                material: 0,
+                dept: 0,
+                drawing: 3,
+                picture: 2,
+                check_report: 3,
+                nameplate: 2,
+                archive: 3,
+            }
         }
-    ];
 
-    // 运行维保集合
-    var maintenanceArr = [{
-            el: $("#addid_principal"),
-            type: 0,
-            key: 'principal'
-        },
-        {
-            el: $("#addid_maintain_id"),
-            type: 0,
-            key: 'maintain_id'
-        },
-        {
-            el: $("#addid_start_date"),
-            type: 4,
-            key: 'start_date'
-        },
-        {
-            el: $("#addid_maintain_deadline"),
-            type: 4,
-            key: 'maintain_deadline'
-        },
-        {
-            el: $("#addid_service_life"),
-            type: 0,
-            key: 'service_life'
-        },
-        {
-            el: $("#addid_warranty"),
-            type: 0,
-            key: 'warranty'
-        },
-        {
-            el: $("#addid_maintain_cycle"),
-            type: 0,
-            key: 'maintain_cycle'
-        }, {
-            el: $("#addid_maintainer"),
-            type: 1,
-            key: 'maintainer',
-            list: this.maintainerList,
-            SearchKey: 'company_name',
-        }, {
-            el: $("#addid_status"),
-            type: 1,
-            key: 'status',
-            list: this.statusList,
-            SearchKey: 'name',
+        return controlType[key];
+
+    }
+
+    var SearchName;
+
+    function querySearchNameByKey(key) {
+
+        if (!SearchName) {
+            SearchName = {
+                insurer: {
+                    list: v.instance.insurerList,
+                    SearchKey: 'company_name',
+                },
+                insurer_num: {
+                    list: v.instance.insurer_infos,
+                    SearchKey: 'insurer_num',
+                },
+                supplier: {
+                    list: v.instance.supplierList,
+                    SearchKey: 'company_name',
+                },
+                manufacturer: {
+                    list: v.instance.manufacturerList,
+                    SearchKey: 'company_name',
+                },
+                brand: {
+                    list: v.instance.brands,
+                    SearchKey: 'name',
+                },
+                maintainer: {
+                    list: v.instance.maintainerList,
+                    SearchKey: 'company_name',
+                },
+                status: {
+                    list: v.instance.statusList,
+                    SearchKey: 'name',
+                },
+                position: {
+                    list: v.instance.Build2.content.length ? v.instance.Build2.content : (v.instance.Build1.content.length ? v.instance.Build1.content : v.instance.BuildFloorSpaceTree),
+                    SearchKey: 'obj_name',
+                },
+                system_name: {
+                    list: v.instance.SystemDomain,
+                    SearchKey: 'name',
+                },
+                equip_category_name: {
+                    list: v.instance.AllEquipCategory,
+                    SearchKey: 'name',
+                },
+            }
         }
-    ];
 
-    // 基础信息集合
-    var baseArr = [{
-            el: $("#addid_equip_local_name"),
-            type: 0,
-            key: 'equip_local_name'
-        }, //设备名称
-        {
-            el: $("#addid_equip_local_id"),
-            type: 0,
-            key: 'equip_local_id'
-        }, //设备编码
-        {
-            el: $("#addid_BIMID"),
-            type: 0,
-            key: 'BIMID'
-        }, //BIM模型中编码
-        {
-            el: $("#addid_position3").psel() ? $("#addid_position3") : (
-                $("#addid_position2").psel() ? $("#addid_position2") : $("#addid_position1")
-            ),
-            type: 1,
-            key: 'position',
-            list: $("#addid_position3").psel() ? Build2.content : (
-                $("#addid_position2").psel() ? this.Build1.content : this.BuildFloorSpaceTree
-            ),
-            SearchKey: 'obj_name',
-        }, //安装位置
-        {
-            el: $("#addid_system_name"),
-            type: 1,
-            key: 'system_name',
-            list: this.SystemDomain,
-            SearchKey: 'name',
-        }, //所属系统
-        {
-            el: $("#addid_equip_category_name"),
-            type: 1,
-            key: 'equip_category_name',
-            list: this.SystemDomain,
-            SearchKey: 'name',
-        }, //设备类型
-        {
-            el: $("#addid_length"),
-            type: 0,
-            key: 'length'
-        }, //长
-        {
-            el: $("#addid_width"),
-            type: 0,
-            key: 'width'
-        }, //宽
-        {
-            el: $("#addid_height"),
-            type: 0,
-            key: 'height'
-        }, //高
-        {
-            el: $("#addid_mass"),
-            type: 0,
-            key: 'mass'
-        }, //重量
-        {
-            el: $("#addid_material"),
-            type: 0,
-            key: 'material'
-        }, //主体材质
-        {
-            el: $("#addid_dept"),
-            type: 0,
-            key: 'dept'
-        }, //所属部门
-        {
-            el: $("#addid_drawing"),
-            type: 3,
-            key: 'drawing'
-        }, //设备图纸
-        {
-            el: $("#addid_picture"),
-            type: 2,
-            key: 'picture'
-        }, //设备照片
-        {
-            el: $("#addid_check_report"),
-            type: 3,
-            key: 'check_report'
-        }, //质检报告
-        {
-            el: $("#addid_nameplate"),
-            type: 2,
-            key: 'nameplate'
-        }, //铭牌照片
-        {
-            el: $("#addid_archive"),
-            type: 3,
-            key: 'archive'
-        } //设备文档
-    ];
+        return SearchName[key] || {};
+    }
 
     v.pushComponent({
         name: 'equipmentMngDeatil',
@@ -350,6 +232,7 @@ var CardInfo = function() {
             // 保险结束
             baseTab: 0, // 当前显示的Tab 选项栏
             view: {
+                // 控制添加视图属性
                 add: {
                     base: {
                         isSHowAddBlock: false,
@@ -366,7 +249,61 @@ var CardInfo = function() {
                     insurance: {
                         isSHowAddBlock: false,
                     },
-                }
+                },
+                // 控制编辑的视图是否显示属性
+                ide: {
+                    equip_id: false,
+                    equip_local_id: false,
+                    equip_local_name: false,
+                    BIMID: false,
+                    position: false,
+                    equip_category_name: false,
+                    system_name: false,
+                    length: false,
+                    width: false,
+                    height: false,
+                    mass: false,
+                    material: false,
+                    dept: false,
+                    drawing: false,
+                    picture: false,
+                    check_report: false,
+                    nameplate: false,
+                    archive: false,
+                    manufacturer: false,
+                    brand: false,
+                    product_date: false,
+                    serial_num: false,
+                    specification: false,
+                    supplier: false,
+                    supplier_phone: false,
+                    supplier_contactor: false,
+                    supplier_web: false,
+                    supplier_fax: false,
+                    supplier_email: false,
+                    contract_id: false,
+                    asset_id: false,
+                    purchase_price: false,
+                    principal: false,
+                    maintain_id: false,
+                    start_date: false,
+                    maintain_deadline: false,
+                    service_life: false,
+                    warranty: false,
+                    maintain_cycle: false,
+                    maintainer: false,
+                    maintainer_phone: false,
+                    maintainer_contactor: false,
+                    maintainer_web: false,
+                    maintainer_fax: false,
+                    maintainer_email: false,
+                    status: false,
+                    insurer: false,
+                    insurer_num: false,
+                    insurer_contactor: false,
+                    insurer_phone: false,
+                    insurance_file: false
+                },
             }
         },
         computed: {
@@ -464,6 +401,13 @@ var CardInfo = function() {
 
         },
         methods: {
+            //======================= 单个编辑Start  ==========================
+            _clickStartChange: function(key) {
+
+                // var el = $("#ideid" + key);
+
+            },
+            //======================= 单个编辑End  ==========================
             /**
              * 生成转换上传文件或图片的格式
              * @param {any} type 1 图片 2其他格式的附件 
@@ -536,13 +480,14 @@ var CardInfo = function() {
              *  }
              */
             convert2ide: function(item) {
-                var el = item.el,
-                    type = item.type || 0,
+                var el = $((item.idetype ? "#ideid_" : "#addid_") + item.key),
+                    type = querycontroTypeByKey([item.key]),
                     key = item.key,
-                    list = item.list || [],
-                    SearchKey = item.SearchKey || void 0,
+                    list = querySearchNameByKey(item.key).list || [],
+                    SearchKey = querySearchNameByKey(item.key).SearchKey || void 0,
                     value,
                     req = {};
+
 
                 if (type == 0) {
                     // 文本
@@ -582,6 +527,9 @@ var CardInfo = function() {
                         key: key,
                         value: value
                     });
+                } else if (type == 5) {
+
+                    console.log('当前位置暂不确定')
                 }
 
                 if (!req.info_point_value && req.attachments && !req.attachments.lenght) {
@@ -595,8 +543,12 @@ var CardInfo = function() {
                 // 返回 Promise 对象
                 return equipmentMngDeatilController.updateEquipInfo.bind(this, req, (type == 2 || type == 3));
             },
-            // 新建信息 （**多条新建信息同时发送**）
-            someSend: function(arr) {
+            /**
+             * 新建信息 （**多条新建信息同时发送**）
+             * arr 需要发送的集合
+             * type 0 默认新建 1 属于编辑
+             */
+            someSend: function(arr, type) {
 
                 var result = [];
 
@@ -615,7 +567,10 @@ var CardInfo = function() {
                     }
                 }
 
-                arr.map(this.convert2ide).forEach(function(item, index) {
+                arr.map(function(item) {
+                    item.idetype = type;
+                    return item;
+                }).map(this.convert2ide).forEach(function(item, index) {
 
                     return item().then(function() {
 
@@ -635,25 +590,169 @@ var CardInfo = function() {
             // 添加保险信息
             _clickAddinsurance: function() {
 
+                var insuranceArr = [{
+                        key: 'insurer',
+                        list: v.instance.insurerList,
+                        SearchKey: 'company_name',
+                    },
+                    {
+                        key: 'insurer_num',
+                        list: v.instance.insurer_infos,
+                        SearchKey: 'insurer_num',
+                    }
+                ]
+
                 this.someSend(insuranceArr);
             },
             //添加购买信息
             _clickAddbuy: function() {
+
+                var buyArr = [{
+                        key: 'supplier',
+                        list: v.instance.supplierList,
+                        SearchKey: 'company_name',
+                    }, {
+                        key: 'contract_id'
+                    },
+                    {
+                        key: 'asset_id'
+                    },
+                    {
+                        key: 'purchase_price'
+                    }
+                ];
 
                 this.someSend(buyArr);
             },
             // 添加厂家信息
             _clickAddfactory: function() {
 
+                var factoryArr = [{
+                        key: 'manufacturer',
+                        list: v.instance.manufacturerList,
+                        SearchKey: 'company_name',
+                    },
+                    {
+                        key: 'brand',
+                        list: v.instance.brands,
+                        SearchKey: 'name',
+                    },
+                    {
+                        key: 'product_date'
+                    },
+                    {
+                        key: 'serial_num'
+                    },
+                    {
+                        key: 'specification'
+                    }
+                ];
+
                 this.someSend(factoryArr);
             },
             // 添加运行维保
             _clickAddMaintenance: function() {
 
+                var maintenanceArr = [{
+                        key: 'principal'
+                    },
+                    {
+                        key: 'maintain_id'
+                    },
+                    {
+                        key: 'start_date'
+                    },
+                    {
+                        key: 'maintain_deadline'
+                    },
+                    {
+                        key: 'service_life'
+                    },
+                    {
+                        key: 'warranty'
+                    },
+                    {
+                        key: 'maintain_cycle'
+                    }, {
+                        key: 'maintainer',
+                        list: v.instance.maintainerList,
+                        SearchKey: 'company_name',
+                    }, {
+                        key: 'status',
+                        list: v.instance.statusList,
+                        SearchKey: 'name',
+                    }
+                ];
+
                 this.someSend(maintenanceArr);
             },
             // 添加基础信息
             _clickAddBase: function() {
+
+                var baseArr = [{
+                        key: 'equip_local_name'
+                    }, //设备名称
+                    {
+                        key: 'equip_local_id'
+                    }, //设备编码
+                    {
+                        key: 'BIMID'
+                    }, //BIM模型中编码
+                    {
+                        el: $("#addid_position3").psel() ? $("#addid_position3") : (
+                            $("#addid_position2").psel() ? $("#addid_position2") : $("#addid_position1")
+                        ),
+                        type: 5,
+                        key: 'position',
+                        list: $("#addid_position3").psel() ? Build2.content : (
+                            $("#addid_position2").psel() ? this.Build1.content : this.BuildFloorSpaceTree
+                        ),
+                        SearchKey: 'obj_name',
+                    }, //安装位置
+                    {
+                        key: 'system_name',
+                        list: v.instance.SystemDomain,
+                        SearchKey: 'name',
+                    }, //所属系统
+                    {
+                        key: 'equip_category_name',
+                        list: v.instance.SystemDomain,
+                        SearchKey: 'name',
+                    }, //设备类型
+                    {
+                        key: 'length'
+                    }, //长
+                    {
+                        key: 'width'
+                    }, //宽
+                    {
+                        key: 'height'
+                    }, //高
+                    {
+                        key: 'mass'
+                    }, //重量
+                    {
+                        key: 'material'
+                    }, //主体材质
+                    {
+                        key: 'dept'
+                    }, //所属部门
+                    {
+                        key: 'drawing'
+                    }, //设备图纸
+                    {
+                        key: 'picture'
+                    }, //设备照片
+                    {
+                        key: 'check_report'
+                    }, //质检报告
+                    {
+                        key: 'nameplate'
+                    }, //铭牌照片
+                    {
+                        key: 'archive'
+                    } //设备文档
+                ];
 
                 this.someSend(baseArr);
             },
@@ -782,6 +881,8 @@ var CardInfo = function() {
                             return info;
                         }));
                     }, []);
+
+                    $("#addid_equip_category_name").pdisable(true);
                 });
 
             /**
@@ -818,12 +919,6 @@ var CardInfo = function() {
                     _that.insurerList = list;
                 })
 
-
-
-
-
-
-
             // 选择选项卡
             $("#baseTab").psel(_that.baseTab);
 
@@ -834,7 +929,6 @@ var CardInfo = function() {
             WorkOrderCode: function(newVal, oldVal) {
 
                 var _that = this;
-
                 if (newVal != oldVal) {
 
                     equipmentMngDeatilController.queryEquipRelWorkOrder({
@@ -848,8 +942,8 @@ var CardInfo = function() {
                 };
             },
             Build1: function(newVal, oldVal) {
-                var _that = this;
 
+                var _that = this;
                 if (newVal != oldVal) {
                     // 清空按钮选项
                     $("#addid_position2").precover();
@@ -858,14 +952,15 @@ var CardInfo = function() {
                 }
             },
             Build2: function(newVal, oldVal) {
-                var _that = this;
 
+                var _that = this;
                 if (newVal != oldVal) {
                     $("#addid_position3").precover();
                     $("#addid_position3").pdisable(false)
                 }
             },
             brands: function(newVal, oldVal) {
+
                 var _that = this;
                 if (newVal != oldVal) {
                     $("#addid_brand").precover();
@@ -873,10 +968,19 @@ var CardInfo = function() {
                 }
             },
             insurer_infos: function(newVal, oldVal) {
+
                 var _that = this;
                 if (newVal != oldVal) {
                     $("#addid_insurer_num").precover();
                     $("#addid_insurer_num").pdisable(false)
+                }
+            },
+            AllEquipCategory: function(newVal, oldVal) {
+
+                var _that = this;
+                if (newVal != oldVal) {
+                    $("#addid_equip_category_name").precover();
+                    $("#addid_equip_category_name").pdisable(false)
                 }
             }
         },

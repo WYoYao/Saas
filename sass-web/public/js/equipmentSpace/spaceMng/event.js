@@ -6,36 +6,33 @@ $(function () {
 
 function editItem(event) {
     var instance = spaceInfoModel.instance();
-    instance.floorEditSign = false;//其他不可以编辑
+    instance.detailEditSign = false;//其他不可以编辑
     var $this = $(event.currentTarget);
     var $contShow = $this.parents(".contShow");
     $contShow.hide();
     $contShow.siblings(".editShow").show();
     var ftype = $this.parents(".detailItem").attr("ftype");//哪种属性
-    spaceInfoController.editFloorDetail[ftype] = instance.floorDetail[ftype];//备份
-    if (ftype == 'floor_type') {//如果是下拉列表
-        $('#' + ftype).psel(parseInt(instance.floorDetail.floor_type));
+    spaceInfoController.editDetailCopy[ftype] = instance.floorDetail[ftype];//备份
+    if (ftype == 'floor_type') {//如果是楼层类型
+        $('#editFloorType').psel(parseInt(instance.floorDetail.floor_type) - 1);
     }
 }
 function cancelEdit(event) {
     var $this = $(event.currentTarget);
     var instance = spaceInfoModel.instance();
-    instance.floorEditSign = true;
+    instance.detailEditSign = true;
     var $editShow = $(event.currentTarget).parents(".editShow");
     $editShow.hide();
     $editShow.siblings(".contShow").show();
     var ftype = $this.parents(".detailItem").attr("ftype");//哪种属性
-    //instance.floorDetail[ftype] = spaceInfoController.editFloorDetail[ftype];//还原
-    Vue.set(instance.floorDetail, ftype, spaceInfoController.editFloorDetail[ftype]);//还原
+    //instance.floorDetail[ftype] = spaceInfoController.editDetailCopy[ftype];//还原
+    Vue.set(instance.floorDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原
 }
 function sureEdit(event) {//保存编辑
     var $this = $(event.currentTarget);
+    var instance = spaceInfoModel.instance();
     var ftype = $this.parents(".detailItem").attr("ftype");
-    if (ftype == 'floor_type') {//如果是下拉列表
-        var fvalue = parseInt($('#' + ftype).psel().index) + 1;
-    } else {
-        var fvalue = $('#' + ftype).pval();//todo  这个值是不是可以用floorDetail获取
-    }
+    var fvalue = instance.floorDetail[ftype];
     if (ftype == 'floor_local_name') {//如果是楼层名字
         function callback() {
             spaceInfoController.updateFloorInfo(ftype, fvalue);//编辑接口
@@ -71,6 +68,7 @@ function addFloorShow(event, param) {//添加楼层页面显示
     instance.floorDetail = new floorObj();
     spaceInfoController.addFloorSign = param;
     $("#addFloorDiv").show();
+    $("#addFloorType").precover();
 }
 function saveAddFloor() {
     var instance = spaceInfoModel.instance();
@@ -116,6 +114,8 @@ function addSpaceShow(event) {
     var instance = spaceInfoModel.instance();
     $("#addSpaceDiv").show();
     instance.spaceDetail = new spaceObj();
+    $("#spaceBuildDrop").precover('请选择建筑');
+    $("#spaceFloorDrop").precover('请选择楼层');
 }
 function addSpaceHide(event) {
     $("#addSpaceDiv").hide();
@@ -132,6 +132,7 @@ function spaceBuildSel(item) {//空间中的建筑选择
     var instance = spaceInfoModel.instance();
     spaceInfoController.queryFloorWithOrder('space', item);//根据建筑查询楼层
     instance.spaceDetail.build_id = item.obj_id;//选中的建筑id
+    instance.spaceDetail.build_local_name = item.obj_name;//选中的建筑名字
 }
 
 function checkAllFloor(event) {//查看右侧所有楼层空间
@@ -144,10 +145,10 @@ function checkAllFloor(event) {//查看右侧所有楼层空间
 function spaceFloorSel(item) {//空间中的楼层选择
     var instance = spaceInfoModel.instance();
     instance.spaceDetail.floor_id = item.floor_id;//选中的楼层id
+    instance.spaceDetail.floor_local_name = item.floor_local_name;//选中的楼层id
 }
 
 function saveAddSpace() {
-    $("#addSpaceDiv").hide();
     var instance = spaceInfoModel.instance();
     var spaceDetail = instance.spaceDetail;
 
@@ -171,6 +172,7 @@ function saveAddSpace() {
     spaceInfoController.verifySpaceName('add');
     spaceInfoController.verifySpaceLocalId('add');
     spaceInfoController.verifySpaceBimId('add');
+
 }
 
 var floorTypeArr = [{ name: '普通楼层' }, { name: '中庭' }, { name: '室外' }, { name: '其他' }];

@@ -9,12 +9,12 @@
         </div>
         <div class="sop-body">
             <div class="sop-list" v-show="myWorkOrderModel.sopList.length">
-                <div class="aite-list" v-for="(sop, index) in myWorkOrderModel.sopList" :index="index">
-                    <div>
+                <div class="aite-list" v-for="(sop, index) in myWorkOrderModel.sopList" :index="index" :title="sop.sop_name">
+                    <div >
                         <span v-text="sop.sop_name" @click="detailSop(sop,$event)"></span>
                     </div>
                     <div>
-                        <pswitch-checkbox></pswitch-checkbox>
+                        <pswitch-checkbox v-bind="true" :id="sop.sop_id"></pswitch-checkbox>
                     </div>
                 </div>
             </div>
@@ -26,7 +26,7 @@
             </div>
         </div>
         <div class="sop-footer">
-            <pbutton-blue text="确定" disabled="true" id="able-btn" click="yn_method.enterSop"></pbutton-blue>
+            <pbutton-blue text="确定" disabled="true" id="able-btn" click="yn_method.enterSop(event,true)"></pbutton-blue>
         </div>
     </div>
     <div class="hashtag-filter">

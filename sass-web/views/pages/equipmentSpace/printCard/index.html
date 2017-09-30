@@ -5,61 +5,148 @@
 <script type="text/javascript" src="../js/equipmentSpace/printCard/controller.js"></script>
 
 <link rel="stylesheet" href="../css/equipmentSpace/printCard/print.css" />
-<div class=""></div>
-<div class="printCardWrap">
+<div class="printCardWrap" id="cardPrintWrap">
     <div class="printCardCon">
         <div class="printCardConA" id="printCardList">
             <div class="printCardConHeader">
-                <div class="header_tab" id="cardTabMenu">
-                    <ptab-button datasource="printCardObj.tabArr" text="name" sel="printCardObj.tabClick"></ptab-button>
+                <div class="header_tab" id="divCardPrintTab">
+                    <ptab-button datasource="tabs" text="name" sel="cardPrintVueMethod.tabSel" bind="true"></ptab-button>
                 </div>
                 <div class="header_right">
-                    <pbutton-white text="定制设备空间名片样式" click="printCardObj.customMadeCard"></pbutton-white>
+                    <pbutton-white text="定制设备空间名片样式" click="cardPrintEvent.customMadeCard"></pbutton-white>
                 </div>
 
             </div>
-            <div class="printCardCon_pageA"></div>
-            <div class="printCardCon_pageB"></div>
+            <div class="printCardCon_pageA">
+                <div class="print_Condition">
+                    <em class="ulName">卡片下载情况：</em>
+                    <ul>
+                        <li>尚未下载</li>
+                        <li class="active">全部</li>
+                    </ul>
+                </div>
+                <div class="print_Condition">
+                    <em class="ulName">所属建筑：</em>
+                    <ul>
+                        <li class="active">全部</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                    </ul>
+                </div>
+                <div class="print_Condition">
+                    <em class="ulName">所属专业：</em>
+                    <ul>
+                        <li class="active">全部</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                    </ul>
+                </div>
+
+                <div class="print_Condition">
+                    <em class="ulName">所属系统：</em><em class="emCo">请选择系统</em>
+                    <ul>
+                        <li class="active">全部</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                        <li>建筑1</li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="printCardCon_pageB">
+                <div class="gridHeader">
+                    <div class="header_right">
+                        当前选项下设备共计：125个
+                    </div>
+                    <div class="header_left">
+                        <pbutton-blue text="下载设备名片" click="cardPrintEvent.customMadeCard"></pbutton-blue>
+                    </div>
+                </div>
+                <div class="gridCon">
+                    <pgrid-multifunction style="height: 400px;">
+                        <panel datasource="gridArr" pagesize="5" sel="_console2" checkbox="true" click="_console" change="_console" operation="true" templateid="xx"></panel>
+                        <header>
+                            <column name="姓名" source="name" click="_console" sort="true" sortevent="_console2"></column>
+                            <column name="年龄" source="age"></column>
+                            <column name="爱好" source="hobby"></column>
+                        </header>
+                        
+                        <button>
+                            <pbutton-blue text="点我啊" click="_console2"></pbutton-blue>
+                        </button>
+                    </pgrid-multifunction>
+
+                </div>
+
+            </div>
         </div>
         <div class="printCardConA" id="printCardDz" style="display: none;">
             <div class="printCardConHeader">
                 <div class="header_left">
-                    <pbutton-white text="取消" click="printCardObj.customMadeCardHide"></pbutton-white>
+                    <pbutton-white text="取消" click="cardPrintEvent.customMadeCardHide"></pbutton-white>
                 </div>
                 <div class="header_tab" id="customTabMenu">
-                    <ptab-button datasource="printCardObj.customTabArr" text="name" sel="printCardObj.customTabClick"></ptab-button>
+                    <ptab-button datasource="setTabs" text="name" sel="cardPrintVueMethod.setTabSel" bind="true"></ptab-button>
                 </div>
                 <div class="header_right">
-                    <pbutton-blue text="保存" click="printCardObj.customMadeCardConfirm"></pbutton-blue>
+                    <pbutton-blue text="保存" click="cardPrintEvent.customMadeCardConfirm"></pbutton-blue>
                 </div>
             </div>
             <div class="printCardCon_card">
                 <div class="printCard_temp">
-                    <div class="printCard_logo"></div>
+                    <div class="printCard_logo">
+                        <div>点击上传项目logo；建议尺寸不超过450*40px</div>
+                        <div class="logoWrap">
+                            <label for="logoImg"></label>
+                            <input type="file" id="logoImg" style="display: none;" />
+                        </div>
+                    </div>
                     <div class="printCard_con">
                         <div class="printCard_name">
                             <input type="text" value="设备名片" />
                         </div>
                         <ul class="printCard_ul">
                             <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
-  <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>                            <li>
-                                <pcombobox-normal>
+                            <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                            <li>
+                                <pcombobox-normal bind="true">
                                     <header  placeholder="设备型号"></header>
-                                    <item datasource="printCardObj.equipmentModel" text="name" ></item>
+                                    <item datasource="equipmentType" text="name" ></item>
                                 </pcombobox-normal>
                             </li>
                             <li>
-                                <pcombobox-normal>
+                                <pcombobox-normal bind="true">
                                     <header  placeholder="设备类型"></header>
-                                    <item datasource="printCardObj.equipmentType" text="name" ></item>
+                                    <item datasource="equipmentType" text="name" ></item>
                                 </pcombobox-normal>
                             </li>
- <li>
-                                <pcombobox-normal>
+                            <li>
+                                <pcombobox-normal bind="true">
                                     <header  placeholder="安装位置"></header>
-                                    <item datasource="printCardObj.installPosition" text="name" ></item>
+                                    <item datasource="equipmentType" text="name" ></item>
                                 </pcombobox-normal>
-                            </li>                        </ul>
+                            </li>
+                        </ul>
                         <div class="printCard_code"></div>
                     </div>
                 </div>
@@ -68,12 +155,62 @@
 
     </div>
 </div>
+<!--保存确定名片 modal-->
+<pwindow-modal id="confirmCardModal" title="确认名片样式" templateid="confirmCardHtml"></pwindow-modal>
+<script type="text/html" id="xx">
+    <div>xxxxxx</div>
+</script>
+<!-- 确认名片temp -->
+<script type="text/html" id="confirmCardHtml">
+    <div class="confirmCardModalWrap">
+        <div class="printCard_temp">
+            <div class="printCard_logo">
+                <div>点击上传项目logo；建议尺寸不超过450*40px</div>
+                <div class="logoWrap"></div>
+            </div>
+            <div class="printCard_con">
+                <div class="printCard_name">设备名片 </div>
+                <ul class="printCard_ul">
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                </ul>
+                <div class="printCard_code"></div>
+            </div>
+        </div>
+        <div class="printCard_temp">
+            <div class="printCard_logo">
+                <div>点击上传项目logo；建议尺寸不超过450*40px</div>
+                <div class="logoWrap"></div>
+            </div>
+            <div class="printCard_con">
+                <div class="printCard_name">设备名片 </div>
+                <ul class="printCard_ul">
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+                </ul>
+                <div class="printCard_code"></div>
+            </div>
+        </div>
+        <div class="confirmCardModal_but">
+            <pbutton-blue text="确定" click="cardPrintEvent.confirmCardModalQd"></pbutton-blue>
+            <pbutton-white text="取消" click="cardPrintEvent.customMadeCardConfirmHide"></pbutton-white>
+
+        </div>
+    </div>
+</script>
 
 
 
-
-
-
+<!-- loading -->
+<ploading-part id="divCardPrintLoading" text="拼命加载中..."></ploading-part>
+<!-- 成功失败提示 -->
+<pnotice-message id="divCardPrintNotice"></pnotice-message>
 
 
 

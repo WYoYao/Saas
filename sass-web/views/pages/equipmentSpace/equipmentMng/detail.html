@@ -89,14 +89,14 @@
                                     <div class="pn" :class='{hvshow:baseIsNull}'>基础
                                         <!-- 头部按钮 Start -->
                                         <span class="idetext" v-show='!view.add.base.isSHowAddBlock' @click='view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'> <span class="ideicon">e</span> 编辑</span>
-                                        <div class="fr" v-show='view.add.base.isSHowAddBlock'>
-                                            <span class="ideicon smt" @click='_clickAddBase(),console.log("提交方法"),view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'>Z</span>
-                                            <span class="ideicon" @click='console.log("取消方法"),view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'>x</span>
+                                        <div class="icnb" v-show='view.add.base.isSHowAddBlock'>
+                                            <span class="ideicon smt" @click='_clickAddBase(),view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'>Z</span>
+                                            <span class="ideicon" @click='view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'>x</span>
                                         </div>
                                         <!-- 头部按钮 End -->
                                     </div>
                                     <!-- 新建面板 Start -->
-                                    <ul class="add" v-show='view.add.base.isSHowAddBlock'>
+                                    <ul class="add yellowblock" v-show='view.add.base.isSHowAddBlock'>
                                         <li>
                                             <span class="a-label">设备名称:</span>
                                             <div class="a-box">
@@ -138,7 +138,7 @@
                                         <li>
                                             <span class="a-label">所属系统:</span>
                                             <div class="a-box">
-                                                <pcombobox-normal id="'addid_system_name'" bind='true'>
+                                                <pcombobox-normal id="'addid_system_name'" sel='_SystemDomainChange' bind='true'>
                                                     <item datasource="SystemDomain" text="name"></item>
                                                 </pcombobox-normal>
 
@@ -148,7 +148,7 @@
                                             <span class="a-label">设备类型:</span>
                                             <div class="a-box">
                                                 <pcombobox-normal id="'addid_equip_category_name'" bind='true'>
-                                                    <item datasource="SystemDomain" text="name"></item>
+                                                    <item datasource="AllEquipCategory" text="name"></item>
                                                 </pcombobox-normal>
                                             </div>
                                         </li>
@@ -231,6 +231,27 @@
                                         </li>
                                     </ul>
                                     <!-- 新建面板 End -->
+
+                                    <!-- 查看编辑 Start -->
+                                    <ul class="add yellowblock" v-show='!baseIsNull'>
+                                        <li class="hvshow">
+                                            <span class="a-label">设备名称:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.equip_local_name' v-show='!view.ide.equip_local_name'></span>
+                                                <span class="idetext" v-show='!view.ide.equip_local_name' @click='view.ide.equip_local_name=!view.ide.equip_local_name,_clickStartChange("equip_local_name")'> <span class="ideicon">e</span> 编辑</span>
+                                                <span class="ipt" v-show='view.ide.equip_local_name'>
+                                                        <ptext-text id='ideid_equip_local_name' placeholder="最多20个字">  
+                                                            <verify errtip="最多20个字" verifytype="space" length="20"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.equip_local_name'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.equip_local_name=!view.ide.equip_local_name'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 查看编辑 End -->
                                 </div>
                                 <!-- 基础 End -->
 
@@ -246,7 +267,7 @@
                                         <!-- 头部按钮 End -->
                                     </div>
                                     <!-- 新建面板 Start -->
-                                    <ul class="add" v-show='view.add.factory.isSHowAddBlock'>
+                                    <ul class="add yellowblock" v-show='view.add.factory.isSHowAddBlock'>
                                         <li>
                                             <span class="a-label">生产厂家:</span>
                                             <div class="a-box">
@@ -305,7 +326,7 @@
                                         <!-- 头部按钮 End -->
                                     </div>
                                     <!-- 新建面板 Start -->
-                                    <ul class="add" v-show='view.add.buy.isSHowAddBlock'>
+                                    <ul class="add yellowblock" v-show='view.add.buy.isSHowAddBlock'>
                                         <li>
                                             <span class="a-label">供应商:</span>
                                             <div class="a-box">
@@ -354,7 +375,7 @@
                                         <!-- 头部按钮 End -->
                                     </div>
                                     <!-- 新建面板 Start -->
-                                    <ul class="add" v-show='view.add.maintenance.isSHowAddBlock'>
+                                    <ul class="add yellowblock" v-show='view.add.maintenance.isSHowAddBlock'>
                                         <li>
                                             <span class="a-label">设备负责人:</span>
                                             <div class="a-box">
@@ -443,7 +464,7 @@
                                         <!-- 头部按钮 End -->
                                     </div>
                                     <!-- 新建面板 Start -->
-                                    <ul class="add" v-show='view.add.insurance.isSHowAddBlock'>
+                                    <ul class="add yellowblock" v-show='view.add.insurance.isSHowAddBlock'>
                                         <li>
                                             <span class="a-label">保险公司名称:</span>
                                             <div class="a-box">

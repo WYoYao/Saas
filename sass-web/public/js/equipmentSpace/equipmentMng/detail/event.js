@@ -27,3 +27,7 @@ var addid_manufacturer_sel = function(item) {
 var addid_insurer_sel = function(item) {
     v.instance.insurer_infos = item.insurer_info;
 }
+
+var _SystemDomainChange = function(item) {
+    v.instance.AllEquipCategory = item.content;
+}
