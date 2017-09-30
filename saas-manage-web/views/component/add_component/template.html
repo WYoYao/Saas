@@ -1,0 +1,36 @@
+<script type="text/html" id="addComponentLayerTemplate">
+    <div class="addComponentLayerTemplate">
+        <div class="layerContent">
+            <ul>
+                <li class='part'>
+                    <span>组件编码</span>
+                    <em>*</em>
+                    <input type="text" v-model='addComponentInformation.cmpt_code'>
+                    <p v-show='!addComponentInformation.cmpt_code.length' class="tip">必填项,不能为空</p>
+                    <p v-show='!/^[a-zA-Z0-9]*$/g.test(addComponentInformation.cmpt_code) && addComponentInformation.cmpt_code.length' class="tip">组件编码只能由字母和数字的组合</p>
+                </li>
+                <li class='part'>
+                    <span>组件名称</span>
+                    <em>*</em>
+                    <input type="text" v-model='addComponentInformation.cmpt_name'>
+                    <p v-show='!addComponentInformation.cmpt_name.length' class="tip">必填项,不能为空</p>
+                    <p v-show='!/^[\u4e00-\u9fa5]*$/g.test(addComponentInformation.cmpt_name)' class="tip">组件名称只能由汉字组成</p>
+                </li>
+                <li class="li_textarea">
+                    <span>说明</span>
+                    <em>*</em>
+                    <textarea class="textarea" v-model='addComponentInformation.description'></textarea>
+                    <p v-show='!addComponentInformation.description.length' class="tip">必填项,不能为空</p>
+                </li>
+                <li class="li_btn">
+                    <span @click='AddComponentSubmit'>
+                        <pbutton-blue text="提交"></pbutton-blue>
+                    </span>
+                    <span @click='AddComponentCancel'>
+                        <pbutton-white text="取消"></pbutton-white>
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</script>

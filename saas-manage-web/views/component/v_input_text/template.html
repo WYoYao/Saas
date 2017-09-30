@@ -1,0 +1,156 @@
+<style>
+    .vinputtext_p {
+        position: relative;
+        float: left;
+        width: 380px;
+        height: 53px;
+        padding-top: 7px;
+    }
+    
+    .vinputtext_p .vinputtext_input {
+        /* margin-top: 7px; */
+        width: 100%;
+        height: 30px;
+    }
+    
+    .vinputtext_p .vinputtext_em {
+        font-size: 12px;
+        color: #cacaca;
+    }
+    
+    .vinputtext_p .vinputtext_b {
+        position: absolute;
+        top: 7px;
+        right: 10px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 12px;
+    }
+</style>
+
+
+<script type="text/x-template" id="v-input-text">
+    <p class='vinputtext_p'>
+        <input class='vinputtext_input' type="text" v-model="value" v-bind:style='errorBorderStyle()' v-bind:placeholder="placeholder">
+        <em class='vinputtext_em' v-show='isError().bool'>{{isError().message}}</em>
+        <b class='vinputtext_b' v-if='maxlength>0' v-bind:style='overLengthStyle()'>{{(value || '').length}}/{{maxlength}}</b>
+    </p>
+</script>
+
+<script>
+    ;
+    (function() {
+
+        Vue.component('vinputtext', {
+            data:function() {
+                return {
+                    isInput: false,
+                }
+            },
+            props: ['maxlength', 'type', 'placeholder', 'value', 'set', 'key', 'canSubmit'],
+            template: "#v-input-text",
+            methods: {
+                // 判断当前值长度是否通过
+                isOverLength: function() {
+
+                    if (this.isInput == false) return false;
+                    return this.value.length > this.maxlength ? true : false;
+                },
+                // 长度对应的值
+                overLengthStyle: function() {
+                    return this.isOverLength() ? {
+                        'color': 'red'
+                    } : {};
+                },
+                // 当前输入的值是否有误
+                isError: function(isNull) {
+
+                    if (!isNull) {
+
+                        if (this.isInput == false) return {
+                            bool: false
+                        };
+                    }
+
+                    if (this.value.length == 0) return {
+                        bool: true,
+                        message: this.placeholder
+                    };
+
+                    if (this.isOverLength()) return {
+                        bool: true,
+                        message: '您输入的文本过长'
+                    };
+
+                    switch (this.type) {
+                        case 'font':
+                            return !/^([\u4E00-\uFA29]|[\uE7C7-\uE7F3]|[a-zA-Z])+$/.test(this.value) ? {
+                                bool: true,
+                                message: '只能输入文字或字母'
+                            } : {
+                                bool: false,
+                                message: ''
+                            };
+                            break;
+                        case 'phone':
+                            return !/^1[34578]\d{9}$/.test(this.value) ? {
+                                bool: true,
+                                message: '请输入正确的手机号'
+                            } : {
+                                bool: false,
+                                message: ''
+                            };
+                            break;
+                        case 'email':
+                            return !/^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$/.test(this.value) ? {
+                                bool: true,
+                                message: '请输入正确的邮箱'
+                            } : {
+                                bool: false,
+                                message: ''
+                            };
+                            break;
+                        case 'number':
+                            return !/^-?\d+\.?\d*$/.test(this.value) ? {
+                                bool: true,
+                                message: '请输入正确的数字'
+                            } : {
+                                bool: false,
+                                message: ''
+                            };
+                            break;
+                        default:
+                            return {
+                                bool: false,
+                                message: ''
+                            };
+                            break;
+
+                    }
+                },
+                // 错误的文字提示
+                errorStyle: function() {
+                    if (this.isInput == false) return {};
+
+                    return this.isError() ? {
+                        'color': 'red'
+                    } : {};
+                },
+                // 错误的边框颜色
+                errorBorderStyle: function() {
+                    if (this.isInput == false) return {};
+
+                    return this.isError().bool ? {
+                        'border-color': 'red'
+                    } : {};
+                }
+            },
+            watch: {
+                value: function(value) {
+                    if (value && value != '--') this.isInput = true;
+                    this.set(value);
+                }
+            }
+        })
+    })();
+</script>

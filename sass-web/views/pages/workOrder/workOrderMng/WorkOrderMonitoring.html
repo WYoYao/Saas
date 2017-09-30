@@ -1,0 +1,56 @@
+<div class="monitor-all" v-if="curPage == pages[0]">
+    <pnotice-message id="monitor-list-notice"></pnotice-message>
+    <div class="monitor-tab">
+        <div class="monitor-content">
+            <div class="monitor-content-list">
+                <div class="monitor-content-list-header">
+                    <pcombobox-normal id="'time-type'" bind="true" sel="controller.selEvent">
+                        <header prefix="时间类型："></header>
+                        <item datasource="workOrderMngModel.timeType" text="name"></item>
+                    </pcombobox-normal>
+                    <pcombobox-normal id="'work-type'" bind="true" sel="controller.selEvent">
+                        <header prefix="工单类型："></header>
+                        <item datasource="workOrderMngModel.workType" text="name"></item>
+                    </pcombobox-normal>
+                    <pcombobox-normal id="'work-state'" bind="true" sel="controller.selEvent">
+                        <header prefix="工单状态："></header>
+                        <item datasource="workOrderMngModel.workState" text="name"></item>
+                    </pcombobox-normal>
+                    <pcombobox-normal id="'create-person'" bind="true" sel="controller.selEvent">
+                        <header prefix="创建人："></header>
+                        <item datasource="workOrderMngModel.createPerson" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+                <div class="monitor-content-list-body">
+                    <div class="monitor-list-body-table">
+                        <div class="monitor-table" v-show="workOrderMngModel.workList.length!=0">
+                            <div class="monitor-table-header">
+                                <div class="table-header-id"><span>工单ID</span></div>
+                                <div class="table-header-type"><span>类型</span></div>
+                                <div class="table-header-summary"><span>简介</span></div>
+                                <div class="table-header-create"><span>创建时间</span></div>
+                                <div class="table-header-state"><span>工单状态</span></div>
+                            </div>
+                            <div class="monitor-table-body">
+                                <div class="tr" v-for="item in workOrderMngModel.workList" @click="openOrderDetail(item.order_id)">
+                                    <div class="table-header-id"><span v-text="item.order_id"></span></div>
+                                    <div class="table-header-type"><span v-text="item.order_type_name"></span></div>
+                                    <div class="table-header-summary"><span v-text="item.summary"></span></div>
+                                    <div class="table-header-create"><span v-text="item.create_time"></span></div>
+                                    <div class="table-header-state"><span v-text="item.order_state_name"></span><span class="self-state" v-if="item.custom_state_name != '--'" v-text="item.custom_state_name"></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="monitor-table-noData" v-show="workOrderMngModel.workList.length==0">
+                            <div class="image-div">
+                                <img src="../images/nodata.png" alt="暂无内容" />
+                                <p>暂无内容</p>
+                            </div>
+                        </div>
+                        <ploading-part id="loadCover" text="加载中..."></ploading-part>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

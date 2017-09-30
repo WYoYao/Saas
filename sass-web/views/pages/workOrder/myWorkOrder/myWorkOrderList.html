@@ -1,0 +1,55 @@
+<div class="myWork-tab" v-show="myWorkOrderModel.LorC">
+    <div class="myWork-content">
+        <div class="myWork-content-list">
+            <div class="myWork-content-list-header">
+                <pcombobox-normal id="'work-already'" bind="true" sel="controller.selAlreadyEvent">
+                    <item datasource="myWorkOrderModel.workAlready" text="name"></item>
+                </pcombobox-normal>
+                <pcombobox-normal id="'work-type'" bind="true" sel="controller.selAlreadyEvent">
+                    <header prefix="工单类型："></header>
+                    <item datasource="myWorkOrderModel.workTypeL" text="name"></item>
+                </pcombobox-normal>
+                <pbutton-blue id="create-work-btn" text="创建工单" click="yn_method.createShow"></pbutton-blue>
+            </div>
+            <div class="myWork-content-list-body">
+                <div class="myWork-list-body-table">
+                    <!--<div class="myWork-table" v-show="myWorkOrderModel.workList.length!=0 && myWorkOrderModel.workAlreadyID == 0">
+                        <div class="myWork-table-header">
+                            <div class="table-header-id"><span>工单ID</span></div>
+                            <div class="table-header-type"><span>类型</span></div>
+                            <div class="table-header-summary"><span>简介</span></div>
+                            <div class="table-header-create"><span>创建时间</span></div>
+                            <div class="table-header-operate"><span>操作</span></div>
+                        </div>
+                        <div class="myWork-table-body">
+                            <div class="tr" v-for="item in myWorkOrderModel.workList">
+                                <div class="table-header-id"><span v-text="item.order_id"></span></div>
+                                <div class="table-header-type"><span v-text="item.order_type_name"></span></div>
+                                <div class="table-header-summary"><span v-text="item.summary"></span></div>
+                                <div class="table-header-create"><span v-text="item.create_time"></span></div>
+                                <div class="table-header-operate"><span><i>`</i><em>编辑</em></span><span
+                                        @click="yn_method.delConfirm(0, item.order_id, $event)"><i>p</i><em>删除</em></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                    <%include myWorkOrderFragment/workListDraft.html%>
+                    <%include myWorkOrderFragment/workListMe.html%>
+                    <div class="myWork-table-noData" v-show="myWorkOrderModel.workList.length==0">
+                        <div class="image-div">
+                            <img src="../images/nodata.png" alt="暂无内容"/>
+                            <p>暂无内容</p>
+                        </div>
+                    </div>
+                    <ploading-part id="loadCover" text="加载中..."></ploading-part>
+                </div>
+            </div>
+        </div>
+    </div>
+    <pwindow-confirm id="del-confirm">
+        <button>
+            <pbutton-blue id="sure-btn" text="确定" click="controller.deleteDraftWorkOrderById"></pbutton-blue>
+            <pbutton-white text="取消" click="yn_method.cancelConfirm"></pbutton-white>
+        </button>
+    </pwindow-confirm>
+</div>

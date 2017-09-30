@@ -1,0 +1,50 @@
+<link rel="stylesheet" href="/css/project_manage/project_manage_list.css" />
+<!-- 公用类库 -->
+<script src="/js/project_manage/project_manage_list/event.js"></script>
+<script src="/js/project_manage/project_manage_list/model.js"></script>
+<script src="/js/project_manage/project_manage_list/controller.js"></script>
+<div id='project_manage_list'>
+
+    <div class="project_manage_header">
+        <div class="insert_btn">
+            <pbutton-blue click='goProjectManageInsert.bind(null,new projectManageInsertModel.Customer())' text="创建项目"></pbutton-blue>
+        </div>
+    </div>
+    <div class="project_manage_content">
+        <ul class="list">
+            <li class="tr">
+                <span>项目名称</span>
+                <span>公司名称</span>
+                <span>项目本地名称</span>
+                <span>建筑体数量</span>
+                <span>联系人</span>
+                <span>联系人手机</span>
+                <span>状态</span>
+            </li>
+        </ul>
+        <ul class="list listscroll" v-show='!project_list.length'>
+            <pnotice-nodata></pnotice-nodata>
+        </ul>
+        <ul class="list listscroll" v-show='project_list.length'>
+            <li v-for="item in project_list" v-bind:class="{creating:item.customer_status ==1,normal:item.customer_status ==2,lock:item.customer_status ==3}" v-on:click="click(item)">
+                <!-- <span v-text='item.project_name'>{{item.project_name}}</span>
+                <span v-text='item.company_name'>{{item.company_name}}</span>
+                <span v-text='item.project_local_name'>{{item.project_local_name}}</span>
+                <span v-text='item.build_count'>{{item.build_count}}</span>
+                <span v-text='item.contact_person'>{{item.contact_person}}</span>
+                <span v-text='item.contact_phone'>{{item.contact_phone}}</span> -->
+                <span v-text='item.project_name'></span>
+                <span v-text='item.company_name'></span>
+                <span v-text='item.project_local_name'></span>
+                <span v-text='item.build_count'></span>
+                <span v-text='item.contact_person'></span>
+                <span v-text='item.contact_phone'></span>
+                <span v-text='item.customer_status==1?"创建中":item.customer_status==2?"正常":"被锁定"'></span>
+                <!-- <span v-if='item.customer_status==1'>创建中</span>
+                <span v-if='item.customer_status==2'>正常</span>
+                <span v-if='item.customer_status==3'>被锁定</span> -->
+            </li>
+        </ul>
+        <ploading-part id="project_list_loading"></ploading-part>
+    </div>
+</div>

@@ -1,0 +1,54 @@
+.project .part {
+    margin-top: 16px;
+    width: 100%;
+    height: auto;
+    clear: both;
+    /* border: 1px solid #dddddd;
+    border-bottom: none; */
+}
+
+.project .part:last-child {
+    margin-bottom: 16px;
+}
+
+.project .part .title {
+    display: inline;
+    font-size: 16px;
+    line-height: 46px;
+    padding-left: .5em;
+    border-left: 4px solid #02a9d1;
+}
+
+.project .tables {
+    width: 894px;
+    height: auto;
+    border: 1px solid #dddddd;
+    border-bottom: none;
+}
+
+.project .tables .row {
+    position: relative;
+    width: 100%;
+    max-height: 170px;
+    height: auto;
+    border-bottom: 1px solid #dddddd;
+    /* overflow: hidden; */
+}
+
+.project .weather {
+    float: left;
+    width: 894px;
+    height: auto;
+}
+
+.project .weather:nth-child(2n) {
+    margin-right: 20px;
+}
+
+.project .weather .prompt {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+    font-size: 14px;
+    color: #02a9d1;
+}

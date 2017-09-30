@@ -1,0 +1,18 @@
+[
+    {
+        "noun_type": "work_order_type",
+        "noun_type_name": "工单类型"
+    },
+    {
+        "noun_type": "wo_control_module",
+        "noun_type_name": "操作模块名"
+    },
+    {
+        "noun_type": "domain_require",
+        "noun_type_name": "专业"
+    },
+    {
+        "noun_type": "wo_control_require",
+        "noun_type_name": "控制需求文字描述"
+    }
+]

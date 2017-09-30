@@ -1,0 +1,822 @@
+//客户表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "customer",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "customer_id",
+                "Type": "String"
+            },
+            {
+                "Name": "account",
+                "Type": "String"
+            },
+            {
+                "Name": "passwd",
+                "Type": "String"
+            },
+            {
+                "Name": "company_name",
+                "Type": "String"
+            },
+            {
+                "Name": "legal_person",
+                "Type": "String"
+            },
+            {
+                "Name": "mail",
+                "Type": "String"
+            },{
+                "Name": "address",
+                "Type": "String"
+            },
+            {
+                "Name": "operation_valid_term_start",
+                "Type": "String"
+            },
+            {
+                "Name": "operation_valid_term_end",
+                "Type": "String"
+            },
+            {
+                "Name": "contract_valid_term_start",
+                "Type": "String"
+            },
+            {
+                "Name": "contract_valid_term_end",
+                "Type": "String"
+            },
+            {
+                "Name": "contact_person",
+                "Type": "String"
+            },
+            {
+                "Name": "contact_phone",
+                "Type": "String"
+            },
+            {
+                "Name": "business_license",
+                "Type": "String"
+            },
+            {
+                "Name": "pictures",
+                "Type": "String"
+            },
+            {
+                "Name": "tool_type",
+                "Type": "String"
+            },
+            {
+                "Name": "project_id",
+                "Type": "String"
+            },
+            {
+                "Name": "project_name",
+                "Type": "String"
+            },
+            {
+                "Name": "project_local_name",
+                "Type": "String"
+            },
+            {
+                "Name": "province",
+                "Type": "String"
+            },
+            {
+                "Name": "city",
+                "Type": "String"
+            },
+            {
+                "Name": "district",
+                "Type": "String"
+            },
+            {
+                "Name": "climate_zone",
+                "Type": "String"
+            },
+            {
+                "Name": "urban_devp_lev",
+                "Type": "String"
+            },
+            {
+                "Name": "longitude",
+                "Type": "String"
+            },
+            {
+                "Name": "latitude",
+                "Type": "String"
+            },
+            {
+                "Name": "altitude",
+                "Type": "String"
+            },
+            {
+                "Name": "note",
+                "Type": "String"
+            },
+            {
+                "Name": "customer_status",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "customer_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_proId",
+                "Columns": [
+                    "valid",
+                    "project_id"
+                ]
+            },
+            {
+                "Name": "index_account_status_valid",
+                "Columns": [
+                	"account",
+                    "passwd",
+                    "customer_status",
+                    "valid"
+                ]
+            }
+            
+        ]
+    }
+}
+
+//建筑表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "building",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "build_id",
+                "Type": "String"
+            },
+            {
+                "Name": "customer_id",
+                "Type": "String"
+            },
+            {
+                "Name": "project_id",
+                "Type": "String"
+            },
+            {
+                "Name": "build_code",
+                "Type": "String"
+            },
+            {
+                "Name": "build_name",
+                "Type": "String"
+            },
+            {
+                "Name": "build_local_name",
+                "Type": "String"
+            },
+            {
+                "Name": "build_age",
+                "Type": "String"
+            },
+            {
+                "Name": "build_func_type",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "build_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_customerId",
+                "Columns": [
+                    "valid",
+                    "customer_id"
+                ]
+            },
+            {
+                "Name": "index_valid_proId",
+                "Columns": [
+                    "valid",
+                    "project_id"
+                    
+                ]
+            }
+            
+        ]
+    }
+}
+
+//操作模块表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "operate_module",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "module_id",
+                "Type": "String"
+            },
+            {
+                "Name": "module_code",
+                "Type": "String"
+            },
+            {
+                "Name": "module_name",
+                "Type": "String"
+            },
+            {
+                "Name": "description",
+                "Type": "String"
+            },
+            {
+                "Name": "project_ids",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "module_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_code_name",
+                "Columns": [
+                    "valid",
+                    "module_code",
+                    "module_name"
+                ]
+            }
+        ]
+    }
+}
+
+//功能包表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "function_pack",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "func_pack_id",
+                "Type": "String"
+            },
+            {
+                "Name": "func_pack_name",
+                "Type": "String"
+            },
+            {
+                "Name": "description",
+                "Type": "String"
+            },
+            {
+                "Name": "func_packs",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "func_pack_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_packName",
+                "Columns": [
+                    "valid",
+                    "func_pack_name"
+                ]
+            }
+        ]
+    }
+}
+
+//动态组件表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "dynamic_component",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "cmpt_id",
+                "Type": "String"
+            },
+            {
+                "Name": "cmpt_type",
+                "Type": "String"
+            },
+            {
+                "Name": "cmpt_code",
+                "Type": "String"
+            },
+            {
+                "Name": "cmpt_name",
+                "Type": "String"
+            },
+            {
+                "Name": "description",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "cmpt_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_cmptType_cmptCode",
+                "Columns": [
+                    "valid",
+                    "cmpt_type",
+                    "cmpt_code"
+                ]
+            }
+        ]
+    }
+}
+
+
+//组件关系表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "component_relation",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "cmpt_relation_id",
+                "Type": "String"
+            },
+            {
+                "Name": "base_cmpt_code",
+                "Type": "String"
+            },
+            {
+                "Name": "god_hand_cmpt_code",
+                "Type": "String"
+            },
+            {
+                "Name": "saas_cmpt_code",
+                "Type": "String"
+            },
+            {
+                "Name": "app_cmpt_code",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "cmpt_relation_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_cmptCode",
+                "Columns": [
+                    "valid",
+                    "base_cmpt_code"
+                ]
+            }
+        ]
+    }
+}
+
+//信息点组件表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "info_component",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "info_cmpt_id",
+                "Type": "String"
+            },
+            {
+                "Name": "obj_type",
+                "Type": "String"
+            },
+            {
+                "Name": "class_code",
+                "Type": "String"
+            },
+            {
+                "Name": "info_point_code",
+                "Type": "String"
+            },
+            {
+                "Name": "god_hand_note",
+                "Type": "String"
+            },
+            {
+                "Name": "saas_note",
+                "Type": "String"
+            },
+            {
+                "Name": "saas_show_flag",
+                "Type": "String"
+            },
+            {
+                "Name": "app_note",
+                "Type": "String"
+            },
+            {
+                "Name": "app_show_flag",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "info_cmpt_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_obj_class_info",
+                "Columns": [
+                    "valid",
+                    "obj_type",
+                    "class_code",
+                    "info_point_code"
+                ]
+            }
+        ]
+    }
+}
+
+//临时对象表 temp_object
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "temp_object",
+    "Definition": {
+        "table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "obj_id",
+                "Type": "String"
+            },
+            {
+                "Name": "project_id",
+                "Type": "String"
+            },
+            {
+                "Name": "obj_type",
+                "Type": "String"
+            },
+            {
+                "Name": "obj_name",
+                "Type": "String"
+            },
+            {
+                "Name": "description",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "obj_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_proId_objType_objName",
+                "Columns": [
+                    "valid",
+                    "project_id",
+                    "obj_type",
+                    "obj_name"
+                ]
+            }
+        ]
+    }
+}
+
+//操作日志表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "operate_log",
+    "Definition": {
+    	"table_type":"index_data",
+        "Columns": [
+            {
+                "Name": "log_id",
+                "Type": "String"
+            },
+            {
+                "Name": "operate_person_id",
+                "Type": "String"
+            },
+            {
+                "Name": "table_name",
+                "Type": "String"
+            },
+            {
+                "Name": "operate_type",
+                "Type": "String"
+            },
+            {
+                "Name": "request_method",
+                "Type": "String"
+            },
+            {
+                "Name": "request_content",
+                "Type": "String"
+            },
+            {
+                "Name": "operate_time",
+                "Type": "String"
+            },
+            {
+                "Name": "operate_result",
+                "Type": "String"
+            },
+            {
+                "Name": "result_content",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            }
+        ],
+        "Key": [
+            "log_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_personId_tableName_opType_opTime",
+                "Columns": [
+                    "operate_person_id",
+                    "table_name",
+                    "operate_type",
+                    "operate_time"
+                ]
+            },
+            {
+                "Name": "index_tableName_opType_opTime",
+                "Columns": [
+                    "table_name",
+                    "operate_type",
+                    "operate_time"
+                ]
+            },
+            {
+                "Name": "index_personId_opTime",
+                "Columns": [
+                    "operate_person_id",
+                    "operate_time"
+                ]
+            },
+            {
+                "Name": "index_tableName_opTime",
+                "Columns": [
+                    "table_name",
+                    "operate_time"
+                ]
+            }
+        ]
+    }
+}
+
+//通用数据字典表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "general_dictionary",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "dict_id",
+                "Type": "String"
+            },
+            {
+                "Name": "dict_type",
+                "Type": "String"
+            },
+            {
+                "Name": "code",
+                "Type": "String"
+            },
+            {
+                "Name": "name",
+                "Type": "String"
+            },
+            {
+                "Name": "description",
+                "Type": "String"
+            },
+            {
+                "Name": "default_use",
+                "Type": "Boolean"
+            },
+            {
+                "Name": "project_ids",
+                "Type": "String"
+            },
+            {
+                "Name": "customer_use",
+                "Type": "String"
+            },
+            {
+                "Name": "customer_name",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "dict_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_proId",
+                "Columns": [
+                    "valid",
+                    "dict_type",
+                    "code"
+                ]
+            }
+        ]
+    }
+}
+//工单自定义状态表
+{
+    "QueryType": "table_create",
+    "Database": "saas",
+    "Datatable": "wo_custom_state",
+    "Definition": {
+    	"table_type":"all_column",
+        "Columns": [
+            {
+                "Name": "custom_state_id",
+                "Type": "String"
+            },
+            {
+                "Name": "project_id",
+                "Type": "String"
+            },
+            {
+                "Name": "code",
+                "Type": "String"
+            },
+            {
+                "Name": "name",
+                "Type": "String"
+            },
+            {
+                "Name": "order_type",
+                "Type": "String"
+            },
+            {
+                "Name": "urgency",
+                "Type": "String"
+            },{
+                "Name": "is_repair_use",
+                "Type": "String"
+            },
+            {
+                "Name": "events",
+                "Type": "String"
+            },
+            {
+                "Name": "create_time",
+                "Type": "String"
+            },
+            {
+                "Name": "update_time",
+                "Type": "String"
+            },
+            {
+                "Name": "valid",
+                "Type": "Boolean"
+            }
+        ],
+        "Key": [
+            "custom_state_id"
+        ],
+        "Indexes": [
+            {
+                "Name": "index_valid_proId_orderType_urgency_isRepairUse",
+                "Columns": [
+                    "valid",
+                    "project_id",
+					"order_type",
+					"urgency",
+					"is_repair_use"
+                ]
+            }
+        ]
+    }
+}

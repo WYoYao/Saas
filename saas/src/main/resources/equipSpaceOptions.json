@@ -1,0 +1,90 @@
+{
+    "EquipOptions": [
+        {
+            "info_point_code": "equip_local_name",
+            "info_point_name": "设备名称"
+        },
+        {
+            "info_point_code": "equip_local_id",
+            "info_point_name": "设备编码"
+        },
+        {
+            "info_point_code": "specification",
+            "info_point_name": "设备型号"
+        },
+        {
+            "info_point_code": "equip_category",
+            "info_point_name": "设备类型"
+        },
+        {
+            "info_point_code": "position",
+            "info_point_name": "安装位置"
+        },
+        {
+            "info_point_code": "system_id",
+            "info_point_name": "所属系统"
+        },
+        {
+            "info_point_code": "dept",
+            "info_point_name": "所属部门"
+        },
+        {
+            "info_point_code": "brand",
+            "info_point_name": "设备品牌"
+        },
+        {
+            "info_point_code": "start_date",
+            "info_point_name": "投产日期"
+        },
+        {
+            "info_point_code": "principal",
+            "info_point_name": "负责人"
+        },
+        {
+            "info_point_code": "service_life",
+            "info_point_name": "使用寿命"
+        },
+        {
+            "info_point_code": "maintainer",
+            "info_point_name": "维修商"
+        },
+        {
+            "info_point_code": "not_have",
+            "info_point_name": "无"
+        }
+    ],
+    "SpaceOptions": [
+        {
+            "info_point_code": "room_local_name",
+            "info_point_name": "空间名称"
+        },
+        {
+            "info_point_code": "room_local_id",
+            "info_point_name": "空间编码"
+        },
+        {
+            "info_point_code": "room_func_type_name",
+            "info_point_name": "功能区类型"
+        },
+        {
+            "info_point_code": "elec_cap",
+            "info_point_name": "配电容量"
+        },
+        {
+            "info_point_code": "position",
+            "info_point_name": "位置"
+        },
+        {
+            "info_point_code": "tenant_type_name",
+            "info_point_name": "租赁业态类型"
+        },
+        {
+            "info_point_code": "intro",
+            "info_point_name": "备注"
+        },
+        {
+            "info_point_code": "not_have",
+            "info_point_name": "无"
+        }
+    ]
+}

@@ -1,0 +1,28 @@
+<div class="opera_module_mange module_authority" id="moduleMange" style="display: none;">
+    <div class="authority_manage_header">
+        <div class="insert_btn">
+            <pbutton-blue text="新增模块" click="addModuleShow"></pbutton-blue>
+        </div>
+    </div>
+    <div class="authority_manage_content">
+        <ul class="list listHead">
+            <li>
+                <span>模块名称</span>
+                <span>编码</span>
+                <span>模块释义</span>
+                <span>专属项目</span>
+            </li>
+        </ul>
+        <ul class="list listCont" v-show='operateModules.length'>
+            <li v-for="item in operateModules" v-on:click="moduleListClick(item)">
+                <span><em  v-text='item.module_name' v-bind:title="item.module_name"></em></span>
+                <span><em  v-text='item.module_code' v-bind:title="item.module_code"></em></span>
+                <span><em  v-text='item.description' v-bind:title="item.description"></em></span>
+                <span><em  v-text='item.project_local_names' v-bind:title="item.project_local_names"></em></span>
+            </li>
+        </ul>
+        <div class="listCont" v-show='!operateModules.length'>
+            <pnotice-nodata></pnotice-nodata>
+        </div>
+    </div>
+</div>

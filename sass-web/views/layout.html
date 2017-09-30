@@ -1,0 +1,20 @@
+<% include ./template/pageHead.html %>
+<script type="text/javascript" src="/js/layout.js"></script>
+<div id="div1">
+    <pframe-normal id="'pfnor'" title="'Saas平台'">
+        <user head="head" name="userName">
+            <item datasource="userMenus" click="selUserMenu"></item>
+        </user>
+        <item datasource="menuItems" text="name" child="menu" url="url">
+            <manage text="'项目管理'" url="/system"></manage>
+            <combobox>
+                <pcombobox-normal sel="selProject" id="'combobox1'" isborder="false" orientation="down" bind="true">
+                    <header placeholder="项目名称"></header>
+                    <item datasource="projectList" text="project_name"></item>
+                </pcombobox-normal>
+            </combobox>
+        </item>
+    </pframe-normal>
+</div>
+
+<% include ./template/pageFoot.html %>

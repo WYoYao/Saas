@@ -1,0 +1,158 @@
+<div class="myWork-tab-create" v-show="!myWorkOrderModel.LorC">
+    <div class="myWork-content">
+        <div class="myWork-content-create">
+            <div class="myWork-content-create-header">
+                <pbutton-white id="cancel-work-btn" text="取消" click="yn_method.listShow"></pbutton-white>
+                <pbutton-white id="save-work-btn" text="保存草稿"></pbutton-white>
+            </div>
+            <div class="myWork-content-create-body">
+                <div class="myWork-create-left">
+                    <div class="left-content">
+                        <h3>基本信息</h3>
+                        <hr />
+                        <div class="type-urgency">
+                            <div>
+                                <h4>工单类型：</h4>
+                                <pcombobox-normal id="'work-type'" bind="true" >
+                                    <header placeholder="请选择"></header>
+                                    <item datasource="myWorkOrderModel.workTypeC" text="name"></item>
+                                </pcombobox-normal>
+                            </div>
+                            <div>
+                                <h4>工单紧急程度：</h4>
+                                <pcombobox-normal id="'work-urgency'" bind="true" >
+                                    <item datasource="myWorkOrderModel.urgency" text="name"></item>
+                                </pcombobox-normal>
+                            </div>
+
+                        </div>
+                        <div class="time-radio">
+                            <div>
+                                <pswitch-radio name="time-radio" text="要求开始和结束时间" change="yn_method.radioChange"></pswitch-radio>
+                            </div>
+                            <div>
+                                <pswitch-radio id="fixed-radio" name="time-radio" text="要求固定时间内完成" state="true" change="yn_method.radioChange"></pswitch-radio>
+                            </div>
+                        </div>
+                        <div class="time-sel">
+                            <div>
+                                <h4>要求开始时间：</h4>
+                                <pcombobox-normal id="'time-combobox'" bind="true" sel="yn_method.starTimeTypeSel">
+                                    <item datasource="myWorkOrderModel.starTimeType" text="name"></item>
+                                </pcombobox-normal>
+                            </div>
+                            <div v-show="!myWorkOrderModel.timeTypeSel ">
+                                <ptime-form id="ask_start_time"><!-- startyear="myWorkOrderModel.starYear" endyear="myWorkOrderModel.endYear" -->
+                                    <panel timetype="yMdhm" startyear="2017" endyear="2020"></panel>
+                                </ptime-form>
+                            </div>
+                        </div>
+                        <div class="detail-time">
+                            <div v-show="myWorkOrderModel.fixedRadio">
+                                <h4>要求固定时间内完成：</h4>
+                                <div class="regular-time">
+                                    <div class="time-div">
+                                        <div>
+                                            <input type="text" placeholder="请输入数字,支持小数点后一位"
+                                                   onkeyup="if(!/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{0,1})$/gi.test(value) && value!='')execCommand('undo')" onafterpaste="if(!/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{0,1})$/gi.test(value) && value!='')execCommand('undo')">
+                                        </div>
+                                        <div>
+                                            <span>小时</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<span class="regular-error-span" v-show="false">* 数字只支持小数点后一位</span>-->
+                            </div>
+                            <div v-show="!myWorkOrderModel.fixedRadio">
+                                <h4>要求结束时间：</h4>
+                                <ptime-form bind="true" id="'ask_end_time'" sel="yn_method.verifyTime"><!-- startyear="myWorkOrderModel.starYear" endyear="myWorkOrderModel.endYear" -->
+                                    <panel timetype="yMdhm" startyear="2017" endyear="2020"></panel>
+                                </ptime-form>
+                                <br />
+                                <span class="time-error-tips">结束时间需大于开始时间</span>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="myWork-create-right">
+                    <div class="right-content">
+                        <div class="title-switch">
+                            <div class="title-div">
+                                <h3>工作事项</h3>
+                            </div>
+                            <div class="switch-div">
+                                <span>自由输入</span>
+                                <pswitch-slide id="switch-slide" change="yn_method.freedomOrRegular"></pswitch-slide>
+                                <span>结构化输入</span>
+                            </div>
+                        </div>
+                        <div class="matter-body">
+                            <!--<div class="matter-kind"></div>-->
+                            <div class="matter-kind">
+                                <div class="matter-all">
+                                    <div class="matter-title">
+                                        <div class="matter-title-div">
+                                            <input type="text" maxlength="100" placeholder="未命名事项-1" onkeyup="yn_method.matterNameCounter(this,this.value)"/>
+                                            <span class="counter"><b>0</b>/100</span>
+                                        </div>
+                                    </div>
+                                    <div class="matter-content">
+                                        <%include myWorkOrderFragment/myWorkOrderCreateFreedom.html %>
+                                        <%include myWorkOrderFragment/myWorkOrderCreateRegular.html %>
+                                        <div class="checkbox-del-div">
+                                            <div class="checkbox-div">
+                                                <pswitch-checkbox id="aaa" text="在到达每个对象位置时拍照"></pswitch-checkbox>
+                                                <pswitch-checkbox text="在到达每个对象位置时扫码"></pswitch-checkbox>
+                                                <pswitch-checkbox text="结束该事项时签字"></pswitch-checkbox>
+                                            </div>
+                                            <div class="del-div" onclick="yn_method.deleteMatter(this)">
+                                                <em>p</em><span>删除该事项</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="matter-error">
+                                        <div class="error error-test">
+                                            <div>
+                                                <em>!</em><span>该事项名称已被使用，请换一个</span>
+                                            </div>
+                                            <div class="ignore" onclick="yn_method.ignoreError(this)">
+                                                <span>忽略</span>
+                                            </div>
+                                        </div>
+                                        <div class="error error-match">
+                                            <div>
+                                                <em>!</em><span>消防水泵控制箱A-1</span>与 <span>季度检修</span>的适用对象不匹配，请检查
+                                            </div>
+                                            <div class="ignore" onclick="yn_method.ignoreError(this)">
+                                                <span>忽略</span>
+                                            </div>
+                                        </div>
+                                        <div class="error error-invalid">
+                                            <div>
+                                                <em>!</em><span>季度检修</span>无效，请重新选择
+                                            </div>
+                                            <div class="ignore" onclick="yn_method.ignoreError(this)">
+                                                <span>忽略</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="add-new-matter">
+                                <em>J</em><span>添加新事项</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="myWork-content-create-footer">
+                <pbutton-blue id="next-work-btn" text="下一步"></pbutton-blue>
+            </div>
+        </div>
+    </div>
+    <%include myWorkOrderFragment/addContent.html %>
+    <%include myWorkOrderFragment/detailSop.html %>
+</div>

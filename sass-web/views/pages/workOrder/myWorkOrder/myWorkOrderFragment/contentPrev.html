@@ -1,0 +1,30 @@
+<div class="content-prev">
+    <div class="prev-title">
+        <div class="title-tip-div">
+            <span>强制确认操作前提</span><img src="../images/question.png" class="question" />
+            <p>若在此添加强制确认操作前提，工人在执行工单时需要先确认操作前提中的内容，才能继续执行工单</p>
+        </div>
+        <div class="edit-clear-div">
+            <div class="edit-div">
+                <pbutton-white text="编辑" icon="e" isborder="false" click="yn_method.editable"></pbutton-white>
+            </div>
+            <div class="clear-div">
+                <img src="../images/clear_03.png" alt="清空图标"/>
+                <pbutton-white text="清空"  isborder="false" click="yn_method.delBubbleShow"></pbutton-white>
+            </div>
+            <!-- 清空按钮弹窗 -->
+            <pwindow-bubble>
+                <button>
+                    <pbutton-blue text="删除" click="yn_method.clearAll"></pbutton-blue>
+                    <pbutton-white text="取消" click="yn_method.delBubbleHide"></pbutton-white>
+                </button>
+            </pwindow-bubble>
+        </div>
+    </div>
+    <div class="prev-body">
+        <div class="slide-div">
+            <textarea maxlength="101"  v-model="workContent.pre_conform" @input="counterNum" @blur="blurContentItem"></textarea>
+            <span class="counter"><b class="counterNum">0</b>/100</span>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+[
+    {
+        "dict_type": "wo_control_module",
+        "codes": [
+            {
+                "code": "create",
+                "name": "新建工单",
+                "description": ""
+            },
+            {
+                "code": "assign",
+                "name": "指派工单",
+                "description": ""
+            },
+            {
+                "code": "execute",
+                "name": "执行工作步骤/更新工作进度",
+                "description": ""
+            },
+            {
+                "code": "apply",
+                "name": "提交申请",
+                "description": ""
+            },
+            {
+                "code": "audit",
+                "name": "审核申请",
+                "description": ""
+            },
+            {
+                "code": "stop",
+                "name": "终止工单",
+                "description": ""
+            },
+            {
+                "code": "close",
+                "name": "结束工单",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "dict_type": "work_order_state",
+        "codes": [
+            {
+                "code": "1",
+                "name": "草稿",
+                "description": ""
+            },
+            {
+                "code": "4",
+                "name": "待开始",
+                "description": ""
+            },
+            {
+                "code": "5",
+                "name": "执行中",
+                "description": ""
+            },
+            {
+                "code": "6",
+                "name": "待审核",
+                "description": ""
+            },
+            {
+                "code": "8",
+                "name": "正常完成",
+                "description": ""
+            },
+            {
+                "code": "9",
+                "name": "中止",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "dict_type": "work_order_type",
+        "codes": [
+            {
+                "code": "1",
+                "name": "保养",
+                "description": ""
+            },
+            {
+                "code": "2",
+                "name": "维修",
+                "description": ""
+            },
+            {
+                "code": "3",
+                "name": "巡检",
+                "description": ""
+            },
+            {
+                "code": "4",
+                "name": "运行",
+                "description": ""
+            },
+            {
+                "code": "5",
+                "name": "安防",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "dict_type": "wo_execute_type",
+        "codes": [
+            {
+                "code": "temp",
+                "name": "临时",
+                "description": ""
+            },
+            {
+                "code": "plan",
+                "name": "计划",
+                "description": ""
+            },
+            {
+                "code": "all",
+                "name": "全部",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "dict_type": "wo_executie_mode",
+        "codes": [
+            {
+                "code": "1",
+                "name": "单人串行",
+                "description": ""
+            },
+            {
+                "code": "2",
+                "name": "多人并行",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "dict_type": "wo_control_require",
+        "codes": [
+            {
+                "code": "step_photograph",
+                "name": "到达指定位置强制拍照",
+                "description": ""
+            },
+            {
+                "code": "obj_end_sign",
+                "name": "工单结束时手写签字确认",
+                "description": ""
+            }
+        ]
+    },
+    {
+        "dict_type": "domain_require",
+        "codes": [
+            {
+                "code": "SE",
+                "name": "强电",
+                "description": ""
+            },
+            {
+                "code": "WE",
+                "name": "弱电",
+                "description": ""
+            },
+            {
+                "code": "AC",
+                "name": "空调",
+                "description": ""
+            },
+            {
+                "code": "WS",
+                "name": "给排水",
+                "description": ""
+            },
+            {
+                "code": "FF",
+                "name": "消防",
+                "description": ""
+            },
+            {
+                "code": "SP",
+                "name": "安防",
+                "description": ""
+            }
+        ]
+    }
+]

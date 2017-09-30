@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Saas平台运营平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+
+    <link rel="stylesheet" href="/css/basicMng/person/index.css" />
+    <script src="/js/basicMng/person/controller.js"></script>
+    <script src="/js/basicMng/person/model.js"></script>
+    <script src="/js/basicMng/person/event.js"></script>
+</head>
+
+<body>
+    <% include widgetTemplate.html %>
+    <div class="personWrap" id="personMoleMange">
+        <ploading-part id="personLoading"></ploading-part>
+        <pnotice-message id="personNoticeWarn"></pnotice-message>
+        <pwindow-float id="roleCheckFloat" templateid="role-check-float" title="角色详情" beforehide="roleFloatClose">
+            <animate maxpx="0" minpx="-460" orientation="right"></animate>
+             <button>
+                <pbutton-blue text="编辑" icon="e"  isborder="false" click="roleEditClick" id="roleFloatEdit" v-show="roleCheckSign"></pbutton-blue>
+             </button>
+        </pwindow-float>
+        <pwindow-float id="perDetailFloat" templateid="person-detail-float" title="人员详情" beforehide="perFloatClose">
+            <animate maxpx="0" minpx="-460" orientation="right"></animate>
+            <button>
+                <pbutton-blue text="复职" icon=">"  isborder="false" click="regainPerson" v-show="perCheckSign&&!workStateSign"></pbutton-blue>
+                <pbutton-blue text="离职" icon="<"  isborder="false" click="discardPerson" v-show="perCheckSign&&workStateSign"></pbutton-blue>
+                <pbutton-blue text="编辑" icon="e"  isborder="false" click="perEditClick" v-show="perCheckSign&&workStateSign"></pbutton-blue>
+            </button>
+        </pwindow-float>
+        <pwindow-confirm id="perAddDialog">
+        <button>
+            <pbutton-blue  text="我点错啦" click="confirmCancel"></pbutton-blue>
+            <pbutton-white text="确定离开"click="confirmSure"></pbutton-white>
+        </button>
+        </pwindow-confirm>
+        <pwindow-confirm id="discardPerDialog">
+        <button>
+            <pbutton-blue  text="我点错啦" click="confirmDisCancel"></pbutton-blue>
+            <pbutton-white text="确定离职"click="confirmDisSure"></pbutton-white>
+        </button>
+        </pwindow-confirm>
+        <pwindow-confirm id="regainPerDialog">
+        <button>
+            <pbutton-blue  text="我点错啦" click="confirmRegCancel"></pbutton-blue>
+            <pbutton-white text="确定复职"click="confirmRegSure"></pbutton-white>
+        </button>
+        </pwindow-confirm>
+        <div class="personManage" id="perManagePage">
+            <div class="contentWrap">
+                <div class="contentHeader">
+                    <div class="dropDownList">
+                        <pcombobox-normal id="workStateDown" sel="workStateClick">
+                            <item datasource="workState" text="name"></item>
+                        </pcombobox-normal>
+                    </div>
+                    <div class="dropDownList">
+                        <pcombobox-normal id="'positionDown'" bind='true' sel="posLiClick">
+                            <header prefix="岗位："></header>
+                            <item datasource="allPositions" text="pname"></item>
+                        </pcombobox-normal>
+                    </div>
+                    <div class="headWarn" v-show="noRoleNum>0">提示：有几位员工还未添加角色</div>
+                    <div class="rightButton">
+                        <div class="modeChange" id="perModeChange"><span class="infoMode disable" onclick="showInfoMode()"></span><span class="line"></span><span class="picMode" onclick="showPicMode()"></span></div>
+                        <pbutton-white text="角色管理" icon="u" click="roleManageShow"></pbutton-white>
+                        <pbutton-white text="添加人员" icon="+" click="addPersonShow"></pbutton-white>
+                    </div>
+                </div>
+                <div class="contentList" id="perInfoTable">
+                    <ul class="list listHead">
+                        <li><span>员工编号</span><span>姓名</span><span>手机号</span><span>岗位</span><span>角色</span><span>专业</span><span>证件照片</span><span>状态</span></li>
+                    </ul>
+                    <ul class="list listCont">
+                        <li v-for="item in personList" v-on:click="personItemClick(item)">
+                            <span>{{item.person_num}}</span><span>{{item.name}}</span><span>{{item.phone_num}}</span><span>{{item.position}}</span><span>{{!item.roles?'--':item.roles}}</span><span>{{item.specialty_name}}</span><span><em class="phcheck" v-show="!!item.id_photo">Z</em></span><span>{{item.person_status=='1'?'在职':'离职'}}</span></li>
+                    </ul>
+                </div>
+                <div class="contentList photoList" id="perPicTable" style="display: none;">
+                    <div class="positionItem" v-for="gitem in personGroup">
+                        <div class="itemHead"><span class="posname">{{gitem.position}}</span><span class="line"></span></div>
+                        <ul>
+                            <li v-for="item in gitem.persons" v-on:click="personItemClick(item)">
+                                <div class="pic">
+                                    <img v-bind:src="!item.head_portrait?'/images/person.png':item.head_portrait" />
+                                </div>
+                                <div class="pername"><em style="margin-right: 6px;">{{item.name}}</em><em>{{item.person_num}}</em></div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="addPersonPage" id="addPersonPage" style="display: none;">
+                <div class="addPerHead">
+                    <pbutton-white text="取消" click="addPersonHide"></pbutton-white>
+                </div>
+                <div class="addPerDetail">
+                    <% include personAdd.html %>
+                </div>
+            </div>
+        </div>
+        <div class="roleManage" style="display: none;" id="roleManagePage">
+            <div class="roleListShow">
+                <div class="roleMangeHead">
+                    <pbutton-white text="取消" click="roleManageHide"></pbutton-white>
+                    <div class="rightButton">
+                        <pbutton-blue text="添加角色" click="addRoleShow"></pbutton-blue>
+                    </div>
+                </div>
+                <div class="roleManageCont">
+                    <ul class="list listHead">
+                        <li><span>角色名</span><span>权限项</span></li>
+                    </ul>
+                    <ul class="list listCont">
+                        <li v-for="item in roleList" v-on:click="roleItemClick(item)"><span>{{item.role_name}}</span><span><em v-for="(nameItem,nindex) in item.func_pack_names">{{nameItem}}<em v-show="nindex!= item.func_pack_names.length-1">、</em></em></span></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="addRolePage" id="addRolePage" style="display: none;">
+                <div class="roleMangeHead">
+                    <pbutton-white text="取消" click="addRoleHide"></pbutton-white>
+                </div>
+                <div class="roleManageCont addRoleCont">
+                    <div class="contWrap">
+                        <div class="roleItem">
+                            <div class="nameTitle"><span class="star">*</span>角色名：</div>
+                            <div class="nameInput">
+                                <ptext-text placeholder="输入名称" id="addRoleInput">
+                                <verify errtip="不能为空" verifytype="space"><verify>
+                            </ptext-text>
+                            </div>
+                        </div>
+                        <div class="roleItem">
+                            <div class="nameTitle"><span class="star">*</span>角色包含权限项：</div>
+                            <ul class="funcList">
+                                <li v-for="fitem in funcPackList">
+                                    <span class="fname" v-bind:class="{'on':fitem.issel}" v-on:click="funcItemClick(fitem)">{{fitem.func_pack_name}}</span>
+                                    <span>{{fitem.description}}</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="buttonDiv">
+                        <pbutton-blue text="保存" click="roleAddEditSave"></pbutton-blue>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,298 @@
+.test {
+    background: #FFFFFF;
+    background: #E8EBEE;
+    background: #A1B2C2;
+    background: #52616B;
+    background: #1E2022;
+    background: #00E0FF;
+    background: #10DDC2;
+    background: #F6416C;
+}
+
+.project_manage_insert_body {
+    padding: 16px 20px 10px;
+}
+
+.project_manage_insert_header {
+    position: relative;
+    border: 1px solid #d9e2e8;
+    height: 50px;
+    text-align: center;
+}
+
+.project_manage_insert_header span {
+    line-height: 50px;
+    font-size: 20px;
+}
+
+.upload_block {
+    overflow: hidden;
+}
+
+
+/* .project_manage_insert_header input[type='button'] {
+    width: 80px;
+    height: 30px;
+    border: 1px solid #A1B2C2;
+    border-radius: 5px;
+    text-align: center;
+    margin: 10px 0;
+} */
+
+.project_manage_insert_body .project_manage_insert_header .cancel {
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    color: #A1B2C2;
+}
+
+.project_manage_insert_body .project_manage_insert_header .draft {
+    position: absolute;
+    top: 10px;
+    right: 120px;
+    color: #A1B2C2;
+}
+
+.project_manage_insert_body .project_manage_insert_header .commit {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    color: #A1B2C2;
+}
+
+.project_manage_insert_content {
+    position: absolute;
+    top: 68px;
+    border: 1px solid #d9e2e8;
+    border-top: none;
+    /* height: 820px; */
+    overflow-y: auto;
+    bottom: 0;
+    right: 20px;
+    left: 20px;
+}
+
+.project_manage_insert_list {
+    width: 690px;
+    min-width: 690px;
+    margin: 0 auto;
+}
+
+.project_manage_insert_ul .paragraph {
+    border-bottom: 1px dashed #A1B2C2;
+    /* overflow: hidden; */
+}
+
+.project_manage_insert_ul li:last-child {
+    border-bottom: none;
+}
+
+.project_manage_insert_ul .title {
+    width: 100%;
+    height: 60px;
+    line-height: 80px;
+    text-align: center;
+    font-size: 16px;
+}
+
+.project_manage_insert_ul .ltitle {
+    float: left;
+    width: 200px;
+    height: 44px;
+    line-height: 44px;
+    text-align: right;
+}
+
+.project_manage_insert_ul .radio {
+    float: left;
+    width: 380px;
+    height: 44px;
+    line-height: 44px;
+    font-size: 16px;
+    text-align: right;
+}
+
+.project_manage_insert_ul .item {
+    float: left;
+    width: 190px;
+    height: 100%;
+}
+
+.project_manage_insert_ul .item span {
+    margin-top: 6px;
+    float: left;
+    width: 20px;
+    height: 20px;
+}
+
+.project_manage_insert_ul .item p {
+    float: left;
+    width: 160px;
+    height: 44px;
+    line-height: 44px;
+    text-indent: 1em;
+    text-align: left;
+}
+
+.project_manage_insert_ul .part {
+    width: 100%;
+    height: 60px;
+    clear: both;
+    /* overflow: hidden; */
+}
+
+.project_manage_insert_ul .part .time {
+    float: left;
+    margin-top: 10px;
+    width: 380px;
+    height: 30px;
+}
+
+.project_manage_insert_ul .remark_block {
+    width: 100%;
+    height: 150px;
+    clear: both;
+    /* overflow: hidden; */
+}
+
+.project_manage_insert_ul .remark_block .red {
+    color: red;
+    /* overflow: hidden; */
+}
+
+.project_manage_insert_ul .remark {
+    position: relative;
+    float: left;
+    height: 110px;
+    width: 380px;
+}
+
+.project_manage_insert_ul .remark textarea {
+    margin-top: 12px;
+    padding-bottom: 14px;
+    height: 100px;
+    width: 100%;
+}
+
+.project_manage_insert_ul .remark .len {
+    position: absolute;
+    right: 10px;
+    bottom: 0;
+    width: 50px;
+    height: 14px;
+    line-height: 14px;
+    font-size: 12px;
+    background: #ffffff;
+}
+
+.project_manage_insert_ul .upload_block>div {
+    margin-top: 10px;
+    float: left;
+    width: 380px;
+    min-height: 150px;
+}
+
+.project_manage_insert_ul .upload_block .tip {
+    font-size: 12px;
+    line-height: 20px;
+    color: #d2d2d2;
+}
+
+.project_manage_insert_ul .combox {
+    width: 100%;
+    height: 60px;
+    clear: both;
+    /* overflow: hidden; */
+}
+
+.project_manage_insert_ul .insert_build_box {
+    position: relative;
+    margin: 5px;
+    width: auto;
+    height: 210px;
+    border: 1px solid #EEEEEE;
+    box-sizing: border-box;
+}
+
+.project_manage_insert_ul .insert_build_box:hover {
+    box-shadow: 0 0 5px 5px #F4F4F4;
+}
+
+.project_manage_insert_ul .insert_build_box .delete {
+    position: absolute;
+    display: none;
+    width: 52px;
+    height: 100%;
+    top: 0;
+    right: 0;
+    line-height: 1;
+    text-align: center;
+    background: #f87c7c;
+    font-size: 20px;
+    cursor: pointer;
+    font-family: 'perficon';
+}
+
+.project_manage_insert_ul .insert_build_box .delete:before {
+    content: "";
+    height: 100%;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: -0.25em;
+}
+
+.project_manage_insert_ul .insert_build_box:hover .delete {
+    display: block;
+}
+
+.project_manage_insert_ul .addbuild {
+    height: 120px;
+    width: auto;
+    line-height: 28px;
+    text-align: center;
+    font-size: 16px;
+    color: #43b6d7;
+    cursor: pointer;
+    margin: 0 290px;
+}
+
+.project_manage_insert_ul .build_row {
+    margin-top: 10px;
+}
+
+.project_manage_insert_ul .areac {
+    height: 44px;
+    padding-top: 7px;
+}
+
+.project_manage_insert_ul .areac:nth-child(2) {
+    float: left;
+    width: 110px;
+}
+
+.project_manage_insert_ul .areac:nth-child(3) {
+    float: left;
+    margin-left: 10px;
+    width: 110px;
+}
+
+.project_manage_insert_ul .areac:nth-child(4) {
+    float: left;
+    margin-left: 10px;
+    width: 150px;
+}
+
+.project_manage_insert_ul .build {
+    float: left;
+    height: 44px;
+    margin-top: 7px;
+    width: 218px;
+}
+
+.redborder {
+    border: 1px solid red;
+}
+
+.redcolor {
+    color: red;
+}

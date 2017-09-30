@@ -1,0 +1,74 @@
+body,
+html {
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: url(/images/login/loginbackground.jpg) no-repeat no-repeat center center;
+    background-size: 100% 100%;
+}
+
+.main {
+    position: absolute;
+    margin-top: -181px;
+    margin-left: -277px;
+    top: 50%;
+    left: 50%;
+    width: 554px;
+    height: 362px;
+    background: #ffffff;
+    border-radius: 5px;
+}
+
+.container {
+    margin: 0 100px;
+    height: 100%;
+}
+
+.container ul {
+    width: 100%;
+    height: 100%;
+}
+
+.title {
+    margin-top: 40px;
+    height: 68px;
+    line-height: 68px;
+    font-size: 30px;
+    text-align: center;
+    color: #535353;
+    font-weight: 900;
+}
+
+.title .blue {
+    color: #0094c2;
+}
+
+.container ul .write {
+    margin: 10px 0 25px;
+}
+
+.container ul .button {
+    margin-top: 15px;
+    width: 100%;
+    height: 43px;
+    border: 1px solid #77c6de;
+    border-radius: 5px;
+    background: #0094c2;
+    font-size: 16px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.container ul input[type='text'],
+.container ul input[type='password'] {
+    width: 354px;
+    height: 40px;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #333333;
+}

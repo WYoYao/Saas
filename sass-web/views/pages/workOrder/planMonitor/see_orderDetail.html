@@ -1,0 +1,251 @@
+<div id="see_orderDetail_bg" v-if="curPage == pages[5]">
+    <div class="see_orderDetail_box">
+        <div class="see_orderDetail_page">
+            <div class="see_orderDetail_page_top">
+                <div class="see_orderDetail_page_back">
+                    <pbutton-white bind='true' text="'返回'" @click="goBackPlanList()"></pbutton-white>
+                </div>
+                <div class="see_orderDetail_page_save" v-if="!true">
+                    <div>
+                        <pbutton-white bind='true' text="'指派'"></pbutton-white>
+                    </div>
+                    <div>
+                        <pbutton-white bind='true' text="'终止'"></pbutton-white>
+                    </div>
+                </div>
+            </div>
+            <div class="see_orderDetail_page_grid">
+                <!-- 顶部列表 -->
+                <div class="see_orderDetail_grid_top">
+                    <ul>
+                        <li>
+                            <h4>
+                                工单类型
+                            </h4>
+                            <div v-text="orderDetailData.order_type_name">
+                                维保
+                            </div>
+                        </li>
+                        <li>
+                            <h5>
+                                要求开始时间
+                            </h5>
+                            <span  v-text="orderDetailData.ask_start_time? timeFormatting(orderDetailData.ask_start_time):'' ">2017.5.1 08:00</span>
+                            <h5>
+                                要求结束时间
+                            </h5>
+                            <span v-text="orderDetailData.ask_end_time?timeFormatting(orderDetailData.ask_end_time) : ''">2017.7.1 08:00</span>
+                        </li>
+                        <li>
+                            <h4>
+                                所需工具
+                            </h4>
+                            <div v-text="arrToString(orderDetailData.required_tools)">
+                                扳手、螺丝刀、电钻
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 内容区域 -->
+                <div class="see_orderDetail_grid_tab_ul" v-for="(matters,index1) in orderDetailData.matters">
+                    <div class="see_orderDetail_grid_tab_tit">
+                        <div class="see_orderDetail_grid_name" v-text="matters.matter_name">
+                        </div>
+                        <div class="see_orderDetail_grid_result">
+                            反馈结果
+                        </div>
+                    </div>
+                    <div class="see_orderDetail_grid_tab" v-for="(matter_steps,index2) in matters.matter_steps">
+                        <!-- {{有id或者有描述}} -->
+                        <div v-if="matter_steps.obj_step_id || matter_steps.description" class="see_orderDetail_grid_tab_div">
+                            <!-- 左侧列表 -->
+                            <div class="see_orderDetail_grid_tab_left">
+                                <div class="see_orderDetail_grid_matter_info">
+                                    <h4>事件概述：</h4>
+                                    <p v-text="matter_steps.description"></p>
+                                </div>
+                                <div class="see_orderDetail_grid_list" v-for="(steps,index3) in matter_steps.steps">
+                                    <ul>
+                                        <li class="see_orderDetail_grid_list_operat2">
+                                            <h4 v-text="steps.step_sequence"></h4>
+                                            <div>
+                                                <span v-text="steps.content" v-if="steps.step_type == '3'||steps.step_type == '4'">
+                                                    到达指定位置拍照
+                                                </span>
+                                                <ul v-if="steps.step_type != '3'&& steps.step_type != '4'&& steps.step_type != '6'">
+                                                    <li>
+                                                        <h5>强制确认操作前提：</h5>
+                                                        <p v-if="steps.pre_conform" v-text="steps.pre_conform"></p>
+                                                    </li>
+                                                    <li>
+                                                        <h5>标准作业操作内容：</h5>
+                                                        <p v-if="steps.content" v-text="steps.content"></p>
+                                                    </li>
+                                                    <li>
+                                                        <h5>注意事项：</h5>
+                                                        <p v-if="steps.notice" v-text="steps.notice"></p>
+                                                    </li>
+                                                    <li>
+                                                        <h5>确认操作结果：</h5>
+                                                        <div v-for="confirm_result in steps.confirm_result">
+                                                        <!-- {{steps.confirm_result}} -->
+                                                            <em v-text="confirm_result.obj_name"></em>
+                                                            <span v-for="parents in confirm_result.parents">
+                                                                (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
+                                                            </span>
+                                                        </div>
+                                                        <div v-for="confirm_result in steps.confirm_result">
+                                                            <i v-for="info_points in confirm_result.info_points" v-text="info_points.name"></i>
+                                                            <i  v-for="customs in confirm_result.customs" v-text="customs.name"></i>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <!-- <p v-if="steps.step_type == '6'" v-text="steps.content"></p> -->
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- 右侧列表 -->
+                            <div class="see_orderDetail_grid_tab_rig">
+                                <div class="see_orderDetail_grid_tab_rig_box" v-for="(feedback,index4) in matter_steps.feedback">
+                                    <ul class="see_orderDetail_grid_tab_rig_box_list">
+                                        <li v-if="!feedback.confirm_result">
+                                            <h4>
+                                                <span v-if="feedback.step_sequence" v-text="feedback.step_sequence + ','"></span>
+                                                <i v-if="feedback.pre_conform_result" v-text="feedback.pre_conform_result + ':'"></i>
+                                            </h4>
+                                            <div v-for="photos in feedback.photos">
+                                                <img :src="photos" alt="">
+                                            </div>
+                                        </li>
+                                        <li v-else-if="feedback.confirm_result">
+                                            <h4>
+                                                <span v-if="feedback.step_sequence" v-text="feedback.step_sequence + ','"></span>
+                                                <div>
+                                                    <ul v-for="item in feedback.confirm_result">
+                                                        <li v-text="item.obj_name +'设备类'">
+                                                            <span v-text="item.obj_name +'设备类'"></span>
+                                                            <i>-</i>
+                                                        </li>
+
+                                                        <li v-if="item.info_points" v-for="info_points in item.info_points" v-text="info_points.value + info_points.unit +','"></li>
+                                                        <li v-for="customs in item.customs">
+                                                            <span v-if="customs.type=='1'" v-text="customs.content"></span>
+                                                            <span v-else-if="customs.type=='2'" v-text="customs.item"></span>
+                                                            <span v-else-if="customs.type=='3'" v-text="customs.content">
+                                                            <i v-for="items in customs.items" v-text="items"></i>
+                                                            </span>
+                                                            <span v-else-if="customs.type=='4'" v-text="customs.value"></span>
+                                                            <span v-else-if="customs.type=='5'" v-text="customs.value + ':' + customs.unit"></span>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <!-- <i v-if="feedback.pre_conform_result" v-text="feedback.pre_conform_result + ':'"></i> -->
+                                                 <i>
+                                                    
+                                                </i>
+                                            </h4>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="see_orderDetail_grid_tab_rig_box_operatPerson">
+                                    <div>操作人：</div>
+                                    <p v-for="executors in matter_steps.executors" v-text="executors"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 没有id且没有描述 -->
+                        <div  v-if="!matter_steps.obj_step_id && !matter_steps.description" class="see_orderDetail_grid_tab_div_sign">
+                            <div class="see_orderDetail_grid_tab_div_sign_left">
+                                签字：
+                            </div>
+                            <div class="see_orderDetail_grid_tab_div_sign_img">
+                                <img :src="matter_steps.feedback[0].photos[0]" alt="">
+                            </div>
+                            <div class="see_orderDetail_grid_tab_div_sign_rig">
+                                <span>操作人:</span><i v-text="arrToString(matter_steps.executors)"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 审核相关 -->
+                <div class="see_orderDetail_check">
+                    <ul v-for="wo_exec_controls in orderDetailData.wo_exec_controls">
+                        <li>
+                            <div class="see_orderDetail_check_header">
+                                <div>
+                                    <span v-text="wo_exec_controls.control_code == 'apply'?'申请':'审核'">
+                                        
+                                    </span><i v-if="wo_exec_controls.control_code == 'apply'" v-text="wo_exec_controls.apply_type =='finish'?'完成':'终止'">
+                                        
+                                    </i>
+                                </div>
+                                <div>
+                                    <span v-text="wo_exec_controls.control_code == 'apply'?'申请':'审核'">
+                                        
+                                    </span><i>时间：</i>
+                                    <i v-text="timeFormatting(wo_exec_controls.operate_start_time)">
+                                        
+                                    </i>
+                                </div>
+                            </div>
+                            <div class="see_orderDetail_check_content">
+                                <div class="checkStatus" v-if="wo_exec_controls.audit_result=='1'">
+                                    <div v-if="wo_exec_controls.audit_result=='1'" v-text="wo_exec_controls.audit_result=='1'?'通过':''">
+                                    </div>
+                                    <div v-text="wo_exec_controls.opinion"></div>
+                                    <div>
+                                        操作人:<span v-text="wo_exec_controls.operator_name"></span>
+                                    </div>
+                                </div>
+                                <div class="checkStatus" v-if="wo_exec_controls.audit_result=='0'">
+                                    <div class="mark">
+                                        <i v-text="wo_exec_controls.audit_result=='0'?'不通过':''"></i>-<i v-for="per in wo_exec_controls.next_route" v-text="per"></i>
+                                    </div>
+                                    <div v-text="wo_exec_controls.opinion"></div>
+                                    <div>
+                                        操作人:<span v-text="wo_exec_controls.operator_name"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- 操作人列表 -->
+                <div class="operat_person_list">
+                    <ul v-for="wo_exec_controls in orderDetailData.wo_exec_controls">
+                        <li>
+                            <i>操作人</i>
+                            <span v-text="wo_exec_controls.operator_name">张三</span>
+                        </li>
+                        <li>
+                            <i>操作时间</i>
+                            <span v-text="timeFormatting(wo_exec_controls.operate_start_time)">20170921150500</span>
+                        </li>
+                        <li>
+                            <i>指派给</i>
+                            <span v-text="arrToString(wo_exec_controls.next_route)"></span>
+                        </li>
+                    </ul>
+
+                    <ul v-for="operatList in orderOperatList">
+                        <li>
+                            <i>操作人</i>
+                            <span v-text="operatList.operator_name">张三</span>
+                        </li>
+                        <li>
+                            <i>开始时间</i>
+                            <span v-text="timeFormatting(operatList.start_time)">20170921150500</span>
+                        </li>
+                        <li>
+                            <i>停留时长</i>
+                            <span v-text="operatList.use_times">李四</span>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

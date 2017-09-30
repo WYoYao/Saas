@@ -1,0 +1,84 @@
+<% include ../../../template/pageHead.html %>
+<script type="text/javascript" src="../js/equipmentSpace/printCard/event.js"></script>
+<script type="text/javascript" src="../js/equipmentSpace/printCard/model.js"></script>
+<script type="text/javascript" src="../js/public/globalController.js"></script>
+<script type="text/javascript" src="../js/equipmentSpace/printCard/controller.js"></script>
+
+<link rel="stylesheet" href="../css/equipmentSpace/printCard/print.css" />
+<div class=""></div>
+<div class="printCardWrap">
+    <div class="printCardCon">
+        <div class="printCardConA" id="printCardList">
+            <div class="printCardConHeader">
+                <div class="header_tab" id="cardTabMenu">
+                    <ptab-button datasource="printCardObj.tabArr" text="name" sel="printCardObj.tabClick"></ptab-button>
+                </div>
+                <div class="header_right">
+                    <pbutton-white text="定制设备空间名片样式" click="printCardObj.customMadeCard"></pbutton-white>
+                </div>
+
+            </div>
+            <div class="printCardCon_pageA"></div>
+            <div class="printCardCon_pageB"></div>
+        </div>
+        <div class="printCardConA" id="printCardDz" style="display: none;">
+            <div class="printCardConHeader">
+                <div class="header_left">
+                    <pbutton-white text="取消" click="printCardObj.customMadeCardHide"></pbutton-white>
+                </div>
+                <div class="header_tab" id="customTabMenu">
+                    <ptab-button datasource="printCardObj.customTabArr" text="name" sel="printCardObj.customTabClick"></ptab-button>
+                </div>
+                <div class="header_right">
+                    <pbutton-blue text="保存" click="printCardObj.customMadeCardConfirm"></pbutton-blue>
+                </div>
+            </div>
+            <div class="printCardCon_card">
+                <div class="printCard_temp">
+                    <div class="printCard_logo"></div>
+                    <div class="printCard_con">
+                        <div class="printCard_name">
+                            <input type="text" value="设备名片" />
+                        </div>
+                        <ul class="printCard_ul">
+                            <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>
+  <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>                            <li>
+                                <pcombobox-normal>
+                                    <header  placeholder="设备型号"></header>
+                                    <item datasource="printCardObj.equipmentModel" text="name" ></item>
+                                </pcombobox-normal>
+                            </li>
+                            <li>
+                                <pcombobox-normal>
+                                    <header  placeholder="设备类型"></header>
+                                    <item datasource="printCardObj.equipmentType" text="name" ></item>
+                                </pcombobox-normal>
+                            </li>
+ <li>
+                                <pcombobox-normal>
+                                    <header  placeholder="安装位置"></header>
+                                    <item datasource="printCardObj.installPosition" text="name" ></item>
+                                </pcombobox-normal>
+                            </li>                        </ul>
+                        <div class="printCard_code"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<% include ../../../template/pageFoot.html %>

@@ -1,0 +1,33 @@
+<div id="componentRelationship" class="componentRelationship" v-show='onPageName=="componentRelationship"'>
+    <div class="componentRelationship_header">
+        <div class="back" @click.capture='componentRelationshipBack'>
+            <pbutton-white text="返回"></pbutton-white>
+        </div>
+        <div class="go" @click.capture='componentRelationshipGo'>
+            <pbutton-blue text="查看不同平台组件信息"></pbutton-blue>
+        </div>
+    </div>
+    <div class="componentRelationship_content">
+        <ul class="list_thead">
+            <li>
+                <span>原始组件</span>
+                <span>上帝之手组件</span>
+                <span>Saas平台组件</span>
+                <span>APP组件</span>
+                <span>操作</span>
+            </li>
+        </ul>
+        <ul class="list_tbody" v-show='componentRelationshipList.length'>
+            <li v-for='(item,index) in componentRelationshipList'>
+                <span>{{item.base_cmpt_code}}</span>
+                <span>{{item.god_hand_cmpt_code}}</span>
+                <span>{{item.saas_cmpt_code}}</span>
+                <span>{{item.app_cmpt_code}}</span>
+                <span @click='componentRelationshipLayer(item,index)'>编辑</span>
+            </li>
+        </ul>
+        <ul class="list_tbody" v-show='!componentRelationshipList.length'>
+            <pnotice-nodata></pnotice-nodata>
+        </ul>
+    </div>
+</div>

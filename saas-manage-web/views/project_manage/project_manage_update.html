@@ -1,0 +1,308 @@
+<link rel="stylesheet" href="/css/project_manage/project_manage_update.css" />
+<script src="/js/project_manage/project_manage_update/event.js"></script>
+<script src="/js/project_manage/project_manage_update/model.js"></script>
+<script src="/js/project_manage/project_manage_update/controller.js"></script>
+
+
+<div class="project_manage_update_body" id='project_manage_update' style="display:none">
+    <div class="project_manage_update_header">
+        <!-- <input type="button" value="返回" class="cancel"> -->
+        <div class="cancel">
+            <pbutton-white click='projectManageSubmitBack' text="返回"></pbutton-white>
+        </div>
+        <span>项目信息</span>
+        <div class="commit" v-show='islock'>
+            <pbutton-blue click='projectManageSubmitlock' text="解锁"></pbutton-white>
+        </div>
+        <div class="commit" v-show='!islock'>
+            <pbutton-blue click='projectManageSubmitlock' text="锁定"></pbutton-white>
+        </div>
+    </div>
+    <div class="project_manage_update_content" id='project_manage_update'>
+        <div class="project_manage_update_list">
+            <ul class="project_manage_update_ul" v-if='customerUpdate.customer_id!="void 0"'>
+                <li class="paragraph">
+                    <p class="title">基础信息</p>
+                    <div class="part">
+                        <span class="ltitle">企业名称：</span>
+                        <vinputupdate v-bind:maxlength=' "15" ' v-bind:set='setCustomerUpdate.bind(this, "company_name") ' v-bind:updatevalue='setvalue.bind(this, "company_name") ' v-bind:value='customerUpdate.company_name ' v-bind:type=' "font"
+                ' v-bind:placeholder=' "请输入企业名称" '>
+                        </vinputupdate>
+                    </div>
+                    <div class="part">
+                        <span class="ltitle">公司法人：</span>
+                        <vinputupdate v-bind:maxlength=' "6" ' v-bind:set='setCustomerUpdate.bind(this, "legal_person") ' v-bind:updatevalue='setvalue.bind(this, "legal_person") ' v-bind:value='customerUpdate.legal_person ' v-bind:type=' "font"
+                ' v-bind:placeholder=' "请输入名字" '></vinputupdate>
+                    </div>
+                    <div class="part">
+                        <span class="ltitle">公司经营有效期：</span>
+                        <div class='ptimecontenter'>
+
+                            <span class='ptimeblock' v-show='ptimeuse.operation_valid_term.isUpdate'>
+                                <ptime-calendar id='operation_valid_term'>
+                                        <panel zonetype='yyyy-MM-dd' timetype="d" iscommontime='false' lock='false'>
+                                            </panel>
+                                </ptime-calendar>
+                            </span>
+                            <span class="ptimetext" v-show='ptimeuse.operation_valid_term.isUpdate'>
+                                <div class="ptimeblock_submit">
+                                    <input type="button" value="确定" @click='ptimeuseSubmitUpdate("operation_valid_term")' class="vinputupdate_submit">
+                                </div>
+                                <div class="ptimeblock_cancel">
+                                    <input type="button" @click='ptimeusecancelupdate("operation_valid_term")' value="取消" class="vinputupdate_cancel">
+                                </div>
+                            </span>
+                            <p class='vinputupdate_p' v-show='!ptimeuse.operation_valid_term.isUpdate'>
+                                <em class='vinputupdate_em'> 
+                                                {{new Date(ptimeuse.operation_valid_term.oldValue.stime).format('yyyy-MM-dd') + '～' + new Date(ptimeuse.operation_valid_term.oldValue.etime).format('yyyy-MM-dd')}}
+                                            </em>
+                                <span class='vinputupdate_icon' @click='ptimeuseupdate("operation_valid_term")'>e</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="upload_block">
+                        <span class="ltitle">上传营业执照：</span>
+                        <div>
+                            <pupload-img number='1' id='ubusinessImg'>
+                                <panel success='ubusinessImgChange()' clear='ubusinessImgChange()'></panel>
+                            </pupload-img>
+                            <p class="tip">支持jpg 、png，最多上传1张</p>
+                        </div>
+                    </div>
+                    <div class="upload_block">
+                        <span class="ltitle">上传产权证/托管合同：</span>
+                        <div>
+                            <pupload-img number='5' id='upicturesImg'>
+                                <panel success='upicturesImgChange()' clear='upicturesImgChange()'></panel>
+                            </pupload-img>
+                            <p class="tip">支持jpg 、png，最多上传5张</p>
+                        </div>
+                    </div>
+                    <div class="part">
+                        <span class="ltitle">托管合同有效期：</span>
+                        <!-- <ptimeupdate v-bind:set='setCustomerUpdate' v-bind:updatevalue='setvalue' :skey='"operation_valid_term_start"' :etime='"operation_valid_term_end"' :stime='customerUpdate.operation_valid_term_start' :etime='customerUpdate.operation_valid_term_end'>
+                        </ptimeupdate> -->
+                        <div class='ptimecontenter'>
+
+                            <span class='ptimeblock' v-show='ptimeuse.contract_valid_term.isUpdate'>
+                                <ptime-calendar id='contract_valid_term'>
+                                        <panel zonetype='yyyy-MM-dd' timetype="d" iscommontime='false' lock='false'>
+                                            </panel>
+                                </ptime-calendar>
+                            </span>
+                            <span class="ptimetext" v-show='ptimeuse.contract_valid_term.isUpdate'>
+                                <div class="ptimeblock_submit">
+                                    <input type="button" value="确定" @click='ptimeuseSubmitUpdate("contract_valid_term")' class="vinputupdate_submit">
+                                </div>
+                                <div class="ptimeblock_cancel">
+                                    <input type="button" @click='ptimeusecancelupdate("contract_valid_term")' value="取消" class="vinputupdate_cancel">
+                                </div>
+                            </span>
+                            <p class='vinputupdate_p' v-show='!ptimeuse.contract_valid_term.isUpdate'>
+                                <em class='vinputupdate_em'> 
+                                                {{new Date(ptimeuse.contract_valid_term.oldValue.stime).format('yyyy-MM-dd') + '～' + new Date(ptimeuse.contract_valid_term.oldValue.etime).format('yyyy-MM-dd')}}
+                                            </em>
+                                <span class='vinputupdate_icon' @click='ptimeuseupdate("contract_valid_term")'>e</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="part">
+                        <span class="ltitle">客户选用工程工具：</span>
+                        <div class="radio" v-show='showToolType'>
+                            <div class="item" @click.capture='clickSetCustomerUpdateToolType(true)'>
+                                <span>
+                                       <div class="per-switch-radio">
+                                                <span class="per-radio_input" :class="{ 'per-radio-checked':customerUpdate.tool_type=='Web'}"></span>
+                                <span class="per-switch_label"></span>
+                            </div>
+                            </span>
+                            <p>Web工程工具</p>
+                        </div>
+                        <div class="item" @click.capture='clickSetCustomerUpdateToolType(false)'>
+                            <span>
+                                            <div class="per-switch-radio">
+                                                <span class="per-radio_input" :class="{ 'per-radio-checked':customerUpdate.tool_type=='Revit'}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                        </span>
+                        <p>Revit</p>
+                    </div>
+                    <span @click.capture='clickSubmitCustomerUpdateToolType();showToolType=!showToolType'>
+                        <pbutton-blue text="确定"></pbutton-blue>
+                    </span>
+                    <span @click.capture='showToolType=!showToolType;customerUpdate.tool_type=Oldtool_type'>
+                        <pbutton-white text="取消"></pbutton-white>
+                    </span>
+        </div>
+        <div class="radio" v-show='!showToolType'>
+            <span>{{customerUpdate.tool_type}}</span>
+            <span class="vinputupdate_icon" @click='showToolType=!showToolType'>e</span>
+        </div>
+    </div>
+    </li>
+    <li class="paragraph">
+        <p class="title">联系人信息</p>
+        <div class="part">
+            <span class="ltitle">姓名：</span>
+            <vinputupdate v-bind:maxlength=' "6" ' v-bind:set='setCustomerUpdate.bind(this, "contact_person") ' v-bind:updatevalue='setvalue.bind(this, "contact_person") ' v-bind:value='customerUpdate.contact_person ' v-bind:type='
+                "font" ' v-bind:placeholder=' "请输入姓名" '></vinputupdate>
+        </div>
+        <div class="part">
+            <span class="ltitle">手机号码：</span>
+            <vinputupdate v-bind:value='customerUpdate.contact_phone ' v-bind:set='setCustomerUpdate.bind(this, "contact_phone") ' v-bind:updatevalue='setvalue.bind(this, "contact_phone") ' v-bind:type=' "phone" ' v-bind:placeholder='
+                "请输入11位手机号" '></vinputupdate>
+        </div>
+    </li>
+    <li class="paragraph">
+        <p class="title">账户密码信息</p>
+        <div class="part">
+            <span class="ltitle">公司邮箱：</span>
+            <div class="vinputupdate_div">
+                <p class="vinputupdate_p">
+                    <em class="vinputupdate_em"> 
+                        492260726@163.com
+                    </em>
+                    <span @click.capture='_repassword' class="repassword">
+                            <pbutton-blue text="重置密码"></pbutton-blue>
+                    </span>
+                </p>
+            </div>
+            <!-- <vinputupdate v-bind:value='customerUpdate.mail ' v-bind:set='setCustomerUpdate.bind(this, "mail") ' v-bind:updatevalue='setvalue.bind(this, "mail") ' v-bind:type=' "email" ' v-bind:placeholder=' "请输入邮箱" '></vinputupdate> -->
+        </div>
+    </li>
+    <li class="paragraph">
+        <p class="title">项目信息</p>
+        <div class="part">
+            <span class="ltitle">项目编码：</span>
+            <em class="vinputupdate_em"> 
+                            {{customerUpdate.project_id}}
+                        </em>
+        </div>
+        <div class="part">
+            <span class="ltitle">项目名称：</span>
+            <em class="vinputupdate_em"> 
+                    {{customerUpdate.project_name}}
+                </em>
+        </div>
+        <div class="part">
+            <span class="ltitle">本地名称：</span>
+            <em class="vinputupdate_em"> 
+                    {{customerUpdate.project_local_name}}
+                </em>
+        </div>
+        <div class="part">
+            <span class="ltitle">省市区域：</span>
+            <em class="vinputupdate_em"> 
+                        {{customerUpdate.province_city_name}}
+                    </em>
+        </div>
+        <div class="part">
+            <span class="ltitle">气候区：</span>
+            <em class="vinputupdate_em"> 
+                            {{customerUpdate.climate_zone_name}}
+                        </em>
+        </div>
+        <div class="part">
+            <span class="ltitle">城市发展水平：</span>
+            <em class="vinputupdate_em"> 
+                                {{customerUpdate.urban_devp_lev_name}}
+                            </em>
+        </div>
+        <div class="part">
+            <span class="ltitle">经度：</span>
+            <vinputupdate v-bind:set='setCustomerUpdate.bind(this, "longitude") ' v-bind:updatevalue='setvalue.bind(this, "longitude") ' v-bind:value='customerUpdate.longitude ' v-bind:type=' "number" ' v-bind:placeholder=' "请输入数字" '></vinputupdate>
+        </div>
+        <div class="part">
+            <span class="ltitle">纬度：</span>
+            <vinputupdate v-bind:set='setCustomerUpdate.bind(this, "latitude") ' v-bind:updatevalue='setvalue.bind(this, "latitude") ' v-bind:value='customerUpdate.latitude ' v-bind:type=' "number" ' v-bind:placeholder=' "请输入数字" '></vinputupdate>
+        </div>
+        <div class="part">
+            <span class="ltitle">海拔：</span>
+            <vinputupdate v-bind:set='setCustomerUpdate.bind(this, "altitude") ' v-bind:updatevalue='setvalue.bind(this, "altitude") ' v-bind:value='customerUpdate.altitude ' v-bind:type=' "number" ' v-bind:placeholder=' "请输入数字" '></vinputupdate>
+        </div>
+    </li>
+    <li class="paragraph">
+        <p class="title">建筑信息</p>
+        <!-- =========================编辑列表Start=========================== -->
+        <div v-for="(item,index) in customerUpdate.build_list" class="insert_build_box">
+            <p class="build_row">
+                <span class="ltitle">本地名称：</span>
+                <vinputupdate v-bind:maxlength=' "6" ' v-bind:set='updateBuildByIndex.bind(this,index,"build_local_name",false)' v-bind:updatevalue='updateBuildByIndex.bind(this,index,"build_local_name",true)' v-bind:value='item.build_local_name' v-bind:type='"font" '
+                    v-bind:placeholder=' "请输入本地名称" '></vinputupdate>
+                <!-- <span class="vinputtext_p">
+                    <input type="text" v-model='item.build_local_name' placeholder="请输入本地名称" class="vinputtext_input">
+                </span> -->
+            </p>
+            <p class="build_row">
+                <span class="ltitle">建筑年代：</span>
+                <vinputupdate v-bind:maxlength=' "6" ' v-bind:set='updateBuildByIndex.bind(this,index,"build_age",false)' v-bind:updatevalue='updateBuildByIndex.bind(this,index,"build_age",true)' v-bind:value='item.build_age' v-bind:type='"font" ' v-bind:placeholder=' "请输入建筑年代" '></vinputupdate>
+            </p>
+            <span class="build_row">
+                <span class="ltitle">建筑功能类型：</span>
+            <span class="build">
+                    <!-- <pcombobox-normal id="'UpdatedevelopLevelId'+index" bind='true' sel="selUpdatebuildingType">
+                        <header placeholder="选择市内区域"></header>
+                        <item datasource='buildingTypeList' text='name'></item>
+                    </pcombobox-normal> -->
+
+                        <div class="vinputupdate_div">
+                                <span class="vinputtext_p" v-show='item.isShowIDE'>
+                                        <pcombobox-normal id="'UpdatedevelopLevelId'+index" bind='true' sel="selUpdatebuildingType">
+                                                <header placeholder="请选择建筑功能类型"></header>
+                                                <item datasource='buildingTypeList' text='name'></item>
+                                            </pcombobox-normal>
+                                </span>
+            <p class="vinputupdate_block" v-show='item.isShowIDE'>
+                <input type="button" value="确定" class="vinputupdate_submit" @click='_clickSubmitBuild(index)'>
+                <input type="button" value="取消" class="vinputupdate_cancel" @click='_clickCancelBuild(index)'>
+            </p>
+            <p class="vinputupdate_p" v-show='!item.isShowIDE'>
+                <em class="vinputupdate_em" v-text='item.build_func_type_name'></em>
+                <span class="vinputupdate_icon" @click='_clickShowBuild(index,"isShowIDE",true)'>e</span>
+            </p>
+        </div>
+
+        </span>
+        </span>
+</div>
+<!-- ==========================编辑列表End========================== -->
+
+<div v-for="(item,index) in insertBuildList" class="insert_build_box insert_new_build_box">
+    <p class="build_row">
+        <span class="ltitle">本地名称：</span>
+        <span class="vinputtext_p">
+            <input type="text" v-model='item.build_local_name' placeholder="请输入本地名称" class="vinputtext_input">
+        </span>
+    </p>
+    <p class="build_row">
+        <span class="ltitle">建筑年代：</span>
+        <span class="vinputtext_p">
+            <input type="text" v-model='item.build_age' placeholder="请输入本地名称" class="vinputtext_input">
+        </span>
+    </p>
+    <span class="build_row">
+                            <span class="ltitle">建筑类型：</span>
+    <span class="build" style="margin-top:7px">
+                            <pcombobox-normal id="'insertBuildListId'+index" bind='true' sel="selinsertBuildType">
+                                <header placeholder="选择市内区域"></header>
+                                <item datasource='buildingTypeList' text='name'></item>
+                            </pcombobox-normal>
+    </span>
+    </span>
+    <p class="build_row center">
+        <span class="bsubmit" @click.capture='_clickAddBuildSubmit(index)'>
+                <pbutton-blue text="确定"></pbutton-blue>
+        </span>
+        <span class="bcancel" @click.capture='_clickAddBuildCancel(index)'>
+                <pbutton-white text="取消"></pbutton-white>
+        </span>
+    </p>
+</div>
+<p class="addbuild" @click='addBuildUpdate '>
+    添加建筑物+
+</p>
+</li>
+</ul>
+</div>
+</div>
+</div>

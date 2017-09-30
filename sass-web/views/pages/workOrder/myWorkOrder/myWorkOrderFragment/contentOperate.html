@@ -1,0 +1,314 @@
+<div class="content-prev">
+    <div class="prev-title">
+        <div class="title-tip-div">
+            <span>标准作业操作内容</span>
+        </div>
+        <div class="edit-clear-div">
+            <div class="edit-div" v-show="myWorkOrderModel.editBtn">
+                <pbutton-white text="编辑" icon="e" isborder="false" click="yn_method.editable"></pbutton-white>
+            </div>
+            <div class="clear-div" v-show="!myWorkOrderModel.editBtn">
+                <img src="../images/clear_03.png" alt="清空图标"/>
+                <pbutton-white text="清空"  isborder="false" click="yn_method.delBubbleShow"></pbutton-white>
+            </div>
+            <!-- 清空按钮弹窗 -->
+            <pwindow-bubble>
+                <button>
+                    <pbutton-blue text="删除" click="yn_method.clearAll"></pbutton-blue>
+                    <pbutton-white text="取消" click="yn_method.delBubbleHide"></pbutton-white>
+                </button>
+            </pwindow-bubble>
+        </div>
+    </div>
+    <div class="prev-body">
+        <div class="slide-div operate">
+            <div class="textarea-div">
+                <textarea  v-model="workContent.content" @blur="blurContentItem" @input="counterNum"></textarea>
+                <div class="obj-fragment-div">
+                    <span class="aite-btn">@对象/部件/工具</span>
+                </div>
+                <div class="textareadiv"></div>
+                <div class="textarea-prop" >
+                    <% include aite.html %>
+                    <% include hashtag.html %>
+                    <!--<div class="aite-bubble" v-show="myWorkOrderModel.aite">
+                        <div class="aite-title" >
+                            <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)"/>
+                            <span>请选择</span>
+                        </div>
+                        <div class="aite-body">
+                            &lt;!&ndash;无复选、搜索&ndash;&gt;
+                            <div class="none-both" v-show="true">
+                                <div class="aite-list"  onclick="controller.queryBuild(this)">
+                                    <div>
+                                        <span>建筑体</span>
+                                    </div>
+                                </div>
+                                <div class="aite-list" onclick="controller.queryFloor(this,true)">
+                                    <div>
+                                        <span>楼层</span>
+                                    </div>
+                                </div>
+                                <div class="aite-list" onclick="controller.queryFloor(this,false)">
+                                    <div>
+                                        <span>空间</span>
+                                    </div>
+                                </div>
+                                <div class="aite-list" onclick="controller.querySystem(this,true)">
+                                    <div>
+                                        <span>系统</span>
+                                    </div>
+                                </div>
+                                <div class="aite-list" onclick="controller.queryBuildFloorSpaceTree(this)">
+                                    <div>
+                                        <span>设备</span>
+                                    </div>
+                                </div>
+                            </div>
+                            &lt;!&ndash;树1-3级，专业、系统搜索、复选&ndash;&gt;
+                            <div class="both-all" v-show="false">
+                                <div class="system-major" v-show="myWorkOrderModel.curObjType=='equip'">
+                                    <div>
+                                        <span>添加筛选条件:</span>
+                                    </div>
+                                    <pcombobox-normal isborder="false" bind="true" sel="controller.querySystemForSystemDomain">
+                                        <header placeholder="专业"></header>
+                                        <item datasource="myWorkOrderModel.domainList" text="name"></item>
+                                    </pcombobox-normal>
+                                    <div>+</div>
+                                    <pcombobox-normal isborder="false" bind="true">
+                                        <header placeholder="系统"></header>
+                                        <item datasource="myWorkOrderModel.systemList" text="system_name"></item>
+                                    </pcombobox-normal>
+                                </div>
+                                <div class="tree-body">
+                                    &lt;!&ndash;<div class="tree-box">
+                                        <ptree-normal bind="true" datasource="treeList">
+                                            <item  text="name" issearch="false" child="child"></item>
+                                        </ptree-normal>
+                                    </div>
+                                    <div class="last-level-box">
+                                        <div class="aite-list">
+                                            <div>
+                                                <span>建筑体</span>
+                                            </div>
+                                            <div>
+                                                <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                                &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                                &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                                            </div>
+                                        </div>
+                                    </div>&ndash;&gt;
+                                    <div class="tree-body" :class="{'equip-trees':myWorkOrderModel.curObjType=='equip'}">
+                                        <div class="tree-box">
+                                            <ptree-normal bind="true" datasource="myWorkOrderModel.leftLevel" sel="yn_method.clickLeftItem">
+                                                <item  text="obj_name" issearch="false"  child="content"></item>
+                                            </ptree-normal>
+                                        </div>
+                                        <div class="last-level-box">
+                                            <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="(obj,index) in myWorkOrderModel.lastLevel">
+                                                <div :title="obj.obj_name">
+                                                    <span v-text="obj.obj_name">建筑体</span>
+                                                </div>
+                                                <div>
+                                                    <pswitch-checkbox bind="true" id="obj.obj_id"></pswitch-checkbox>
+                                                    &lt;!&ndash;<div class="pcheckbox" @click="$root.checkObject(obj, index,event)">
+                                                        <span class="pcheckbox_input" :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
+                                                        <span class="pswitch_label"></span>
+                                                    </div>&ndash;&gt;
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           &lt;!&ndash; 左侧1级，无专业、系统搜索，右侧复选
+                            <div class="both-all-common" v-show="false">
+                                <div class="tree-body">
+                                    <div class="tree-box">
+                                        <ptree-normal bind="true" datasource="myWorkOrderModel.leftLevel" sel="yn_method.clickLeftItem">
+
+                                            <item  text="obj_name" issearch="false"  child="content"></item>
+                                        </ptree-normal>
+                                    </div>
+                                    <div class="last-level-box">
+                                        <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="obj in myWorkOrderModel.lastLevel">
+                                            <div :title="obj.obj_name">
+                                                <span v-text="obj.obj_name">建筑体</span>
+                                            </div>
+                                            <div>
+                                                <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                                &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                                &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>&ndash;&gt;
+                            &lt;!&ndash;无级别 只有复选&ndash;&gt;
+                            <div class="only-checkbox" v-show="false">
+                                <div class="aite-list" v-for="item in myWorkOrderModel.buildList">
+                                    <div :title="item.obj_name">
+                                        <span v-text="item.obj_name"></span>
+                                    </div>
+                                    <div>
+                                        <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                        &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                        &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                                    </div>
+                                </div>
+                            </div>
+                            &lt;!&ndash;及时搜索，只有复选&ndash;&gt;
+                            <div class="timely-checkbox" v-show="false">
+                                <div class="aite-list">
+                                    <div>
+                                        <p><span>空间1</span></p>
+                                        <p><em>建筑1 > 2层空调 > 空调供暖系统001</em></p>
+                                    </div>
+                                    <div>
+                                        <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                        &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                        &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                                    </div>
+                                </div>
+                            </div>
+                            &lt;!&ndash;自定义&ndash;&gt;
+                            <div class="customize" v-show="false">
+                                <div class="customize-tips">
+                                    <span>未找到相关内容，您输入的内容将被添加为自定义</span>
+                                </div>
+                                <div class="belong">
+                                    <div class="belong-title">
+                                        <h4>所属类别</h4>
+                                    </div>
+                                    <div class="belong-category">
+                                        <div class="category">
+                                            <span>对象</span>
+                                        </div>
+                                        <div class="category">
+                                            <span>部件</span>
+                                        </div>
+                                        <div class="category">
+                                            <span>工具</span>
+                                        </div>
+                                        <div class="category">
+                                            <span>其他</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="aite-footer">
+                            <pbutton-white text="自定义"></pbutton-white>
+                            <pbutton-blue text="确定" disabled="true"></pbutton-blue>
+                        </div>
+                    </div>
+                    <div class="hashtag-bubble" v-show="!myWorkOrderModel.aite">
+                        <div class="hashtag-sop">
+                            <div class="sop-header">
+                                <span>选择SOP</span>
+                                <div class="sop-header-btn">
+                                    <span onclick="yn_method.unfold(this,true)">筛选</span>
+                                    <span onclick="yn_method.unfold(this,false)">收起</span>
+                                </div>
+                            </div>
+                            <div class="sop-body">
+                                <div class="sop-list" v-show="myWorkOrderModel.sopList.length">
+                                    <div class="aite-list" v-for="(sop, index) in myWorkOrderModel.sopList" :index="index">
+                                        <div>
+                                            <span v-text="sop.sop_name" @click="detailSop(sop,$event)"></span>
+                                        </div>
+                                        <div>
+                                            <pswitch-checkbox bind="true"
+                                                              id="sop.sop_id"></pswitch-checkbox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="sop-nodata" v-show="!myWorkOrderModel.sopList.length">
+                                    <div class="image-div">
+                                        <img src="../images/nodata.png" alt="暂无内容"/>
+                                        <p>哎呀，什么都没找到！</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="sop-footer">
+                                <pbutton-blue text="确定" disabled="true" id="able-btn" click="yn_method.enterSop"></pbutton-blue>
+                            </div>
+                        </div>
+                        <div class="hashtag-filter">
+                            <div class="sop-header">
+                                <span>筛选条件</span>
+                                <div class="sop-header-btn">
+                                    <span @click="selAllTags()">清空已选</span>
+                                    <span @click="toQuerySopListForSel(false,$event)">确定</span>
+                                </div>
+                            </div>
+                            <div class="filter-body">
+                                <div class="filter-box">
+                                    <div class="filter-div" v-show="myWorkOrderModel.sopCriteria.brands && myWorkOrderModel.sopCriteria.brands.length">
+                                        <div class="filter-type">
+                                            <span>品牌:</span>
+                                        </div>
+                                        <div class="filter-name">
+                                            <div class="filter-all">
+                                                <span class="sel-all" id="all_brands">全部</span>
+                                            </div>
+                                            <div class="filter-other">
+                                                <span v-for="item in myWorkOrderModel.sopCriteria.brandsArr" v-text="item.name"  @click="selBrand(item, $event)" :class="item.selected ? 'sel-span' : ''">品牌1</span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="filter-div" v-show="myWorkOrderModel.sopCriteria.order_type && myWorkOrderModel.sopCriteria.order_type.length">
+                                        <div class="filter-type">
+                                            <span>工单类型:</span>
+                                        </div>
+                                        <div class="filter-name">
+                                            <div class="filter-all">
+                                                <span class="sel-all" id="all_order_type">全部</span>
+                                            </div>
+                                            <div class="filter-other">
+                                                <span v-for="item in myWorkOrderModel.sopCriteria.order_type" v-text="item.name" @click="selOrderType(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="filter-div" v-show="myWorkOrderModel.sopCriteria.fit_objs && myWorkOrderModel.sopCriteria.fit_objs.length">
+                                        <div class="filter-type">
+                                            <span>适用对象:</span>
+                                        </div>
+                                        <div class="filter-name">
+                                            <div class="filter-all">
+                                                <span class="sel-all" id="all_fit_objs">全部</span>
+                                            </div>
+                                            <div class="filter-other">
+                                                <span v-for="item in myWorkOrderModel.sopCriteria.fit_objs" v-text="item.obj_name" @click="selFitObj(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="filter-div" v-show="myWorkOrderModel.sopCriteria.labels && myWorkOrderModel.sopCriteria.labels.length">
+                                        <div class="filter-type">
+                                            <span>自定义:</span>
+                                        </div>
+                                        <div class="filter-name">
+                                            <div class="filter-all">
+                                                <span class="sel-all" id="all_labels">全部</span>
+                                            </div>
+                                            <div class="filter-other">
+                                                <span v-for="item in myWorkOrderModel.sopCriteria.labelsArr" v-text="item.name" @click="selLabel(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

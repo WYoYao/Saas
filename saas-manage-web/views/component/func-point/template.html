@@ -1,0 +1,124 @@
+<script type="text/x-template" id="funcTemplate">
+    <li>
+        <div class="ftitle" v-on:click="funcLiSel($event,finfo)" ftype="show" v-bind:class="{'pitch':finfo.isSel,'disClass':finfo.isAdd}">
+    <span class="arrow" v-on:click="funcArrowClick" v-bind:style="{display:isFolder?'block':'none'}">b</span>
+    <span v-text="finfo.func_name"></span>
+    <span class="sel">Z</span>
+    </div>
+        <ul class="fcont">
+            <func-point v-for="citem in finfo.child" :finfo="citem"></func-point>
+        </ul>
+    </li>
+</script>
+
+<script>
+    Vue.component('func-point', {
+        template: '#funcTemplate',
+        props: ['finfo'],
+        computed: {
+            isFolder: function () {
+                return this.finfo.child && this.finfo.child.length > 0;
+            }
+        },
+        watch: {
+        },
+        methods: {
+            funcArrowClick: function (event) {
+                event.stopPropagation();
+                var $farrow = $(event.currentTarget);
+                var $ftitle = $farrow.parent(".ftitle");
+                if ($ftitle.attr('ftype') == 'show') { //展开状态
+                    $ftitle.siblings(".fcont").slideUp();
+                    $farrow.text('r');
+                    $ftitle.attr('ftype', 'close');
+                } else {
+                    $ftitle.siblings(".fcont").slideDown();
+                    $farrow.text('b');
+                    $ftitle.attr('ftype', 'show');
+                }
+            },
+            funcLiSel: function (event, item) {
+                event.stopPropagation();
+                var $thisFunc = $(event.currentTarget);
+                var $parentTree = $thisFunc.parents(".mangeTreeList");
+                if ($parentTree.hasClass("checkTreeList")) {//查看
+                    return;
+                }
+                if ($parentTree.hasClass("allTreeList") && item.isAdd) {//非查看 但是已经添加的
+                    return;
+                }
+                if ($parentTree.hasClass("allTreeList")) {
+                    allTreeSgin = true;//右边的全部树
+                } else {
+                    allTreeSgin = false;
+                }
+                if (item.isSel) {
+                    item.isSel = false;
+                    var itemChilds = item.child || [];
+                    itemChilds.forEach(function (ele) {
+                        setChildCancel(ele);//取消孩子
+                    });
+                    var itemParent = findFuncById(item.parent_id);
+                    if (itemParent) { setParentCancel(itemParent); }//取消父亲
+                } else {
+                    item.isSel = true;
+                    var itemChilds = item.child || [];
+                    itemChilds.forEach(function (ele) {
+                        setChildSel(ele);//选中孩子
+                    });
+                    var itemParent = findFuncById(item.parent_id);
+                    if (itemParent) { setParentSel(itemParent); }//选中父亲
+                }
+
+            },
+        }
+    });
+    var allTreeSgin = true;
+    function setChildSel(fpoint) {//选中孩子
+        if (allTreeSgin) {
+            fpoint.isSel = true;
+        } else {
+            fpoint.isAdd && (fpoint.isSel = true);
+        }
+        var fchildren = fpoint.child || [];
+        for (var m = 0; m < fchildren.length; m++) {
+            setChildSel(fchildren[m]);
+        }
+        return;
+    }
+    function setChildCancel(fpoint) {//取消孩子
+        fpoint.isSel = false;
+        var fchildren = fpoint.child || [];
+        for (var m = 0; m < fchildren.length; m++) {
+            setChildCancel(fchildren[m]);
+        }
+        return;
+    }
+
+    function setParentCancel(fpoint) {//取消选中
+        if (allTreeSgin) {
+            var selChild = fpoint.child.filter(function (ele) { return !ele.isSel });
+        } else {
+            var selChild = fpoint.child.filter(function (ele) { return !ele.isSel && ele.isAdd });
+        }
+        if (selChild.length > 0) {
+            fpoint.isSel = false;
+        }
+        if (fpoint.parent_id == 0) { return; }
+        var grandParen = findFuncById(fpoint.parent_id);
+        setParentCancel(grandParen);
+    }
+    function setParentSel(fpoint) {//选中父亲
+        if (allTreeSgin) {
+            var selChild = fpoint.child.filter(function (ele) { return !ele.isSel });
+        } else {
+            var selChild = fpoint.child.filter(function (ele) { return !ele.isSel && ele.isAdd });
+        }
+        if (selChild.length == 0) {
+            fpoint.isSel = true;
+        }
+        if (fpoint.parent_id == 0) { return; }
+        var grandParen = findFuncById(fpoint.parent_id);
+        setParentSel(grandParen);
+    }
+</script>

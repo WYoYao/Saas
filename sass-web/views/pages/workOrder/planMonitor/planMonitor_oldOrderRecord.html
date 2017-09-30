@@ -1,0 +1,41 @@
+<div id="planMonitor_oldRecord_bg" v-if="curPage == pages[3]">
+    <div class="planMonitor_oldRecord_box">
+        <div class="planMonitor_oldRecord_page">
+            <div class="planMonitor_oldRecord_page_top">
+                <div class="planMonitor_oldRecord_page_back">
+                    <pbutton-white @click="oldRecordGoBack()" bind='true' text="'返回'"></pbutton-white>
+                </div>
+                <div class="planMonitor_oldRecord_page_title">
+                    <span>过去发出的工单记录</span>
+                </div>
+            </div>
+            <div class="planMonitor_oldRecord_page_search">
+                <div class="planMonitor_oldRecord_page_select">
+                    <pcombobox-normal bind="true" sel="methods.choiceOrderFn(model,event)">
+                        <header prefix="工单状态：" placeholder="工单状态：全部"></header>
+                        <item datasource="model.orderStateList" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+            </div>
+            <div class="planMonitor_oldRecord_page_list">
+                <div class="planMonitor_oldRecord_page_list_tit">
+                    <ul>
+                        <li>操作人</li>
+                        <li>实际开始时间</li>
+                        <li>实际结束时间</li>
+                        <li>工单状态</li>
+                    </ul>
+                </div>
+                <div class="planMonitor_oldRecord_page_list_box">
+                    <ul v-for="item in oldOrderList">
+                        <li v-text="item.participants">张三</li>
+                        <li v-text="item.create_time">2017.05.01 08:00</li>
+                        <li v-text="item.close_time">2017.05.01 08:00</li>
+                        <li v-text="item.order_state_name">执行中</li>
+                    </ul>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,462 @@
+/* 头部添加按钮模块 */
+
+.module_authority {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 20px 10px 0;
+    box-sizing: border-box;
+}
+
+    .module_authority .authority_manage_header {
+        height: 50px;
+        background: #eaeef0;
+        border-top: 1px solid #d9e2e8;
+        border-bottom: 1px solid #d9e2e8;
+        box-sizing: border-box;
+    }
+
+        .module_authority .authority_manage_header .insert_btn {
+            float: right;
+            margin-top: 10px;
+            margin-right: 20px;
+        }
+
+
+    /* 列表内容部分 */
+
+    .module_authority .authority_manage_content {
+        font-size: 14px;
+        height: -moz-calc(100% - 50px);
+        height: -webkit-calc(100% - 50px);
+        height: calc(100% - 50px);
+        position: relative;
+    }
+
+        .module_authority .authority_manage_content .listHead {
+            color: #000000;
+            overflow: hidden;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+            .module_authority .authority_manage_content .listHead li span {
+                float: left;
+                height: 31px;
+                line-height: 32px;
+                text-align: left;
+                padding-left: 20px;
+                box-sizing: border-box;
+            }
+
+        .module_authority .authority_manage_content .listCont {
+            overflow-y: auto;
+            color: #333333;
+            height: -moz-calc(100% - 30px);
+            height: -webkit-calc(100% - 30px);
+            height: calc(100% - 30px);
+            position: relative;
+        }
+
+            .module_authority .authority_manage_content .listCont li {
+                cursor: pointer;
+                overflow: hidden;
+            }
+
+
+
+                .module_authority .authority_manage_content .listCont li:nth-child(2n) {
+                    background: #ffffff;
+                }
+
+                .module_authority .authority_manage_content .listCont li:nth-child(2n+1) {
+                    background: #f5f7fa;
+                }
+
+                .module_authority .authority_manage_content .listCont li:hover {
+                    background: #f8f8f8;
+                }
+
+                .module_authority .authority_manage_content .listCont li span {
+                    float: left;
+                    height: 36px;
+                    line-height: 36px;
+                    text-align: left;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    padding-left: 20px;
+                    box-sizing: border-box;
+                }
+
+        .module_authority .authority_manage_content .list li span:nth-child(1) {
+            width: 40%;
+        }
+
+        .module_authority .authority_manage_content .list li span:nth-child(2) {
+            width: 60%;
+        }
+
+.opera_module_mange .authority_manage_content .list li span:nth-child(1) {
+    width: 24%;
+}
+
+.opera_module_mange .authority_manage_content .list li span:nth-child(2) {
+    width: 23%;
+}
+
+.opera_module_mange .authority_manage_content .list li span:nth-child(3) {
+    width: 35%;
+}
+
+.opera_module_mange .authority_manage_content .list li span:nth-child(4) {
+    width: 18%;
+}
+
+.authority_check {
+    width: 456px;
+    padding: 40px 40px 30px;
+    box-sizing: border-box;
+    height: 100%;
+    overflow-y: auto;
+}
+
+    .authority_check ul.authInfo li,
+    .authority_mange_edit ul.authInfo li {
+        margin-bottom: 30px;
+    }
+
+    .authority_check p,
+    .authority_mange_edit p {
+        font-size: 14px;
+        color: #4f4f4f;
+        line-height: 24px;
+        position: relative;
+    }
+
+        .authority_mange_edit p em {
+            position: absolute;
+            top: 4px;
+            left: -14px;
+            font-size: 18px;
+            color: #4aab9a;
+        }
+
+
+.authority_mange_edit {
+    width: 830px;
+    padding: 40px 40px 30px;
+    box-sizing: border-box;
+}
+
+    .authority_mange_edit::after {
+        content: '.';
+        display: inline-block;
+        clear: both;
+        visibility: hidden;
+    }
+
+    .authority_mange_edit input.packName {
+        width: 750px;
+        height: 30px;
+        border: 1px solid #cacaca;
+        line-height: 20px;
+        font-size: 12px;
+    }
+
+    .authority_mange_edit textarea.packExplain {
+        width: 750px;
+        height: 90px;
+        resize: none;
+        line-height: 20px;
+        font-size: 12px;
+        padding: 6px 10px 0 10px;
+        border: 1px solid #cacaca;
+    }
+
+    .authority_mange_edit .powerCont {
+        width: 280px;
+        float: left;
+    }
+
+    .authority_mange_edit .powerButton {
+        width: 130px;
+        padding-top: 212px;
+        margin-left: 30px;
+        margin-right: 30px;
+        float: left;
+    }
+
+        .authority_mange_edit .powerButton .buttonBlueDiv {
+            width: 130px;
+            margin-bottom: 10px;
+        }
+
+        .authority_mange_edit .powerButton .addButton span {
+            margin-right: 12px;
+            font-family: "perficon";
+        }
+
+        .authority_mange_edit .powerButton .delButton span {
+            margin-left: 12px;
+            font-family: "perficon";
+        }
+
+.authority_manage .authority_add {
+    position: absolute;
+    top: 20px;
+    left: 10px;
+    right: 10px;
+    bottom: 0px;
+    width: auto;
+    background: #ffffff;
+    z-index: 1;
+    padding: 0;
+    border: 1px solid #d9e2e8;
+}
+
+    .authority_manage .authority_add .add_header {
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 18px;
+        border-bottom: 1px solid #d9e2e8;
+        padding: 0 20px;
+    }
+
+        .authority_manage .authority_add .add_header .back_button {
+            float: left;
+        }
+
+        .authority_manage .authority_add .add_header .save_button {
+            float: right;
+        }
+
+    .authority_manage .authority_add .add_wrap {
+        height: -moz-calc(100% - 50px);
+        height: -webkit-calc(100% - 50px);
+        height: calc(100% - 50px);
+        overflow-y: auto;
+    }
+
+    .authority_manage .authority_add .add_cont {
+        width: 750px;
+        margin: 0 auto;
+        padding-top: 30px;
+    }
+
+        .authority_manage .authority_add .add_cont::after {
+            content: '.';
+            display: inline-block;
+            clear: both;
+            visibility: hidden;
+        }
+
+.mangeTreeList {
+    border: 1px solid #d0d0d0;
+    width: 280px;
+    height: 495px;
+    box-sizing: border-box;
+    overflow-y: auto;
+}
+
+    .mangeTreeList .ftitle {
+        font-size: 14px;
+        color: #4f4f4f;
+        height: 41px;
+        border-bottom: 1px solid #dcdcdc;
+        line-height: 41px;
+        box-sizing: border-box;
+        cursor: pointer;
+        padding-left: 40px;
+        padding-right: 40px;
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+        .mangeTreeList .ftitle:hover {
+            background: #f8f8f8;
+        }
+
+    .mangeTreeList li li .ftitle {
+        padding-left: 60px;
+    }
+
+    .mangeTreeList li li li .ftitle {
+        padding-left: 80px;
+    }
+
+    .mangeTreeList li li li li .ftitle {
+        padding-left: 100px;
+    }
+
+    .mangeTreeList .ftitle .arrow {
+        font-family: 'perficon';
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        position: absolute;
+        top: 9px;
+        margin-left: -30px;
+        color: #637e99;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 100%;
+        box-sizing: border-box;
+        border: 1px solid transparent;
+    }
+
+        .mangeTreeList .ftitle .arrow:hover {
+            border: 1px solid #cacaca;
+        }
+
+    .mangeTreeList .ftitle .sel {
+        font-family: 'perficon';
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        position: absolute;
+        top: 11px;
+        right: 10px;
+        text-align: center;
+        cursor: pointer;
+        color: #ffffff;
+        background: #cacaca;
+        border-radius: 100%;
+    }
+
+    .mangeTreeList .ftitle.pitch .sel {
+        background: #7a94ad;
+    }
+
+.checkTreeList .ftitle {
+    cursor: default;
+    display: none;
+}
+
+    .checkTreeList .ftitle.disClass {
+        display: block;
+    }
+
+    .checkTreeList .ftitle .sel {
+        display: none;
+    }
+
+.allTreeList .ftitle.disClass {
+    cursor: default;
+}
+
+    .allTreeList .ftitle.disClass .sel {
+        display: none;
+    }
+
+.containTreeList .ftitle {
+    display: none;
+}
+
+    .containTreeList .ftitle.disClass {
+        display: block;
+    }
+
+.module_manage_edit .mangeTreeList {
+    width: 100%;
+    height: 162px;
+    border-top: none;
+    border-bottom: none;
+}
+
+    .module_manage_edit .mangeTreeList .ftitle {
+        padding-left: 20px;
+    }
+
+.module_manage_edit {
+    width: 560px;
+    padding-bottom: 30px;
+}
+
+    .module_manage_edit .edit_cont {
+        padding: 40px 90px 0;
+        overflow-y: auto;
+        min-height: 300px;
+        max-height: 490px;
+        margin-bottom: 40px;
+    }
+
+        .module_manage_edit .edit_cont .group_title {
+            position: relative;
+            color: #333333;
+            font-size: 14px;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+            .module_manage_edit .edit_cont .group_title em {
+                position: absolute;
+                top: 2px;
+                left: -14px;
+                font-size: 18px;
+                color: #4aab9a;
+            }
+
+            .module_manage_edit .edit_cont .group_title p {
+                font-size: 12px;
+                color: #6d6d6d;
+                margin-top: 10px;
+            }
+
+        .module_manage_edit .edit_cont .group_input {
+            margin-bottom: 40px;
+        }
+
+        .module_manage_edit .edit_cont .group_cont .listTitle {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid #d0d0d0;
+            box-sizing: border-box;
+            color: #637e99;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .module_manage_edit .edit_cont .group_cont .sureButton {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            border: 1px solid #d0d0d0;
+            color: #637e99;
+        }
+
+        .module_manage_edit .edit_cont .group_cont .selectItem li {
+            height: 40px;
+            line-height: 40px;
+            background: #eaeef0;
+            padding-left: 10px;
+            padding-right: 32px;
+            margin-bottom: 6px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            position: relative;
+        }
+
+            .module_manage_edit .edit_cont .group_cont .selectItem li em {
+                position: absolute;
+                top: 0;
+                right: 10px;
+                font-family: "perficon";
+                font-size: 18px;
+                color: #7a94ad;
+                float: right;
+                cursor: pointer;
+            }
+
+    .module_manage_edit .edit_button {
+        text-align: center;
+        overflow: hidden;
+    }
+
+        .module_manage_edit .edit_button > div:first-of-type {
+            margin-right: 40px;
+        }

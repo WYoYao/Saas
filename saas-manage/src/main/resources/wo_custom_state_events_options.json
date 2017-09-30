@@ -1,0 +1,724 @@
+[
+	{
+        "option1_type": "1",           
+        "option1_code": "current_state",
+		"option1_name": "当前状态",
+        "logics": [
+			{
+				"logic_code": "is",
+				"logic_name": "等于"
+			},
+			{
+				"logic_code": "contain",
+				"logic_name": "包含"
+			}
+		],
+		"options": [],
+		"event_codes": [
+			"wo_publish",
+			"first_exec_receive",
+			"first_exec_feedback",
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]		
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "current_time",
+		"option1_name": "当前时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name":"要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"wo_publish",
+			"first_exec_receive",
+			"first_exec_feedback",
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+	},
+	{
+        "option1_type": "2",            
+        "option1_code": "publish_time",
+		"option1_name": "正式发出工单时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name":"要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"wo_publish",
+			"first_exec_receive",
+			"first_exec_feedback",
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "first_exec_receive_time",
+		"option1_name": "第一次被有执行操作的人接单时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name":"要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"first_exec_receive",
+			"first_exec_feedback",
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "first_exec_feedback_time",
+		"option1_name": "第一次更新执行进度时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name":"要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"first_exec_feedback",
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "finish_must_feedback_time",
+		"option1_name": "完成所有必反馈执行项时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name":"要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "finish_all_feedback_time",
+		"option1_name": "完成全部执行项时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name": "要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "wo_close_time",
+		"option1_name": "结束工单时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name": "要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"wo_close",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "wo_stop_time",
+		"option1_name": "中止工单时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name": "要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"wo_stop",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "first_apply_time",
+		"option1_name": "第一次申请时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name": "要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "first_audit_time",
+		"option1_name": "第一次审核完成时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name": "要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "last_apply_time",
+		"option1_name": "最新一次申请时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name": "要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "2",            
+        "option1_code": "last_audit_time",
+		"option1_name": "最新一次审核完成时间",
+        "logics": [
+			{
+				"logic_code": "lt",
+				"logic_name": "早于"
+			},
+			{
+				"logic_code": "gt",
+				"logic_name": "晚于"
+			}
+		],
+		"options": [
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name": "要求完成时间"
+				}
+			],
+		"operators": [
+			{
+				"operators_code": "+",
+				"operators_name": "+"
+			},
+			{
+				"operators_code": "-",
+				"operators_name": "-"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "3",            
+        "option1_code": "first_apply_reason",
+		"option1_name": "第一次申请原因",
+		"options": [
+			{
+				"option2_code": "apply_close",
+				"option2_name": "工作全部完成"
+			},
+			{
+				"option2_code": "apply_stop",
+				"option2_name": "工作中出现异常"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "3",            
+        "option1_code": "first_audit_result",
+		"option1_name": "第一次审核结果",
+		"options": [
+			{
+				"option2_code": "audit_pass",
+				"option2_name": "审核通过"
+			},
+			{
+				"option2_code": "audit_not_pass",
+				"option2_name": "审核不通过"
+			},
+			{
+				"option2_code": "audit_back",
+				"option2_name": "驳回继续处理"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "3",            
+        "option1_code": "last_apply_reason",
+		"option1_name": "最新一次申请原因",
+		"options": [
+			{
+				"option2_code": "apply_close",
+				"option2_name": "工作全部完成"
+			},
+			{
+				"option2_code": "apply_stop",
+				"option2_name": "工作中出现异常"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"apply_close",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+	{
+        "option1_type": "3",            
+        "option1_code": "last_audit_result",
+		"option1_name": "最新一次审核结果",
+		"options": [
+			{
+				"option2_code": "audit_pass",
+				"option2_name": "审核通过"
+			},
+			{
+				"option2_code": "audit_not_pass",
+				"option2_name": "审核不通过"
+			},
+			{
+				"option2_code": "audit_back",
+				"option2_name": "驳回继续处理"
+			}
+		],
+		"event_codes": [
+			"finish_must_feedback",
+			"finish_all_feedback",
+			"wo_close",
+			"wo_stop",
+			"audit_finish",
+			"auto_wo_running"
+		]
+    },
+    {
+        "option1_type": "4",            
+        "option1_code": "compute_bool",
+		"option1_name": "公式计算bool值",
+		"options": [
+			{
+				"option2_code": "current_time",
+				"option2_name": "当前时间"
+			},
+			{
+				"option2_code": "publish_time",
+				"option2_name": "正式发出工单时间"
+			},
+			{
+				"option2_code": "first_exec_receive_time",
+				"option2_name": "第一次被有执行操作的人接单时间"
+			},
+			{
+				"option2_code": "first_exec_feedback_time",
+				"option2_name": "第一次更新执行进度时间"
+			},
+			{
+				"option2_code": "finish_must_feedback_time",
+				"option2_name": "完成所有必反馈执行项时间"
+			},
+			{
+				"option2_code": "finish_all_feedback_time",
+				"option2_name": "完成全部执行项时间"
+			},
+			{
+				"option2_code": "wo_close_time",
+				"option2_name": "结束工单时间"
+			},
+			{
+				"option2_code": "wo_stop_time",
+				"option2_name": "中止工单时间"
+			},
+			{
+				"option2_code": "first_apply_time",
+				"option2_name": "第一次申请时间"
+			},
+			{
+				"option2_code": "first_audit_time",
+				"option2_name": "第一次审核完成时间"
+			},
+			{
+				"option2_code": "last_apply_time",
+				"option2_name": "最新一次申请时间"
+			},
+			{
+				"option2_code": "last_audit_time",
+				"option2_name": "最新一次审核完成时间"
+			},
+			{
+				"option2_code": "ask_start_time",
+				"option2_name": "要求开始时间"
+			},
+			{
+				"option2_code": "ask_end_time",
+				"option2_name": "要求完成时间"
+			}
+		],
+		"event_codes": [
+			"auto_wo_running"
+		]
+    }
+]

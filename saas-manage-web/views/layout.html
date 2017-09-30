@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Saas平台运营平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+
+    <script type="text/javascript" src="/js/index.js"></script>
+
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+    <link rel="stylesheet" href="/css/public/index.css">
+    <link rel="stylesheet" href="/css/public/reset.css" />
+    <script type="text/javascript">
+        $(function() {
+            var vue1 = new Vue({
+                el: '#div1',
+                data: {
+                    head: '头像地址',
+                    userName: '工程师',
+                    userMenu: ['退出'],
+                    menuItems: [{
+                        name: '项目管理',
+                        menu: [{
+                            id: '1',
+                            name: '项目信息管理',
+                            url: '/modulemanage'
+                        }]
+                    }, {
+                        name: '平台设置',
+                        menu: [{
+                            id: '2',
+                            name: '工单操作模块管理',
+                            url: '/platformsettings?index=0'
+                        }, {
+                            id: '3',
+                            name: '权限项管理',
+                            url: '/platformsettings?index=1'
+                        }, {
+                            id: '4',
+                            name: '动态模板管理',
+                            url: '/platformsettings?index=2'
+                        }]
+                    }]
+                }
+            });
+            Vue.nextTick(function() {
+                $('#pfnor').psel({
+                    groupIndex: 0,
+                    itemIndex: 0,
+                    subTitle: '项目信息管理',
+                    url: '/modulemanage'
+                });
+            });
+        });
+    </script>
+</head>
+
+<script>
+    var loginOut = function() {
+        pajax.loginOut()
+    }
+</script>
+
+
+<body>
+    <div id="div1">
+        <pframe-normal id="'pfnor'" title="'saas平台'">
+            <user head="head" name="userName">
+                <item datasource="userMenu" click="loginOut"></item>
+            </user>
+            <item datasource="menuItems" text="name" click="" child="menu" url="url">
+            </item>
+        </pframe-normal>
+    </div>
+</body>
+
+</html>

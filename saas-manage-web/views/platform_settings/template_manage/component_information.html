@@ -1,0 +1,51 @@
+<div id="componentInformation" class="componentInformation" v-show='onPageName=="componentInformation"'>
+    <div class="componentInformation_header">
+        <div class="back" @click='componentInformationBack'>
+            <pbutton-white text="返回"></pbutton-white>
+        </div>
+    </div>
+    <div class="componentInformation_content">
+        <div class="left">
+            <span :class='[componentInformationTab=="base"?"on":"","title"]' @click='getFilterListBase'>
+                原始组件说明
+            </span>
+            <span :class='[componentInformationTab=="godHand"?"on":"","title"]' @click='getFilterListGodHand'>
+                上帝之手组件
+            </span>
+            <span :class='[componentInformationTab=="saas"?"on":"","title"]' @click='getFilterListSaas'>
+                Sass平台组件
+            </span>
+            <span :class='[componentInformationTab=="app"?"on":"","title"]' @click='getFilterListApp'>
+                工单APP组件
+            </span>
+        </div>
+        <div class="right">
+            <div class="rightbox">
+                <div class="addlight">
+                    <div class="addbutton" @click='AddComponent'>
+                        <pbutton-blue text="新增"></pbutton-blue>
+                    </div>
+                </div>
+                <div class="Informationcontenter">
+                    <ul class="thead">
+                        <li>
+                            <span>组件编码</span>
+                            <span>组件名称</span>
+                            <span>说明</span>
+                        </li>
+                    </ul>
+                    <ul class="tbody" v-show='componentInformationShowList.length'>
+                        <li v-for='(item,index) in componentInformationShowList'>
+                            <span :title='item.cmpt_code'>{{item.cmpt_code}}</span>
+                            <span :title='item.cmpt_name'>{{item.cmpt_name}}</span>
+                            <span :title='item.description'>{{item.description}}</span>
+                        </li>
+                    </ul>
+                    <ul class="tbody" v-show='!componentInformationShowList.length'>
+                        <pnotice-nodata></pnotice-nodata>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Saas平台运营平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+    <!-- <script type="text/javascript" src="http://192.168.100.178:9001/pcontrol/flatBlueSeries_src_2.0.js"></script> -->
+
+    <script type="text/javascript" src="/js/tool/polyfill.js"></script>
+    <script type="text/javascript" src="/js/tool/lodash.min.js"></script>
+    <script type="text/javascript" src="/js/tool/promise.min.js"></script>
+    <script type="text/javascript" src="/js/tool/public.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+
+    <!-- <link rel="stylesheet" href="http://192.168.100.178:9001/pcontrol/css/flatBlueSeries_min_2.0.css" /> -->
+
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+    <link rel="stylesheet" href="/css/public/index.css">
+    <link rel="stylesheet" href="/css/public/reset.css" />
+</head>
+
+<body>
+    <!-- 导入组件 Start -->
+    <% include ../component/func-point/template.html %>
+        <% include ../component/func-point/widgetTemplate.html %>
+            <% include ../component/platform_settings/platform_settings.html %>
+                <% include ../component/relationship_edit/template.html %>
+                    <% include ../component/add_component/template.html %>
+                        <!-- 导入组件 End -->
+    <div class="sagaContent" id="component">
+        <ploading-part id="project_list_loading"></ploading-part>
+        <pnotice-message id="popNoticeWarn"></pnotice-message>
+        <!--平台设施选项卡  -->
+        <div class="platform_set" id="platformSet">
+            <% include ../platform_settings/platform_settings.html %>
+        </div>
+    </div>
+</body>
+
+</html>
+
+<script>
+    // // 创建Vue 实例
+
+    $(function() {
+        v.createVue();
+
+        // 测试项目管理页面
+        // v.initPage('authorityManage');
+        v.navigatorTo('authorityManage');
+
+        setTimeout(function() {
+            $("#navBar").psel(<%=index%>);
+        }, 0);
+    })
+
+    function tabClick(event) { //tab切换
+        var pEventAttr = event.pEventAttr;
+        if($("#authorityAdd").is(":visible")){
+            $("#authorityConfirm").pshow({ title: "确定要离开页面吗？", subtitle: "您编辑的信息尚未保存，离开会使内容丢失" });
+            authorityController.tagIndex=pEventAttr.index;
+            return false;
+        }
+        switch (pEventAttr.index) {
+            case 0:               
+                $("#moduleMange").show();
+                $("#authorityManage,#templateMange").hide();
+                $("#authorityAdd").css("display", "none");
+                authorityController.queryAllOperateModule();
+                authorityController.queryCustomerForNormal();
+                break;
+            case 1:        
+                $("#authorityManage").show();
+                $("#moduleMange,#templateMange").hide();
+                authorityController.getQueryAllFuncPack();
+                authorityController.queryFuncPointTree();
+                break;
+            case 2: 
+                $("#templateMange").show();
+                $("#moduleMange,#authorityManage").hide();
+                $("#authorityAdd").css("display", "none");
+                v.initPage('templateMange');
+                v.initPage('componentRelationship');
+                v.initPage('componentInformation');
+                break;
+        }
+    }
+</script>

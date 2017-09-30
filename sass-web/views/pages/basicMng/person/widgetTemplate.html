@@ -1,0 +1,84 @@
+<script type="text/html" id="role-check-float">
+    <div class="checkRoleCont addRoleCont" v-show="roleCheckSign">
+        <div class="roleItem">
+            <div class="nameTitle">角色名：</div>
+            <span>{{selRole.role_name}}</span>
+        </div>
+        <div class="roleItem">
+            <div class="nameTitle">角色包含权限项：</div>
+            <ul class="funcList">
+                <li v-for="fitem in selRole.func_pack_list">
+                    <span class="fname">{{fitem.func_pack_name}}</span>
+                    <span>{{fitem.description}}</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="editRoleCont addRoleCont" v-show="!roleCheckSign">
+        <div class="contWrap">
+            <div class="roleItem">
+                <div class="nameTitle"><span class="star">*</span>角色名：</div>
+                <div class="nameInput">
+                    <ptext-text placeholder="输入名称" id="editRoleInput">
+                    <verify errtip="不能为空" verifytype="space"><verify>
+                </ptext-text>
+                </div>
+            </div>
+            <div class="roleItem">
+                <div class="nameTitle"><span class="star">*</span>角色包含权限项：</div>
+                <ul class="funcList">
+                    <li v-for="fitem in funcPackList">
+                        <span class="fname" v-bind:class="{'on':fitem.issel}" v-on:click="funcItemClick(fitem)">{{fitem.func_pack_name}}</span>
+                        <span>{{fitem.description}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="buttonDiv">
+            <pbutton-blue text="保存" click="roleAddEditSave"></pbutton-blue>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="person-detail-float">
+    <div class="personDetail" v-show="perCheckSign">
+        <div class="remark" v-show="!workStateSign">该员工已离职，已不可再通过手机号登录平台进行操作</div>
+        <ul>
+            <li class="perItem">
+                <span class="pertitle">员工姓名：</span><span class="percont">{{selPerson.name}}</span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">身份证号：</span><span class="percont">{{selPerson.id_number}}</span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">手机号：</span><span class="percont">{{selPerson.phone_num}}</span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">性别：</span><span class="percont">{{selPerson.gender=='male'?'男':'女'}}</span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">出生年月：</span><span class="percont">{{selPerson.birthday}}</span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">员工编码：</span><span class="percont">{{!!selPerson.person_num?selPerson.person_num:'--'}}</span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">岗位：</span><span class="percont">{{!!selPerson.position?selPerson.position:'--'}}</span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">角色：</span><span class="percont"><em v-show="selPerson.role_array.length==0">--</em><em v-for="(item,index) in selPerson.role_array" v-show="selPerson.role_array.length>0">{{item.role_name}}<em v-show="index != selPerson.role_array.length-1">、</em></em></span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">专业：</span><span class="percont"><em v-show="selPerson.specialty_name.length==0">--</em><em v-for="(item,index) in selPerson.specialty_name" v-show="selPerson.specialty_name.length>0">{{item.name}}<em v-show="index != selPerson.specialty_name.length-1">、</em></em></span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">自定义标签：</span><span class="percont"><em v-show="selPerson.custom_tag.length==0">--</em><em v-for="(item,index) in selPerson.custom_tag" v-show="selPerson.custom_tag.length>0">{{item}}<em v-show="index != selPerson.custom_tag.length-1">、</em></em></span>
+            </li>
+            <li class="perItem">
+                <span class="pertitle">图片：</span><span class="percont"><img v-bind:src="!selPerson.id_photo?'/images/person.png':selPerson.id_photo" /><img v-bind:src="!selPerson.head_portrait?'/images/person.png':selPerson.head_portrait" /></span>
+            </li>
+        </ul>
+    </div>
+    <div class="perEditDetail addPerDetail" v-show="!perCheckSign" id="perEditDetail">
+        <% include personAdd.html %>
+    </div>
+</script>

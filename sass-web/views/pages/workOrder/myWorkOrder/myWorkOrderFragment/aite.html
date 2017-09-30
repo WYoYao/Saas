@@ -1,0 +1,172 @@
+<div class="aite-bubble" :class="{'click-aite':myWorkOrderModel.clickAiteShow}" v-show="myWorkOrderModel.aite">
+    <div class="aite-title" >
+        <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)"/>
+        <span>请选择</span>
+    </div>
+    <div class="aite-body">
+        <!--无复选、搜索-->
+        <div class="none-both" v-show="true">
+            <div class="aite-list"  onclick="controller.queryBuild(this)">
+                <div>
+                    <span>建筑体</span>
+                </div>
+            </div>
+            <div class="aite-list" onclick="controller.queryFloor(this,true)">
+                <div>
+                    <span>楼层</span>
+                </div>
+            </div>
+            <div class="aite-list" onclick="controller.queryFloor(this,false)">
+                <div>
+                    <span>空间</span>
+                </div>
+            </div>
+            <div class="aite-list" onclick="controller.querySystem(this,true)">
+                <div>
+                    <span>系统</span>
+                </div>
+            </div>
+            <div class="aite-list" onclick="controller.queryBuildFloorSpaceTree(this)">
+                <div>
+                    <span>设备</span>
+                </div>
+            </div>
+        </div>
+        <!--树1-3级，专业、系统搜索、复选-->
+        <div class="both-all" v-show="false">
+            <div class="system-major" v-show="myWorkOrderModel.curObjType=='equip'">
+                <div>
+                    <span>添加筛选条件:</span>
+                </div>
+                <pcombobox-normal isborder="false" bind="true" sel="controller.querySystemForSystemDomain">
+                    <header placeholder="专业"></header>
+                    <item datasource="myWorkOrderModel.domainList" text="name"></item>
+                </pcombobox-normal>
+                <div>+</div>
+                <pcombobox-normal isborder="false" bind="true">
+                    <header placeholder="系统"></header>
+                    <item datasource="myWorkOrderModel.systemList" text="system_name"></item>
+                </pcombobox-normal>
+            </div>
+            <div class="tree-body">
+                <!--<div class="tree-box">
+                    <ptree-normal bind="true" datasource="treeList">
+                        <item  text="name" issearch="false" child="child"></item>
+                    </ptree-normal>
+                </div>
+                <div class="last-level-box">
+                    <div class="aite-list">
+                        <div>
+                            <span>建筑体</span>
+                        </div>
+                        <div>
+                            <pswitch-checkbox bind="true"></pswitch-checkbox>
+                            &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                            &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                        </div>
+                    </div>
+                </div>-->
+                <div class="tree-body" :class="{'equip-trees':myWorkOrderModel.curObjType=='equip'}">
+                    <div class="tree-box">
+                        <ptree-normal bind="true" datasource="myWorkOrderModel.leftLevel" sel="yn_method.clickLeftItem">
+                            <item  text="obj_name" issearch="false"  child="content"></item>
+                        </ptree-normal>
+                    </div>
+                    <div class="last-level-box">
+                        <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="(obj,index) in myWorkOrderModel.lastLevel">
+                            <div :title="obj.obj_name">
+                                <span v-text="obj.obj_name">建筑体</span>
+                            </div>
+                            <div>
+                                <pswitch-checkbox bind="true" id="obj.obj_id"></pswitch-checkbox>
+                                <!--<div class="pcheckbox" @click="$root.checkObject(obj, index,event)">
+                                    <span class="pcheckbox_input" :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
+                                    <span class="pswitch_label"></span>
+                                </div>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 左侧1级，无专业、系统搜索，右侧复选
+         <div class="both-all-common" v-show="false">
+             <div class="tree-body">
+                 <div class="tree-box">
+                     <ptree-normal bind="true" datasource="myWorkOrderModel.leftLevel" sel="yn_method.clickLeftItem">
+
+                         <item  text="obj_name" issearch="false"  child="content"></item>
+                     </ptree-normal>
+                 </div>
+                 <div class="last-level-box">
+                     <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="obj in myWorkOrderModel.lastLevel">
+                         <div :title="obj.obj_name">
+                             <span v-text="obj.obj_name">建筑体</span>
+                         </div>
+                         <div>
+                             <pswitch-checkbox bind="true"></pswitch-checkbox>
+                             &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                             &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>-->
+        <!--无级别 只有复选-->
+        <div class="only-checkbox" v-show="false">
+            <div class="aite-list" v-for="item in myWorkOrderModel.buildList">
+                <div :title="item.obj_name">
+                    <span v-text="item.obj_name"></span>
+                </div>
+                <div>
+                    <pswitch-checkbox bind="true"></pswitch-checkbox>
+                    <!--<span class="pcheckbox_input"></span>-->
+                    <!--<span class="pswitch_label"></span>-->
+                </div>
+            </div>
+        </div>
+        <!--及时搜索，只有复选-->
+        <div class="timely-checkbox" v-show="false">
+            <div class="aite-list">
+                <div>
+                    <p><span>空间1</span></p>
+                    <p><em>建筑1 > 2层空调 > 空调供暖系统001</em></p>
+                </div>
+                <div>
+                    <pswitch-checkbox bind="true"></pswitch-checkbox>
+                    <!--<span class="pcheckbox_input"></span>-->
+                    <!--<span class="pswitch_label"></span>-->
+                </div>
+            </div>
+        </div>
+        <!--自定义-->
+        <div class="customize" v-show="false">
+            <div class="customize-tips">
+                <span>未找到相关内容，您输入的内容将被添加为自定义</span>
+            </div>
+            <div class="belong">
+                <div class="belong-title">
+                    <h4>所属类别</h4>
+                </div>
+                <div class="belong-category">
+                    <div class="category">
+                        <span>对象</span>
+                    </div>
+                    <div class="category">
+                        <span>部件</span>
+                    </div>
+                    <div class="category">
+                        <span>工具</span>
+                    </div>
+                    <div class="category">
+                        <span>其他</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="aite-footer">
+        <pbutton-white text="自定义"></pbutton-white>
+        <pbutton-blue text="确定" disabled="true"></pbutton-blue>
+    </div>
+</div>

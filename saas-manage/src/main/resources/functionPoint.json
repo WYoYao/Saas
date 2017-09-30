@@ -1,0 +1,77 @@
+[
+    {
+        "func_id": "10",
+        "func_name": "pc网页端",
+        "func_type": "1",
+        "child": [
+            {
+                "func_id": "1001",
+                "func_name": "人员管理",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1002",
+                "func_name": "设备管理",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1003",
+                "func_name": "空间管理",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1004",
+                "func_name": "设备通讯录",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1005",
+                "func_name": "打印设备空间名片",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1006",
+                "func_name": "我的工单",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1007",
+                "func_name": "工单监控",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1008",
+                "func_name": "工单配置",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1009",
+                "func_name": "计划监控",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1010",
+                "func_name": "排班管理",
+                "func_type": "1"
+            },
+            {
+                "func_id": "1011",
+                "func_name": "知识库管理",
+                "func_type": "1"
+            }
+
+        ]
+    },
+	{
+        "func_id": "20",
+        "func_name": "移动端",
+        "func_type": "1",
+        "child": [
+            {
+                "func_id": "2001",
+                "func_name": "报修中心",
+                "func_type": "1"
+            }
+        ]
+    }
+]

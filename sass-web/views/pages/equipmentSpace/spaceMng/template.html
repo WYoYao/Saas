@@ -1,0 +1,581 @@
+<script type="text/html" id="space-warn-edit">
+    <div class="warnCont">
+        <div class="warnExplain">当空间正参与到以下类型工单中时，您在页面中需要看到特殊提醒</div>
+        <ul class="warnList">
+            <li v-for="item in spaceRemind">
+                <span class="cont" v-bind:class="{'safeOrder':item.code=='1','repairOrder':item.code=='2','checkOrder':item.code=='3','runOrder':item.code=='4','securOrder':item.code=='5'}">{{item.name}}</span>
+                <span class="checkbox" v-bind:class="{checked:item.is_remind}" v-on:click="checkRemind(item)"></span>
+            </li>
+        </ul>
+
+        <div class="edit_button">
+            <pbutton-blue text="确定" click="sureWarnSet" style="margin-right: 40px;"></pbutton-blue>
+            <pbutton-white text="取消" click="cancelWarnSet"></pbutton-white>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="floor-detail-float">
+    <div class="detailFloat">
+        <div class="detailItem" ftype="floor_local_name">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">楼层名称：</span><span class="cont">{{floorDetail.floor_local_name}}</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">楼层名称：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="'最多10个字'" bind="true" value="floorDetail.floor_local_name" id="'floor_local_name'">
+                        <verify errtip="不能为空" verifytype="space"><verify>
+                    </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">楼层编码：</span><span class="cont">{{floorDetail.floor_local_id}}</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">BIM模型中编码：</span><span class="cont">{{floorDetail.BIMID}}</span>
+            </div>
+        </div>
+        <div class="detailItem" ftype="floor_type">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">楼层性质：</span><span class="cont">普通楼层</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">楼层性质：</span>
+                <div class="editInput">
+                    <pcombobox-normal align="left" id="floor_type">
+                        <header placeholder="请选择楼层性质"></header>
+                        <item datasource="floorTypeArr" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem" ftype="floor_func_type">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">楼层功能：</span><span class="cont">{{floorDetail.floor_func_type}}</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">楼层功能：</span>
+                <div class="editText">
+                    <ptext-textarea placeholder="'输入释义'" bind="true" value="floorDetail.floor_func_type" id="'floor_func_type'">
+                    </ptext-textarea>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem" ftype="area">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">楼层面积：</span><span class="cont">{{floorDetail.area}}<em class="unit">㎡</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">楼层面积：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="'请填写数字'" text="'㎡'" bind="true" value="floorDetail.area" id="'area'">
+                     </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem" ftype="net_height">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">楼层净高：</span><span class="cont">{{floorDetail.net_height}}<em class="unit">m</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">楼层净高：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="'请填写数字'" text="'m'" bind="true" value="floorDetail.net_height" id="'net_height'">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem" ftype="permanent_people_num">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">楼层常驻人数：</span><span class="cont">{{floorDetail.permanent_people_num}}<em class="unit">人</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">楼层常驻人数：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.permanent_people_num" id="'permanent_people_num'">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem" ftype="out_people_flow">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">逐时流出人数：</span><span class="cont">{{floorDetail.out_people_flow}}<em class="unit">人/min</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">逐时流出人数：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.out_people_flow" id="'out_people_flow`'">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem" ftype="in_people_flow">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">逐时流入人数：</span><span class="cont">{{floorDetail.in_people_flow}}<em class="unit">人/min</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">逐时流入人数：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.in_people_flow" id="'in_people_flow'">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem" ftype="exsit_people_num">
+            <div class="contShow" v-bind:class="{ canEdit: floorEditSign }">
+                <span class="name">逐时楼层内现有人数：</span><span class="cont">{{floorDetail.exsit_people_num}}<em class="unit">人</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">逐时楼层内现有人数：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.exsit_people_num" id="'exsit_people_num'">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="space-detail-float">
+    <div class="detailFloat">
+        <div class="detailHead">基础</div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">所属建筑：</span><span class="cont">建筑A</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">所属建筑：</span>
+                <div class="editInput">
+                    <pcombobox-normal align="left" sel="">
+                        <header placeholder="请选择建筑"></header>
+                        <item datasource="buildArr" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">所属楼层：</span><span class="cont">006</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">所属楼层：</span>
+                <div class="editInput">
+                    <pcombobox-normal align="left" sel="">
+                        <header placeholder="请选择楼层"></header>
+                        <item datasource="floorArr" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">空间名称：</span><span class="cont">电梯</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">空间名称：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="最多20个字">
+                        <verify errtip="不能为空" verifytype="space"><verify>
+                    </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">空间编码：</span><span class="cont">11</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">BIM模型中编码：</span><span class="cont">111</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">空间功能区类型：</span><span class="cont">普通</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">空间功能区类型：</span>
+                <div class="editInput">
+                    <pcombobox-normal align="left" sel="">
+                        <header placeholder="请选择功能类型"></header>
+                        <item datasource="funcArr" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">长：</span><span class="cont">12<em class="unit">m</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">长：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="m">
+                    </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">宽：</span><span class="cont">12<em class="unit">m</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">宽：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="m">
+                    </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">高：</span><span class="cont">12<em class="unit">m</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">高：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="m">
+                    </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">空间面积：</span><span class="cont">1000<em class="unit">㎡</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">空间面积：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="㎡">
+                     </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">配电容量：</span><span class="cont">6<em class="unit">A</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">配电容量：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="A">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">备注：</span><span class="cont">6<em class="unit">A</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">备注：</span>
+                <div class="editText">
+                    <ptext-textarea placeholder="最多50个字" length="50">
+                    </ptext-textarea>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailHead">租户</div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">租赁业态类型：</span><span class="cont">普通楼层</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">租赁业态类型：</span>
+                <div class="editInput">
+                    <pcombobox-normal align="left" sel="">
+                        <header placeholder="请选择租赁业态类型"></header>
+                        <item datasource="leaseTypeArr" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">所属租户：</span><span class="cont">大丰收</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">所属租户：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请输入租户名称">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailHead">人员信息</div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">空间常驻人数：</span><span class="cont">1000<em class="unit">人</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">空间常驻人数：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="人">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">逐时流出人数：</span><span class="cont">1000<em class="unit">人/min</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">逐时流出人数：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="人/min">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">逐时流入人数：</span><span class="cont">1000<em class="unit">人/min</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">逐时流入人数：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="人/min">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">逐时空间内现有人数：</span><span class="cont">1000<em class="unit">人</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">逐时空间内现有人数：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="人">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailHead">水电气</div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">用电功率：</span><span class="cont">1000<em class="unit">kW</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">用电功率：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="kW">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">逐时冷量：</span><span class="cont">1000<em class="unit">kW</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">逐时冷量：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="kW">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">逐时热量：</span><span class="cont">1000<em class="unit">kW</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">逐时热量：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="kW">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">空调水压力：</span><span class="cont">1000<em class="unit">MPa</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">空调水压力：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="MPa">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">用水量：</span><span class="cont">1000<em class="unit">m³/h</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">用水量：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="m³/h">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">自来水压力：</span><span class="cont">1000<em class="unit">MPa</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">自来水压力：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="MPa">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">热水用水量：</span><span class="cont">1000<em class="unit">m³/h</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">热水用水量：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="m³/h">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">热水压力：</span><span class="cont">1000<em class="unit">MPa</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">热水压力：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="MPa">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">用燃气量：</span><span class="cont">1000<em class="unit">m³/h</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">用燃气量：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="m³/h">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">燃气压力：</span><span class="cont">1000<em class="unit">MPa</em></span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">燃气压力：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字" text="MPa">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailHead">关键指标</div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">热舒适PMV：</span><span class="cont">1000</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">热舒适PMV：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+        <div class="detailItem">
+            <div class="contShow">
+                <span class="name">热舒适PPD：</span><span class="cont">1000</span><span class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+            </div>
+            <div class="editShow">
+                <span class="name">热舒适PPD：</span>
+                <div class="editInput">
+                    <ptext-text placeholder="请填写数字">
+                                </ptext-text>
+                </div>
+                <span class="cancel" onclick="cancelEdit(event)">x</span>
+                <span class="sure" onclick="sureEdit(event)">Z</span>
+            </div>
+        </div>
+
+    </div>
+
+</script>

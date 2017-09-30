@@ -1,0 +1,47 @@
+<link rel="stylesheet" href="/css/platform_settings/authority_manage/authority_manage.css" />
+<!-- <script type="text/javascript" src="/js/platform_settings/authority_manage/funcComponent.js"></script> -->
+<script type="text/javascript" src="/js/platform_settings/authority_manage/event.js"></script>
+<script type="text/javascript" src="/js/platform_settings/authority_manage/model.js"></script>
+<script type="text/javascript" src="/js/platform_settings/authority_manage/controller.js"></script>
+
+
+
+<!-- 模版管理对应文件 -->
+<link rel="stylesheet" href="/css/platform_settings/template_manage/template_manage.css">
+<script src="/js/platform_settings/template_manage/template_manage_list/controller.js"></script>
+<script src="/js/platform_settings/template_manage/template_manage_list/event.js"></script>
+<script src="/js/platform_settings/template_manage/template_manage_list/model.js"></script>
+
+<link rel="stylesheet" href="/css/platform_settings/template_manage/component_relationship.css">
+<script src="/js/platform_settings/template_manage/component_relationship/controller.js"></script>
+<script src="/js/platform_settings/template_manage/component_relationship/event.js"></script>
+<script src="/js/platform_settings/template_manage/component_relationship/model.js"></script>
+
+<link rel="stylesheet" href="/css/platform_settings/template_manage/component_information.css">
+<script src="/js/platform_settings/template_manage/component_information/controller.js"></script>
+<script src="/js/platform_settings/template_manage/component_information/event.js"></script>
+<script src="/js/platform_settings/template_manage/component_information/model.js"></script>
+
+<ptab-navigation id="navBar" text="name" datasource="buttonMenus" templateid="tabTemplate" beforesel="tabClick"></ptab-navigation>
+
+<pwindow-float id="authorityCheck" templateid="author-manage-check">
+    <animate maxpx="0" minpx="-456" orientation="right"></animate>
+    <button>
+        <pbutton-blue text="编辑" icon="e"  isborder="false" click="editAuthorityShow"></pbutton-blue>
+    </button>
+</pwindow-float>
+<pwindow-float id="authorityEdit" templateid="author-manage-edit" beforehide="authorityEditHide">
+    <animate maxpx="0" minpx="-830" orientation="right"></animate>
+    <button>
+            <pbutton-blue text="保存" icon="h"  isborder="false" click="editAuthoritySave"></pbutton-blue>
+        </button>
+</pwindow-float>
+<pwindow-modal id="operaModuleEdit" title="编辑模块" templateid="operate-module-edit"></pwindow-modal>
+<pwindow-modal id="componentRelationshipLayer" title="编辑组件关系" templateid="componentRelationshipEdit"></pwindow-modal>
+<pwindow-modal id="addComponentLayer" title="新增组件" templateid="addComponentLayerTemplate"></pwindow-modal>
+<pwindow-confirm id="authorityConfirm">
+    <button>
+        <pbutton-blue  text="确定" click="authConfirmSure"></pbutton-blue>
+        <pbutton-white text="取消"click="authConfirmCancel"></pbutton-white>
+        </button>
+</pwindow-confirm>

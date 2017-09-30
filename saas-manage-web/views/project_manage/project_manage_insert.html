@@ -1,0 +1,216 @@
+<link rel="stylesheet" href="/css/project_manage/project_manage_insert.css" />
+<script src="/js/project_manage/project_manage_insert/event.js"></script>
+<script src="/js/project_manage/project_manage_insert/model.js"></script>
+<script src="/js/project_manage/project_manage_insert/controller.js"></script>
+
+
+<div class="project_manage_insert_body" id='project_manage_insert' style="display:none">
+    <div class="project_manage_insert_header">
+        <!-- <input type="button" value="返回" class="cancel"> -->
+        <div class="cancel">
+            <pbutton-white click='goProjectManageSubmitBack' text="返回"></pbutton-white>
+        </div>
+        <span>新建项目信息</span>
+        <div class="draft">
+            <pbutton-white click='projectManageSubmitDraft' text="保存草稿"></pbutton-white>
+        </div>
+        <div class="commit">
+            <pbutton-blue click='projectManageSubmitInsert' text="确认提交"></pbutton-white>
+        </div>
+    </div>
+    <div class="project_manage_insert_content">
+        <div class="project_manage_insert_list">
+            <ul class="project_manage_insert_ul">
+                <li class="paragraph">
+                    <p class="title">基础信息</p>
+                    <div class="part">
+                        <span class="ltitle">企业名称：</span>
+                        <vinputtext v-bind:maxlength='"15"' v-bind:set='setInsert.bind(this,"company_name")' v-bind:value='Customer.company_name' v-bind:type='"font"' v-bind:placeholder='"请输入企业名称"'></vinputtext>
+                    </div>
+                    <div class="part">
+                        <span class="ltitle">公司法人：</span>
+                        <vinputtext v-bind:maxlength='"6"' v-bind:set='setInsert.bind(this,"legal_person")' v-bind:value='Customer.legal_person' v-bind:type='"font"' v-bind:placeholder='"请输入名字"'></vinputtext>
+                    </div>
+                    <div class="part">
+                        <span class="ltitle">公司经营有效期：</span>
+                        <div class="time">
+                            <ptime-calendar id="operationDate" sel='changeOperation'>
+                                <panel zonetype='yyyy-MM-dd' timetype="d" iscommontime='false' lock='false'>
+                                </panel>
+                            </ptime-calendar>
+                        </div>
+                    </div>
+                    <div class="upload_block">
+                        <span class="ltitle">上传营业执照：</span>
+                        <div>
+                            <pupload-img number=1 id='businessImg'></pupload-img>
+                            <p class="tip">支持jpg 、png，最多上传1张</p>
+                        </div>
+                    </div>
+                    <div class="upload_block">
+                        <span class="ltitle">上传产权证/托管合同：</span>
+                        <div>
+                            <pupload-img number=5 id='picturesImg'></pupload-img>
+                            <p class="tip">支持jpg 、png，最多上传5张</p>
+                        </div>
+                    </div>
+                    <div class="part">
+                        <span class="ltitle">托管合同有效期：</span>
+                        <div class="time">
+                            <ptime-calendar id="contractDate" sel='changeContract'>
+                                <panel zonetype='yyyy-MM-dd' timetype="d" iscommontime='false' lock='false'>
+                                </panel>
+                            </ptime-calendar>
+                        </div>
+                    </div>
+                    <div class="part">
+                        <span class="ltitle">客户选用工程工具：</span>
+                        <div class="radio">
+                            <div class="item" @click.capture='clickToolType(true)'>
+                                <span>
+                                    <!-- <pswitch-radio bind="true" state="Customer.tool_type=='Web'"> -->
+                                            <div class="per-switch-radio">
+                                                <span class="per-radio_input" :class='{"per-radio-checked":Customer.tool_type=="Web"}'>
+                                                </span>
+                                <span class="per-switch_label"></span>
+                            </div>
+                            </span>
+                            <p>Web工程工具</p>
+                        </div>
+                        <div class="item" @click='clickToolType(false)'>
+                            <span>
+                                <!-- <pswitch-radio bind="true" state="Customer.tool_type=='Revit'"> -->
+                                        <div class="per-switch-radio">
+                                                <span class="per-radio_input" :class='{"per-radio-checked":Customer.tool_type=="Revit"}'>
+                                                </span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                        </span>
+                        <p>Revit</p>
+                    </div>
+        </div>
+    </div>
+    <div class="remark_block">
+        <span class="ltitle">客户备注工具（选填）：</span>
+        <div class="remark">
+            <textarea v-model='Customer.note'></textarea>
+            <p class="len" :class='{red:Customer.note.length>100}'>{{Customer.note.length}}/100</p>
+        </div>
+    </div>
+    </li>
+    <li class="paragraph">
+        <p class="title">联系人信息</p>
+        <div class="part">
+            <span class="ltitle">姓名：</span>
+            <vinputtext v-bind:maxlength='"6"' v-bind:set='setInsert.bind(this,"contact_person")' v-bind:value='Customer.contact_person' v-bind:type='"font"' v-bind:placeholder='"请输入姓名"'></vinputtext>
+        </div>
+        <div class="part">
+            <span class="ltitle">手机号码：</span>
+            <vinputtext v-bind:value='Customer.contact_phone' v-bind:set='setInsert.bind(this,"contact_phone")' v-bind:type='"phone"' v-bind:placeholder='"请输入11位手机号"'></vinputtext>
+        </div>
+    </li>
+    <li class="paragraph">
+        <p class="title">账户密码信息</p>
+        <div class="part">
+            <span class="ltitle">公司邮箱：</span>
+            <vinputtext v-bind:value='Customer.mail' v-bind:set='setInsert.bind(this,"mail")' v-bind:type='"email"' v-bind:placeholder='"请输入邮箱"'></vinputtext>
+        </div>
+    </li>
+    <li class="paragraph">
+        <p class="title">项目信息</p>
+        <div class="part">
+            <span class="ltitle">本地名称：</span>
+            <vinputtext v-bind:maxlength='"15"' v-bind:set='setInsert.bind(this,"project_local_name")' v-bind:value='Customer.project_local_name' v-bind:type='"font"' v-bind:placeholder='"请输入本地名称"'></vinputtext>
+        </div>
+        <div class="combox">
+            <span class="ltitle">省市区域：</span>
+            <span class="areac">
+                                    <pcombobox-normal id="'sheng'" bind='true' sel="selProvince">
+                                        <header placeholder="选择省份"></header>
+                                        <item datasource='provinceList' text='name'></item>
+                                    </pcombobox-normal>
+                                </span>
+            <span class="areac">
+                                    <pcombobox-normal id="'shi'" bind='true'sel="selCity">
+                                        <header placeholder="选择城市"></header>
+                                        <item datasource='cityList' text='name'></item>
+                                    </pcombobox-normal>
+                                </span>
+            <span class="areac">
+                                    <pcombobox-normal id="'xian'" bind='true' sel="selCounty">
+                                        <header placeholder="选择市内区域"></header>
+                                        <item datasource='countyList' text='name'></item>
+                                    </pcombobox-normal>
+                                </span>
+        </div>
+        <div class="part">
+            <span class="ltitle">气候区：</span>
+            <div class="build">
+                <pcombobox-normal id="'climateId'" bind='true' sel="selClimate">
+                    <header placeholder="请选择气候区"></header>
+                    <item datasource='climateList' text='name'></item>
+                </pcombobox-normal>
+            </div>
+        </div>
+        <div class="part">
+            <span class="ltitle">城市发展水平：</span>
+            <div class="build">
+                <pcombobox-normal id="'developLevelId'" bind='true' sel="selDevelopLevel">
+                    <header placeholder="请选择城市发展水平"></header>
+                    <item datasource='developLevelList' text='name'></item>
+                </pcombobox-normal>
+            </div>
+        </div>
+        <div class="part">
+            <span class="ltitle">经度：</span>
+            <vinputtext v-bind:set='setInsert.bind(this,"longitude")' v-bind:value='Customer.longitude' v-bind:type='"number"' v-bind:placeholder='"请输入数字"'></vinputtext>
+        </div>
+        <div class="part">
+            <span class="ltitle">纬度：</span>
+            <vinputtext v-bind:set='setInsert.bind(this,"latitude")' v-bind:value='Customer.latitude' v-bind:type='"number"' v-bind:placeholder='"请输入数字"'></vinputtext>
+        </div>
+        <div class="part">
+            <span class="ltitle">海拔：</span>
+            <vinputtext v-bind:set='setInsert.bind(this,"altitude")' v-bind:value='Customer.altitude' v-bind:type='"number"' v-bind:placeholder='"请输入数字"'></vinputtext>
+        </div>
+    </li>
+    <li class="paragraph">
+        <p class="title">建筑信息</p>
+        <div v-for="(item,index) in Customer.build_list" class="insert_build_box">
+            <p class="build_row">
+                <span class="ltitle">本地名称：</span>
+                <p class="vinputtext_p">
+                    <input type="text" v-model='item.build_local_name' :class='{redborder:item.build_local_name.length>15}' placeholder="请输入本地名称" class="vinputtext_input">
+                    <em class="vinputtext_em" v-show='item.build_local_name.length>15'>本地名称最多只支持15位字母或字符</em>
+                    <em class="vinputtext_em" v-show='!/^[\u4e00-\u9fa5a-zA-Z]*$/.test(item.build_local_name)'>请输入文字或字母</em>
+                    <em class="vinputtext_em" v-show='Customer.build_list.filter(function(info){return info.build_local_name==item.build_local_name}).length>1 && item.build_local_name'>与当前建筑的本地名称重复</em>
+                    <b class="vinputtext_b" :class='{redcolor:item.build_local_name.length>15}'>{{item.build_local_name.length}}/15</b>
+                </p>
+            </p>
+            <p class="build_row">
+                <span class="ltitle">建筑年代：</span>
+                <p class="vinputtext_p">
+                    <input type="text" v-model='item.build_age' placeholder="请输入建筑年代" class="vinputtext_input">
+                    <em class="vinputtext_em" v-show='!/^\d*$/.test(item.build_age)'>请输入数字</em>
+                </p>
+            </p>
+            <p class="build_row">
+                <span class="ltitle">建筑功能类型：</span>
+                <div class="build">
+                    <pcombobox-normal id="'developLevelId'+index" bind='true' sel="selbuildingType">
+                        <header placeholder="请选择建筑功能类型"></header>
+                        <item datasource='buildingTypeList' text='name'></item>
+                    </pcombobox-normal>
+                </div>
+            </p>
+            <span class="delete" @click='deleteBuild(index)'>p</span>
+        </div>
+        <p class="addbuild" @click='addBuild'>
+            添加建筑物+
+        </p>
+    </li>
+    </ul>
+    <ploading-part id="projectInsertLoading"></ploading-part>
+</div>
+</div>
+</div>

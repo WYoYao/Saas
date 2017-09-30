@@ -1,0 +1,109 @@
+/* 头部添加按钮模块 */
+
+#project_manage_list {
+    /* height: 100%; */
+    position: absolute;
+    top: 20px;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.project_manage_header {
+    height: 50px;
+    margin: 0 20px 0;
+    width: auto;
+    background: #EAEEF0;
+    border-top: 1px solid #d9e2e8;
+    border-bottom: 1px solid #d9e2e8;
+}
+
+.project_manage_header .insert_btn {
+    float: right;
+    margin: 10px 20px 0;
+}
+
+
+/* 列表内容部分 */
+
+.project_manage_content {
+    margin: 0 20px;
+    width: auto;
+    font-size: 14px;
+}
+
+.project_manage_content .list {
+    color: #000000;
+}
+
+.project_manage_content .list li {
+    overflow: hidden;
+    font-size: 12px;
+    color: #333333;
+}
+
+.project_manage_content .listscroll {
+    position: absolute;
+    top: 80px;
+    overflow-y: auto;
+    bottom: 0;
+    left: 20px;
+    right: 16px;
+}
+
+.project_manage_content .list .tr {
+    border-bottom: 1px solid #eeeeee;
+    font-size: 12px;
+    color: #000000;
+}
+
+.project_manage_content .list span {
+    display: block;
+    float: left;
+    height: 30px;
+    line-height: 36px;
+    /* text-align: center; */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-indent: 5em;
+}
+
+
+/* 奇偶变色 */
+
+.project_manage_content .list li:nth-child(2n) {
+    background: #F5F7FA;
+}
+
+
+/* 每列的宽度 */
+
+.project_manage_content .list span:nth-child(1),
+.project_manage_content .list span:nth-child(2),
+.project_manage_content .list span:nth-child(3) {
+    width: 20%;
+}
+
+.project_manage_content .list span:nth-child(4),
+.project_manage_content .list span:nth-child(5),
+.project_manage_content .list span:nth-child(6),
+.project_manage_content .list span:nth-child(7) {
+    width: 10%;
+}
+
+.creating {
+    cursor: pointer;
+}
+
+.creating span:last-child {
+    color: #55B0A0;
+}
+
+.normal {
+    cursor: pointer;
+}
+
+.lock span:last-child {
+    color: #F28585;
+}

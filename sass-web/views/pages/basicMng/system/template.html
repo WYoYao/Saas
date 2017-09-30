@@ -1,0 +1,1095 @@
+<!-- 项目管理中的文本组件 Start -->
+<script type="text/html" id="projecttexteditor">
+    <!-- 未编辑状态Start -->
+    <span class='projecttexteditor' :class="{ error: isError,col:!isError }">
+            <span class="text" v-text='value' v-show='!showIDE'></span>
+    <em class="ide" v-show='!showIDE' @click='_clickShowIDE()'>e</em>
+    <!-- 未编辑状态End -->
+
+    <!-- 编辑状态Start -->
+    <div class="input" :id="_clickValueText+'parent'" v-show='showIDE'>
+        <ptext-text id='_clickValueText' bind='true'>
+            <verify errtip="'不可为空'" verifytype="space">
+                <verify>
+        </ptext-text>
+    </div>
+    <em class="smt" v-show='showIDE' @click='_clickWillSubmit()'>Z</em>
+    <em class="ide" v-show='showIDE' @click='_clickWillCancel()'>x</em>
+    <!-- 编辑状态End -->
+
+    <!-- 修改对勾弹窗Start -->
+    <div class="tip" v-show='willSubmit'>
+        <div class="box">
+            <div class="header">
+                <div class="column">
+                    <div class="radio" @click.capture="_clickChangeType(true)">
+                        <div class="per-switch-radio">
+                            <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                    </div>
+                    <p>修正输入错误</p>
+                </div>
+                <div class="column">
+                    <div class="radio" @click.capture="_clickChangeType(false)">
+                        <div class="per-switch-radio">
+                            <span class="per-radio_input" :class="{ 'per-radio-checked':!changeType}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                        <!-- <pswitch-radio bind="true" state="!changeType"> -->
+                    </div>
+                    <p>该信息有变化</p>
+                </div>
+            </div>
+            <div class="contenter" v-show='!changeType'>
+                <span class="line">真实信息发生更改的内容及时间</span>
+                <p class="label">生效时间：</p>
+                <span class="label">
+                            <ptime-form id="_clickDateSelKey" bind="true">
+                                    <panel startyear="2013" endyear="2022" timetype="yMd" ></panel>
+                                </ptime-form>
+                    </span>
+                <p class="label">生效时间：</p>
+                <ul>
+                    <li class="th">
+                        <span>生效时间</span>
+                        <span>变化内容</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li v-for='item in PointHis'>
+                        <span v-text='new Date(item.date).format("yyyy.MM.dd")'></span>
+                        <span v-text='item.value'></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span class="btn" @click.capture='_clickSubmit()'>
+                        <pbutton-blue text="确定"></pbutton-blue>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <!-- 修改对勾弹窗End -->
+
+    <!-- 确认修改弹窗 Start -->
+    <div class="confirm" v-show='willCancel'>
+        <p class="titlefont">确定退出编辑吗？</p>
+        <p class="description">取消编辑将不保存当前编辑信息</p>
+        <div class="panel">
+            <span class="sumitbtn" @click.capture='_clickCancelIDE()'>
+                    <pbutton-blue text="确定"></pbutton-blue>
+                </span>
+            <span class="cancelbtn" @click.capture='_clickCancelCancelIDE()'>
+                    <pbutton-white text="取消"></pbutton-white>
+                </span>
+        </div>
+    </div>
+    <!-- 确认修改弹窗 End -->
+    </span>
+</script>
+
+<script>
+    Vue.component('projecttexteditor', {
+        data: function() {
+            return {
+                // key: '', // key
+                // value: '', //值
+                showIDE: false, //是否展示编辑框
+                willSubmit: false, //准备提交，控制提交的再次确认框
+                willCancel: false, // 准备取消 ,控制取消再次确认框
+                changeType: false, // 提交类型 true 发布新的内容的，false 修改旧的内容
+                newValue: '', //新的内容
+                isError: false,
+                PointHis: [],
+                _clickValueText: '',
+                _clickDateSelKey: '',
+                input: null,
+                parent: null,
+                block: null,
+            };
+        },
+        template: "#projecttexteditor",
+        props: ['key', 'value', 'set', 'keys'],
+        beforeMount: function() {
+
+            // 创建需要修改的属性
+            this.newValue = this.value;
+
+            console.log(this.value);
+
+
+            // 生成键值处理input 文本框
+            var _clickValueText = ptool.produceId();
+            this._clickValueText = _clickValueText;
+
+            var _that = this;
+            setTimeout(function() {
+
+                // 控件中生成的input 框
+                _that.input = $("#" + _that._clickValueText + "").find("input[type='text']");
+                // 包裹控件的外层用户获取当前值的状态
+                _that.parent = $('#' + _that._clickValueText + 'parent');
+                // 控件自身
+                _that.block = $('#' + _that._clickValueText);
+
+                _that.input.on("blur", function() {
+
+                    // 失去焦点赋值更新状态
+                    _that.newValue = _that.block.pval();
+
+                    _that.isError = !_that.parent.pverifi();
+                }).on('focus', function() {
+
+                    // 获取焦点更新错误状态
+                    _that.isError = false;
+                });
+
+                // 文本控件赋值
+                // _that.block.precover(_that.newValue);
+            }, 0)
+
+            // 创建日期控件
+            this._clickDateSelKey = ptool.produceId();
+        },
+        beforeUpdate: function(value) {
+
+            // this.newValue = this.value;
+            // this.block.precover(this.newValue);
+        },
+        methods: {
+            // 显示编辑框
+            _clickShowIDE: function() {
+                this.showIDE = true;
+                this.block.pval(this.value);
+            },
+            // 显示提交确认框
+            _clickWillSubmit: function() {
+
+                if (this.isError) return;
+
+                this.willSubmit = true;
+                var _that = this;
+
+                // 查询历史记录判断是否可以首次直接提交
+                controllerproject.queryProjectInfoPointHis(_that.keys, function(arr) {
+
+                    _that.PointHis = arr;
+                })
+            },
+            // 显示取消确认框
+            _clickWillCancel: function() {
+
+                this.willCancel = true;
+            },
+            // 修改的提交时候的窗台
+            _clickChangeType: function(bool) {
+
+                this.changeType = bool;
+            },
+            // 提交修改
+            _clickSubmit: function() {
+
+                var _that = this;
+
+                // 获取修改时间
+                var dateVal = new Date($('#' + this._clickDateSelKey).psel().startTime).format('yyyyMMddhhssmm');
+                var res = {
+                    info_point_code: _that.keys,
+                    info_point_value: _that.newValue,
+                    valid_time: !_that.changeType ? dateVal : '', // 判断是否发布新内容
+                }
+
+                // 提交修改修改完成后的修改列表中的数据
+                controllerproject.updateProjectInfo(res, function() {
+                    _that.set(_that.keys, _that.newValue);
+
+                    // 恢复默认值
+                    _that.value = _that.newValue;
+                    _that.newValue = ''; //新的内容
+
+                });
+
+                _that.showIDE = false; //是否展示编辑框
+                _that.willSubmit = false; //准备提交，控制提交的再次确认框
+                _that.willCancel = false; // 准备取消 ,控制取消再次确认框
+                _that.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
+                _that.isError = false;
+
+            },
+            // 取消编辑
+            _clickCancelIDE: function() {
+
+                this.newValue = this.value;
+                this.showIDE = false; //是否展示编辑框
+                this.willSubmit = false; //准备提交，控制提交的再次确认框
+                this.willCancel = false; // 准备取消 ,控制取消再次确认框
+                this.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
+                this.isError = false;
+
+                // 重置文本框
+                this.block.precover(this.newValue);
+
+            },
+            // 取消 取消编辑事件
+            _clickCancelCancelIDE: function() {
+                this.willCancel = false;
+            },
+        },
+        watch: {
+
+        }
+    })
+</script>
+<!-- 项目管理中的文本组件 End -->
+
+<!-- 建筑体管理中的文本组件 Start -->
+<script type="text/html" id="buildtexteditor">
+    <!-- 未编辑状态Start -->
+    <span :class="{ error: isError,col:!isError }">
+            <span class="text" v-text='value' v-show='!showIDE'></span>
+    <em class="ide" v-show='!showIDE' @click='_clickShowIDE()'>e</em>
+    <!-- 未编辑状态End -->
+
+    <!-- 编辑状态Start -->
+    <div class="input" :id="_clickValueText+'parent'" v-show='showIDE'>
+        <ptext-text id='_clickValueText' bind='true'>
+            <verify errtip="'不可为空'" verifytype="space">
+                <verify>
+        </ptext-text>
+    </div>
+    <em class="smt" v-show='showIDE' @click='_clickWillSubmit()'>Z</em>
+    <em class="ide" v-show='showIDE' @click='_clickWillCancel()'>x</em>
+    <!-- 编辑状态End -->
+
+    <!-- 修改对勾弹窗Start -->
+    <div class="tip" v-show='willSubmit'>
+        <div class="box">
+            <div class="header">
+                <div class="column">
+                    <div class="radio" @click.capture="_clickChangeType(true)">
+                        <div class="per-switch-radio">
+                            <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                    </div>
+                    <p>修正输入错误</p>
+                </div>
+                <div class="column">
+                    <div class="radio" @click.capture="_clickChangeType(false)">
+                        <div class="per-switch-radio">
+                            <span class="per-radio_input" :class="{ 'per-radio-checked':!changeType}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                    </div>
+                    <p>该信息有变化</p>
+                </div>
+            </div>
+            <div class="contenter" v-show='!changeType'>
+                <span class="line">真实信息发生更改的内容及时间</span>
+                <p class="label">生效时间：</p>
+                <span class="label">
+                            <ptime-form id="_clickDateSelKey" bind="true">
+                                    <panel startyear="2013" endyear="2022" timetype="yMd" ></panel>
+                                </ptime-form>
+                    </span>
+                <p class="label">生效时间：</p>
+                <ul>
+                    <li class="th">
+                        <span>生效时间</span>
+                        <span>变化内容</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li v-for='item in PointHis'>
+                        <span v-text='new Date(item.date).format("yyyy.MM.dd")'></span>
+                        <span v-text='item.value'></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span class="btn" @click.capture='_clickSubmit()'>
+                        <pbutton-blue text="确定"></pbutton-blue>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <!-- 修改对勾弹窗End -->
+
+    <!-- 确认修改弹窗 Start -->
+    <div class="confirm" v-show='willCancel'>
+        <p class="titlefont">确定退出编辑吗？</p>
+        <p class="description">取消编辑将不保存当前编辑信息</p>
+        <div class="panel">
+            <span class="sumitbtn" @click.capture='_clickCancelIDE()'>
+                    <pbutton-blue text="确定"></pbutton-blue>
+                </span>
+            <span class="cancelbtn" @click.capture='_clickCancelCancelIDE()'>
+                    <pbutton-white text="取消"></pbutton-white>
+                </span>
+        </div>
+    </div>
+    <!-- 确认修改弹窗 End -->
+    </span>
+</script>
+
+<script>
+    Vue.component('buildtexteditor', {
+        data: function() {
+            return {
+                // key: '', // key
+                // value: '', //值
+                showIDE: false, //是否展示编辑框
+                willSubmit: false, //准备提交，控制提交的再次确认框
+                willCancel: false, // 准备取消 ,控制取消再次确认框
+                changeType: false, // 提交类型 true 发布新的内容的，false 修改旧的内容
+                newValue: '', //新的内容
+                isError: false,
+                PointHis: [],
+                _clickValueText: '',
+                _clickDateSelKey: '',
+                input: null,
+                parent: null,
+                block: null,
+            };
+        },
+        template: "#buildtexteditor",
+        props: ['key', 'value', 'set', 'keys'],
+        beforeMount: function() {
+
+            // 创建需要修改的属性
+            this.newValue = this.value;
+
+            // 生成键值处理input 文本框
+            var _clickValueText = ptool.produceId();
+            this._clickValueText = _clickValueText;
+
+            var _that = this;
+            setTimeout(function() {
+
+                // 控件中生成的input 框
+                _that.input = $("#" + _that._clickValueText + "").find("input[type='text']");
+                // 包裹控件的外层用户获取当前值的状态
+                _that.parent = $('#' + _that._clickValueText + 'parent');
+                // 控件自身
+                _that.block = $('#' + _that._clickValueText);
+
+
+                _that.input.on("blur", function() {
+
+                    // 失去焦点赋值更新状态
+                    _that.newValue = _that.block.pval();
+
+                    _that.isError = !_that.parent.pverifi();
+                }).on('focus', function() {
+
+                    // 获取焦点更新错误状态
+                    _that.isError = false;
+                });
+
+                // 文本控件赋值
+                _that.block.pval(this.newValue);
+            }, 0)
+
+            // 创建日期控件
+            this._clickDateSelKey = ptool.produceId();
+        },
+        updated: function(value) {
+
+        },
+        methods: {
+            // 显示编辑框
+            _clickShowIDE: function() {
+
+                this.showIDE = true;
+                this.block.pval(this.value);
+            },
+            // 显示提交确认框
+            _clickWillSubmit: function() {
+
+                if (this.isError) return;
+
+                this.willSubmit = true;
+                var _that = this;
+
+                // 查询历史记录判断是否可以首次直接提交
+                controllerbuild.queryBuildInfoPointHis(_that.keys, function(arr) {
+                    _that.PointHis = arr;
+                })
+            },
+            // 显示取消确认框
+            _clickWillCancel: function() {
+
+                this.willCancel = true;
+            },
+            // 修改的提交时候的窗台
+            _clickChangeType: function(bool) {
+
+                this.changeType = bool;
+            },
+            // 提交修改
+            _clickSubmit: function() {
+
+                var _that = this;
+
+                // 获取修改时间
+                var dateVal = new Date($('#' + this._clickDateSelKey).psel().startTime).format('yyyyMMddhhssmm');
+                var res = {
+                    info_point_code: _that.keys,
+                    info_point_value: _that.newValue,
+                    valid_time: !_that.changeType ? dateVal : '', // 判断是否发布新内容
+                    build_id: v.instance.BuildInfo.build_id, //建筑id,saas库中建筑表id，必须
+                    build_code: v.instance.BuildInfo.build_code, //建筑体编码，物理世界建筑id，必须
+                }
+
+                // 提交修改修改完成后的修改列表中的数据
+                controllerbuild.updateBuildInfo(res, function() {
+                    _that.set(_that.keys, _that.newValue);
+
+                    // 恢复默认值
+                    _that.value = _that.newValue;
+                    _that.newValue = ''; //新的内容
+
+                });
+
+                _that.showIDE = false; //是否展示编辑框
+                _that.willSubmit = false; //准备提交，控制提交的再次确认框
+                _that.willCancel = false; // 准备取消 ,控制取消再次确认框
+                _that.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
+                _that.isError = false;
+
+
+                // {
+                //     "info_point_code": "project_local_name", //修改的信息点编码，必须
+                //     "info_point_value": "广联达测试2", //修改的信息点的值，必须
+                //     "valid_time": "***" //生效时间，格式：yyyymmddhhmmss，可以为空
+                // }
+
+
+            },
+            // 取消编辑
+            _clickCancelIDE: function() {
+
+                this.newValue = this.value;
+                this.showIDE = false; //是否展示编辑框
+                this.willSubmit = false; //准备提交，控制提交的再次确认框
+                this.willCancel = false; // 准备取消 ,控制取消再次确认框
+                this.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
+                this.isError = false;
+
+                // 重置文本框
+                this.block.precover(this.newValue);
+
+            },
+            // 取消 取消编辑事件
+            _clickCancelCancelIDE: function() {
+                this.willCancel = false;
+            },
+        },
+        watch: {
+
+        }
+    })
+</script>
+<!-- 建筑体管理中的文本组件 End -->
+
+<!-- 建筑体管理中下拉菜單 Start -->
+<script type="text/html" id="buildcomboxeditor">
+    <!-- 未编辑状态Start -->
+    <span :class="{ error: isError,col:!isError }">
+            <span class="text" v-text='textaValue' v-show='!showIDE'></span>
+    <em class="ide" v-show='!showIDE' @click='_clickShowIDE()'>e</em>
+    <!-- 未编辑状态End -->
+
+    <!-- 编辑状态Start -->
+    <div class="input" v-show='showIDE'>
+        <div v-if='!istree'>
+            <pcombobox-normal id='_clickCombox' bind='true'>
+                <header placeholder="请选择"></header>
+                <item datasource="datasource" text="name"></item>
+            </pcombobox-normal>
+        </div>
+        <div v-if='istree' style='width:200px;'>
+            <pcombobox-normal id='_clickCombox' istree="true" bind='true'>
+                <header placeholder="请选择"></header>
+                <item datasource="datasource" text="name" child="content" pronametoissel="cansel"></item>
+            </pcombobox-normal>
+        </div>
+
+        <!-- <ptext-text id='_clickValueText' bind='true'>
+            <verify errtip="'不可为空'" verifytype="space">
+                <verify>
+        </ptext-text> -->
+
+    </div>
+    <em class="smt" v-show='showIDE' @click='_clickWillSubmit()'>Z</em>
+    <em class="ide" v-show='showIDE' @click='_clickWillCancel()'>x</em>
+    <!-- 编辑状态End -->
+
+    <!-- 修改对勾弹窗Start -->
+    <div class="tip" v-show='willSubmit'>
+        <div class="box">
+            <div class="header">
+                <div class="column">
+                    <div class="radio" @click.capture="_clickChangeType(true)">
+                        <div class="per-switch-radio">
+                            <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                    </div>
+                    <p>修正输入错误</p>
+                </div>
+                <div class="column">
+                    <div class="radio" @click.capture="_clickChangeType(false)">
+                        <div class="per-switch-radio">
+                            <span class="per-radio_input" :class="{ 'per-radio-checked':!changeType}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                    </div>
+                    <p>该信息有变化</p>
+                </div>
+            </div>
+            <div class="contenter" v-show='!changeType'>
+                <span class="line">真实信息发生更改的内容及时间</span>
+                <p class="label">生效时间：</p>
+                <span class="label">
+                            <ptime-form id="_clickDateSelKey" bind="true">
+                                    <panel startyear="2013" endyear="2022" timetype="yMd" ></panel>
+                                </ptime-form>
+                    </span>
+                <p class="label">生效时间：</p>
+                <ul>
+                    <li class="th">
+                        <span>生效时间</span>
+                        <span>变化内容</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li v-for='item in PointHis'>
+                        <span v-text='new Date(item.date).format("yyyy.MM.dd")'></span>
+                        <span v-text='item.value'></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span class="btn" @click.capture='_clickSubmit()'>
+                        <pbutton-blue text="确定"></pbutton-blue>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <!-- 修改对勾弹窗End -->
+
+    <!-- 确认修改弹窗 Start -->
+    <div class="confirm" v-show='willCancel'>
+        <p class="titlefont">确定退出编辑吗？</p>
+        <p class="description">取消编辑将不保存当前编辑信息</p>
+        <div class="panel">
+            <span class="sumitbtn" @click.capture='_clickCancelIDE()'>
+                    <pbutton-blue text="确定"></pbutton-blue>
+                </span>
+            <span class="cancelbtn" @click.capture='_clickCancelCancelIDE()'>
+                    <pbutton-white text="取消"></pbutton-white>
+                </span>
+        </div>
+    </div>
+    <!-- 确认修改弹窗 End -->
+    </span>
+</script>
+
+<script>
+    Vue.component('buildcomboxeditor', {
+        data: function() {
+            return {
+                value: {
+                    code: '',
+                    name: '',
+                }, //值
+                showIDE: false, //是否展示编辑框
+                willSubmit: false, //准备提交，控制提交的再次确认框
+                willCancel: false, // 准备取消 ,控制取消再次确认框
+                changeType: false, // 提交类型 true 发布新的内容的，false 修改旧的内容
+                newValue: '', //新的内容
+                isError: false,
+                PointHis: [],
+                _clickCombox: '',
+                _clickDateSelKey: '',
+                input: null,
+                // dataSource: [],
+                // treeSource:[],
+            };
+        },
+        template: "#buildcomboxeditor",
+        props: ['keys', 'values', 'set', 'datasource', 'istree'],
+        computed: {
+            textaValue: function() {
+
+                var _that = this;
+
+                // 树类型的单独做判断
+                if (this.istree) {
+
+                    function item2info(item) {
+                        return {
+                            code: item.code,
+                            name: item.name,
+                        };
+                    }
+
+                    function deep(item, con) {
+
+                        if (_.isArray(item.content)) {
+
+                            var deep = arguments.callee;
+
+                            item.content.forEach(function(element) {
+
+                                deep(element, con);
+                            });
+
+                        }
+
+                        con.push(item2info(item));
+
+                        return con;
+                    }
+
+                    this.treeSource = this.datasource.reduce(function(con, item) {
+
+                        return con.concat(deep(item, []));
+                    }, []);
+
+                    this.datasource = this.datasource.map(function(item) {
+
+                        item.cansel = true;
+
+                        item.content = item.content.map(function(item) {
+
+                            item.cansel = true;
+
+                            item.content = item.content.map(function(item) {
+
+                                item.cansel = true;
+
+                                return item;
+                            })
+
+                            return item;
+                        })
+
+                        return item;
+                    });
+                }
+
+                if (this.values != this.value.code) {
+
+                    _that.value.code = this.values;
+                    if (_.isNumber(+_that.value.code)) {
+                        // 唯一主键
+
+                        // 树接口和的普通下拉菜单分别做处理
+                        var index = _that[this.istree ? 'treeSource' : 'datasource'].map(function(item) {
+                            return item.code + '';
+                        }).indexOf(_that.value.code + '');
+
+                        if (!this.istree) {
+                            if (index != -1) $("#" + _that._clickCombox).psel(index);
+                        }
+
+                        _that.value.value = index == -1 ? "" : _that[this.istree ? 'treeSource' : 'datasource'][index].name;
+
+                        // // 创建需要修改的属性
+                        _that.newValue = _that.value;
+                    }
+                }
+
+                return _that.value.value;
+            }
+        },
+        beforeMount: function() {
+
+
+            // 传入组件的选项键值 赋值给value
+            this.value.code = this.values;
+            // 创建需要修改的属性
+            // this.newValue = this.value;
+
+            // 生成键值处理下拉框
+            this._clickCombox = ptool.produceId();
+            this._clickDateSelKey = ptool.produceId();
+
+        },
+        beforeUpdate: function() {
+
+            var _that = this;
+
+            // 当新传入的值不等于现在当前的现有值的时候
+            if (this.values != this.value.code) {
+
+
+                _that.value.code = this.values;
+                if (_.isNumber(+_that.value.code)) {
+                    // 唯一主键
+                    var index = _that.datasource.map(function(item) {
+                        return item.key;
+                    }).indexOf(+_that.value.code);
+
+                    if (index != -1) $("#" + _that._clickCombox).psel(index);
+
+                    _that.value.value = index == -1 ? "" : _that.datasource[index].name;
+
+                    // // 创建需要修改的属性
+                    _that.newValue = _that.value;
+                }
+            }
+        },
+        methods: {
+            // 显示编辑框
+            _clickShowIDE: function() {
+
+                this.showIDE = true;
+            },
+            // 显示提交确认框
+            _clickWillSubmit: function() {
+
+                if (this.isError) return;
+
+                this.willSubmit = true;
+                var _that = this;
+
+                // 查询历史记录判断是否可以首次直接提交
+                controllerbuild.queryBuildInfoPointHis(_that.keys, function(arr) {
+
+                    _that.PointHis = arr;
+                })
+            },
+            // 显示取消确认框
+            _clickWillCancel: function() {
+
+                this.willCancel = true;
+            },
+            // 修改的提交时候的窗台
+            _clickChangeType: function(bool) {
+
+                this.changeType = bool;
+            },
+            // 提交修改
+            _clickSubmit: function() {
+
+                var _that = this;
+
+                // 获取修改时间
+                var dateVal = new Date($('#' + this._clickDateSelKey).psel().startTime).format('yyyyMMddhhssmm');
+                var obj = $("#" + this._clickCombox).psel();
+
+
+                this.newValue = {
+                    code: _that[this.istree ? 'treeSource' : 'datasource'].filter(function(item) {
+                        return item.name == obj.text;
+                    })[0].code,
+                    name: obj.text,
+                };
+
+                // 下拉菜单需要提交 index 和对应的名称
+                var reskey = {
+                    build_id: v.instance.BuildInfo.build_id, //建筑id,saas库中建筑表id，必须
+                    build_code: v.instance.BuildInfo.build_code, //建筑体编码，物理世界建筑id，必须
+                    info_point_code: this.keys,
+                    info_point_value: this.newValue.code,
+                    valid_time: !this.changeType ? dateVal : '', // 判断是否发布新内容
+                }
+
+                var resvalue = {
+                        info_point_code: this.keys + '_name',
+                        info_point_value: this.newValue.name,
+                        valid_time: !this.changeType ? dateVal : '', // 判断是否发布新内容
+                    }
+                    // 提交修改修改完成后的修改列表中的数据
+                controllerbuild.updateBuildInfo(reskey, function() {
+                    _that.set(_that.keys, _that.newValue.code);
+
+                    _that.set(_that.keys + '_name', _that.newValue.name);
+
+                    // 恢复默认值
+                    // _that.value = _that.newValue;
+                    // _that.newValue = ''; //新的内容
+                });
+
+                _that.showIDE = false; //是否展示编辑框
+                _that.willSubmit = false; //准备提交，控制提交的再次确认框
+                _that.willCancel = false; // 准备取消 ,控制取消再次确认框
+                _that.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
+                _that.isError = false;
+
+            },
+            // 取消编辑
+            _clickCancelIDE: function() {
+
+                this.newValue = this.value;
+                this.showIDE = false; //是否展示编辑框
+                this.willSubmit = false; //准备提交，控制提交的再次确认框
+                this.willCancel = false; // 准备取消 ,控制取消再次确认框
+                this.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
+                this.isError = false;
+
+            },
+            // 取消 取消编辑事件
+            _clickCancelCancelIDE: function() {
+                this.willCancel = false;
+            },
+        },
+        watch: {
+
+        }
+    })
+</script>
+<!-- 建筑体管理中下拉菜單 End -->
+
+
+<!-- 建筑体管理中的文本组件帶單位的 Start -->
+<script type="text/html" id="buildtextuniteditor">
+    <!-- 未编辑状态Start -->
+    <span :class="{ error: isError,col:!isError }">
+            <span class="text" v-text='value' v-show='!showIDE'></span>
+    <em class="ide" v-show='!showIDE' @click='_clickShowIDE()'>e</em>
+    <!-- 未编辑状态End -->
+
+    <!-- 编辑状态Start -->
+    <div class="input" :id="_clickValueText+'parent'" v-show='showIDE'>
+        <ptext-text text='unit' id='_clickValueText' bind='true'>
+            <verify errtip="'不可为空'" verifytype="space">
+                <verify>
+        </ptext-text>
+    </div>
+    <em class="smt" v-show='showIDE' @click='_clickWillSubmit()'>Z</em>
+    <em class="ide" v-show='showIDE' @click='_clickWillCancel()'>x</em>
+    <!-- 编辑状态End -->
+
+    <!-- 修改对勾弹窗Start -->
+    <div class="tip" v-show='willSubmit'>
+        <div class="box">
+            <div class="header">
+                <div class="column">
+                    <div class="radio" @click.capture="_clickChangeType(true)">
+                        <div class="per-switch-radio">
+                            <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                    </div>
+                    <p>修正输入错误</p>
+                </div>
+                <div class="column">
+                    <div class="radio" @click.capture="_clickChangeType(false)">
+                        <div class="per-switch-radio">
+                            <span class="per-radio_input" :class="{ 'per-radio-checked':!changeType}"></span>
+                            <span class="per-switch_label"></span>
+                        </div>
+                    </div>
+                    <p>该信息有变化</p>
+                </div>
+            </div>
+            <div class="contenter" v-show='!changeType'>
+                <span class="line">真实信息发生更改的内容及时间</span>
+                <p class="label">生效时间：</p>
+                <span class="label">
+                            <ptime-form id="_clickDateSelKey" bind="true">
+                                    <panel startyear="2013" endyear="2022" timetype="yMd" ></panel>
+                                </ptime-form>
+                    </span>
+                <p class="label">生效时间：</p>
+                <ul>
+                    <li class="th">
+                        <span>生效时间</span>
+                        <span>变化内容</span>
+                    </li>
+                </ul>
+                <ul>
+                    <li v-for='item in PointHis'>
+                        <span v-text='new Date(item.date).format("yyyy.MM.dd")'></span>
+                        <span v-text='item.value'></span>
+                    </li>
+                </ul>
+            </div>
+            <div class="footer">
+                <span class="btn" @click.capture='_clickSubmit()'>
+                        <pbutton-blue text="确定"></pbutton-blue>
+                    </span>
+            </div>
+        </div>
+    </div>
+    <!-- 修改对勾弹窗End -->
+
+    <!-- 确认修改弹窗 Start -->
+    <div class="confirm" v-show='willCancel'>
+        <p class="titlefont">确定退出编辑吗？</p>
+        <p class="description">取消编辑将不保存当前编辑信息</p>
+        <div class="panel">
+            <span class="sumitbtn" @click.capture='_clickCancelIDE()'>
+                    <pbutton-blue text="确定"></pbutton-blue>
+                </span>
+            <span class="cancelbtn" @click.capture='_clickCancelCancelIDE()'>
+                    <pbutton-white text="取消"></pbutton-white>
+                </span>
+        </div>
+    </div>
+    <!-- 确认修改弹窗 End -->
+    </span>
+</script>
+
+<script>
+    Vue.component('buildtextuniteditor', {
+        data: function() {
+            return {
+                // key: '', // key
+                // value: '', //值
+                showIDE: false, //是否展示编辑框
+                willSubmit: false, //准备提交，控制提交的再次确认框
+                willCancel: false, // 准备取消 ,控制取消再次确认框
+                changeType: false, // 提交类型 true 发布新的内容的，false 修改旧的内容
+                newValue: '', //新的内容
+                isError: false,
+                PointHis: [],
+                _clickValueText: '',
+                _clickDateSelKey: '',
+                input: null,
+                parent: null,
+                block: null,
+            };
+        },
+        template: "#buildtextuniteditor",
+        props: ['key', 'value', 'set', 'unit', 'keys'],
+        beforeMount: function() {
+
+            // 创建需要修改的属性
+            this.newValue = this.value;
+
+            // 生成键值处理input 文本框
+            var _clickValueText = ptool.produceId();
+            this._clickValueText = _clickValueText;
+
+            var _that = this;
+            setTimeout(function() {
+
+                // 控件中生成的input 框
+                _that.input = $("#" + _that._clickValueText + "").find("input[type='text']");
+                // 包裹控件的外层用户获取当前值的状态
+                _that.parent = $('#' + _that._clickValueText + 'parent');
+                // 控件自身
+                _that.block = $('#' + _that._clickValueText);
+
+
+                _that.input.on("blur", function() {
+
+                    // 失去焦点赋值更新状态
+                    _that.newValue = _that.block.pval();
+
+                    _that.isError = !_that.parent.pverifi();
+                }).on('focus', function() {
+
+                    // 获取焦点更新错误状态
+                    _that.isError = false;
+                });
+
+
+            }, 0)
+
+            // 创建日期控件
+            this._clickDateSelKey = ptool.produceId();
+        },
+        updated: function(value) {
+
+
+            // console.log(this.value);
+            // this.newValue = this.value;
+            // this.block.precover(this.newValue);
+        },
+        methods: {
+            // 显示编辑框
+            _clickShowIDE: function() {
+
+                this.showIDE = true;
+                this.block.pval(this.value);
+            },
+            // 显示提交确认框
+            _clickWillSubmit: function() {
+
+                if (this.isError) return;
+
+                this.willSubmit = true;
+                var _that = this;
+
+                // 查询历史记录判断是否可以首次直接提交
+                controllerbuild.queryBuildInfoPointHis(_that.keys, function(arr) {
+
+                    _that.PointHis = arr;
+                })
+            },
+            // 显示取消确认框
+            _clickWillCancel: function() {
+
+                this.willCancel = true;
+            },
+            // 修改的提交时候的窗台
+            _clickChangeType: function(bool) {
+
+                this.changeType = bool;
+            },
+            // 提交修改
+            _clickSubmit: function() {
+
+                var _that = this;
+
+                // 获取修改时间
+                var dateVal = new Date($('#' + this._clickDateSelKey).psel().startTime).format('yyyyMMddhhssmm');
+                var res = {
+                    build_id: v.instance.BuildInfo.build_id, //建筑id,saas库中建筑表id，必须
+                    build_code: v.instance.BuildInfo.build_code, //建筑体编码，物理世界建筑id，必须
+                    info_point_code: this.keys,
+                    info_point_value: this.newValue,
+                    valid_time: !this.changeType ? dateVal : '', // 判断是否发布新内容
+                }
+
+                // 提交修改修改完成后的修改列表中的数据
+                controllerbuild.updateBuildInfo(res, function() {
+
+                    _that.set(_that.keys, _that.newValue);
+
+                    // 恢复默认值
+                    _that.value = _that.newValue;
+                    _that.newValue = ''; //新的内容
+
+                });
+
+                _that.showIDE = false; //是否展示编辑框
+                _that.willSubmit = false; //准备提交，控制提交的再次确认框
+                _that.willCancel = false; // 准备取消 ,控制取消再次确认框
+                _that.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
+                _that.isError = false;
+
+
+            },
+            // 取消编辑
+            _clickCancelIDE: function() {
+
+                this.newValue = this.value;
+                this.showIDE = false; //是否展示编辑框
+                this.willSubmit = false; //准备提交，控制提交的再次确认框
+                this.willCancel = false; // 准备取消 ,控制取消再次确认框
+                this.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
+                this.isError = false;
+
+                // 重置文本框
+                this.block.pval(this.newValue);
+
+            },
+            // 取消 取消编辑事件
+            _clickCancelCancelIDE: function() {
+                this.willCancel = false;
+            },
+        },
+        watch: {
+
+        }
+    })
+</script>
+<!-- 建筑体管理中的文本组件帶單位的 End -->

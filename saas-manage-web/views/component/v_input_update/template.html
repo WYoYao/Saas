@@ -1,0 +1,138 @@
+<style>
+    .vinputupdate_p {
+        float: left;
+        line-height: 44px;
+        height: 44px;
+        width: 70%;
+    }
+    
+    .vinputupdate_em {
+        line-height: 44px;
+        height: 44px;
+    }
+    
+    .vinputupdate_icon {
+        font-family: 'perficon';
+        /* float: right;
+        margin-right: 100px; */
+    }
+    
+    .vinputupdate_block {
+        float: left;
+        width: 142px;
+        padding-top: 7px;
+    }
+    
+    .vinputupdate_block input[type='button'] {
+        float: left;
+        width: 56px;
+        height: 30px;
+        padding: 0 10px;
+        border-radius: 2px;
+        box-sizing: border-box;
+        font-size: 14px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 200ms linear;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        min-width: 56px;
+    }
+    
+    .vinputupdate_div {
+        float: left;
+        width: 522px;
+    }
+    
+    .vinputupdate_submit {
+        margin-left: 20px;
+        background: #7A94AD;
+        color: #FFFFFF;
+        border: none;
+    }
+    
+    .vinputupdate_cancel {
+        margin-left: 10px;
+        background: #FFFFFF;
+        color: #000000;
+        border: 1px solid #CACACA;
+    }
+</style>
+
+
+<script type="text/x-template" id="v-input-update">
+    <div class='vinputupdate_div'>
+        <vinputtext v-show='isUpdate' :maxlength='maxlength' :set='set' :value='value' :type='type' :canSubmit='updateCanSubmit' :placeholder='placeholder'></vinputtext>
+        <p class='vinputupdate_block' v-show='isUpdate'>
+            <input type="button" @click='submit' class='vinputupdate_submit' value='确定'><input type="button" @click='cancel' class='vinputupdate_cancel' value='取消'>
+        </p>
+        <p class='vinputupdate_p' v-show='!isUpdate'>
+            <em class='vinputupdate_em'> 
+                {{value}}
+            </em>
+            <span class='vinputupdate_icon' @click='update'>e</span>
+        </p>
+    </div>
+</script>
+
+<script>
+    ;
+    (function() {
+
+        Vue.component('vinputupdate', {
+            data: function() {
+                return {
+                    baseValue: [], // 原始参数避免取消修改
+                    isUpdate: false,
+                    canSubmit: true
+                };
+            },
+            props: ['maxlength', 'type', 'placeholder', 'value', 'set', 'key', 'updatevalue'],
+            template: "#v-input-update",
+            methods: {
+                // 点击编辑按钮
+                update: function() {
+                    this.isUpdate = !this.isUpdate;
+                },
+                // 取消编辑按钮
+                cancel: function() {
+
+                    this.set(this.baseValue[0]);
+                    this.isUpdate = !this.isUpdate;
+                },
+                // 提交按钮
+                submit: function() {
+
+                    var _that = this;
+                    if (this.canSubmit == false) return;
+
+                    // 调用父级传入的方法的将修改的值进行返回
+                    if (Object.prototype.toString.call(this.updatevalue).slice(8, -1) == 'Function') this.updatevalue(this.value, function(err) {
+                        if (err) {
+
+                        } else {
+
+                            _that.baseValue = [_that.value];
+                            _that.isUpdate = !_that.isUpdate;
+                        }
+                    });
+                },
+                // 修改当前修改状态的按钮
+                updateCanSubmit: function(isError) {
+                    this.canSubmit = !isError;
+                }
+            },
+            watch: {
+                value: function(newVal) {
+                    this.baseValue.push(newVal);
+                    console.log(this.baseValue);
+                }
+            },
+            // beforeUpdate: function(value) {
+            //     baseValue.push(this.value);
+            //     console.log(baseValue);
+            // }
+        })
+    })();
+</script>

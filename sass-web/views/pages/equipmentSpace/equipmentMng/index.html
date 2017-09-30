@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Saas平台运营平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+
+    <script src="/js/equipmentSpace/equipmentMng/index.js"></script>
+
+
+    <script type="text/javascript" src="/js/public/polyfill.js"></script>
+    <script type="text/javascript" src="/js/public/lodash.min.js"></script>
+    <script type="text/javascript" src="/js/public/promise.min.js"></script>
+
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+
+    <!-- 设备管理列表 Start -->
+    <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/list.css">
+    <script src="/js/equipmentSpace/equipmentMng/list/controller.js"></script>
+    <script src="/js/equipmentSpace/equipmentMng/list/model.js"></script>
+    <script src="/js/equipmentSpace/equipmentMng/list/event.js"></script>
+    <!-- 设备管理列表 End -->
+
+    <!-- 设备管理详情 Start -->
+    <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/detail.css">
+    <script src="/js/equipmentSpace/equipmentMng/detail/controller.js"></script>
+    <script src="/js/equipmentSpace/equipmentMng/detail/model.js"></script>
+    <script src="/js/equipmentSpace/equipmentMng/detail/event.js"></script>
+    <!-- 设备管理详情 End -->
+
+</head>
+
+<body>
+
+    <div class="component" id="component">
+        <div id="equipmentMng">
+            <% include ./list.html %>
+                <% include ./detail.html %>
+        </div>
+    </div>
+    <pwindow-confirm id="confirmWindow">
+        <button>
+                    <pbutton-blue text="确定" click="scrappedEquipment"></pbutton-blue>
+                    <pbutton-white text="取消" click="cancelScrappedEquipment"></pbutton-white>
+                </button>
+    </pwindow-confirm>
+    <ploading-part id='equipmentMngloading'></ploading-part>
+    <pnotice-message id='equipmentMngpnotice'></pnotice-message>
+
+
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Saas平台运营平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+
+    <script type="text/javascript" src="/js/tool/polyfill.js"></script>
+    <script type="text/javascript" src="/js/tool/lodash.min.js"></script>
+    <script type="text/javascript" src="/js/tool/promise.min.js"></script>
+    <script type="text/javascript" src="/js/tool/public.js"></script>
+    <script type="text/javascript" src="/js/index.js"></script>
+
+
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+    <link rel="stylesheet" href="/css/public/index.css">
+    <link rel="stylesheet" href="/css/public/reset.css" />
+</head>
+
+<body>
+    <!-- 导入组件 Start -->
+    <% include ../component/v_input_text/template.html %>
+        <% include ../component/v_input_update/template.html %>
+            <% include ../component/ptimeupdate/template.html %>
+                <!-- 导入组件 End -->
+                <div class="sagaContent" id="component">
+                    <!-- 项目信息管理 Start -->
+                    <div class="project_manage_module">
+                        <!-- 列表 -->
+                        <% include ../project_manage/project_manage_list.html %>
+                            <!-- 新增 -->
+                            <% include ../project_manage/project_manage_insert.html %>
+                                <!-- 查看编辑 -->
+                                <% include ../project_manage/project_manage_update.html %>
+                                    <!-- confirm -->
+                                    <pwindow-confirm id="confirmWindow">
+                                        <button>
+                                            <pbutton-blue text="确定" click="goProjectManageSubmitBack"></pbutton-blue>
+                                            <pbutton-white text="取消" click="confirmhide"></pbutton-white>
+                                        </button>
+                                    </pwindow-confirm>
+                                    <pnotice-message id="projectManagePopNoticeWarn"></pnotice-message>
+
+                    </div>
+                    <!-- 项目信息管理 End -->
+
+                </div>
+</body>
+
+</html>
+
+<script>
+    $(function() {
+
+        //创建Vue 实例
+        v.createVue();
+        // 测试项目管理页面
+        v.initPage('projectList');
+        v.initPage('prokestInsert');
+        v.initPage('projectUpdate');
+        v.navigatorTo('projectList');
+
+        // v.navigatorTo('projectUpdate');
+
+    })
+</script>

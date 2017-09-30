@@ -1,0 +1,131 @@
+<div class="upload">
+    <div class="content" v-show='onPage=="upload"'>
+        <div class="header">
+            <span class="date">
+                <ptime-form id='monthId' bind='true' sel='changeMonth'>
+                    <panel timetype="yM" startyear="1993" endyear="2020"></panel>
+                </ptime-form>
+            </span>
+            <span class="btn" @click.capture='_clikcShowBanc'>
+                <pbutton-blue text="班次设置"></pbutton-blue>
+            </span>
+        </div>
+        <div class="contenter">
+            <div class="block">
+                <p class="wordicon">S</p>
+                <p class="word">当前尚无排班表</p>
+                <div class="do">
+                    <a class="btn">
+                        <a v-bind:href="'<%=serviceUrl%>/restSchedulingService/downloadSchedulingTemplateFile?user_id=<%=customer_id%>&project_id=<%=project_id%>&month='+month" class="btn">
+                        <pbutton-blue icon="'D'" text="'下载'+ (+month.slice(4)) +'月排班表模板'" bind='true'></pbutton-blue>
+                    </a>
+                    <span class="btn"><pupload-attachment id='upload' text="上传排班表">
+                        <panel success='scheduleUploadSuccessfull'></panel>    
+                    </pupload-attachment></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content" v-show='onPage=="show"'>
+        <div class="header">
+            <span class="rbtn" @click='_reupload()' v-show='state==1'>
+                        <pbutton-white text="重新上传文件"></pbutton-white>
+                    </span>
+            <span class="date">
+                    <ptime-form id='getMonthId' bind='true' sel='changeSelectMonth'>
+                        <panel timetype="yM" startyear="1993" endyear="2020"></panel>
+                    </ptime-form>
+                </span>
+            <span class="btn" @click='_clickfb()' v-show='state==1'>
+                    <pbutton-blue text="发布"></pbutton-blue>
+                </span>
+            <span class="btn" @click='_clikcShowBanc()' v-show='state==2'>
+                    <pbutton-blue text="班次设置"></pbutton-blue>
+                </span>
+        </div>
+        <div class="topheader" v-show='state==2'>
+            <span class="btn uploadCon">
+                <pupload-attachment id='upload1'>
+                    <panel success='scheduleUploadSuccessfull'></panel>    
+                </pupload-attachment>
+            </span>
+            <span class="btn">
+                    <a v-bind:href="'<%=serviceUrl%>/restSchedulingService/downloadSchedulingTemplateFile?user_id=<%=customer_id%>&project_id=<%=project_id%>&month='+month" class="btn">
+                        <pbutton-blue icon="'D'" text="'下载'+ (+month.slice(4)) +'月排班表模板'" bind='true'></pbutton-blue>
+                    </a>
+                </span>
+        </div>
+        <div class="contenter border" :style='{"top":state==1?"70px":"100px"}'>
+            <ul class="theader">
+                <li v-for='item in tableHead'>
+                    <p v-for='(str,index) in item' :class="{'item': index!=1,'item31':((34-item.length)==0) && index==1,'item30':((34-item.length)==1)  && index==1,'item29':((34-item.length)==2)  && index==1,'item28':((34-item.length)==3) && index==1 }" v-text='str'></p>
+                </li>
+            </ul>
+            <ul class="theader tbody">
+                <li v-for='item in tableBody'>
+                    <p v-for='(obj,index) in item' :class="{'error':obj.isError,' item ': index!=1,'item31 ':((34-item.length)==0) && index==1,'item30 ':((34-item.length)==1)  && index==1,'item29 ':((34-item.length)==2)  && index==1,'item28 ':((34-item.length)==3) && index==1}">
+                        <span class="tipsource" v-if='obj.isErrorWord'>!<span class="ErrorWord">{{obj.isErrorWord}}</span></span>
+                        {{obj.str}}
+                    </p>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="content" v-show='onPage=="banc"'>
+        <div class="header">
+            <span class="rbtn">
+                    <pbutton-white @click.capture='_clikcShowUpload' text="返回"></pbutton-blue>
+            </span>
+            <span class="btn" @click.cature='_addbancItem()'>
+                    <pbutton-blue text="保存"></pbutton-blue>
+                </span>
+        </div>
+        <div class="contenter">
+            <div class="box">
+                <p class="title1">请添加班次，并未每种班次选定一个字母代指它：</p>
+                <p class="title2">例如：班次时间：09:00~19:00 代指字母：A</p>
+                <p class="title3">您只需要将工作时间设定为班次（我们会将不填写班次的日期自动判定为休息日）</p>
+                <ul class="tb">
+                    <li class="item clearfix" v-for='(item,index) in banc' :key="item.createtime">
+                        <div class="left clearfix">
+                            <p class="delete" @click='_rebanc(item.createtime)'>p</p>
+                            <div class="id">
+                                <ptext-text id='index' placeholder="'请输入班次编号'" bind='true'>
+                                    <verify errtip="不可为空" verifytype="space"></verify>
+                                </ptext-text>
+                            </div>
+                            <div class="name">
+                                <ptext-text id='index' placeholder="'请输入班次名称'" bind='true'>
+                                    <verify errtip="不可为空" verifytype="space"></verify>
+                                </ptext-text>
+                            </div>
+                        </div>
+                        <div class="right">
+                            <ul class="time">
+                                <li v-for='(info,i) in item.time_plan'>
+                                    <span class="date">
+                                        <ptime-form id="'startTime'+index+i" bind='true'>
+                                            <panel timetype="hm" startyear="1993" endyear="2020"></panel>
+                                        </ptime-form>
+                                    </span>
+                                    <p class="font">到</p>
+                                    <span class="edate">
+                                        <ptime-form id="'startEnd'+index+i" bind='true'>
+                                            <panel timetype="hm" startyear="1993" endyear="2020"></panel>
+                                        </ptime-form>
+                                    </span>
+                                    <p class="sum" v-show='i>=(item.time_plan.length-1)' @click=_addtime_plan(index)>J</p>
+                                    <p class="re" @click=_retime_plan(index,i)>-</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="item clearfix">
+                        <span class="addbanc" @click=_addbanc()>J</span>
+                        <span class="addbanctext" @click=_addbanc()>添加班次</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

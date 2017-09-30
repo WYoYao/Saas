@@ -1,0 +1,272 @@
+.row>p,
+.row>.col,
+.row>.text {
+    text-indent: 1em;
+    line-height: 44px;
+    font-size: 14px;
+}
+
+.row>p {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    color: #666666;
+    background: #f8f8f8;
+    width: 180px;
+    box-sizing: border-box;
+    border-right: 1px solid #dddddd;
+}
+
+.row .col {
+    position: relative;
+    display: block;
+    margin-left: 180px;
+    color: #333333;
+    background: #ffffff;
+    height: 44px;
+}
+
+.row .error {
+    position: relative;
+    display: block;
+    margin-left: 180px;
+    color: #333333;
+    background: #ffffff;
+    height: 66px;
+}
+
+.row .tip,
+.row .confirm {
+    position: absolute;
+    top: 35px;
+    right: -234px;
+    width: 302px;
+    height: auto;
+    border: 1px solid #d9d9d9;
+    border-radius: 2px;
+    z-index: 2;
+    background: #ffffff;
+    box-shadow: 2px 2px 5px #d9d9d9;
+    text-indent: 0;
+}
+
+.row .confirm .titlefont {
+    display: block;
+    margin-top: 20px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 16px;
+    color: #333333;
+    text-align: center;
+}
+
+.row .confirm .description {
+    display: block;
+    height: 16px;
+    line-height: 12px;
+    font-size: 12px;
+    color: #6d6d6d;
+    text-align: center;
+}
+
+.row .confirm .panel {
+    position: relative;
+    height: 68px;
+    width: 100%;
+}
+
+.row .confirm .panel .sumitbtn,
+.row .confirm .panel .cancelbtn {
+    position: absolute;
+    height: 30px;
+    width: 80px;
+    top: 50%;
+    margin-top: -15px;
+    left: 50%;
+}
+
+.row .confirm .panel .sumitbtn {
+    margin-left: -85px;
+}
+
+.row .confirm .panel .cancelbtn {
+    margin-left: 5px;
+}
+
+.row .tip .box {
+    margin: 10px 20px;
+    width: auto;
+    height: auto;
+}
+
+.row .tip .header {
+    height: 40px;
+    margin-top: 26px;
+    width: 100%;
+}
+
+.row .tip .column {
+    height: 100%;
+    width: 50%;
+    line-height: 40px;
+    float: left;
+}
+
+.row .tip .header .radio {
+    float: left;
+    height: 40px;
+    width: 25px;
+    padding-top: 4px;
+}
+
+.row .tip .contenter {
+    width: 100%;
+    height: auto;
+}
+
+.row .tip .contenter>ul {
+    height: auto;
+    max-height: 284px;
+    width: 100%;
+    overflow-y: overlay;
+    /* border: 1px solid #cccccc; */
+}
+
+.row .tip .contenter>ul>li {
+    width: 100%;
+    height: 36px;
+    background: #ffffff;
+    border-right: 1px solid #cccccc;
+    border-left: 1px solid #cccccc;
+    box-sizing: border-box;
+    border: 1px solid #cccccc;
+    border-bottom: none;
+}
+
+.row .tip .contenter>ul>li>span {
+    float: left;
+    width: 50%;
+    height: 100%;
+    line-height: 36px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.row .tip .contenter>ul>li:not(.th)>span:nth-child(2n) {
+    border-left: 1px solid #cccccc;
+}
+
+.row .tip .contenter>ul>.th {
+    background: #8b959a;
+    height: 30px;
+    width: 100%;
+    border-bottom: none !important;
+}
+
+.row .tip .contenter>ul>li:nth-child(2n) {
+    background: #f8f8f8;
+}
+
+.row .tip .contenter>ul>li:last-child {
+    border-bottom: 1px solid #cccccc;
+}
+
+.row .tip .contenter>ul>.th span {
+    line-height: 30px;
+}
+
+.row .tip .contenter .label {
+    display: block;
+    font-size: 14px;
+    height: 30px;
+    width: 100%;
+    line-height: 30px;
+}
+
+.row .tip .contenter .line {
+    display: block;
+    position: relative;
+    text-indent: 0;
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    line-height: 12px;
+    color: #b0b0b0;
+}
+
+.row .tip .contenter .line::before,
+.row .tip .contenter .line::after {
+    content: " ";
+    position: absolute;
+    top: 52%;
+    width: 16%;
+    height: 1px;
+    background: #dddddd;
+}
+
+.row .tip .contenter .line::before {
+    left: 0;
+}
+
+.row .tip .contenter .line::after {
+    right: 0;
+}
+
+.row .tip .footer {
+    height: 70px;
+    width: 100%;
+    vertical-align: center;
+    text-align: center;
+    line-height: 70px;
+}
+
+.row .tip .footer .btn {
+    display: inline-block;
+}
+
+.row .input {
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: 200px;
+    text-indent: 0;
+    line-height: 0;
+    width: 620px;
+}
+
+.row .col .input {
+    height: 44px;
+}
+
+.row .error .input {
+    height: 64px;
+}
+
+.row .ide,
+.row .cancel,
+.row .smt {
+    line-height: 44px;
+    font-family: 'perficon';
+    text-indent: 0;
+    width: 25px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.row .ide,
+.row .cancel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #7a94ad;
+}
+
+.row .smt {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    color: #68c5b3;
+}

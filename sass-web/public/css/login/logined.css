@@ -1,0 +1,347 @@
+/*
+*登陆页css
+*@Author：wangyangyang
+*Update:2016-03-24  16:30
+*/
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+
+.v6s-login-wrap {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.v6s-login-wrap .login-img {
+    /*height: 100%;
+    width: 100%;*/
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+.v6s-login-con {
+    width: 410px;
+    height: 480px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin-top: -240px;
+    margin-left: -205px;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.login-title {
+    font-size: 28px;
+    height: 120px;
+    line-height: 120px;
+    text-align: center;
+    color: #333333;
+    font-weight: bold;
+    cursor: default;
+    position: relative;
+}
+
+.login-title > em {
+    display: block;
+    width: 30px;
+    height: 6px;
+    background-color: #02a9d1;
+    position: absolute;
+    top: 0;
+    left: 190px;
+    z-index: 5;
+}
+.login-footer{
+    width: 100%;
+    height: 40px;
+    color: #b5b5b5;
+    font-size: 12px;
+    text-align: center;
+    line-height: 40px;
+    background-color: #fafafa;
+}
+/*.v6s-login-con:before {
+    content: '';
+    height: 56px;
+    width: 495px;
+    background: url(../../img/frame/login.png) no-repeat;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}*/
+
+.v6s-login-bg {
+    border-top: none;
+    /*position: absolute;*/
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+.login-type{
+    width: 100%;
+    height: calc(100% - 160px);
+}
+.login-tab{
+    width: 100%;
+    height: 36px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    text-align: center;
+}
+.login-company{
+    display: inline-block;
+    width: 60px;
+    height: 100%;
+    position: relative;
+    margin-right: 25px;
+    color: #02a9d1;
+    cursor: pointer;
+}
+.login-company>em{
+    display: block;
+    width: 20px;
+    height: 3px;
+    background-color: #02a9d1;
+    position: absolute;
+    bottom: 0;
+    left: 20px;
+    z-index: 5;
+}
+
+.login-person{
+    display: inline-block;
+    width: 60px;
+    height: 100%;
+    position: relative;
+    color: #b0b0b0;
+    cursor: pointer;
+}
+.login-person>em{
+    display: block;
+    width: 20px;
+    height: 3px;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+    right: 20px;
+    z-index: 5;
+}
+.login-form{
+    width: 100%;
+    height: calc(100% - 36px);
+    background-color: #fafafa;
+}
+
+.form-company{
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 35px 40px;
+}
+
+
+
+
+.login-con {
+    width: 100%;
+    margin: 0 auto;
+    position: relative;
+    margin-bottom: 40px;
+}
+
+
+.login-con input {
+    width: 100%;
+    height: 42px;
+    border-color: #cacaca;
+    font-size: 16px;
+    border-radius: 2px;
+    transition: 0.3s;
+    border: none;
+    border-bottom: 1px solid #d2d8da;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+.login-con input.error-input{
+    border-bottom: 1px solid #ef6767;
+}
+.password-div{
+    position: relative;
+}
+.password-div input{
+    padding-right: 20px;
+}
+.password-div>div{
+    position: relative;
+}
+.password-div-visible{
+    display: none;
+}
+.visible-div{
+    position: absolute;
+    right: 0;
+    top: 15px;
+    cursor: pointer;
+}
+.visible-div img:nth-of-type(2){
+    display: none;
+}
+.form-person{
+    width: 100%;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 35px 40px;
+    display: none;
+}
+.tel-div{
+    position: relative;
+}
+.tel-div input{
+    padding-right: 96px;
+}
+.send-code-countdown{
+    width: 95px;
+    height: 20px;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    color: #b0b0b0;
+    text-align: center;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border-left: 1px solid #b0b0b0;
+}
+.send-code-countdown span:first-of-type{
+    display: block;
+    cursor: pointer;
+}
+.send-code-countdown span:last-of-type{
+    display: none;
+    cursor: default;
+}
+.error-tip{
+    width: 100%;
+    margin-top: 5px;
+    color: #ef6767;
+    text-align: center;
+    /*display: none;*/
+}
+
+
+
+
+.login-con input::-webkit-input-placeholder {
+    font-size: 14px;
+}
+
+.login-con input::-moz-input-placeholder {
+    font-size: 14px;
+}
+
+.login-con input::-ms-input-placeholder {
+    font-size: 14px;
+}
+
+.login-con input::input-placeholder {
+    font-size: 14px;
+}
+
+.login-con input.error {
+    border-color: #b0cbe6;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+input:-moz-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+input:-o-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+input:autofill {
+    -webkit-box-shadow: 0 0 0px 1000px white inset;
+}
+
+.login-con #txtPass {
+    margin-top: 20px;
+}
+
+.login-button {
+    height: 42px;
+    background-color: #b5b5b5;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    width: 200px;
+    margin: 0 auto;
+    border: 0;
+    border-radius: 60px;
+    font-size: 16px;
+    /*font-weight: bold;*/
+    word-spacing: 8px;
+    letter-spacing: 2px;
+    transition: 0.5s;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.login-button:hover {
+    background: #00799e;
+    transition: 0.5s;
+}
+.login-button:focus {
+    background: #00799e;
+    transition: 0.5s;
+}
+/*.login-con .error-tip {*/
+    /*position: Absolute;*/
+    /*right: 0;*/
+    /*height: 30px;*/
+    /*line-height: 30px;*/
+    /*color: #fd9054;*/
+    /*cursor: default;*/
+/*}*/
+
+.jing-ICP {
+    position: absolute;
+    right: 28px;
+    font-size: 14px;
+    color: #fff;
+    bottom: 15px;
+    text-shadow: 0 1px 6px #000;
+    cursor: default;
+}
+
+.login-con input.error-input{
+    border-bottom: 1px solid #ef6767;
+}

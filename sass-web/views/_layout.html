@@ -1,0 +1,20 @@
+<html><head><script type="text/javascript">var pticket="67f53fb2e7b1d2092309887bf25e4dd2724deecc14ef3d8abc3a5738de7e3061bec349eef9a7aa6b7fd0cc0775ae7a93e4288dba29206fe598cae1f4850df34efd2596c2bd618350358cf2ee3650552f100b9449cdf9b2c4aa1b447dac646a618c727f69a0daf4009cb34c02c709158239b648cd7173f77c454dde7d09614fc6db28883712b887c9cd540b43bc0eeec21e8325e2006a67e9346dcb2763a2887e57a777a7632a99d2117adc57a8270aa35c76e49ce4653802bb056bad615cecbd1af88410635c4f42cfa45c5c028087df91cb4838bced64514cfb04cdb53fb6085a8d5d001772fd445312c54f910ce2030c839ec4050ed2cc1cc5a2a9877f17de7f3de6a7198419aa2b0c6a162ffc7088";</script></head><body><% include ./template/pageHead.html %>
+<script type="text/javascript" src="/js/layout.js"></script>
+<div id="div1">
+    <pframe-normal id="'pfnor'" title="'Saaså¹³å�°'">
+        <user head="head" name="userName">
+            <item datasource="userMenus" click="selUserMenu"></item>
+        </user>
+        <item datasource="menuItems" text="name" child="menu" url="url">
+            <manage text="'é¡¹ç›®ç®¡ç�†'" url="/system"></manage>
+            <combobox>
+                <pcombobox-normal sel="selProject" id="'combobox1'" isborder="false" orientation="down" bind="true">
+                    <header placeholder="é¡¹ç›®å��ç§°"></header>
+                    <item datasource="projectList" text="project_name"></item>
+                </pcombobox-normal>
+            </combobox>
+        </item>
+    </pframe-normal>
+</div>
+
+<% include ./template/pageFoot.html %></body></html>

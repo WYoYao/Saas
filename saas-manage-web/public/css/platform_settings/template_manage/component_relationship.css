@@ -1,0 +1,127 @@
+.componentRelationship {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.componentRelationship_header {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 50px;
+    border-bottom: 1px solid #d9e2e8;
+    min-width: 1860px;
+}
+
+.componentRelationship_header .back {
+    margin-top: 10px;
+    float: left;
+}
+
+.componentRelationship_header .go {
+    margin-top: 10px;
+    float: right;
+}
+
+.componentRelationship_content {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    right: 20px;
+    bottom: 0;
+    min-width: 1860px;
+}
+
+.componentRelationship_content .list_thead {
+    position: absolute;
+    top: 0;
+    height: 30px;
+    width: 100%;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.componentRelationship_content .list_tbody {
+    position: absolute;
+    top: 30px;
+    bottom: 0;
+    width: 100%;
+    overflow-y: overlay;
+}
+
+.componentRelationship_content li {
+    width: 100%;
+}
+
+.componentRelationship_content li:nth-child(2n) {
+    background: #f5f7fa;
+}
+
+.componentRelationship_content li span {
+    float: left;
+    width: 20%;
+    height: 30px;
+    line-height: 30px;
+    text-indent: 3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-align: left;
+}
+
+.componentRelationship_content li span:last-child {
+    cursor: pointer;
+}
+
+.componentRelationship_content .list_tbody li span {
+    height: 36px;
+    line-height: 36px;
+}
+
+.componentRelationshipLayer {
+    width: 458px;
+    height: 500px;
+    font-size: 16px;
+    overflow: auto;
+}
+
+.componentRelationshipLayer_content {
+    padding: 50px 90px 0;
+    height: auto;
+    overflow: auto;
+    box-sizing: border-box;
+}
+
+.componentRelationshipLayer_content .part {
+    height: 90px;
+    width: 100%;
+}
+
+.componentRelationshipLayer_content .part:last-child {
+    overflow: hidden;
+}
+
+.componentRelationshipLayer_content .btn {
+    height: 100%;
+    width: 100%;
+    line-height: 90px;
+    text-align: center;
+}
+
+.componentRelationshipLayer_content .submit {
+    display: inline-block;
+    line-height: 30px;
+    height: 30px;
+    margin: 38px 30px;
+}
+
+.componentRelationshipLayer_content .cancel {
+    display: inline;
+    line-height: 30px;
+}
+
+.componentRelationshipLayer_content li span {
+    display: block;
+    height: 30px;
+    line-height: 30px;
+}

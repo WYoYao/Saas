@@ -1,0 +1,471 @@
+<% include ../../../template/pageHead.html %>
+<script type="text/javascript" src="../js/equipmentSpace/equipmentAddress/controller.js"></script>
+<script type="text/javascript" src="../js/equipmentSpace/equipmentAddress/model.js"></script>
+<script type="text/javascript" src="../js/equipmentSpace/equipmentAddress/event.js"></script>
+<link rel="stylesheet" href="../css/equipmentSpace/equipmentAddress/equiment.css" />
+
+<div class="eqaddressWrap" id="eqaddressWrap">
+    <ptab-navigation id="eqaddresstab" datasource="eqaddresstabArr" text="name" icon="icon" templateid="eqaddressTemp" sel="equipmentAddressVueMethod.tabSel"></ptab-navigation>
+    <!-- float弹窗 -->
+    <pwindow-float id="eqaddressfloat" isshade="true" title="这是标题" templateid="floatTemp">
+            <button>
+                <pbutton-blue text="删除" icon="p"  isborder="false" id="delEqaddress" click="delEqaddress"></pbutton-blue>            
+            </button>
+             <animate maxpx="0" minpx="-480"  orientation="right"> </animate>
+        </pwindow-float>
+</div>
+
+<script type="text/html" id="eqaddressTemp">
+    <div class="eqaddressGridWrap">
+        <!-- 供应商 -->
+        <div class="eqaddressGrid">
+            <pgrid-multifunction>
+                <panel datasource="merchantArr"  lineclick="equipmentAddressVueMethod.gridLineSel" sel="equipmentAddressVueMethod.gridPageChange"></panel>
+                <header>
+                    <column name="供应商名称" source="company_name"></column>
+                    <column name="联系人" source="contacts"></column>
+                    <column name="联系电话" source="phone"></column>
+                    <column name="网址" source="web"></column>
+                    <column name="传真" source="fax"></column>  
+                    <column name="电子邮件" source="email"></column>  
+                </header>
+               <page>
+                    <ppage-simple number="50" ></ppage-simple>
+                </page>
+                <button>
+                    <pbutton-white text="录入供应商" click="addfloatShow"></pbutton-white>
+                </button>
+            </pgrid-multifunction>
+        </div>
+        <!-- 生产商 -->
+        <div class="eqaddressGrid">
+            <pgrid-multifunction>
+                <panel datasource="merchantArr"  lineclick="equipmentAddressVueMethod.gridLineSel" sel="equipmentAddressVueMethod.gridPageChange"></panel>
+                <header>
+                    <column name="生产厂商名称" source="company_name"></column>
+                    <column name="联系人" source="contacts"></column>
+                    <column name="联系电话" source="phone"></column>
+                    <column name="网址" source="web"></column>
+                    <column name="传真" source="fax"></column>  
+                    <column name="电子邮件" source="email"></column>  
+                 <column name="所含品牌" source="brands"></column>  
+                     </header>
+                  <page>
+                    <ppage-simple number="50" ></ppage-simple>
+                </page>
+                <button>
+                    <pbutton-white text="录入生产商" click="addfloatShow"></pbutton-white>
+                </button>
+            </pgrid-multifunction>
+        </div>
+        <!-- 维修商 -->
+        <div class="eqaddressGrid">
+            <pgrid-multifunction>
+                <panel datasource="merchantArr"  lineclick="equipmentAddressVueMethod.gridLineSel" sel="equipmentAddressVueMethod.gridPageChange"></panel>
+                <header>
+                    <column name="维修商名称" source="company_name"></column>
+                    <column name="联系人" source="contacts"></column>
+                    <column name="联系电话" source="phone"></column>
+                    <column name="网址" source="web"></column>
+                    <column name="传真" source="fax"></column>  
+                    <column name="电子邮件" source="email"></column>  
+                </header>
+                  <page>
+                    <ppage-simple number="50" ></ppage-simple>
+                </page>
+                <button>
+                    <pbutton-white text="录入维修商" click="addfloatShow"></pbutton-white>
+                </button>
+            </pgrid-multifunction>
+        </div>
+        <!-- 保险公司 -->
+        <div class="eqaddressGrid">
+            <pgrid-multifunction>
+                <panel datasource="merchantArr"  lineclick="equipmentAddressVueMethod.gridLineSel" sel="equipmentAddressVueMethod.gridPageChange"></panel>
+                <header>
+                    <column name="供应商名称" source="company_name"></column>
+                    <column name="联系人" source="contacts"></column>
+                    <column name="联系电话" source="phone"></column>
+                    <column name="保险单号" source="insurer_info"></column>
+                    <column name="保险文件" source="insurer_name"></column> 
+                </header>
+                  <page>
+                    <ppage-simple number="50" ></ppage-simple>
+                </page>
+                <button>
+                    <pbutton-white text="录入保险公司" click="addfloatShow"></pbutton-white>
+                </button>
+            </pgrid-multifunction>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="floatTemp">
+    <div class="eqaddressFloatWrap">
+        <!--新建 -->
+        <div class="addWrap">
+            <div class="inputTempWrap">
+                <div class="inputTemp">
+                    <span class="inputname"><em>*</em><b>供应商名称:</b></span>
+                    <div class="inputwrap">
+                        <ptext-text placeholder="请输入">
+                        <verify errtip="不可为空"  verifytype="space"></verify>
+                    </ptext-text>
+                    </div>
+
+                </div>
+                <div class="inputTemp">
+                    <span class="inputname"><b>联系人:</b></span>
+                    <div class="inputwrap">
+                        <ptext-text placeholder="请输入"></ptext-text>
+                    </div>
+
+                </div>
+                <div class="inputTemp">
+                    <span class="inputname"><b>联系电话:</b></span>
+                    <div class="inputwrap">
+                        <ptext-text placeholder="请输入电话号码"></ptext-text>
+                    </div>
+                </div>
+                <div class="inputTemp" v-show="!(tabSelIndex==3)">
+                    <span class="inputname"><b>网址:</b></span>
+                    <div class="inputwrap">
+                        <ptext-text placeholder="请输入网址"></ptext-text>
+                    </div>
+                </div>
+                <div class="inputTemp" v-show="!(tabSelIndex==3)">
+                    <span class="inputname"><b>传真:</b></span>
+                    <div class="inputwrap">
+                        <ptext-text placeholder="请输入传真"></ptext-text>
+                    </div>
+                </div>
+                <div class="inputTemp" v-show="!(tabSelIndex==3)">
+                    <span class="inputname"><b>电子邮件:</b></span>
+                    <div class="inputwrap">
+                        <ptext-text placeholder="请输入电子邮件"></ptext-text>
+                    </div>
+                </div>
+
+                <div class="insurerWrapPar" v-show="tabSelIndex==3">
+                    <div class="insurerWrap">
+                        <div class="inputTemp">
+                            <span class="inputname"><b>保险单号:</b></span>
+                            <div class="inputwrap">
+                                <ptext-text placeholder="请输入保险单号"></ptext-text>
+                            </div>
+                        </div>
+                        <div class="inputTemp">
+                            <span class="inputname"><b>保险文件:</b></span>
+                            <div class="inputwrap">
+                                <pupload-attachment></pupload-attachment>
+                            </div>
+                        </div>
+                        <div class="insureraddBut">
+                            <pbutton-white icon="J" shape="ellipse" click="addInsurerClick"></pbutton-white>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="brandWrapPar" v-show="tabSelIndex==1">
+                    <div class="insurerWrap">
+                        <div class="inputTemp">
+                            <span class="inputname"><b>所含品牌:</b></span>
+                            <div class="inputwrap">
+                                <ptext-text placeholder="请输入品牌"></ptext-text>
+                            </div>
+                        </div>
+                        <div class="insureraddBut">
+                            <pbutton-white icon="J" shape="ellipse" click="addBrandClick"></pbutton-white>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="butWrap">
+                <pbutton-blue text="保存" click="addList"></pbutton-blue>
+            </div>
+        </div>
+        <!-- 查看、编辑 -->
+        <div class="selWrap">
+            <div class="selTemp selTempSel" type="company_name">
+                <span class="selname"><b>供应商名称:</b></span>
+                <div class="selcon">
+                    <div class="selInput">
+                        <span v-text="selMerchantToInfo.company_name">name</span>
+                        <div class="selBut">
+                            <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                        </div>
+                    </div>
+                    <div class="editInput">
+                        <div>
+                            <ptext-text value="selMerchantToUpdate.company_name" bind="true"></ptext-text>
+                        </div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="selTemp selTempSel" type="contacts">
+                <span class="selname"><b>联系人:</b></span>
+                <div class="selcon">
+                    <div class="selInput">
+                        <span v-text="selMerchantToInfo.contacts">name</span>
+                        <div class="selBut">
+                            <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                        </div>
+                    </div>
+                    <div class="editInput">
+                        <div>
+                            <ptext-text value="selMerchantToUpdate.contacts" bind="true"></ptext-text>
+                        </div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="selTemp selTempSel" type="phone">
+                <span class="selname"><b>联系电话:</b></span>
+                <div class="selcon">
+                    <div class="selInput">
+                        <span v-text="selMerchantToInfo.phone">name</span>
+                        <div class="selBut">
+                            <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                        </div>
+                    </div>
+                    <div class="editInput">
+                        <div>
+                            <ptext-text value="selMerchantToUpdate.phone" bind="true"></ptext-text>
+                        </div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="selTemp selTempSel" type="web" v-show="!(tabSelIndex==3)">
+                <span class="selname"><b>网址:</b></span>
+                <div class="selcon">
+                    <div class="selInput">
+                        <span v-text="selMerchantToInfo.web">name</span>
+                        <div class="selBut">
+                            <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                        </div>
+                    </div>
+                    <div class="editInput">
+                        <div>
+                            <ptext-text value="selMerchantToUpdate.web" bind="true"></ptext-text>
+                        </div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="selTemp selTempSel" type="fax" v-show="!(tabSelIndex==3)">
+                <span class="selname"><b>传真:</b></span>
+                <div class="selcon">
+                    <div class="selInput">
+                        <span v-text="selMerchantToInfo.fax">name</span>
+                        <div class="selBut">
+                            <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                        </div>
+                    </div>
+                    <div class="editInput">
+                        <div>
+                            <ptext-text value="selMerchantToUpdate.fax" bind="true"></ptext-text>
+                        </div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="selTemp selTempSel" type="email" v-show="!(tabSelIndex==3)">
+                <span class="selname"><b>电子邮件:</b></span>
+                <div class="selcon">
+                    <div class="selInput">
+                        <span v-text="selMerchantToInfo.email">name</span>
+                        <div class="selBut">
+                            <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                        </div>
+                    </div>
+                    <div class="editInput">
+                        <div>
+                            <ptext-text value="selMerchantToUpdate.email" bind="true"></ptext-text>
+                        </div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="selTemp selTempSel" v-show="tabSelIndex==1" type="brands">
+                <span class="selname"><b>所含品牌:</b></span>
+                <div class="selcon">
+                    <div class="selInput">
+                        <span v-for="item in selMerchantToInfo.brands" v-text="item"></span>
+                        <div class="selBut">
+                            <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                        </div>
+                    </div>
+                    <div class="editInput ">
+                        <div class="editbrand brandWrapPar">
+                            <div class="insurerWrap" v-for="item in selMerchantToUpdate.brands">
+                                <div class="inputTemp">
+                                    <div class="inputwrap">
+                                        <ptext-text placeholder="'请输入品牌'" value="item" bind="true"></ptext-text>
+                                    </div>
+                                </div>
+                                <div class="insureraddBut">
+                                    <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
+                                    <pbutton-white icon="J" shape="ellipse" click="addBrandClick"></pbutton-white>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- 保险 -->
+            <div class="selTemp selTempSel bxDiv brandWrapPar" type="insurer_info" v-show="tabSelIndex==3">
+                <div class="bxTemp">
+                    <div class="bxEditWrap">
+                        <span class="selname"><b>保险单号:</b></span>
+                        <div class="selcon">
+                            <div class="selInput">
+                                <span>单号</span>
+                                <div class="selBut">
+                                    <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                                </div>
+                            </div>
+                            <div class="editInput">
+                                <div>
+                                    <ptext-text></ptext-text>
+                                </div>
+                                <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                                <div class="insureraddBut">
+                                    <pbutton-white icon="J" shape="ellipse" click="addbxTempClick"></pbutton-white>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="bxEditWrap">
+                        <span class="selname"><b>保险名称:</b></span>
+                        <div class="selcon">
+                            <div class="selInput">
+                                <span>名称</span>
+                            </div>
+                            <div class="editInput">
+                                <div>
+                                    <pupload-attachment></pupload-attachment>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+</script>
+
+<!-- 添加保险单号 -->
+<script type="text/html" id="addInsurerTemp">
+    <div class="insurerWrap">
+        <div class="inputTemp">
+            <span class="inputname"><b>保险单号:</b></span>
+            <div class="inputwrap">
+                <ptext-text placeholder="请输入保险单号"></ptext-text>
+            </div>
+        </div>
+        <div class="inputTemp">
+            <span class="inputname"><b>保险文件:</b></span>
+            <div class="inputwrap">
+                <pupload-attachment></pupload-attachment>
+            </div>
+        </div>
+        <div class="insureraddBut">
+            <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
+            <!--<pbutton-white icon="J" shape="ellipse" click="addInsurerClick"></pbutton-white>-->
+        </div>
+    </div>
+</script>
+
+<!-- 添加品牌 -->
+<script type="text/html" id="addBrandTemp">
+    <div class="insurerWrap">
+        <div class="inputTemp">
+            <span class="inputname"><b></b></span>
+            <div class="inputwrap">
+                <ptext-text placeholder="请输入品牌"></ptext-text>
+            </div>
+        </div>
+        <div class="insureraddBut">
+            <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
+            <!--<pbutton-white icon="J" shape="ellipse" click="addInsurerClick"></pbutton-white>-->
+        </div>
+    </div>
+</script>
+<!-- 编辑保险的时候添加的保险 -->
+<script type="text/html" id="editAddbx">
+    <div class="bxTemp insurerWrap">
+        <div class="bxEditWrap">
+            <span class="selname"><b>保险单号:</b></span>
+            <div class="selcon">
+                <div class="selInput">
+                    <span>单号</span>
+                </div>
+                <div class="editInput">
+                    <div>
+                        <ptext-text></ptext-text>
+                    </div>
+                    <div class="insureraddBut">
+                        <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="bxEditWrap">
+            <span class="selname"><b>保险名称:</b></span>
+            <div class="selcon">
+                <div class="selInput">
+                    <span>名称</span>
+                </div>
+                <div class="editInput">
+                    <div>
+                        <pupload-attachment></pupload-attachment>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</script>
+
+
+<!-- loading -->
+<ploading-part id="eqaddressloading" text="拼命加载中..."></ploading-part>
+<!-- 成功失败提示 -->
+<pnotice-message id="eqaddressnotice"></pnotice-message>
+
+<!-- 删除二次弹窗 -->
+<pwindow-confirm id="confirmWindow">
+    <button>
+        <pbutton-backred text="确定" click="confirmDel"></pbutton-backred>
+        <pbutton-white text="取消" click="confirmhide"></pbutton-white>
+    </button>
+</pwindow-confirm>
+
+<% include ../../../template/pageFoot.html %>

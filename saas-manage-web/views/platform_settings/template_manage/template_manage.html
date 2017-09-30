@@ -1,0 +1,85 @@
+<div id="templateMange" class="template_mange" v-show='onPageName=="templateMange"'>
+    <div class="template_mange_header">
+        <div class="open">
+            <pbutton-blue text="查看组件对应关系" @click='selectcomponentRelationship'></pbutton-blue>
+        </div>
+    </div>
+    <div class="template_mange_content">
+        <div class="leftSearch">
+            <span class="sidebarspan" v-if='false'>
+              <input type="text" @input='templateSearchInput' v-model='CategorySearch' placeholder="输入对象名称" />  
+              <p class="incon"></p>
+            </span>
+            <ul class="sidebarlist" v-show='isShowCategoryTree'>
+                <div v-for='item in CategoryTree'>
+                    <li class="one" @click='categoryClick(item)' v-bind:class="{ 'off':!item.isOn,'on': item.isOn, 'selected': item.isSelected }">{{item.name}}</li>
+                    <ul v-show='item.isOn'>
+                        <div v-for='info in item.content'>
+                            <li class="two" @click='categoryClick(info)' v-bind:class="{ 'off':!info.isOn,'on': info.isOn, 'selected': info.isSelected }">{{info.name}}</li>
+                            <ul v-show='info.isOn'>
+                                <div v-for='ince in info.content'>
+                                    <li class="three" @click='categoryClick(ince)' v-bind:class="{ 'off':!ince.isOn,'on': ince.isOn, 'selected': ince.isSelected }">{{ince.name}}</li>
+                                </div>
+                            </ul>
+                        </div>
+                    </ul>
+                </div>
+            </ul>
+            <ul class="sidebarlist" v-show='false' v-show='!isShowCategoryTree'>
+                <li v-for='item in CategorySearchResList' @click='serachClick(item)' class="one" v-bind:class="{ 'selected': item.isSelected }">{{item.name}}</li>
+            </ul>
+        </div>
+        <div class="rightbox">
+            <div class="rightboxborder">
+                <ul class="rightboxheader">
+                    <li class="tr">
+                        <span class="td">信息点名称</span>
+                        <span class="td">原始组件编码</span>
+                        <span class="td">上帝之手现用组件</span>
+                        <span class="td">上帝之手页面标注</span>
+                        <span class="td">Saas平台现用组件</span>
+                        <span class="td">Saas平台页面标注</span>
+                        <span class="td">Saas平台是否显示</span>
+                        <span class="td">APP工单执行现用组件</span>
+                        <span class="td">APP工单执行页面标注</span>
+                        <span class="td">APP采集是否显示</span>
+                    </li>
+                </ul>
+                <ul class="rightboxcontent" v-show='CategoryList.length'>
+                    <li v-for='(item,index) in CategoryList' class="tr">
+                        <span class="td" :title='item.info_point_code'>{{item.info_point_code}}</span>
+                        <span class="td" :title='item.base_cmpt_code'>{{item.base_cmpt_code}}</span>
+                        <span class="td">{{item.god_hand_cmpt_code}}</span>
+                        <span class="td">{{item.god_hand_note}}</span>
+                        <span class="td">{{item.saas_cmpt_code}}</span>
+                        <span class="td">{{item.saas_note}}</span>
+                        <span class="td">
+                            <span v-if='item.saas_show_flag!=2' @click='slideClickSaas(item,index)' class="slide">
+                                <!-- <pswitch-slide bind="true" state="item.saas_show_flag==1"></pswitch-slide> -->
+                                <div class="per-switch-slide">
+                                    <span class="per-slide-Bg" :class='{"per-slide-checked":item.saas_show_flag==1}'></span>
+                        <span class="per-switch_round"></span>
+            </div>
+            </span>
+            </span>
+            <span class="td">{{item.app_cmpt_code}}</span>
+            <span class="td">{{item.app_note}}</span>
+            <span class="td"><span v-if='item.app_show_flag!=2' @click='slideClickApp(item,index)' class="slide">
+                <!-- <pswitch-slide bind='true' state="item.app_show_flag==1"></pswitch-slide> -->
+                <div class="per-switch-slide">
+                        <span class="per-slide-Bg" :class='{"per-slide-checked":item.app_show_flag==1}'></span>
+            <span class="per-switch_round"></span>
+        </div>
+
+
+        </span>
+        </span>
+        </li>
+        </ul>
+        <ul class="rightboxcontent" v-show='!CategoryList.length'>
+            <pnotice-nodata></pnotice-nodata>
+        </ul>
+    </div>
+</div>
+</div>
+</div>

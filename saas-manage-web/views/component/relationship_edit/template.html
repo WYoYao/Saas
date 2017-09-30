@@ -1,0 +1,45 @@
+<script type="text/html" id="componentRelationshipEdit">
+    <div class="componentRelationshipLayer">
+        <ul class="componentRelationshipLayer_content">
+            <li class="part">
+                <span>模块名称:</span>
+                <span>{{componentRelationshipEdit.base_cmpt_code}}</span>
+            </li>
+            <li class="part">
+                <span>上帝之手组件:</span>
+                <span>
+                <pcombobox-normal id="'godHandIndex'" bind='true' sel="godHandIndexSel">
+                                        <header placeholder="请选择"></header>
+                                        <item datasource='ComponentGroupByType.godHand' text='cmpt_name'></item>
+                </pcombobox-normal>
+                </span>
+            </li>
+            <li class="part">
+                <span>Sass平台组件:</span>
+                <pcombobox-normal id="'saasIndex'" bind='true' sel="saasIndexSel">
+                    <header placeholder="请选择"></header>
+                    <item datasource='ComponentGroupByType.saas' text='cmpt_name'></item>
+                </pcombobox-normal>
+            </li>
+            <li class="part">
+                <span>App组件:</span>
+                <pcombobox-normal id="'appIndex'" bind='true' sel="appIndexSel">
+                    <header placeholder="请选择"></header>
+                    <item datasource='ComponentGroupByType.app' text='cmpt_name'></item>
+                </pcombobox-normal>
+            </li>
+            <li class="part">
+                <span class="btn">
+                    <span class="submit" @click.capture='submitRelationship'>
+                        <pbutton-blue text="確定"></pbutton-blue>
+                    </span>
+                <span class="cancel" @click.capture='cancelComponentRelationshipLayer'>
+                        <pbutton-white text="取消"></pbutton-white>
+                    </span>
+                </span>
+            </li>
+        </ul>
+
+    </div>
+    </div>
+</script>

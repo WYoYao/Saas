@@ -1,0 +1,682 @@
+
+body {
+    position: relative;
+    height: 100%;
+    line-height: 1;
+    background: #ffffff;
+    color: #333333;
+    font-size: 14px;
+    font-family: Arial, 微软雅黑, Microsoft YaHei, SimHei, SimSun;
+}
+
+.personWrap {
+    height: 100%;
+    background: #E6E9EC;
+    padding: 15px 10px 0px;
+    box-sizing: border-box;
+}
+
+    .personWrap .personManage {
+        height: 100%;
+        background: #ffffff;
+        padding: 20px 20px 10px;
+        box-sizing: border-box;
+        box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.05);
+        border-radius: 6px 6px 0 0;
+        position: relative;
+    }
+
+        .personWrap .personManage .contentWrap {
+            border: 1px solid #d9e2e8;
+            height: 100%;
+            box-sizing: border-box;
+            padding: 16px 16px 0;
+        }
+
+            .personWrap .personManage .contentWrap .contentHeader {
+                height: 50px;
+                background: #eaeef0;
+                padding: 10px 20px 0;
+                box-sizing: border-box;
+            }
+
+                .personWrap .personManage .contentWrap .contentHeader .dropDownList {
+                    width: 150px;
+                    float: left;
+                    margin-right: 12px;
+                }
+
+                .personWrap .personManage .contentWrap .contentHeader .headWarn {
+                    font-size: 12px;
+                    color: #ff5555;
+                    float: left;
+                    height: 32px;
+                    line-height: 32px;
+                }
+
+        .personWrap .personManage .contentHeader .rightButton {
+            float: right;
+        }
+
+        .personWrap .personManage .contentHeader .modeChange {
+            display: inline-block;
+            margin-right: 20px;
+            vertical-align: middle;
+        }
+
+            .personWrap .personManage .contentHeader .modeChange .infoMode {
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                background: url(/images/personList.png) no-repeat center center;
+                cursor: pointer;
+            }
+
+            .personWrap .personManage .contentHeader .modeChange .picMode {
+                display: inline-block;
+                width: 18px;
+                height: 18px;
+                background: url(/images/personShow.png) no-repeat center center;
+                cursor: pointer;
+            }
+
+            .personWrap .personManage .contentHeader .modeChange .disable {
+                opacity: 0.3;
+                cursor: default;
+            }
+
+            .personWrap .personManage .contentHeader .modeChange .line {
+                display: inline-block;
+                border-right: 1px solid #c5d1d9;
+                margin: 0 8px;
+                height: 20px;
+            }
+
+        .personWrap .personManage .contentWrap .contentList {
+            height: -moz-calc(100% - 50px );
+            height: -webkit-calc(100% - 50px);
+            height: calc(100% - 50px);
+            position: relative;
+            box-sizing: border-box;
+        }
+
+        .personWrap .personManage .contentWrap .photoList {
+            padding-top: 20px;
+            overflow-y: auto;
+        }
+
+        .personWrap .personManage .contentList .listHead {
+            height: 30px;
+            border-bottom: 1px solid #eeeeee;
+            box-sizing: border-box;
+        }
+
+            .personWrap .personManage .contentList .listHead li span {
+                float: left;
+                height: 29px;
+                line-height: 30px;
+                text-align: left;
+                padding-left: 20px;
+                box-sizing: border-box;
+            }
+
+        .personWrap .personManage .contentList .listCont {
+            overflow-y: auto;
+            color: #333333;
+            height: -moz-calc(100% - 30px );
+            height: -webkit-calc(100% - 30px);
+            height: calc(100% - 30px);
+            position: relative;
+        }
+
+            .personWrap .personManage .contentList .listCont li {
+                cursor: pointer;
+            }
+
+                .personWrap .personManage .contentList .listCont li:nth-child(2n) {
+                    background: #ffffff;
+                }
+
+                .personWrap .personManage .contentList .listCont li:nth-child(2n+1) {
+                    background: #f5f7fa;
+                }
+
+                .personWrap .personManage .contentList .listCont li span {
+                    float: left;
+                    height: 36px;
+                    line-height: 36px;
+                    text-align: left;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    padding-left: 20px;
+                    box-sizing: border-box;
+                }
+
+                    .personWrap .personManage .contentList .listCont li span .phcheck {
+                        font-family: perficon;
+                        color: #68c5b3;
+                        font-size: 16px;
+                    }
+
+        .personWrap .personManage .contentList .list li {
+            overflow: hidden;
+        }
+
+            .personWrap .personManage .contentList .list li span:nth-child(1) {
+                width: 13%;
+            }
+
+            .personWrap .personManage .contentList .list li span:nth-child(2) {
+                width: 14%;
+            }
+
+            .personWrap .personManage .contentList .list li span:nth-child(3) {
+                width: 12%;
+            }
+
+            .personWrap .personManage .contentList .list li span:nth-child(4) {
+                width: 13%;
+            }
+
+            .personWrap .personManage .contentList .list li span:nth-child(5) {
+                width: 15%;
+            }
+
+            .personWrap .personManage .contentList .list li span:nth-child(6) {
+                width: 15%;
+            }
+
+            .personWrap .personManage .contentList .list li span:nth-child(7) {
+                width: 10%;
+            }
+
+            .personWrap .personManage .contentList .list li span:nth-child(8) {
+                width: 8%;
+            }
+
+        .personWrap .personManage .photoList .positionItem {
+        }
+
+            .personWrap .personManage .photoList .positionItem .itemHead {
+                height: 26px;
+                position: relative;
+                margin-bottom: 20px;
+            }
+
+                .personWrap .personManage .photoList .positionItem .itemHead .posname {
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    border-left: 6px solid #02a9d1;
+                    padding: 0 10px;
+                    font-size: 22px;
+                    height: 24px;
+                    line-height: 24px;
+                    background: #ffffff;
+                }
+
+                .personWrap .personManage .photoList .positionItem .itemHead .line {
+                    height: 12px;
+                    border-bottom: 1px solid #d9d9d9;
+                    display: block;
+                }
+
+            .personWrap .personManage .photoList .positionItem ul {
+                overflow: hidden;
+            }
+
+                .personWrap .personManage .photoList .positionItem ul li {
+                    width: 140px;
+                    height: 170px;
+                    border-radius: 6px;
+                    float: left;
+                    margin-right: 40px;
+                    margin-bottom: 40px;
+                    box-shadow: 0px 0px 5px 0 rgba(0,0,0,0.1);
+                    cursor: pointer;
+                }
+
+                    .personWrap .personManage .photoList .positionItem ul li .pic {
+                        height: 140px;
+                        background: #f8f8f8;
+                    }
+
+                        .personWrap .personManage .photoList .positionItem ul li .pic img {
+                            width: 100%;
+                            height: 100%;
+                        }
+
+                    .personWrap .personManage .photoList .positionItem ul li .pername {
+                        height: 30px;
+                        line-height: 30px;
+                        text-align: center;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+
+    .personWrap .roleManage {
+        height: 100%;
+        background: #ffffff;
+        box-shadow: 0 -1px 5px 0 rgba(0,0,0,0.05);
+        border-radius: 6px 6px 0 0;
+        box-sizing: border-box;
+        position: relative;
+    }
+
+        .personWrap .roleManage .roleListShow {
+            padding: 50px 20px 10px;
+            box-sizing: border-box;
+            position: relative;
+            height: 100%;
+        }
+
+        .personWrap .roleManage .roleMangeHead {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            overflow: hidden;
+            height: 30px;
+        }
+
+            .personWrap .roleManage .roleMangeHead .rightButton {
+                float: right;
+            }
+
+        .personWrap .roleManage .roleManageCont {
+            border: 1px solid #d9e2e8;
+            box-sizing: border-box;
+            padding: 16px;
+            height: 100%;
+        }
+
+        .personWrap .roleManage .roleListShow .list li span:nth-child(1) {
+            width: 50%;
+        }
+
+        .personWrap .roleManage .roleListShow .list li span:nth-child(2) {
+            width: 50%;
+        }
+
+        .personWrap .roleManage .roleListShow .listHead li {
+            overflow: hidden;
+        }
+
+            .personWrap .roleManage .roleListShow .listHead li span {
+                float: left;
+                background: #8b959a;
+                height: 30px;
+                line-height: 30px;
+                text-align: center;
+                color: #ffffff;
+                box-sizing: border-box;
+            }
+
+        .personWrap .roleManage .roleListShow .listCont {
+            border-left: 1px solid #dddddd;
+            border-right: 1px solid #dddddd;
+            border-bottom: 1px solid #dddddd;
+            box-sizing: border-box;
+            max-height: -moz-calc(100% - 30px );
+            max-height: -webkit-calc(100% - 30px);
+            max-height: calc(100% - 30px);
+            overflow-y: auto;
+        }
+
+            .personWrap .roleManage .roleListShow .listCont li {
+                overflow: hidden;
+                border-bottom: 1px solid #dddddd;
+                cursor: pointer;
+            }
+
+                .personWrap .roleManage .roleListShow .listCont li:nth-child(2n) {
+                    background: #ffffff;
+                }
+
+                .personWrap .roleManage .roleListShow .listCont li:nth-child(2n+1) {
+                    background: #f8f8f8;
+                }
+
+                .personWrap .roleManage .roleListShow .listCont li:last-child {
+                    border: none;
+                }
+
+                .personWrap .roleManage .roleListShow .listCont li span {
+                    float: left;
+                    height: 36px;
+                    line-height: 36px;
+                    text-align: center;
+                    box-sizing: border-box;
+                }
+
+                    .personWrap .roleManage .roleListShow .listCont li span:nth-child(1) {
+                        border-right: 1px solid #dddddd;
+                    }
+
+        .personWrap .roleManage .addRolePage {
+            padding: 50px 20px 10px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+        }
+
+            .personWrap .roleManage .addRolePage .roleManageCont {
+                padding: 0;
+            }
+
+    .personWrap .addRoleCont .contWrap {
+        box-sizing: border-box;
+        height: -moz-calc(100% - 60px );
+        height: -webkit-calc(100% - 60px);
+        height: calc(100% - 60px);
+        overflow-y: auto;
+    }
+
+    .personWrap .roleManage .addRolePage .addRoleCont .contWrap {
+        padding: 16px 40px 0;
+    }
+
+    .personWrap .addRoleCont .buttonDiv {
+        border-top: 1px solid #d9e2e8;
+        height: 60px;
+        box-sizing: border-box;
+        padding-top: 15px;
+        text-align: center;
+    }
+
+    .personWrap .addRoleCont .roleItem {
+        margin-bottom: 20px;
+    }
+
+        .personWrap .addRoleCont .roleItem .nameTitle {
+            position: relative;
+            display: inline-block;
+            margin-right: 14px;
+            height: 30px;
+            line-height: 30px;
+            color: #666666;
+        }
+
+            .personWrap .addRoleCont .roleItem .nameTitle .star {
+                position: absolute;
+                top: 4px;
+                left: -14px;
+                font-size: 18px;
+                color: #4aab9a;
+            }
+
+        .personWrap .addRoleCont .roleItem .nameInput {
+            display: inline-block;
+            width: 240px;
+            height: 30px;
+        }
+
+        .personWrap .addRoleCont .roleItem .funcList {
+            padding-top: 20px;
+        }
+
+            .personWrap .addRoleCont .roleItem .funcList li {
+                padding: 20px;
+                border: 1px solid #dddddd;
+                line-height: 30px;
+                border-radius: 5px;
+                position: relative;
+                margin-bottom: 30px;
+            }
+
+                .personWrap .addRoleCont .roleItem .funcList li .fname {
+                    padding: 0 10px 0 30px;
+                    cursor: pointer;
+                    position: absolute;
+                    top: -8px;
+                    left: 10px;
+                    height: 16px;
+                    line-height: 16px;
+                    background: #ffffff url(/images/check.png) 10px -40px no-repeat;
+                }
+
+                    .personWrap .addRoleCont .roleItem .funcList li .fname.on {
+                        background: #ffffff url(/images/check.png) 10px -20px no-repeat;
+                    }
+
+    .personWrap .checkRoleCont {
+        width: 460px;
+        padding: 30px 40px 0;
+        box-sizing: border-box;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+    .personWrap .editRoleCont {
+        width: 460px;
+        padding: 0;
+        box-sizing: border-box;
+        height: 100%;
+    }
+
+        .personWrap .editRoleCont.addRoleCont .contWrap {
+            padding: 30px 40px 0;
+        }
+
+    .personWrap .checkRoleCont .roleItem .funcList li .fname {
+        padding: 0 10px;
+        background: #ffffff;
+        cursor: default;
+    }
+
+    .personWrap .personDetail {
+        width: 460px;
+        padding: 30px 30px 0 40px;
+        box-sizing: border-box;
+        height: 100%;
+        overflow-y: auto;
+    }
+
+        .personWrap .personDetail .remark {
+            color: #ff5555;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .personWrap .personDetail .perItem {
+            margin-bottom: 20px;
+            overflow: hidden;
+            line-height: 22px;
+        }
+
+            .personWrap .personDetail .perItem .pertitle {
+                float: left;
+                width: 100px;
+                margin-right: 10px;
+                text-align: right;
+            }
+
+            .personWrap .personDetail .perItem .percont {
+                float: left;
+                width: 260px;
+            }
+
+                .personWrap .personDetail .perItem .percont img {
+                    width: 130px;
+                    height: 130px;
+                    display: block;
+                    margin-bottom: 20px;
+                }
+
+    .personWrap .personManage .addPersonPage {
+        padding: 0 20px;
+        box-sizing: border-box;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 3;
+        background: #ffffff;
+    }
+
+        .personWrap .personManage .addPersonPage .addPerHead {
+            overflow: hidden;
+            height: 30px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .personWrap .personManage .addPersonPage .addPerDetail {
+            border: 1px solid #d9e2e8;
+            box-sizing: border-box;
+            height: -moz-calc(100% - 60px );
+            height: -webkit-calc(100% - 60px);
+            height: calc(100% - 60px);
+        }
+
+    .personWrap .addPerDetail .addPerCont {
+        height: -moz-calc(100% - 60px );
+        height: -webkit-calc(100% - 60px);
+        height: calc(100% - 60px);
+        overflow-y: auto;
+    }
+
+    .personWrap .personManage .addPersonPage .contWrap {
+        width: 400px;
+        margin: 0 auto;
+        height: 100%;
+        padding-top: 30px;
+        box-sizing: border-box;
+    }
+
+    .personWrap .addPerDetail .addItem {
+        margin-bottom: 30px;
+    }
+
+        .personWrap .addPerDetail .addItem:after {
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .personWrap .addPerDetail .addItem .atitle {
+            float: left;
+            height: 30px;
+            line-height: 30px;
+            position: relative;
+            width: 90px;
+            text-align: right;
+            margin-right: 10px;
+        }
+
+        .personWrap .addPerDetail .addItem .star {
+            font-size: 18px;
+            color: #4aab9a;
+            margin-right: 10px;
+            padding-top: 6px;
+            line-height: 28px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+
+        .personWrap .addPerDetail .addItem .acont {
+            float: left;
+            min-height: 30px;
+            width: 200px;
+        }
+
+        .personWrap .addPerDetail .addItem .tagCont {
+            width: 250px;
+        }
+
+            .personWrap .addPerDetail .addItem .tagCont > ul {
+                width: 200px;
+            }
+
+        .personWrap .addPerDetail .addItem .disable {
+            pointer-events: none;
+            cursor: default;
+        }
+
+        .personWrap .addPerDetail .addItem .picCont {
+            width: 282px;
+        }
+
+        .personWrap .addPerDetail .addItem .hasLi {
+            height: 30px;
+            line-height: 30px;
+            margin-bottom: 10px;
+            background: #eeeeee;
+            padding: 0 10px 0 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+            .personWrap .addPerDetail .addItem .hasLi em {
+                float: right;
+                width: 16px;
+                height: 16px;
+                margin-top: 7px;
+                cursor: pointer;
+                background: url(/images/perclose.png) center no-repeat;
+                /*font-family: 'perficon';
+                font-size: 16px;
+                color:#595959;*/
+            }
+
+        .personWrap .addPerDetail .addItem .perImg {
+            width: 130px;
+            height: 130px;
+            padding: 10px;
+            margin-top: 5px;
+            float: left;
+            background: #f8f8f8;
+            box-sizing: border-box;
+            border: 1px dashed #d6d6d6;
+            /*background: #eeeeee url(/images/person.png) center no-repeat;*/
+            display: -webkit-box;
+            -webkit-box-align: center;
+            -webkit-box-pack: center;
+        }
+
+        .personWrap .addPerDetail .addItem img {
+            max-width: 100%;
+            margin: 0 auto;
+            display: block;
+            max-height: 100%;
+        }
+
+        .personWrap .addPerDetail .addItem .idPhoto {
+            width: 130px;
+            float: left;
+            margin-right: 20px;
+        }
+
+        .personWrap .addPerDetail .addItem .imgNote {
+            clear: both;
+            line-height: 22px;
+            padding-top: 10px;
+        }
+
+    .personWrap .addPerDetail .buttonDiv {
+        border-top: 1px solid #d9e2e8;
+        height: 60px;
+        box-sizing: border-box;
+        padding-top: 15px;
+        text-align: center;
+    }
+
+    .personWrap .perEditDetail {
+        width: 460px;
+        height: 100%;
+    }
+
+        .personWrap .perEditDetail .addPerCont {
+            padding: 30px 30px 0 40px;
+            box-sizing: border-box;
+        }

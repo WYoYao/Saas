@@ -1,0 +1,45 @@
+<script type="text/html" id="floatTemp">
+    <div class='floatTemp'>
+        <div class='item'>
+            <div class='contleft'>
+                是否使用该项：
+            </div>
+            <div class='contright'>
+                <div class="per-switch-slide">
+                    <span class="per-slide-Bg" :class='{"per-slide-checked":wordInfo.customer_use}' @click='wordInfo.customer_use=!wordInfo.customer_use'></span>
+                    <span class="per-switch_round"></span>
+                </div>
+            </div>
+        </div>
+        <div class='item'>
+            <div class='contleft'>
+                系统标准名称：
+            </div>
+            <div class='contright'>
+                <ptext-text placeholder="'请输入本地名称'" value='wordInfo.name' bind='true'>
+                    <verify errtip="不可为空" verifytype="space"></verify>
+                </ptext-text>
+            </div>
+        </div>
+        <div class='item'>
+            <div class='contleft'>
+                本地名称：
+            </div>
+            <div class='contright' v-text='wordInfo.description'>
+
+            </div>
+        </div>
+        <div class='item'>
+            <div class='contleft'>
+                名词释义：
+            </div>
+            <div class='contright' v-text='wordInfo.customer_name'>
+            </div>
+        </div>
+        <div class='bottom'>
+            <span class='btn' @click.capture='saveWordInfo()'>
+                    <pbutton-blue text="保存"></pbutton-white>
+            </span>
+        </div>
+    </div>
+</script>

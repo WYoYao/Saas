@@ -1,0 +1,100 @@
+<script type="text/html" id="operate-module-edit">
+    <div class="module_manage_edit">
+        <div class="edit_cont">
+            <div class="group_title">
+                <em>*</em><span>模块名称</span>
+            </div>
+            <div class="group_input">
+                 <ptext-text placeholder="输入名称" id="modNameInput">
+                    <verify errtip="不能为空" verifytype="space"><verify>
+                 </ptext-text>
+            </div>
+            <div class="group_title">
+                <em>*</em><span>模块编码</span>
+            </div>
+            <div class="group_input">
+                <ptext-text placeholder="输入编码" id="modCodeInput">
+                    <verify errtip="不能为空" verifytype="space"><verify>
+                </ptext-text>
+            </div>
+            <div class="group_title">
+                <em>*</em><span>模块释义</span>
+            </div>
+            <div class="group_input">
+                <ptext-textarea placeholder="输入释义" id="modDescripInput" length="20">
+                     <verify errtip="不能为空" verifytype="space"><verify>
+                </ptext-textarea>
+            </div>
+            <div class="group_title">
+                <span>模块专属项目</span>
+                <p>(无专属客户则默认所有用户通用模块)</p>
+            </div>
+            <div class="group_cont">
+                <ul class="selectItem">
+                    <li v-for="(pitem,pindex) in selProjectArr"><span v-text="pitem.project_local_name"></span><em v-on:click="selProjectDel(pitem,pindex)">x</em></li>
+                </ul>
+                <div class="listTitle">选择项目</div>
+                <div class="mangeTreeList">
+                    <div class="ftitle" v-for="citem in normalCustomers" v-on:click="projectLiClick(citem)" v-bind:class="{'pitch':citem.isSel}"><span v-text="citem.project_local_name"></span><span class="sel">Z</span></div>
+                </div>
+                <div class="buttonBlueDiv sureButton" onclick="projectSelSure(event)">确定</div>
+            </div>
+        </div>
+        <div class="edit_button">
+            <pbutton-blue text="确定" click="moduleEditSure"></pbutton-blue>
+            <pbutton-white text="取消" click="moduleEditCancle"></pbutton-white>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="author-manage-check">
+    <div class="authority_check">
+        <ul class="authInfo">
+            <li>
+                <p>权限项名称：</p>
+                <p>{{selFuncPack.func_pack_name}}</p>
+            </li>
+            <li>
+                <p>权限项说明:</p>
+                <p>{{selFuncPack.description}}</p>
+            </li>
+        </ul>
+        <p>包含的功能点:</p>
+        <ul class="mangeTreeList checkTreeList">
+            <func-point v-for="(item,index) in allfPointTree" :finfo="item"></func-point>
+        </ul>
+    </div>
+</script>
+<script type="text/html" id="author-manage-edit">
+    <div class="authority_mange_edit">
+        <ul class="authInfo">
+            <li>
+                <p><em>*</em><span>权限项名称：</span></p>
+                <ptext-text placeholder="输入名称" id="editApackName">
+                    <verify errtip="不能为空" verifytype="space"><verify>
+                </ptext-text>
+            </li>
+            <li>
+                <p><em>*</em><span>权限项说明：</span></p>
+                <ptext-textarea placeholder="输入说明" id="editApackExplain">
+                    <verify errtip="不能为空" verifytype="space"><verify>
+                </ptext-textarea>
+            </li>
+        </ul>
+        <div class="powerCont">
+            <p><em>*</em><span>包含的功能点：</span></p>
+            <ul class="mangeTreeList containTreeList">
+                <func-point v-for="(item,index) in allfPointTree" :finfo="item"></func-point>
+            </ul>
+        </div>
+        <div class="powerButton">
+            <div class="addButton buttonBlueDiv" onclick="addFuncOpera(event)"><span><</span>添加功能点</div>
+            <div class="delButton buttonBlueDiv" onclick="delFuncOpera(event)">移除功能点<span>></span></div>
+        </div>
+        <div class="powerCont">
+            <p>请选择功能点：</p>
+            <ul class="mangeTreeList allTreeList">
+                <func-point v-for="(item,index) in allfPointTree" :finfo="item"></func-point>
+            </ul>
+        </div>
+    </div>
+</script>

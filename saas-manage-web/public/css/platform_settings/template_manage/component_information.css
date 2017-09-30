@@ -1,0 +1,210 @@
+.componentInformation {
+    position: relative;
+    height: 100%;
+    width: 100%;
+}
+
+.componentInformation_header {
+    position: absolute;
+    top: 0;
+    left: 20px;
+    right: 20px;
+    height: 50px;
+    border-bottom: 1px solid #d9e2e8;
+    min-width: 1860px;
+}
+
+.componentInformation_header .back {
+    margin-top: 10px;
+    float: left;
+}
+
+.componentInformation_header .go {
+    margin-top: 10px;
+    float: right;
+}
+
+.componentInformation_content {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    right: 20px;
+    bottom: 0;
+    /* border: 1px solid #d9e2e8; */
+    min-width: 1860px;
+}
+
+.componentInformation_content .left {
+    float: left;
+    width: 200px;
+    height: 100%;
+    border: 1px solid #d9e2e8;
+}
+
+.componentInformation_content .left .title {
+    display: block;
+    height: 50px;
+    width: 100%;
+    text-align: center;
+    line-height: 50px;
+    color: #333333;
+    font-size: 16px;
+    border-bottom: 1px solid #eeeeee;
+    cursor: pointer;
+}
+
+.componentInformation_content .left .on {
+    background: #02a9d1;
+    color: #ffffff;
+}
+
+.componentInformation_content .right {
+    margin-left: 200px;
+    height: 100%;
+    border: 1px solid #d9e2e8;
+    border-left: none;
+}
+
+.componentInformation_content .rightbox {
+    position: relative;
+    margin: 0 20px;
+    height: 100%;
+}
+
+.componentInformation_content .right .addlight {
+    height: 40px;
+    padding-top: 10px;
+    margin: 0;
+    width: auto;
+}
+
+.componentInformation_content .right .addlight .addbutton {
+    float: right;
+}
+
+.componentInformation_content .right .Informationcontenter {
+    position: absolute;
+    top: 50px;
+    bottom: 0px;
+    width: 100%;
+}
+
+.componentInformation_content .right .Informationcontenter .thead {
+    height: 30px;
+    width: 100%;
+}
+
+.componentInformation_content .right .Informationcontenter .tbody {
+    position: absolute;
+    width: 100%;
+    top: 30px;
+    bottom: 0px;
+    overflow-y: overlay;
+}
+
+.componentInformation_content .right .Informationcontenter li {
+    height: 30px;
+    width: 100%;
+}
+
+.componentInformation_content .right .Informationcontenter li:nth-child(2n) {
+    background: #f7f7f7;
+}
+
+.componentInformation_content .right .Informationcontenter .thead li {
+    background: #8b959a;
+}
+
+.componentInformation_content .right .Informationcontenter span {
+    float: left;
+    width: 33%;
+    min-width: 539px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.componentInformation_content .right .Informationcontenter .thead span {
+    color: #ffffff;
+}
+
+.componentInformation_content .right .Informationcontenter .tbody span {
+    color: #333333;
+}
+
+.addComponentLayerTemplate {
+    width: 460px;
+    height: 440px;
+}
+
+
+/* 内容框 */
+
+.addComponentLayerTemplate .layerContent {
+    margin: 30px 90px 0;
+}
+
+.addComponentLayerTemplate .layerContent ul {
+    height: 100%;
+    width: 100%;
+}
+
+.addComponentLayerTemplate .layerContent ul .part {
+    position: relative;
+    height: 90px;
+    width: 100%;
+}
+
+.addComponentLayerTemplate .layerContent ul .tip {
+    height: 20px;
+    line-height: 20px;
+    color: #f87c7c;
+}
+
+.addComponentLayerTemplate .layerContent ul .li_textarea {
+    position: relative;
+    height: 170px;
+}
+
+.addComponentLayerTemplate .layerContent ul .li_textarea span {
+    height: 30px;
+    line-height: 30px;
+}
+
+.addComponentLayerTemplate .layerContent ul li>em {
+    position: absolute;
+    top: 4px;
+    left: -10px;
+    height: 30px;
+    line-height: 30px;
+    font-size: 20px;
+}
+
+.addComponentLayerTemplate .layerContent ul .part>span {
+    height: 30px;
+    line-height: 30px;
+    width: 100%;
+}
+
+.addComponentLayerTemplate .layerContent ul li input[type='text'] {
+    height: 30px;
+    line-height: 30px;
+    width: 100%;
+}
+
+.addComponentLayerTemplate .layerContent ul li .textarea {
+    position: relative;
+    height: 90px;
+}
+
+.addComponentLayerTemplate .layerContent ul .li_btn {
+    text-align: center;
+}
+
+.addComponentLayerTemplate .layerContent ul .li_btn span {
+    display: inline-block;
+    /* margin: 0 20px; */
+}

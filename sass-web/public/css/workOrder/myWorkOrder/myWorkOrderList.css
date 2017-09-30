@@ -1,0 +1,245 @@
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+#myWorkOrder {
+    width: 100%;
+    height: 100%;
+}
+
+.myWork-all {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 15px 10px;
+    background-color: #e3e6e9;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+.myWork-tab {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 20px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: white;
+    -webkit-box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 1px 0 4px rgba(0, 0, 0, 0.2);
+}
+
+.myWork-content {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.myWork-content-list {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.myWork-content-list-header {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    background-color: #eaeef0;
+    border-top: 1px solid #d9e2e8;
+    border-bottom: 1px solid #d9e2e8;
+    padding: 0 20px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.myWork-content-list-header > div:not(:last-of-type) {
+    width: 200px;
+    height: 30px;
+    display: inline-block;
+    margin-right: 10px;
+    vertical-align: top;
+    margin-top: 10px;
+
+}
+#create-work-btn{
+    float: right;
+    margin-top: 10px;
+}
+.myWork-content-list-body {
+    width: 100%;
+    height: calc(100% - 50px);
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.myWork-list-body-table {
+    width: 100%;
+    height: 100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+
+}
+.myWork-table{
+    width: 100%;
+    height: 100%;
+}
+.myWork-table-header {
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.myWork-table-header > div {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-basis: 270px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.myWork-table-header div.table-header-summary {
+    flex-basis: 500px;;
+    max-width: 500px;
+    padding-right: 100px;
+
+}
+
+.myWork-table-header div.table-header-id {
+    padding-left: 20px;
+}
+.myWork-table-header div.table-header-operate{
+    visibility: hidden;
+}
+.myWork-table-body {
+    height: calc(100% - 30px);
+    overflow-y: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.myWork-table-body .tr {
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    background-color: white;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    cursor: default;
+}
+
+.myWork-table-body .tr:nth-child(odd) {
+    background-color: #f5f7fa;
+}
+
+.myWork-table-body .tr:nth-child(even) {
+    background-color: white;
+}
+
+.myWork-table-body .tr div {
+    flex-grow: 1;
+    flex-basis: 270px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.myWork-table-body .tr div.table-header-summary {
+    flex-basis: 500px;
+    max-width: 500px;
+    padding-right: 100px;
+}
+
+.myWork-table-body .tr div.table-header-id {
+    padding-left: 20px;
+}
+
+
+
+.myWork-table-body .tr .table-header-operate span:first-of-type {
+    margin-right: 20px;
+    color: #7a94ad;
+    cursor: pointer;
+}
+
+.myWork-table-body .tr .table-header-operate span:last-of-type {
+    color: #ef6767;
+    cursor: pointer;
+}
+
+.myWork-table-body .tr .table-header-operate i {
+    font-family: 'perficon';
+    margin-right: 5px;
+}
+
+/*hover效果*/
+.myWork-table-body .table-header-operate {
+    visibility: hidden;
+}
+
+.myWork-table-body .tr:hover .table-header-operate {
+    visibility: visible;
+}
+
+
+
+.myWork-table-noData{
+    width: 100%;
+    height: 100%;
+}
+.image-div{
+    text-align: center;
+}
+.image-div>img{
+    width: 110px;
+    height: 90px;
+    margin: 85px 0 15px;
+}
+.image-div>img+p{
+    font-size: 18px;
+}
+.self-state{
+    padding: 0 10px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    border: 1px solid #666;
+    background: #f2f2f2;
+    margin-left: 10px;
+    font-size: 12px;
+}

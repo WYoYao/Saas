@@ -1,0 +1,307 @@
+<div id="createWorkOrderCommon_bg" v-show="curPage == pages[1]">
+    <div class="createWorkOrderCommon_box">
+        <div class="createWorkOrderCommon_page">
+            <div class="createWorkOrderCommon_page_top">
+                <div class="createWorkOrderCommon_page_back">
+                    <pbutton-white bind='true' text="'返回'" @click="goBackOrderList()"></pbutton-white>
+                </div>
+                <div class="createWorkOrderCommon_page_save">
+                    <pbutton-blue bind="true" @click="workOrderCommonSave()" text="'保存'"></pbutton-blue>
+                </div>
+            </div>
+            <div class="createWorkOrderCommon_page_con">
+                <div class="createWorkOrderCommon_error">
+                    <div id="orderTypeError" class="commit_error"><img src="../../../images/error.png" alt=""><span>请选择工单类型</span></div>
+                    <div id="timerTypeError" class="commit_error"><img src="../../../images/error.png" alt=""><span>请选择时间类型</span></div>
+                    <div class="commit_error2" v-if="createReminds.length >0" v-for="item in createReminds"><img src="../../../images/error.png" alt="" ><span v-text="item"></span></div>
+                   
+                </div>
+                <div class="createWorkOrderCommon_select">
+                    <h3 class="createWorkOrderCommon_select_tit">工单类型：</h3>
+                    <div v-if="plan_id == ''" class="createWorkOrderCommon_select_con" id="orderTypeSelect">
+                        <pcombobox-normal bind="true" sel="workOrderMethod.choiceOrderFn(model,event)">
+                            <header placeholder="请选择工单类型"></header>
+                            <item datasource="workOrderModel.orderList" text="name"></item>
+                        </pcombobox-normal>
+                    </div>
+                    <div v-if="plan_id != ''" v-text="editOrderCon" class="createWorkOrderCommon_select_con"></div>
+                </div>
+                <div class="createWorkOrderCommon_select">
+                    <h3 class="createWorkOrderCommon_select_tit">时间类型：</h3>
+                    <div v-if="plan_id == ''" class="createWorkOrderCommon_select_con" id="timerTypeSelect">
+                        <pcombobox-normal bind="true" sel="workOrderMethod.choiceTimerFn(model,event)">
+                            <header placeholder="请选择时间类型"></header>
+                            <item datasource="workOrderModel.timerTypeList" text="name"></item>
+                        </pcombobox-normal>
+                    </div>
+                    <div v-if="plan_id != ''" v-text="editTimerCon" class="createWorkOrderCommon_select_con"></div>
+                </div>
+                <div class="createWorkOrderCommon_explain">
+                    <span>
+						请选择涉及此类工单的人员或岗位，并为每个人员或岗位设定职责
+					</span>
+                </div>
+                <div class="createWorkOrderCommon_less_tip">
+                    <p>建议一套配置方案至少有一个岗位或人员的职责包含"终止工单"、"执行工作步骤/更新工作进度"</p>
+                    <p>建议一套配置方案最好只有一个岗位或人员职责包含"指派工单"</p>
+                </div>
+                <!-- 人员和岗位职责 -->
+                <div class="createWorkOrderCommon_person_position">
+                    <div class="createWorkOrderCommon_person_position_box" v-for="(items,itIndex) in operateOptionList">
+                        <div @click="deletePersonPosition(items,itIndex)" class="createWorkOrderCommon_delete"><img src="../../../images/delete.png" alt=""></div>
+                        <div class="createWorkOrderCommon_person_position_box_left" v-text="items.name">岗位B</div>
+                        <div class="createWorkOrderCommon_person_position_box_list">
+                            <ul>
+                                <li :class = {"redBorder":center.redBorder} v-for="(center,index1) in items.duty" @click="clickDutyShowModal(items,center,center.control_name,center.control_code,itIndex,index1)">
+                                    <div class="createWorkOrderCommon_person_position_box_list_top">
+                                        <em v-text="center.control_name" :code="center.control_code"></em>
+                                        <span @click.stop="removeDutyData(operateOptionList,itIndex,items.duty,index1)"><img src="../../../images/close.png" alt=""></span>
+                                    </div>
+                                    <div class="createWorkOrderCommon_person_position_box_list_bottom" v-if="center.control_code == 'create' || center.control_code == 'assign' || center.control_code == 'execute' || center.control_code == 'audit'">
+                                        <img src="../../../images/set_btn.png" alt=""></span>
+                                    </div>
+                                </li>
+                                <li class="add_more_work" id="add_more_work" v-if="items.right && items.right.length >0">
+                                    <em>+</em>
+                                    <span>添加更多职责</span>
+                                    <!-- <div>{{items.right}}</div> -->
+                                    <ul>
+                                        <li v-for="(right,index2) in items.right" v-text="right.control_name" :name="right.control_name" :code="right.control_code"
+                                            @click="addMoreDuty(operateOptionList,itIndex,items.right,index2)"></li>
+
+
+                                    </ul>
+                                </li>
+
+                            </ul>
+                            <!-- <span></span> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- 执行工作步骤弹框 -->
+                <pwindow-modal id="stepsToPerformWork" templateid="stepsToPerformWork_con" title="执行工作步骤设置"></pwindow-modal>
+                <!-- 选择人员和岗位弹框 -->
+                <pwindow-modal id="choicePersonPosition" templateid="choicePersonPosition_con" title="选择人员或岗位"></pwindow-modal>
+                <!-- 新建工单设置 -->
+                <pwindow-modal id="createWorkOrderSet" templateid="createWorkOrderSet_con" title="新建工单设置"></pwindow-modal>
+                <!-- 指派设置 -->
+                <pwindow-modal id="createAssignSet" templateid="createAssignSet_con" title="指派设置"></pwindow-modal>
+                <!-- 审核设置 -->
+                <pwindow-modal id="checkOrderSet" templateid="checkOrderSet_con" title="审核设置"></pwindow-modal>
+                <!-- 添加 -->
+                <div class="createWorkOrderCommon_add" @click="addPersonPosition()">
+                    <div>+</div>
+                    <div>请选择人员或岗位</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 执行工作步骤 -->
+<script type="text/html" id="stepsToPerformWork_con">
+    <div class="stepsToPerformWork_con">
+        <div class="stepsToPerformWork_con_txt">
+            <span>请选择是否启用专业控制</span>
+            <span>启动后，只有符合专业要求的人员才可接单及处理对应事项</span>
+        </div>
+        <div class="stepsToPerformWork_con_operat">
+            <pswitch-radio id="stepsToPerformWork_con_operat_open" name="1" state="true" text="启动"></pswitch-radio>
+            <span></span>
+            <pswitch-radio id="noUseBtn" name="1" text="不启动"></pswitch-radio>
+
+
+        </div>
+        <button class="stepsToPerformWork_con_btn">
+            <pbutton-blue id="'stepsToPerformWork_con_btn_yes'" text="'确定'" @click="stepsToPerformWorkYes()"></pbutton-blue>
+            <pbutton-white id="stepsToPerformWork_con_btn_cancle" text="取消" click="workOrderMethod.stepsToPerformWorkHide()"></pbutton-white>
+        </button>
+    </div>
+</script>
+<!-- 选择人员和岗位 -->
+<script type="text/html" id="choicePersonPosition_con">
+    <div class="choicePersonPosition_con">
+        <div class="choicePersonPosition_con_box">
+            <p class="choicePersonPosition_con_box_tit">
+                请选择岗位或人员
+            </p>
+            <div class="choicePersonPosition_con_box_list">
+                <div class="choicePersonPosition_con_box_list_div" v-for="(items, index) in personPositionList">
+                    <div class="choicePersonPosition_con_box_list_div_ul" v-if="items.type == '2'">
+                        <div class="choicePersonPosition_con_box_list_div_posi">
+                            <span @click="personPositionShow(event)">r</span>
+                            <em v-text="items.name"></em>
+                            <div class="position_checkbox positionChoice1" @click.stop='clickAdditem(items)'>
+                                <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
+                                <!-- <pswitch-checkbox state='items.isSelected' bind='true'></pswitch-checkbox> -->
+                            </div>
+                        </div>
+                        <ul class="choicePersonPosition_con_box_list_div_pers choicePersonPosition_con_persion_position">
+                            <li v-for="info in items.persons">
+                                <span v-text="info.name" :id="info.person_id"></span>
+                                <div class="persion_checkbox" @click.stop='clickAdditem(info)'>
+                                    <!--  <pswitch-checkbox state='info.isSelected' bind='true'></pswitch-checkbox> -->
+                                    <span class="checkboxChioce" :class="{state:info.isSelected}"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="choicePersonPosition_con_box_list_div_pers choicePersonPosition_con_choice_person" v-if="items.type == '3'">
+                            <li class="personChoice1">
+                                <span v-text="items.name"></span>
+                                <div class="persion_checkbox" @click.stop='clickAdditem(items)'>
+                                    <!-- <pswitch-checkbox state='items.isSelected' bind='true'></pswitch-checkbox> -->
+                                    <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <button class="choicePersonPosition_con_btn">
+            <pbutton-blue id="choicePersonPosition_con_btn_yes" click="workOrderMethod.addPositionPersonModel()" text="确定"></pbutton-blue>
+            <pbutton-white id="choicePersonPosition_con_btn_cancle" text="取消" click="workOrderMethod.choicePersonPosiSetHide()"></pbutton-white>
+        </button>
+    </div>
+</script>
+<!-- 新建工单设置 -->
+<script type="text/html" id="createWorkOrderSet_con">
+    <div class="createWorkOrderSet_con">
+        <div class="createWorkOrderSet_con_box">
+            <p class="createWorkOrderSet_con_box_tit">
+                请选择新建工单的下级
+            </p>
+            <div class="createWorkOrderSet_con_box_list">
+                <div class="createWorkOrderSet_con_box_list_div" v-for="(items, index) in personPositionList">
+                    <div class="createWorkOrderSet_con_box_list_div_ul" v-if="items.type == '2'">
+                        <div class="createWorkOrderSet_con_box_list_div_posi">
+                            <span @click="personPositionShow(event)">r</span>
+                            <em v-text="items.name">岗位A</em>
+                            <div @click.stop='clickAdditem(items)'>
+                                <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
+
+                            </div>
+                        </div>
+                        <ul class="createWorkOrderSet_con_box_list_div_pers choicePersonPosition_con_persion_position">
+                            <li v-for="info in items.persons">
+                                <span v-text="info.name" :id="info.person_id">人员1</span>
+                                <div @click.stop='clickAdditem(info)'>
+                                    <span class="checkboxChioce" :class="{state:info.isSelected}"></span>
+
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="choicePersonPosition_con_box_list_div_pers choicePersonPosition_con_choice_person" v-if="items.type == '3'">
+                            <li class="personChoice1">
+                                <span v-text="items.name"></span>
+                                <div class="persion_checkbox" @click.stop='clickAdditem(items)'>
+                                    <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+            <div class="createWorkOrderSet_con_filter_person">
+                <h3>是否需要按照排班表过滤每次指派的人员范围：</h3>
+                <pswitch-slide></pswitch-slide>
+            </div>
+            <div class="createWorkOrderSet_con_opera_choice">
+                <h3>请选择工单的执行方式</h3>
+                <pswitch-radio id="moreOperaBtn" name="" val="2" state="true" text="允许多人并行执行"></pswitch-radio>
+                <span></span>
+                <pswitch-radio id="oneOperaBtn" name="" val="1" text="只允许单人串行执行"></pswitch-radio>
+            </div>
+        </div>
+        <button class="createWorkOrderSet_con_btn">
+            <pbutton-blue bind='true' :id="'createWorkOrderSet_con_btn_yes'" @click="createWorkOrderSetYes()" text="'确定'"></pbutton-blue>
+            <pbutton-white id="createWorkOrderSet_con_btn_cancle" text="取消" click="workOrderMethod.createWorkOrderSetHide()"></pbutton-white>
+        </button>
+    </div>
+</script>
+<!-- 指派设置 -->
+<script type="text/html" id="createAssignSet_con">
+    <div class="createAssignSet_con">
+        <div class="createAssignSet_con_box">
+            <p class="createAssignSet_con_box_tit">
+                请选择该人员或岗位可指派的范围
+            </p>
+            <div class="createAssignSet_con_box_list">
+                <div class="createAssignSet_con_box_list_div" v-for="(items, index) in personPositionList">
+                    <div class="createAssignSet_con_box_list_div_ul" v-if="items.type == '2'">
+                        <div class="createAssignSet_con_box_list_div_posi">
+                            <span  @click="personPositionShow(event)">r</span>
+                            <em v-text="items.name">岗位A</em>
+                            <div class="position_parent_checkbox" @click.stop='clickAdditem(items)'>
+                                <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
+
+                            </div>
+                        </div>
+                        <ul class="createAssignSet_con_box_list_div_pers choicePersonPosition_con_persion_position">
+                            <li v-for="info in items.persons">
+                                <span v-text="info.name" :id="info.person_id">人员1</span>
+                                <div @click.stop='clickAdditem(info)'>
+                                    <span class="checkboxChioce" :class="{state:info.isSelected}"></span>
+
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="choicePersonPosition_con_box_list_div_pers choicePersonPosition_con_choice_person" v-if="items.type == '3'">
+                            <li class="personChoice1">
+                                <span v-text="items.name"></span>
+                                <div class="persion_checkbox" @click.stop='clickAdditem(items)'>
+                                    <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="createAssignSet_con_filter_person">
+                <h3>是否需要按照排班表过滤每次指派的人员范围：</h3>
+                <pswitch-slide></pswitch-slide>
+            </div>
+            <!--  <div class="createAssignSet_con_opera_choice">
+                <h3>请选择工单的执行方式</h3>
+                <pswitch-radio name="" text="允许多人并行执行"></pswitch-radio>
+                <span></span>
+                <pswitch-radio id="" name="" state="true" text="只允许单人串行执行"></pswitch-radio>
+            </div> -->
+        </div>
+        <button class="createAssignSet_con_btn">
+            <pbutton-blue bind="true" id="'createAssignSet_con_btn_yes'" text="'确定'" @click="createAssignSetYes()"></pbutton-blue>
+            <pbutton-white id="createAssignSet_con_btn_cancle" text="取消" click="workOrderMethod.createAssignSetHide()"></pbutton-white>
+        </button>
+    </div>
+</script>
+<!-- 审核设置 -->
+<script type="text/html" id="checkOrderSet_con">
+    <div class="stepsToPerformWork_con">
+        <div class="checkOrderSet_con_txt">
+            <span>请选择审核通过后，工单的结束方式</span>
+        </div>
+        <div class="checkOrderSet_con_operat">
+            <pswitch-radio id="stepsToPerformWork_con_operat_open" name="" state="true" text="审核结束通过后，工单自动结束"></pswitch-radio>
+            <span></span>
+            <pswitch-radio id="stepsToPerformWork_con_operat_close" name="" text="手动点击结束工单才可结束"></pswitch-radio>
+        </div>
+        <button class="checkOrderSet_con_btn">
+            <pbutton-blue bind="true" id="'checkOrderSet_con_btn_yes'" text="'确定'"@click="checkOrderSetYes()"></pbutton-blue>
+            <pbutton-white id="checkOrderSet_con_btn_cancle" text="取消" click="workOrderMethod.checkOrderSetHide()"></pbutton-white>
+        </button>
+    </div>
+</script>
+<!-- 保存成功失败提示 -->
+<pnotice-message id="publishNotice" text="成功"></pnotice-message>

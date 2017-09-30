@@ -1,0 +1,70 @@
+<div class="authority_manage module_authority" id="authorityManage">
+    <div class="authority_manage_header">
+        <div class="insert_btn">
+            <pbutton-blue text="新增权限项" click="addAuthorityShow"></pbutton-blue>
+        </div>
+    </div>
+    <div class="authority_manage_content">
+        <ul class="list listHead">
+            <li>
+                <span>权限项名称</span>
+                <span>权限项说明</span>
+            </li>
+        </ul>
+        <ul class="list listCont" v-show='allFuncPack.length'>
+            <li v-for="item in allFuncPack" v-on:click="funcListClick(item)">
+                <span><em  v-text='item.func_pack_name' v-bind:title="item.func_pack_name"></em></span>
+                <span><em v-text='item.description' v-bind:title="item.description"></em></span>
+            </li>
+        </ul>
+        <div class="listCont" v-show='!allFuncPack.length'>
+            <pnotice-nodata></pnotice-nodata>
+        </div>
+    </div>
+    <div class="authority_add authority_mange_edit" id="authorityAdd" style="display: none;">
+        <div class="add_header">
+            <div class="back_button">
+                <pbutton-white text="返回" click="addAuthorityHide"></pbutton-white>
+            </div>
+            <span>新增权限项</span>
+            <div class="save_button">
+                <pbutton-blue text="保存" click="saveAddAuthority"></pbutton-blue>
+            </div>
+        </div>
+        <div class="add_wrap">
+            <div class="add_cont">
+                <ul class="authInfo">
+                    <li>
+                          <p><em>*</em><span>权限项名称：</span></p>
+                        <!--<vinputtext v-bind:maxlength='"15"' v-bind:set='setInsert.bind(this,"func_pack_name")' v-bind:value='selFuncPack.func_pack_name' v-bind:type='"font"' v-bind:placeholder='"请输入名称"'></vinputtext>-->
+                       <ptext-text placeholder="输入名称" id="addApackName">
+                            <verify errtip="不能为空" verifytype="space"><verify>
+                        </ptext-text>
+                    </li>
+                    <li>
+                        <p><em>*</em><span>权限项说明：</span></p>
+                         <ptext-textarea placeholder="输入说明" id="addApackExplain">                     
+                            <verify errtip="不能为空" verifytype="space"><verify>
+                        </ptext-textarea>
+                    </li>
+                </ul>
+                <div class="powerCont">
+                     <p><em>*</em><span>包含的功能点：</span></p>
+                    <ul class="mangeTreeList containTreeList">
+                        <func-point v-for="(item,index) in allfPointTree" :finfo="item"></func-point>
+                    </ul>
+                </div>
+                <div class="powerButton">
+                    <div class="addButton buttonBlueDiv" onclick="addFuncOpera(event)"><span><</span>添加功能点</div>
+                    <div class="delButton buttonBlueDiv" onclick="delFuncOpera(event)">移除功能点<span>></span></div>
+                </div>
+                <div class="powerCont">
+                    <p>请选择功能点：</p>
+                    <ul class="mangeTreeList allTreeList">
+                        <func-point v-for="(item,index) in allfPointTree" :finfo="item"></func-point>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

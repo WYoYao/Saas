@@ -1,0 +1,33 @@
+<div id="planMonitor_scrapList_bg" v-if="curPage == pages[1]">
+	<div class="planMonitor_scrapList_box">
+		<div class="planMonitor_scrapList_page">
+			<div class="planMonitor_scrapList_page_top">
+				<div class="planMonitor_scrapList_page_back">
+                    <pbutton-white bind='true' text="'返回'" @click="goBackPlanList()" ></pbutton-white>
+                </div>
+                <!-- <div class="planMonitor_scrapList_page_save">
+                    <pbutton-blue bind="true" text="'保存'"></pbutton-blue>
+                </div> -->
+			</div>
+			<div class="planMonitor_scrapList_page_list">
+				<div class="planMonitor_scrapList_page_list_tit">
+					<ul>
+						<li>计划名称</li>
+						<li>工作事项</li>
+						<li>生效时间</li>
+						<li>作废人</li>
+					</ul>
+				</div>
+				<div class="planMonitor_scrapList_page_list_box">
+					<ul @click = "openScrapDetail(item.plan_id)" v-for="item in scrapListArr">
+						<li :title="item.plan_name" v-text="item.plan_name"></li>
+						<li :title="item.matters_desc" v-text="item.matters_desc"></li>
+						<li v-text="item.plan_start_time +'-'+item.plan_end_time"></li>
+						<li v-text="item.destroy_person_named">张三</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+</div>

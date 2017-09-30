@@ -1,0 +1,168 @@
+.word {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border: 1px solid #d9e2e8;
+    box-sizing: border-box;
+    overflow-y: overlay;
+}
+
+.word .left {
+    float: left;
+    width: 280px;
+    height: 100%;
+    box-sizing: border-box;
+    border-right: 1px solid #d9e2e8;
+}
+
+.word .left .title {
+    display: block;
+    height: 50px;
+    width: 100%;
+    text-indent: 2em;
+    /* text-align: center; */
+    line-height: 50px;
+    color: #333333;
+    font-size: 16px;
+    border-bottom: 1px solid #eeeeee;
+    cursor: pointer;
+}
+
+.word .left .on {
+    background: #02a9d1;
+    color: #ffffff;
+}
+
+.word .right {
+    position: relative;
+    margin-left: 280px;
+    height: 100%;
+}
+
+
+/* .word .rightbox{
+
+} */
+
+
+/* .word .right {
+    position: absolute;
+    top: 50px;
+    bottom: 0px;
+    width: 100%;
+} */
+
+.word .right .thead {
+    height: 40px;
+    width: auto;
+    margin: 0 20px;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.word .right .tbody {
+    position: absolute;
+    top: 40px;
+    /* left: 20px;
+    right: 20px; */
+    bottom: 0px;
+    width: 100%;
+    overflow-y: overlay;
+}
+
+.word .right .tbody li {
+    margin: 0 20px;
+    width: auto;
+}
+
+.word .right li {
+    overflow: hidden;
+    width: 100%;
+    cursor: pointer;
+}
+
+.word .right li:nth-child(2n) {
+    background: #f5f7fa;
+}
+
+.word .right .col {
+    float: left;
+    height: 40px;
+    line-height: 50px;
+    text-indent: 10em;
+}
+
+.word .right .col:nth-child(1),
+.word .right .col:nth-child(2) {
+    width: 20%;
+    min-width: 306px;
+}
+
+.word .right .col:nth-child(3),
+.word .right .col:nth-child(4) {
+    width: 29%;
+    min-width: 458px;
+}
+
+.word .right .thead .col {
+    color: #000000;
+}
+
+.word .right .tbody .col {
+    color: #333333;
+}
+
+.floatTemp {
+    width: 600px;
+    height: 500px;
+    padding-top: 40px;
+}
+
+.floatTemp .contleft {
+    width: 25%;
+    height: auto;
+    float: left;
+    text-align: right;
+    font-size: 14px;
+    color: #888888;
+}
+
+.floatTemp .contright {
+    width: 40%;
+    height: auto;
+    float: left;
+    text-align: left;
+    font-size: 14px;
+    color: #333333;
+}
+
+.floatTemp .item {
+    min-height: 40px;
+}
+
+.floatTemp .item:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.floatTemp .bottom {
+    line-height: 50px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    text-align: center;
+    border-top: 1px solid #d9e2e8;
+}
+
+.floatTemp .bottom .btn {
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+    /* line-height: 50px; */
+    /* margin-top: 10px; */
+}

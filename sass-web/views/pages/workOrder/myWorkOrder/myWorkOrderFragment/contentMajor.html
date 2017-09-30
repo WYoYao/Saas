@@ -1,0 +1,34 @@
+<div class="content-prev">
+    <div class="prev-title">
+        <div class="title-tip-div">
+            <span>专业要求</span>
+        </div>
+        <div class="edit-clear-div">
+            <div class="edit-div" v-show="myWorkOrderModel.editBtn">
+                <pbutton-white text="编辑" icon="e" isborder="false" click="yn_method.editable"></pbutton-white>
+            </div>
+            <div class="clear-div" v-show="!myWorkOrderModel.editBtn">
+                <img src="../images/clear_03.png" alt="清空图标"/>
+                <pbutton-white text="清空"  isborder="false" click="yn_method.delBubbleShow"></pbutton-white>
+            </div>
+            <!-- 清空按钮弹窗 -->
+            <pwindow-bubble>
+                <button>
+                    <pbutton-blue text="删除" click="yn_method.clearAll"></pbutton-blue>
+                    <pbutton-white text="取消" click="yn_method.delBubbleHide"></pbutton-white>
+                </button>
+            </pwindow-bubble>
+        </div>
+    </div>
+    <div class="prev-body">
+        <div class="slide-div">
+            <div class="major-sel">
+                <pcombobox-normal bind="true" id="'add-major'" sel="yn_method.addMajor">
+                    <header placeholder="选择专业"></header>
+                    <item datasource="myWorkOrderModel.domainList"
+                          text="name"></item>
+                </pcombobox-normal>
+            </div>
+        </div>
+    </div>
+</div>

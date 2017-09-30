@@ -1,0 +1,93 @@
+<style>
+
+</style>
+
+
+<script type="text/html" id="ptimeupdate">
+    <div class='vinputupdate_div'>
+
+        <span class='vinputupdate_block' v-show='isUpdate'>
+            <!-- <ptime-calendar id='produceId' bind='true'>
+                    <panel zonetype='yyyyMMdd'>
+                        </panel>
+            </ptime-calendar> -->
+        </span>
+        <p class='vinputupdate_p' v-show='!isUpdate'>
+            <em class='vinputupdate_em'> 
+                {{stime + '-' + etime}}
+            </em>
+            <span class='vinputupdate_icon' @click='update'>e</span>
+        </p>
+    </div>
+</script>
+
+<script>
+    ;
+    (function() {
+
+
+        Vue.component('ptimeupdate', {
+            data: function() {
+                return {
+                    isUpdate: false,
+                    oldValue: {
+                        stime: '',
+                        etime: '',
+                    }, // 原始参数避免取消修改
+                    newValue: {
+                        stime: '',
+                        etime: '',
+                    },
+                    produceId: "",
+                    block: '',
+                };
+            },
+            props: ['stime', 'etime', 'set', 'skey', 'ekey'],
+            template: "#ptimeupdate",
+            beforeMount: function() {
+
+                var _that = this;
+                // 生成键值处理input 文本框
+
+                this.newValue = {
+                    stime: _that.stime,
+                    etime: _that.etime,
+                }
+
+                this.oldValue = {
+                    stime: _that.stime,
+                    etime: _that.etime,
+                }
+
+                setTimeout(function() {
+                    // 文本控件赋值
+                    _that.block = $("#" + _that.produceId);
+                    // _that.block.pval(this.newValue);
+                }, 0);
+            },
+            methods: {
+                // 点击编辑按钮
+                update: function() {
+                    this.isUpdate = !this.isUpdate;
+                },
+                // 取消编辑按钮
+                cancel: function() {
+
+                    this.newValue = this.oldValue;
+
+                    this.isUpdate = !this.isUpdate;
+                },
+                // 提交按钮
+                submit: function() {
+
+
+                    this.oldValue = this.newValue;
+                    this.isUpdate = !this.isUpdate;
+
+                    this.updatevalue(this.skey, this.newVal.stime);
+                    this.updatevalue(this.ekey, this.newVal.etime);
+                }
+            }
+        })
+    })();
+</script>

@@ -1,0 +1,488 @@
+<!-- equipmentDetail Start -->
+<div class="equipmentDetail" v-show='onPage=="detail"'>
+    <div class="content ">
+        <div class="headerd">
+            <span class="btn fl">
+                    <pbutton-white text="返回" click=""></pbutton-white>
+            </span>
+            <span class="btn fr bfbtn">
+                    <pbutton-white text="报废设备" click=""></pbutton-white>
+            </span>
+        </div>
+
+        <div class="contentd">
+
+            <div class="h100 left">
+                <!-- 卡片显示部分 Start -->
+                <div class="card">
+
+                    <div class="word">
+                        <p class="name" v-text='CardInfo.card_info[0].value' :class='{"bottomzear": CardInfo.card_info.length>5}'></p>
+
+                        <p class="label" v-for='(item,index) in CardInfo.card_info' v-if='index>0'>{{item.info_point_name}}：
+                            <span class="ename" v-text='item.value'></span>
+                        </p>
+                    </div>
+
+                    <div class="picture">
+                        <img class="img" :src="CardInfo.equip_qr_code" alt="点我付钱">
+                        <a :href='CardInfo.equip_qr_code' class="dowload">下载设备名片</a>
+                    </div>
+                </div>
+                <!-- 卡片显示部分 End -->
+
+                <!-- 工单记录显示部分 Start -->
+                <div class="record">
+                    <div class="headerr">
+                        设备工单记录
+
+                        <div class="seleced">
+                            <pcombobox-normal sel="_clickWorkOrderCode" bind='true'>
+                                <header placeholder="工单类型"></header>
+                                <item datasource="WorkOrderState" text="name"></item>
+                            </pcombobox-normal>
+                        </div>
+                    </div>
+                    <div class="contentd">
+                        <ul class="tabled">
+                            <li class="td" v-for='item in EquipRelWorkOrder'>
+                                <div class="state">
+                                    <span class="stateicon" v-text='item.order_state_name'></span>
+                                </div>
+                                <p class="wtext" v-text='item.summary'>
+                                </p>
+                                <p class="stext">
+                                    <span class="fl">参与人：{{item.participants}}</span>
+                                    <span class="fr">发单时间：{{item.publish_time| yyyyMMddhhmmss2date | date2yyyyMMddhhmm}}</span>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 工单记录显示部分 End -->
+
+            </div>
+
+            <div class="h100 right">
+
+                <!-- 基础信息 Start -->
+                <div class="base">
+
+                    <div class="headerb">
+                        <ptab-button datasource="headerbdata" text="name" id='baseTab' sel="headerbCall"></ptab-button>
+                    </div>
+
+                    <div class="contentb" id='verticalAlxescontentb' v-show='baseTab==0'>
+                        <div class="contenter">
+
+                            <!-- 进度轴 Start -->
+                            <div class="verticalAxes">
+                                <div class="circle"></div>
+                                <div class="circle sel" :style='{top:"160px"}'></div>
+                            </div>
+                            <!-- 进度轴 End -->
+
+                            <!-- 基础部分Start -->
+                            <div class="infos">
+                                <!-- 基础 Start -->
+                                <div class="part">
+                                    <div class="pn" :class='{hvshow:baseIsNull}'>基础
+                                        <!-- 头部按钮 Start -->
+                                        <span class="idetext" v-show='!view.add.base.isSHowAddBlock' @click='view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'> <span class="ideicon">e</span> 编辑</span>
+                                        <div class="fr" v-show='view.add.base.isSHowAddBlock'>
+                                            <span class="ideicon smt" @click='_clickAddBase(),console.log("提交方法"),view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'>Z</span>
+                                            <span class="ideicon" @click='console.log("取消方法"),view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'>x</span>
+                                        </div>
+                                        <!-- 头部按钮 End -->
+                                    </div>
+                                    <!-- 新建面板 Start -->
+                                    <ul class="add" v-show='view.add.base.isSHowAddBlock'>
+                                        <li>
+                                            <span class="a-label">设备名称:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_equip_local_name' placeholder="最多20个字">
+                                                    <verify errtip="最多20个字" verifytype="space" length="20"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">设备编码:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_equip_local_id' placeholder="设备编码">
+                                                    <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">BIM模型中编码:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_BIMID' placeholder="BIM模型中编码">
+                                                    <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">安装位置:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_position1'" sel='addbuild1' bind='true'>
+                                                    <item datasource="BuildFloorSpaceTree" text="name"></item>
+                                                </pcombobox-normal>
+                                                <pcombobox-normal id="'addid_position2'" sel='addbuild2' bind='true'>
+                                                    <item datasource="Build1.content" text="name"></item>
+                                                </pcombobox-normal>
+                                                <pcombobox-normal id="'addid_position3'" bind='true'>
+                                                    <item datasource="Build2.content" text="name"></item>
+                                                </pcombobox-normal>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">所属系统:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_system_name'" bind='true'>
+                                                    <item datasource="SystemDomain" text="name"></item>
+                                                </pcombobox-normal>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">设备类型:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_equip_category_name'" bind='true'>
+                                                    <item datasource="SystemDomain" text="name"></item>
+                                                </pcombobox-normal>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">长:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_length' placeholder="请输入数字" text="m">
+                                                    <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">宽:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_width' placeholder="请输入数字" text="m">
+                                                    <verify errtip="请输入数字" verifytype="int"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">高:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_height' placeholder="请输入数字" text="m">
+                                                    <verify errtip="请输入数字" verifytype="int"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">重量:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_mass' placeholder="请输入数字" text="kg">
+                                                    <verify errtip="请输入数字" verifytype="int"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">主体材质:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_material' placeholder="最多20个字符">
+                                                    <verify errtip="最多20个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">所属部门:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_dept' placeholder="请填写所属部门">
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">设备图纸:</span>
+                                            <div class="a-box">
+                                                <pupload-attachment id='addid_drawing' number="4"></pupload-attachment>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">设备照片:</span>
+                                            <div class="a-box">
+                                                <pupload-img number="4" id="addid_picture"></pupload-img>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">质检报告:</span>
+                                            <div class="a-box">
+                                                <pupload-attachment id='addid_check_report' number="4"></pupload-attachment>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">铭牌照片:</span>
+                                            <div class="a-box">
+                                                <pupload-attachment id='addid_nameplate' number="4"></pupload-attachment>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">设备文档:</span>
+                                            <div class="a-box">
+                                                <pupload-attachment id='addid_archive' number="4"></pupload-attachment>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 新建面板 End -->
+                                </div>
+                                <!-- 基础 End -->
+
+                                <!-- 厂家 Start -->
+                                <div class="part">
+                                    <div class="pn" :class='{hvshow:factoryIsNull}'>厂家
+                                        <!-- 头部按钮 Start -->
+                                        <span class="idetext" v-show='!view.add.factory.isSHowAddBlock' @click='view.add.factory.isSHowAddBlock=!view.add.factory.isSHowAddBlock'> <span class="ideicon">e</span> 编辑</span>
+                                        <div class="fr" v-show='view.add.factory.isSHowAddBlock'>
+                                            <span class="ideicon smt" @click='_clickAddfactory(),console.log("提交方法"),view.add.factory.isSHowAddBlock=!view.add.factory.isSHowAddBlock'>Z</span>
+                                            <span class="ideicon" @click='console.log("取消方法"),view.add.factory.isSHowAddBlock=!view.add.factory.isSHowAddBlock'>x</span>
+                                        </div>
+                                        <!-- 头部按钮 End -->
+                                    </div>
+                                    <!-- 新建面板 Start -->
+                                    <ul class="add" v-show='view.add.factory.isSHowAddBlock'>
+                                        <li>
+                                            <span class="a-label">生产厂家:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_manufacturer'" sel='addid_manufacturer_sel' bind='true'>
+                                                    <item datasource="manufacturerList" text="company_name"></item>
+                                                </pcombobox-normal>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">设备品牌:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_brand'" bind='true'>
+                                                    <item datasource="brands" text="name"></item>
+                                                </pcombobox-normal>
+
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">生产日期:</span>
+                                            <div class="a-box">
+                                                <ptime-form id="addid_product_date">
+                                                    <panel timetype="yMd" startyear="1993" endyear="2020"></panel>
+                                                </ptime-form>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">出厂编号:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_serial_num' placeholder="请输入数字">
+                                                    <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">设备型号:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_specification' placeholder="请输入数字">
+                                                    <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 新建面板 End -->
+                                </div>
+                                <!-- 厂家 End -->
+                                <!-- 供应&购买 Start -->
+                                <div class="part">
+                                    <div class="pn" :class='{hvshow:buyIsNull}'>供应&购买
+                                        <!-- 头部按钮 Start -->
+                                        <span class="idetext" v-show='!view.add.buy.isSHowAddBlock' @click='view.add.buy.isSHowAddBlock=!view.add.buy.isSHowAddBlock'> <span class="ideicon">e</span> 编辑</span>
+                                        <div class="fr" v-show='view.add.buy.isSHowAddBlock'>
+                                            <span class="ideicon smt" @click='_clickAddbuy(),console.log("提交方法"),view.add.buy.isSHowAddBlock=!view.add.buy.isSHowAddBlock'>Z</span>
+                                            <span class="ideicon" @click='console.log("取消方法"),view.add.buy.isSHowAddBlock=!view.add.buy.isSHowAddBlock'>x</span>
+                                        </div>
+                                        <!-- 头部按钮 End -->
+                                    </div>
+                                    <!-- 新建面板 Start -->
+                                    <ul class="add" v-show='view.add.buy.isSHowAddBlock'>
+                                        <li>
+                                            <span class="a-label">供应商:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_supplier'" bind='true'>
+                                                    <item datasource="supplierList" text="company_name"></item>
+                                                </pcombobox-normal>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">合同编号:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_contract_id' placeholder="请输入数字">
+                                                    <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">资产编号:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_asset_id' placeholder="请输入数字">
+                                                    <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">采购价格:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_purchase_price' placeholder="请输入数字">
+                                                    <verify errtip="最多10位" verifytype="int" length="10"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 新建面板 End -->
+                                </div>
+                                <!-- 供应&购买 End -->
+                                <!-- 运行&维保 Start -->
+                                <div class="part">
+                                    <div class="pn" :class='{hvshow:maintenanceIsNull}'>运行&维保
+                                        <!-- 头部按钮 Start -->
+                                        <span class="idetext" v-show='!view.add.maintenance.isSHowAddBlock' @click='view.add.maintenance.isSHowAddBlock=!view.add.maintenance.isSHowAddBlock'> <span class="ideicon">e</span> 编辑</span>
+                                        <div class="fr" v-show='view.add.maintenance.isSHowAddBlock'>
+                                            <span class="ideicon smt" @click='_clickAddMaintenance(),console.log("提交方法"),view.add.maintenance.isSHowAddBlock=!view.add.maintenance.isSHowAddBlock'>Z</span>
+                                            <span class="ideicon" @click='console.log("取消方法"),view.add.maintenance.isSHowAddBlock=!view.add.maintenance.isSHowAddBlock'>x</span>
+                                        </div>
+                                        <!-- 头部按钮 End -->
+                                    </div>
+                                    <!-- 新建面板 Start -->
+                                    <ul class="add" v-show='view.add.maintenance.isSHowAddBlock'>
+                                        <li>
+                                            <span class="a-label">设备负责人:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_principal' placeholder="请输入数字">
+                                                    <verify errtip="最多5个字" verifytype="space" length="5"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">维保编码:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_maintain_id' placeholder="请输入数字">
+                                                    <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">投产日期:</span>
+                                            <div class="a-box">
+                                                <ptime-form id="addid_start_date">
+                                                    <panel timetype="yMd" startyear="1993" endyear="2020"></panel>
+                                                </ptime-form>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">合同截止日期:</span>
+                                            <div class="a-box">
+                                                <ptime-form id="addid_maintain_deadline">
+                                                    <panel timetype="yMd" startyear="1993" endyear="2020"></panel>
+                                                </ptime-form>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">使用寿命:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_service_life' placeholder="请输入整数" text="年">
+                                                    <verify errtip="请输入整数" verifytype="int"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">设备保修期:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_warranty' placeholder="请输入整数" text="年">
+                                                    <verify errtip="请输入整数" verifytype="int"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">保养周期:</span>
+                                            <div class="a-box">
+                                                <ptext-text id='addid_maintain_cycle' placeholder="请输入整数" text="天">
+                                                    <verify errtip="请输入整数" verifytype="int"></verify>
+                                                </ptext-text>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">维修商名称:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_maintainer'" bind='true'>
+                                                    <item datasource="maintainerList" text="company_name"></item>
+                                                </pcombobox-normal>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">投产状态:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_status'" bind='true'>
+                                                    <item datasource="statusList" text="name"></item>
+                                                </pcombobox-normal>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 新建面板 End -->
+                                </div>
+                                <!-- 运行&维保 End -->
+                                <!-- 保险 Start -->
+                                <div class="part">
+                                    <div class="pn" :class='{hvshow:insuranceIsNull}'>保险
+                                        <!-- 头部按钮 Start -->
+                                        <span class="idetext" v-show='!view.add.insurance.isSHowAddBlock' @click='view.add.insurance.isSHowAddBlock=!view.add.insurance.isSHowAddBlock'> <span class="ideicon">e</span> 编辑</span>
+                                        <div class="fr" v-show='view.add.insurance.isSHowAddBlock'>
+                                            <span class="ideicon smt" @click='_clickAddinsurance(),console.log("提交方法"),view.add.insurance.isSHowAddBlock=!view.add.insurance.isSHowAddBlock'>Z</span>
+                                            <span class="ideicon" @click='console.log("取消方法"),view.add.insurance.isSHowAddBlock=!view.add.insurance.isSHowAddBlock'>x</span>
+                                        </div>
+                                        <!-- 头部按钮 End -->
+                                    </div>
+                                    <!-- 新建面板 Start -->
+                                    <ul class="add" v-show='view.add.insurance.isSHowAddBlock'>
+                                        <li>
+                                            <span class="a-label">保险公司名称:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_insurer'" sel='addid_insurer_sel' bind='true'>
+                                                    <item datasource="insurerList" text="company_name"></item>
+                                                </pcombobox-normal>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <span class="a-label">保险单号:</span>
+                                            <div class="a-box">
+                                                <pcombobox-normal id="'addid_insurer_num'" bind='true'>
+                                                    <item datasource="insurer_infos" text="insurer_num"></item>
+                                                </pcombobox-normal>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 新建面板 End -->
+                                </div>
+                                <!-- 保险 End -->
+                            </div>
+                            <!-- 基础部分 End -->
+
+                        </div>
+                    </div>
+                </div>
+                <div class="contentb" v-show='baseTab==1'>
+                    2
+                </div>
+
+
+
+            </div>
+            <!-- 基础信息 End -->
+
+        </div>
+    </div>
+
+
+</div>
+</div>
+<!-- equipmentDetail End -->

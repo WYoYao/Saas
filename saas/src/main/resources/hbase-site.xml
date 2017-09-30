@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+<configuration>
+	<!-- hbase-site.xml -->
+	<property>
+		<name>dfs.replication</name>
+		<value>1</value>
+	</property>
+
+	<property>
+		<name>hbase.rootdir</name>
+		<value>hdfs://namenode:8020/hbase</value>
+	</property>
+	<property>
+		<name>hbase.cluster.distributed</name>
+		<value>true</value>
+	</property>
+	<property>
+		<name>hbase.zookeeper.quorum</name>
+		<value>zookeeper1,zookeeper2,zookeeper3</value>
+	</property>
+	<property>
+		<name>hbase.zookeeper.property.dataDir</name>
+		<value>/var/zookeeper/data</value>
+	</property>
+
+	<!--
+	<property>
+		<name>hbase.security.authentication</name>
+		<value>simple</value>
+	</property>
+	-->
+
+</configuration>
