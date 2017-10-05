@@ -16,7 +16,7 @@ var equipmentMngDeatilController = {
                     "equip_local_name": "设备本地名称", //设备本地名称
                     "BIMID": "BIM编码", //BIM编码
                     "position": "建筑-楼层-空间", //安装位置
-                    "equip_category_name": "设备类型名称", //设备类型名称
+                    "equip_category_name": "人防排风机", //设备类型名称
                     "system_name": "空调人防系统", //所属系统名称
                     "length": "长", //长
                     "width": "宽", //宽
@@ -27,18 +27,18 @@ var equipmentMngDeatilController = {
                     "drawing": [ //设备图纸
                         {
                             "type": "1",
-                            "name": "",
-                            "url": ""
+                            "name": "设备图纸1",
+                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
                         }, //附件类型，1-url，2-附件 {
                         {
                             "type": "1",
-                            "name": "",
-                            "url": ""
+                            "name": "设备图纸2",
+                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
                         },
                         {
                             "type": "2",
-                            "name": "",
-                            "key": ""
+                            "name": "设备图纸3",
+                            "key": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
                         }
                     ],
                     "picture": ['key1', 'key2'], //设备照片
@@ -103,7 +103,7 @@ var equipmentMngDeatilController = {
                     "maintainer_fax": "维修商传真", //维修商传真
                     "maintainer_email": "维修商电子邮件", //维修商电子邮件
                     "status": "1", //投产状态，1-投产 ，2-未投产 ，3-其他
-                    "insurer": "保险公司", //保险公司
+                    "insurer": "保险公司77", //保险公司
                     "insurer_num": "保险单号", //保险单号
                     "insurer_contactor": "保险联系人", //保险联系人
                     "insurer_phone": "保险联系电话", //保险联系电话
