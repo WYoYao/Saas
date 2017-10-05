@@ -1,39 +1,19 @@
-var controlType = {
-    insurer: 1,
-    insurer_num: 1,
-    supplier: 1,
-    contract_id: 0,
-    asset_id: 0,
-    purchase_price: 0,
-    manufacturer: 1,
-    brand: 1,
-    product_date: 4,
-    serial_num: 0,
-    specification: 0,
-    principal: 0,
-    maintain_id: 0,
-    start_date: 4,
-    maintain_deadline: 0,
-    service_life: 0,
-    warranty: 0,
-    maintain_cycle: 0,
-    maintainer: 1,
-    status: 1,
-    equip_local_name: 0,
-    equip_local_id: 0,
-    BIMID: 0,
-    position: 1,
-    system_name: 1,
-    equip_category_name: 1,
-    length: 0,
-    width: 0,
-    height: 0,
-    mass: 0,
-    material: 0,
-    dept: 0,
-    drawing: 3,
-    picture: 2,
-    check_report: 3,
-    nameplate: 2,
-    archive: 3,
-};
+
+
+
+var res=new Promise(function(resolve,reject){
+
+    setTimeout(function() {
+        resolve(123);
+    }, 200);
+
+})
+
+
+res.then(function(num){
+    console.log(num);
+})
+
+res.then(function(num){
+    console.log(num);
+})
