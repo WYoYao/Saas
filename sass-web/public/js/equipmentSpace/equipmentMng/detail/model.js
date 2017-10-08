@@ -177,7 +177,7 @@ var CardInfo = function () {
             },
             status: {
                 list: v.instance.statusList,
-                SearchKey: 'name',
+                SearchKey: 'code',
             },
             position: {
                 list: v.instance.Build2.content.length ? v.instance.Build2.content : (v.instance.Build1.content.length ? v.instance.Build1.content : v.instance.BuildFloorSpaceTree),
@@ -328,6 +328,33 @@ var CardInfo = function () {
                     insurer_phone: false,
                     insurance_file: false
                 },
+                scroll:[{
+                        name:'base',
+                        isSelect: true,
+                        el:$("#scrollbase"),
+                        tag:'基础',
+                    },{
+                        name:'factory',
+                        isSelect: false,
+                        el:$("#scrollfactory"),
+                        tag:'厂家',
+                    },{
+                        name:'buy',
+                        isSelect: false,
+                        el:$("#scrollbuy"),
+                        tag:'供应&购买',
+                    },{
+                        name:'maintenance',
+                        isSelect: false,
+                        el:$("#scrollmaintenance"),
+                        tag:'运行&维保',
+                    },{
+                        name:'insurance',
+                        isSelect: false,
+                        el:$("#scrollinsurance"),
+                        tag:'保险',
+                    },
+                ]
             }
         },
         computed: {
@@ -419,30 +446,37 @@ var CardInfo = function () {
 
                 //返回验证是否全部为空
                 return this.fev(this.EquipInfo, keys);
+            },
+            // 返回状态显示对应的状态名称
+            stateCovert:function(){
+
+                var _that=this;
+                return this.statusList.filter(function(item){
+                    return item.code==_that.EquipInfo.status;
+                })[0].name;
             }
         },
         filters: {
-
+            
         },
         methods: {
             //======================= 单个编辑Start  ==========================
             _clickStartChange: function (key) {
 
-                console.log(key);
-
                 var el = $("#ideid_" + key),
-                    type = querycontroTypeByKey(key); //0文本框  1 下拉框 2 图片上传 3 文件上传 4 日历控件 5 多级联动下拉菜单
+                    type = querycontroTypeByKey(key), //0文本框  1 下拉框 2 图片上传 3 文件上传 4 日历控件 5 多级联动下拉菜单
+                    value=this.EquipInfo[key];  // 当前对应的值
 
                 if (type == 0) {
                     // 点击编辑文本赋值
-                    el.pval(this.EquipInfo[key]);
+                    el.pval(value);
                 } else if (type == 1) {
 
                     // 点击编辑下拉菜单赋值
                     var obj = querySearchNameByKey(key),
                         list = obj.list,
                         SearchKey = obj.SearchKey;
-                    var item = this.filterItemByKeyValue(list, SearchKey, this.EquipInfo[key]);
+                    var item = this.filterItemByKeyValue(list, SearchKey, value);
                     var index = list.indexOf(item);
                     el.psel(index);
                 } else if (type == 2) {
@@ -450,6 +484,8 @@ var CardInfo = function () {
                 } else if (type == 3) {
 
                 } else if (type == 4) {
+                    var date=new Date(value);
+                    el.psel({y:date.format('yyyy'),M:date.format('MM'),d:date.format('dd')});
 
                 } else if (type == 5) {
 
@@ -1011,12 +1047,12 @@ var CardInfo = function () {
                 recoverSearch(querySearchNameByKey());
 
                 // 上传文件控件赋值
-                ['drawing'].forEach(function(key){
+                ['drawing','check_report','archive'].forEach(function(key){
                     
                     // 给需要绑定值的上传控件绑定对应的内容
                     var pics=_that.EquipInfo[key] || [];
 
-                    $("#addid_"+key).psel(pics.map(function(item){
+                    $("#ideid_"+key).psel(pics.map(function(item){
                         return {
                             name:item.name,
                             url:item.type==1?item.url:item.key,
@@ -1024,6 +1060,19 @@ var CardInfo = function () {
                     }));
 
                 });
+
+                // 上传文件赋值  （两种不同的区别一直是图片上传一种是文件上传 同时接口返回的数据接口不同）
+                ['picture','nameplate'].forEach(function(key){
+
+                    var pics=_that.EquipInfo[key] || [];
+                    // 给需要绑定值的上传控件绑定对应的内容
+                    $("#ideid_"+key).psel(pics.map(function(url){
+                        return {
+                            url:url,
+                        }
+                    }));
+                })
+
                 console.log('全部加载完毕');
             })
 
