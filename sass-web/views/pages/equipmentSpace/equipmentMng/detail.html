@@ -77,8 +77,8 @@
 
                             <!-- 进度轴 Start -->
                             <div class="verticalAxes">
-                                <div class="circle"></div>
-                                <div class="circle sel" :style='{top:"160px"}'></div>
+                                <div class="circle" :class='{sel:item.isSelected}' :style='{top:item.top+"px"}' v-for='(item,index) in scrollLeft' @click='_clickScroll(index)'></div>
+                                <!--<div class="circle sel" :style='{top:"160px"}'></div>-->
                             </div>
                             <!-- 进度轴 End -->
 
