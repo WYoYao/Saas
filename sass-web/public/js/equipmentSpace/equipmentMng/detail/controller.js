@@ -1,4 +1,91 @@
 var equipmentMngDeatilController = {
+    queryEquipDynamicInfo: function (equip_id) {
+
+        return new Promise(function (resolve, reject) {
+
+            setTimeout(function () {
+                resolve([{
+                    "tag": "tag1", //标签
+                    "info_Points": [ //标签下信息点
+                        {
+                            "info_code": "信息点编码", //信息点编码,字段编码            
+                            "info_name": "信息点名称", //信息点名称  
+                            "unit": "单", //单位
+                            "data_type": "Str", //value值类型
+                            "str_value": "信息点值", //信息点值
+                            "cmpt": "组件编码", //组件编码
+                            "cmpt_data": [ //组件的数据源，用于列表选择
+                                {
+                                    "code": "code",
+                                    "name": "name"
+                                },
+                            ]
+                        }
+                    ]
+                }, {
+                    "tag": "tag2", //标签
+                    "info_Points": [ //标签下信息点
+                        {
+                            "info_code": "信息点编码2", //信息点编码,字段编码            
+                            "info_name": "信息点名称2", //信息点名称  
+                            "unit": "单", //单位
+                            "data_type": "StrArr", //value值类型
+                            "str_arr_value":[1,2,3,4,5],
+                            "str_value": 2, //信息点值
+                            "cmpt": "组件编码", //组件编码
+                            "cmpt_data": [ //组件的数据源，用于列表选择
+                                {
+                                    "code": "code",
+                                    "name": "name"
+                                },
+                            ]
+                        }
+                    ]
+                }, {
+                    "tag": "tag3", //标签
+                    "info_Points": [ //标签下信息点
+                        {
+                            "info_code": "信息点编码3", //信息点编码,字段编码            
+                            "info_name": "信息点名称3", //信息点名称  
+                            "unit": "单", //单位
+                            "data_type": "Str", //value值类型
+                            "str_value": "信息点值", //信息点值
+                            "cmpt": "组件编码", //组件编码
+                            "cmpt_data": [ //组件的数据源，用于列表选择
+                                {
+                                    "code": "code",
+                                    "name": "name"
+                                },
+                            ]
+                        }
+                    ]
+                }])
+            }, 200);
+        })
+
+        return new Promise(function (resolve, reject) {
+
+            pajax.post({
+                url: 'restEquipService/queryEquipDynamicInfo',
+                data: {
+                    equip_id: equip_id
+                },
+                success: function (data) {
+                    if (!Object.keys(data).length) {
+                        resolve(data);
+                    } else {
+                        reject(data);
+                    }
+                },
+                error: function () {
+                    reject(err);
+                },
+                complete: function () {
+
+                },
+            });
+        })
+    },
     //设备管理-详细页:查询设备通用信息
     queryEquipPublicInfo: function (equip_id) {
 

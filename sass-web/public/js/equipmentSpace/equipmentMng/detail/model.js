@@ -209,13 +209,20 @@ var CardInfo = function () {
             }
         }
     }
-
     v.pushComponent({
         name: 'equipmentMngDeatil',
         data: {
+            layer:new layerModel(function(){
+                console.log('submitCb');
+            },function(){
+                console.log('cancelCb');
+            },function(){
+                console.log('getPoints');
+            }), // 全局共用弹窗
             equip_id: '', // 设备ID
             EquipInfo: new EquipPublicInfo(),
             CardInfo: new CardInfo(),
+            EquipDynamicInfo:[],// 通用信息点
             WorkOrderState: [], // 工单状态集合
             WorkOrderCode: '', // 选中的工单状态
             EquipRelWorkOrder: [], // 查询到的工单集合
@@ -479,7 +486,6 @@ var CardInfo = function () {
                             return item;
                 })
 
-                console.log(Top);
 
                 var doc=$("#verticalAlxescontentb")[0],
                     scrollTop=doc.scrollTop,
@@ -554,6 +560,14 @@ var CardInfo = function () {
                     return con;
                 },0);
             },
+            submitTip:function(event){
+             
+                this.layer.submit(event.clientX,event.clientY);
+                
+            },
+            cancelTip:function(){
+                this.layer.cancel(event.clientX,event.clientY);
+            },
             //======================= 单个编辑Start  ==========================
             _clickStartChange: function (key) {
 
@@ -587,6 +601,10 @@ var CardInfo = function () {
 
 
 
+            },
+            // 技术信息编辑
+            _clickPointChange:function(id,list,value){
+                $("#PI"+id).psel(list.indexOf(value));
             },
             //======================= 单个编辑End  ==========================
             /**
@@ -1171,6 +1189,30 @@ var CardInfo = function () {
 
                 console.log('全部加载完毕');
             })
+
+            // 技术参数赋值
+            equipmentMngDeatilController.queryEquipDynamicInfo()
+                .then(function(list){
+                    _that.EquipDynamicInfo=list.map(function(item){
+
+                        item.info_Points=item.info_Points.map(function(info){
+
+                            info.isShow=true;
+
+                            // 字符串集合转换为ObjectArray
+                            if(info.data_type=='StrArr'){
+                                info.str_arr_value=info.str_arr_value.map(function(name){
+                                    return {
+                                        name:name,
+                                    }
+                                })
+                            }
+                            return info;
+                        });
+
+                        return item;
+                    });
+                })
 
 
             // 选择选项卡

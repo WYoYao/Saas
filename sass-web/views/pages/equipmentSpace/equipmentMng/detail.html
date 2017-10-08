@@ -85,7 +85,7 @@
                             <!-- 基础部分Start -->
                             <div class="infos">
                                 <!-- 基础 Start -->
-                                <div id='scrollbase' class="part">
+                                <div  class="part">
                                     <div class="pn" :class='{hvshow:baseIsNull}'>基础
                                         <!-- 头部按钮 Start -->
                                         <span class="idetext" v-show='!view.add.base.isSHowAddBlock' @click='view.add.base.isSHowAddBlock=!view.add.base.isSHowAddBlock'> <span class="ideicon">e</span>                                        编辑</span>
@@ -261,8 +261,8 @@
                                                         </ptext-text>
                                                 </span>
                                                 <div class="icnb" v-show='view.ide.equip_local_id'>
-                                                    <span class="ideicon smt">Z</span>
-                                                    <span class="ideicon" @click='view.ide.equip_local_id=!view.ide.equip_local_id'>x</span>
+                                                    <span class="ideicon smt" @click='submitTip($event)'>Z</span>
+                                                    <span class="ideicon" @click='view.ide.equip_local_id=!view.ide.equip_local_id,cancelTip($event)'>x</span>
                                                 </div>
                                             </div>
                                         </li>
@@ -1120,13 +1120,356 @@
 
                         </div>
                     </div>
+                    <div class="contentb" v-show='baseTab==1'>
+                        <div class="contenter">
+
+                            <!-- 进度轴 Start -->
+                            <div class="verticalAxes">
+                                <div class="circle" :class='{sel:item.isSelected}' :style='{top:item.totalTop+"px"}' v-for='(item,index) in scrollLeft' @click='_clickScroll(index)'></div>
+                                <!--<div class="circle sel" :style='{top:"160px"}'></div>-->
+                            </div>
+                            <!-- 进度轴 End -->
+
+                            <!-- 基础部分Start -->
+                            <div class="infos">
+                                <!-- 基础 Start -->
+                                <div  class="part" v-for='item in EquipDynamicInfo'>
+                                    <div class="pn" v-text='item.tag'>
+                                    </div>
+
+           
+                                    <!-- 查看编辑 Start -->
+                                    <ul class="add yellowblock">
+                                        <li class="hvshow" v-for='info in item.info_Points'>
+                                            <span class="a-label">{{info.info_name}}:</span>
+                                            <!-- 文本开始 Start -->
+                                            <div class="a-box" v-if='info.data_type=="Str"'>
+                                                <span class="ipt" v-text='info.info_name' v-show='!info.isShow'></span>
+                                                <span class="idetext" v-show='!info.isShow' @click='info.isShow=!info.isShow,_clickStartChange(info.info_code)'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='info.isShow'>
+                                                        <ptext-text id="'PI'+info.info_name" value='info.str_value' text="info.unit" bind='true'>  
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='info.isShow'>
+                                                    <span class="ideicon smt" @click='console.log(1)'>Z</span>
+                                                    <span class="ideicon" @click='info.isShow=!info.isShow'>x</span>
+                                                </div>
+                                            </div>
+                                            <!-- 文本开始 End -->
+
+                                            <!-- 字符串数组 Start -->
+                                            <div class="a-box" v-if='info.data_type=="StrArr"'>
+                                                <span class="ipt" v-text='info.info_name' v-show='!info.isShow'></span>
+                                                <span class="idetext" v-show='!info.isShow' @click='info.isShow=!info.isShow,_clickPointChange(info.info_code,info.str_arr_value,info.str_value)'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='info.isShow'>
+                                                        <pcombobox-normal id="'PI'+info.info_code" bind='true'>
+                                                            <item datasource="info.str_arr_value" text="name"></item>
+                                                        </pcombobox-normal>
+                                                </span>
+                                                <div class="icnb" v-show='info.isShow'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='info.isShow=!info.isShow'>x</span>
+                                                </div>
+                                            </div>
+                                            <!-- 字符串数组 End -->
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">设备编码:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.equip_local_id' v-show='!view.ide.equip_local_id'></span>
+                                                <span class="idetext" v-show='!view.ide.equip_local_id' @click='view.ide.equip_local_id=!view.ide.equip_local_id,_clickStartChange("equip_local_id")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.equip_local_id'>
+                                                        <ptext-text id='ideid_equip_local_id' placeholder="最多20个字">  
+                                                            <verify errtip="最多20个字" verifytype="space" length="20"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.equip_local_id'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.equip_local_id=!view.ide.equip_local_id'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">BIM模型中编码:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.BIMID' v-show='!view.ide.BIMID'></span>
+                                                <span class="idetext" v-show='!view.ide.BIMID' @click='view.ide.BIMID=!view.ide.BIMID,_clickStartChange("BIMID")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.BIMID'>
+                                                        <ptext-text id='ideid_BIMID' placeholder="最多20个字">  
+                                                            <verify errtip="最多20个字" verifytype="space" length="20"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.BIMID'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.BIMID=!view.ide.BIMID'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">安装位置:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.position' v-show='!view.ide.position'></span>
+                                                <span class="idetext" v-show='!view.ide.position' @click='view.ide.position=!view.ide.position,_clickStartChange("position")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.position'>
+                                                        <ptext-text id='ideid_position' placeholder="最多20个字">  
+                                                            <verify errtip="最多20个字" verifytype="space" length="20"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.position'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.position=!view.ide.position'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">所属系统:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.system_name' v-show='!view.ide.system_name'></span>
+                                                <span class="idetext" v-show='!view.ide.system_name' @click='view.ide.system_name=!view.ide.system_name,_clickStartChange("system_name")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.system_name'>
+                                                        <pcombobox-normal id="'ideid_system_name'" sel='_SystemDomainChange' bind='true'>
+                                                            <item datasource="SystemDomain" text="name"></item>
+                                                        </pcombobox-normal>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.system_name'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.system_name=!view.ide.system_name'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">设备类型:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.equip_category_name' v-show='!view.ide.equip_category_name'></span>
+                                                <span class="idetext" v-show='!view.ide.equip_category_name' @click='view.ide.equip_category_name=!view.ide.equip_category_name,_clickStartChange("equip_category_name")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.equip_category_name'>
+                                                        <pcombobox-normal id="'ideid_equip_category_name'" bind='true'>
+                                                            <item datasource="AllEquipCategory" text="name"></item>
+                                                        </pcombobox-normal>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.equip_category_name'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.equip_category_name=!view.ide.equip_category_name'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">长:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.length' v-show='!view.ide.length'></span>
+                                                <span class="idetext" v-show='!view.ide.length' @click='view.ide.length=!view.ide.length,_clickStartChange("length")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.length'>
+                                                        <ptext-text id='ideid_length' placeholder="请输入数字" text="m">  
+                                                            <verify errtip="最多50个字符" verifytype="space" length="50"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.length'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.length=!view.ide.length'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">宽:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.width' v-show='!view.ide.width'></span>
+                                                <span class="idetext" v-show='!view.ide.width' @click='view.ide.width=!view.ide.width,_clickStartChange("width")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.width'>
+                                                        <ptext-text id='ideid_width' placeholder="请输入数字" text="m">
+                                                            <verify errtip="请输入数字" verifytype="int"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.width'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.width=!view.ide.width'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">高:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.height' v-show='!view.ide.height'></span>
+                                                <span class="idetext" v-show='!view.ide.height' @click='view.ide.height=!view.ide.height,_clickStartChange("height")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.height'>
+                                                        <ptext-text id='ideid_height' placeholder="请输入数字" text="m">
+                                                            <verify errtip="请输入数字" verifytype="int"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.height'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.height=!view.ide.height'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">重量:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.mass' v-show='!view.ide.mass'></span>
+                                                <span class="idetext" v-show='!view.ide.mass' @click='view.ide.mass=!view.ide.mass,_clickStartChange("mass")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.mass'>
+                                                        <ptext-text id='ideid_mass' placeholder="请输入数字" text="kg">
+                                                            <verify errtip="请输入数字" verifytype="int"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.mass'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.mass=!view.ide.mass'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">主体材质:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.material' v-show='!view.ide.material'></span>
+                                                <span class="idetext" v-show='!view.ide.material' @click='view.ide.material=!view.ide.material,_clickStartChange("material")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.material'>
+                                                        <ptext-text id='ideid_material' placeholder="最多20个字符">
+                                                            <verify errtip="最多20个字符" verifytype="space" length="50"></verify>
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.material'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.material=!view.ide.material'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">所属部门:</span>
+                                            <div class="a-box">
+                                                <span class="ipt" v-text='EquipInfo.dept' v-show='!view.ide.dept'></span>
+                                                <span class="idetext" v-show='!view.ide.dept' @click='view.ide.dept=!view.ide.dept,_clickStartChange("dept")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.dept'>
+                                                        <ptext-text id='ideid_dept' placeholder="请填写所属部门">
+                                                        </ptext-text>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.dept'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.dept=!view.ide.dept'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">设备照片:</span>
+                                            <div class="a-box">
+                                                <span class="ipt">
+                                                    <ul class="per-upload-picture-ul">
+                                                        <li class="per-upload-picture-wrap" v-for='pic in EquipInfo.picture'>
+                                                            <!--<div class="per-upload-picture_x">x</div>-->
+                                                            <img :src="pic">
+                                                        </li>
+                                                    </ul> 
+                                                </span>
+                                                <span class="idetext" v-show='!view.ide.picture' @click='view.ide.picture=!view.ide.picture,_clickStartChange("picture")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.picture'>
+                                                        <pupload-img id='ideid_picture' number="4"></pupload-img>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.picture'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.picture=!view.ide.picture'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">设备图纸:</span>
+                                            <div class="a-box">
+                                                <span class="ipt">
+                                                    <ul>
+                                                        <li v-for='pic in EquipInfo.drawing' class="per-upload-manyfile_item">
+                                                            <div class="per-upload-onlyfile_name" pdisabled="false">
+                                                                <b v-text='pic.name'></b>
+                                                                <a :href="pic.type==1?pic.url:pic.key"><span class="per-upload-manyfile_x" style="display:block">D</span></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </span>
+                                                <span class="idetext" v-show='!view.ide.drawing' @click='view.ide.drawing=!view.ide.drawing,_clickStartChange("drawing")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.drawing'>
+                                                        <pupload-attachment id='ideid_drawing' number="4"></pupload-attachment>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.drawing'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.drawing=!view.ide.drawing'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">质检报告:</span>
+                                            <div class="a-box">
+                                                <span class="ipt">
+                                                    <ul>
+                                                        <li v-for='pic in EquipInfo.check_report' class="per-upload-manyfile_item">
+                                                            <div class="per-upload-onlyfile_name" pdisabled="false">
+                                                                <b v-text='pic.name'></b>
+                                                                <a :href="pic.type==1?pic.url:pic.key"><span class="per-upload-manyfile_x" style="display:block">D</span></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </span>
+                                                <span class="idetext" v-show='!view.ide.check_report' @click='view.ide.check_report=!view.ide.check_report,_clickStartChange("check_report")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.check_report'>
+                                                        <pupload-attachment id='ideid_check_report' number="4"></pupload-attachment>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.check_report'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.check_report=!view.ide.check_report'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">铭牌照片:</span>
+                                            <div class="a-box">
+                                                <span class="ipt">
+                                                    <ul class="per-upload-picture-ul">
+                                                        <li class="per-upload-picture-wrap" v-for='pic in EquipInfo.nameplate'>
+                                                            <!--<div class="per-upload-picture_x">x</div>-->
+                                                            <img :src="pic">
+                                                        </li>
+                                                    </ul> 
+                                                </span>
+                                                <span class="idetext" v-show='!view.ide.nameplate' @click='view.ide.nameplate=!view.ide.nameplate,_clickStartChange("nameplate")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.nameplate'>
+                                                        <pupload-img id='ideid_nameplate' number="4"></pupload-img>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.nameplate'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.nameplate=!view.ide.nameplate'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="hvshow">
+                                            <span class="a-label">设备文档:</span>
+                                            <div class="a-box">
+                                                <span class="ipt">
+                                                    <ul>
+                                                        <li v-for='pic in EquipInfo.archive' class="per-upload-manyfile_item">
+                                                            <div class="per-upload-onlyfile_name" pdisabled="false">
+                                                                <b v-text='pic.name'></b>
+                                                                <a :href="pic.type==1?pic.url:pic.key"><span class="per-upload-manyfile_x" style="display:block">D</span></a>
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </span>
+                                                <span class="idetext" v-show='!view.ide.archive' @click='view.ide.archive=!view.ide.archive,_clickStartChange("archive")'> <span class="ideicon">e</span>                                                编辑</span>
+                                                <span class="ipt" v-show='view.ide.archive'>
+                                                        <pupload-attachment id='ideid_archive' number="4"></pupload-attachment>
+                                                </span>
+                                                <div class="icnb" v-show='view.ide.archive'>
+                                                    <span class="ideicon smt">Z</span>
+                                                    <span class="ideicon" @click='view.ide.archive=!view.ide.archive'>x</span>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                    <!-- 查看编辑 End -->
+                                </div>
+                                <!-- 基础 End -->
+
+                            </div>
+                            <!-- 基础部分 End -->
+
+                        </div>
+                    </div>
                 </div>
-                <div class="contentb" v-show='baseTab==1'>
-                    2
-                </div>
-
-
-
             </div>
             <!-- 基础信息 End -->
 
