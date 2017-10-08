@@ -448,7 +448,7 @@ var CardInfo = function () {
             // 计算左边滚动轴
             scrollLeft:function(){
                 var _that=this;
-                return _that.covertHeight(_that.view.scroll,60,120,60).map(function(item,index){
+                return _that.covertHeight(_that.view.scroll,60,120,30).map(function(item,index){
 
                     return Object.assign({},item,{isSelected:_that.view.scroll[index].isSelected});
                 });
@@ -479,28 +479,30 @@ var CardInfo = function () {
                             return item;
                 })
 
+                console.log(Top);
+
                 var doc=$("#verticalAlxescontentb")[0],
+                    scrollTop=doc.scrollTop,
                     scrollHeight=doc.scrollHeight, //总高
-                    scrollTop=doc.scrollTop,    // 滚动区域
-                    clientHeight=doc.clientHeight, // 显示高
                     scorllarr=_that.scrollLeft, // 当前所有滚动轴的位置
                     startPoint=scorllarr[0],  // 第一个锚点
                     endPoint=scorllarr[scorllarr.length-1],// 最后一个锚点
                     indexPoint=scorllarr[index], // 当前锚点
-                    startLong=indexPoint.top,
-                    endLong=endPoint.top - indexPoint.top+60;
+                    startLong=indexPoint.top-indexPoint.marginTop,
+                    endLong=endPoint.top - indexPoint.top;
+                    // Top=Top>scrollTop?scrollTop:Top;
 
                     // 内容区域的上滚动高度小于剩下锚点轴的高度的时候锚点额外高度为0
-                    if((scrollTop-startLong)<0){
+                    if((Top-startLong)<0){
                         _that.view.scroll=_that.view.scroll.map(function(item){
 
                             item.marginTop=0;
                             return item;
                         })
-                    }else if(endLong>(scrollHeight-Top)){
+                    }else if(Top>scrollTop){
                         // 剩下的锚点高度大于剩下的内容高度的时候
                         // var t=scrollHeight-endPoint.top-60;
-                        var t=scrollHeight-endPoint.top;
+                        var t=(Top-startLong);
                         _that.view.scroll=_that.view.scroll.map(function(item){
 
                             item.marginTop=t;
@@ -510,7 +512,7 @@ var CardInfo = function () {
                     }else{
 
                         // var mtp=Top-indexPoint.top+60;
-                        var mtp=Top-indexPoint.top;
+                        var mtp=Top-startLong;
 
                         _that.view.scroll=_that.view.scroll.map(function(item){
 
@@ -543,12 +545,11 @@ var CardInfo = function () {
             // 将滚动轴滚动至对应的位置
             _ScrollToIndex:function(el,index){
 
-
                 return _.range(index).reduce(function(con,i){
 
                     var itemEl=el.find('.part').eq(i);
 
-                    con+=(+itemEl.height()+(+itemEl.css("margin-top").replace('px','')));
+                    con+=(+itemEl.height());
                     
                     return con;
                 },0);
@@ -987,13 +988,15 @@ var CardInfo = function () {
 
                 itemTop = ih < minh ? minh : (minh < ih && ih < maxh) ? ih : maxh;
 
-                return arr.map(function (item, index) {
-
-                    item.top = index * itemTop + sh + (item.marginTop || 0);
+                aa= arr.map(function (item, index) {
+                    item.top=index * itemTop + sh;
+                    item.totalTop = index * itemTop + sh + (item.marginTop || 0);
 
                     return item;
 
                 })
+
+                return aa;
             }
         },
         beforeMount: function () {
