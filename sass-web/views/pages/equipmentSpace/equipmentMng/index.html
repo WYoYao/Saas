@@ -28,6 +28,8 @@
 
     <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
 
+    <% include ./layer.html %>
+
     <!-- 设备管理列表 Start -->
     <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/list.css">
     <script src="/js/equipmentSpace/equipmentMng/list/controller.js"></script>
@@ -45,9 +47,9 @@
 </head>
 
 <body>
-
     <div class="component" id="component">
         <div id="equipmentMng">
+            <layer :layer="layer"></layer>
             <% include ./list.html %>
                 <% include ./detail.html %>
         </div>

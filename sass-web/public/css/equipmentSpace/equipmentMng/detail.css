@@ -309,6 +309,7 @@
 }
 
 .equipmentDetail .base .contentb .contenter {
+    margin-top: 18px;
     position: relative;
     min-height: 600px;
     width: 100%;
@@ -320,7 +321,7 @@
 }
 
 .equipmentDetail .contentb .infos .part {
-    margin-top: 18px;
+    /* margin-top: 18px; */
     width: 100%;
 }
 
