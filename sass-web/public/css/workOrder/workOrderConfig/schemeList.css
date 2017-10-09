@@ -199,6 +199,7 @@ html, body {
     height: 100%;
     overflow-y: auto;
     padding-top: 25px;
+    padding-right: 10px;
 }
 
 .single-scheme-content div {
@@ -225,6 +226,7 @@ html, body {
 .single-scheme-content-s-child > div {
     display: inline-block;
     vertical-align: top;
+    width: calc(100% - 100px);
 }
 
 .single-scheme-content-s-child-operate > div {
@@ -237,6 +239,7 @@ html, body {
 
 .single-scheme-content-s-child-operate-content div {
     margin-bottom: 10px;
+    white-space: normal;
 }
 
 .single-scheme-content-s-child > div:first-of-type {

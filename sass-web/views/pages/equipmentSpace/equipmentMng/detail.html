@@ -245,8 +245,8 @@
                                                         </ptext-text>
                                                 </span>
                                                 <div class="icnb" v-show='view.ide.equip_local_name'>
-                                                    <span class="ideicon smt">Z</span>
-                                                    <span class="ideicon" @click='view.ide.equip_local_name=!view.ide.equip_local_name'>x</span>
+                                                    <span class="ideicon smt" @click='_clickSubmit($event,"equip_local_name")'>Z</span>
+                                                    <span class="ideicon" @click='view.ide.equip_local_name=!view.ide.equip_local_name,_clickSubmit($event,"equip_local_name")'>x</span>
                                                 </div>
                                             </div>
                                         </li>

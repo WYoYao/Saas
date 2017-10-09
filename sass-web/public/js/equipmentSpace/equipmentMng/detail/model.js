@@ -624,6 +624,28 @@ var CardInfo = function() {
                 this.layer.cancel(event.clientX, event.clientY);
             },
             //======================= 单个编辑Start  ==========================
+            // 编辑状态下的对号按钮点击事件
+            _clickSubmit: function(event, key) {
+                var _that = this;
+
+                console.log(key);
+
+                // 显示提交弹窗
+                _that.submitTip(event);
+
+            },
+            // 编辑状态下的叉号按钮点击事件
+            _clickCancel: function(event, key) {
+                var _that = this;
+
+                console.log(key);
+
+                // 显示取消弹窗
+                _that.cancelTip(event);
+
+
+            },
+            // 点击编辑按钮控件赋值
             _clickStartChange: function(key) {
 
                 var el = $("#ideid_" + key),
