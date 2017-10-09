@@ -6,6 +6,16 @@ var cardPrintEvent = {
     //选项卡切换时展示不同的页面
     mainTabToggleForPage: function () {
         var index = $('#divCardPrintTab').psel();
+        switch (index) {
+            case 0:
+                $("#downEquipmentWrap").show();
+                $("#downSpaceWrap").hide();
+                break;
+            case 1:
+                $("#downEquipmentWrap").hide();
+                $("#downSpaceWrap").show();
+                break;
+        }
     },
     //根据选项卡索引获取对应表格的element
     getGridTarget: function () {
@@ -20,6 +30,9 @@ var cardPrintEvent = {
     openSetPage: function () {
         var tabIndex = $("#divCardPrintTab").psel();
         $('#divCardSetTab').psel(tabIndex);
+        $("#printCardList").hide();
+        $("#printCardDz").show();
+
     },
     //保存名片事件
     saveCardEvent: function () {
@@ -36,13 +49,26 @@ var cardPrintEvent = {
 
 var printCardObj = {};
 
+//定制名片tab切换
+function cardShow() {
+    var tabIndex = $("#divCardSetTab").psel();
+    switch (tabIndex){
+        case 0:
+            $("#roomCardW").show();
+            $("#equimentCardW").hide();
+            break;
+        case 1:
+            $("#roomCardW").hide();
+            $("#equimentCardW").show();
+            break;
+    }
 
+}
 
 // 定制卡片
-cardPrintEvent.customMadeCard = function () {
-    $("#printCardList").hide();
-    $("#printCardDz").show();
-};
+//cardPrintEvent.customMadeCard = function () {
+
+//};
 cardPrintEvent.customMadeCardHide = function () {
     $("#printCardList").show();
     $("#printCardDz").hide();

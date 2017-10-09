@@ -206,7 +206,7 @@ $(function() {
 
     v.initPage('equipmentMng');
 
-    // v.initPage('equipmentMngDeatil', { equip_id: 123456 });
+    v.initPage('equipmentMngDeatil', { equip_id: 123456 });
 
 
     // // 开发结束后删除

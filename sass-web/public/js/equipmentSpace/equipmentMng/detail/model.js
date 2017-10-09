@@ -469,7 +469,15 @@ var CardInfo = function() {
 
                     return Object.assign({}, item, { isSelected: _that.view.scroll[index].isSelected });
                 });
-            }
+            },
+            // 计算右边的滚动轴
+            scrollRight: function() {
+                var _that = this;
+                return _that.covertHeight(_that.EquipDynamicInfo, 60, 120, 30).map(function(item, index) {
+
+                    return Object.assign({}, item, { isSelected: _that.EquipDynamicInfo[index].isSelected });
+                });
+            },
         },
         filters: {
 
@@ -485,7 +493,7 @@ var CardInfo = function() {
                 });
 
                 // 移动对应的高
-                // console.log(_that._ScrollToIndex($("#verticalAlxescontentb"),index));
+
                 var Top = _that._ScrollToIndex($("#verticalAlxescontentb"), index);
                 // 修改完滚动条后修改标签节点
                 $("#verticalAlxescontentb").scrollTop(Top);
@@ -1200,22 +1208,68 @@ var CardInfo = function() {
                 console.log('全部加载完毕');
             })
 
-            // 技术参数赋值
+            // 技术参数赋值 **需要对后台的返回参数的进行转换**
             equipmentMngDeatilController.queryEquipDynamicInfo(_that.equip_id)
                 .then(function(list) {
-                    _that.EquipDynamicInfo = list.map(function(item) {
+                    _that.EquipDynamicInfo = list.map(function(item, index) {
+
+                        item.isSelected = index == 0;
 
                         item.info_Points = item.info_Points.map(function(info) {
 
                             info.isShow = true;
+                            /**
+                             * type 0 普通字符串 文本框
+                             *      1 普通下拉选择框
+                             *      2 多选按钮
+                             *      3 附件类型
+                             *      4 有单位文本框
+                             * 根据 data_type 和 cmpt_data 判断显示的类型
+                             */
+                            if (info.data_type == 'StrArr' && _.isArray(info.cmpt_data) && info.cmpt_data.length) {
 
-                            // 字符串集合转换为ObjectArray
-                            if (info.data_type == 'StrArr') {
-                                info.str_arr_value = info.str_arr_value.map(function(name) {
-                                    return {
-                                        name: name,
-                                    }
+                                info.type = 2;
+                                // StrArr 将字符串数组修改为多个对应的实体对象
+                                info.str_arr_value = info.cmpt_data.filter(function(item) {
+                                    return info.str_arr_value.map(function(x) {
+                                        return new String(x);
+                                    }).indexOf(new String(item.code) != -1)
+                                });
+
+                                info.cmpt_data = info.cmpt_data.map(function(item) {
+                                    item.isChecked = info.str_arr_value.indexOf(item) != -1;
+                                    return item;
                                 })
+
+                                // info.str_arr_value = info.str_arr_value.map(function(name) {
+                                //     return {
+                                //         name: name,
+                                //     }
+                                // })
+                            } else if (info.data_type == 'Str' && _.isArray(info.cmpt_data) && info.cmpt_data.length) {
+
+                                info.type = 1;
+                                // Str 将字符串数组修改为单个个对应的实体对象
+                                info.str_value = info.cmpt_data.filter(function(item) {
+                                    return new String(item.code) == info.str_value;
+                                })[0] || {};
+                            } else if (info.data_type == 'Att') {
+
+                                // 附件对应的内容
+                                info.type = 3;
+                                // 将附件内容全部转换成为对应的Url 值
+                                info.att_value = info.att_value.map(function(item) {
+                                    item.url = item.type == 1 ? item.url : item.key;
+                                    return item;
+                                });
+                            } else if (info.data_type == 'Str' && info.unit) {
+
+                                // 有单位的文本框
+                                info.type = 4;
+                            } else {
+
+                                // 普通文本框
+                                info.type = 0;
                             }
                             return info;
                         });

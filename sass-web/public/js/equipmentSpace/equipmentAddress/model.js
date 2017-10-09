@@ -2,9 +2,11 @@ var equipmentAddressModal = {
     merchantArr: [],               //商家列表
     selMerchantToInfo: {},          //选择的商家，用于展示详情
     selMerchantToUpdate: {},        //选择的商家，用于更新数据
+    selInsureOrderArr: [],          //选择的保险公司的单号列表
     pageEachNumber: 50,
 
-    tabSelIndex: 0 //tab选中
+    tabSelIndex: 0, //tab选中
+    tabSelName: ''
 };
 
 var equipmentAddressVueMethod = {
@@ -14,6 +16,21 @@ var equipmentAddressVueMethod = {
         equipmentAddressModal.tabSelIndex = index;
         tabShow();
         getCurrTabElement().psel(1);
+
+        switch (index) {
+            case 0:
+                equipmentAddressModal.tabSelName = '供应商';
+                break;
+            case 1:
+                equipmentAddressModal.tabSelName = '生产商';
+                break;
+            case 2:
+                equipmentAddressModal.tabSelName = '维修商';
+                break;
+            case 3:
+                equipmentAddressModal.tabSelName = '保险公司';
+                break;
+        }
     },
     /*表格某一行的单击事件*/
     gridLineSel: function (model, event) {
@@ -25,6 +42,12 @@ var equipmentAddressVueMethod = {
     gridPageChange: function (event) {
         var currPageIndex = event.pEventAttr.pageIndex;
         equipmentLogic.getMerchantArr(currPageIndex);
+    },
+    /*保险公司列表--多个保险单号时，点击查看单号详情*/
+    gridInsureOrderClick: function (model, event) {
+        event.stopPropagation();
+        equipmentAddressModal.selInsureOrderArr = model.insurer_info;
+        alert(111);
     }
 };
 
@@ -114,21 +137,23 @@ var equipmentLogic = {
     */
     saveMerchant: function (infoType, call) {
         //构造保险单号
+        var uploadJqTargets;
         function constructorInsureInfo() {
-            var uploadJqTargets = $('#eqaddressfloat [insurefile]');
             var insurer_infoArr = obj.insurer_info || [];
             for (var i = 0; i < insurer_infoArr.length; i++) {
                 var currInsureInfo = insurer_infoArr[i];
                 var fileInfo = uploadJqTargets.eq(i).pval()[0] || {};
                 currInsureInfo.insurance_file = {
-                    type: '1',
+                    type: '2',
                     name: fileInfo.name || '',
                     attachments: {
                         path: fileInfo.url,
                         toPro: 'url',
                         multiFile: false,
                         isNewFile: fileInfo.isNewFile || false,
-                        fileType: 2
+                        fileType: 2,
+                        fileName: fileInfo.name,
+                        fileSuffix: fileInfo.suffix
                     }
                 };
             }
@@ -140,6 +165,7 @@ var equipmentLogic = {
         var obj = {};
         var merchantType = this.getMerchantType();
         if (equipmentAddressModal.selMerchantToUpdate.company_id) {
+            uploadJqTargets = $('#eqaddressfloat [insurefileedit]');
             obj[infoType] = equipmentAddressModal.selMerchantToUpdate[infoType];
             obj.company_id = equipmentAddressModal.selMerchantToUpdate.company_id;
             controllerFn = 'updateMerchant';
@@ -160,6 +186,7 @@ var equipmentLogic = {
                 });
             };
         } else {
+            uploadJqTargets = $('#eqaddressfloat [insurefile]');
             obj = JSON.parse(JSON.stringify(equipmentAddressModal.selMerchantToUpdate));
             controllerFn = 'newMerchant';
             successCall = function () {
@@ -212,6 +239,11 @@ var equipmentLogic = {
                 oldBrands.push({ name: '' });
                 break;
             case '4':
+                var oldInsureInfoArr = equipmentAddressModal.selMerchantToUpdate.insurer_info;
+                oldInsureInfoArr.push({
+                    insurer_num: '',
+                    insurance_file: { type: '2', name: '', url: '' }
+                });
                 break;
         }
     },
@@ -224,6 +256,8 @@ var equipmentLogic = {
                 oldBrands.splice(index, 1);
                 break;
             case '4':
+                var oldInsureInfoArr = equipmentAddressModal.selMerchantToUpdate.insurer_info;
+                oldInsureInfoArr.splice(index, 1);
                 break;
         }
     }

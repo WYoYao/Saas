@@ -860,7 +860,7 @@
 .regular-obj-text .textarea-div>span{
     display: inline-block;
     vertical-align: top;
-    margin-top: 14px;
+    margin-top: 10px;
 }
 .regular-obj-text .textarea-div>div textarea{
     font-size: 14px;
@@ -900,7 +900,7 @@
     height: 85px;
     position: relative;
 }
-.regular-sop-text .textarea-div span{
+.regular-sop-text .textarea-div>span{
     display: inline-block;
     vertical-align: top;
     margin-top: 14px;

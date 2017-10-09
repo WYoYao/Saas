@@ -3,6 +3,10 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
+    'restEquipService/queryEquipDynamicInfo': {
+        "type": "array",
+        "note": "未输入note",
+    },
     'restEquipCompanyService/queryEquipCompanySel': {
         "type": "array",
         "note": "未输入note",
@@ -77,7 +81,7 @@ var dataModelMap = {
                             {
                                 "name": "url",
                                 "type": "fileLink",
-                                "fileType": 1,
+                                "fileType": 2,
                                 "note": "url"
                             },
                             {

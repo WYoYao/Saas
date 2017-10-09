@@ -393,7 +393,7 @@ var myWorkOrderMethod = {//工单管理模块方法
     //设置当前弹窗位置
     locationPop: function (model, event) {
         var textwrap = $(event.srcElement);
-        var textpdiv = $(event.srcElement).parent(".textarea-div");
+        var textpdiv = $(event.srcElement).parents(".textarea-div");
         var textdiv = $(textwrap).siblings(".textareadiv");
         var textareapop = $(textwrap).siblings(".textarea-prop");
         //var value = model.description;

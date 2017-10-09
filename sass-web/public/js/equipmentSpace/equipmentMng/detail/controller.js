@@ -58,10 +58,10 @@ var equipmentMngDeatilController = {
                                         "name": "其他"
                                     }
                                 ],
-                                "data_type": "Str",
+                                "data_type": "StrArr",
                                 "info_code": "PowerType",
                                 "info_name": "电源类型",
-                                "str_value": ['1', '3'],
+                                "str_arr_value": ['1', '3'],
                                 "unit": ""
                             },
                             {
@@ -282,14 +282,14 @@ var equipmentMngDeatilController = {
                                         "name": "10kV"
                                     },
                                     {
-                                        "code": "4 ",
+                                        "code": "4",
                                         "name": "其他"
                                     }
                                 ],
                                 "data_type": "Str",
                                 "info_code": "PowerType",
                                 "info_name": "电源类型",
-                                "str_value": "",
+                                "str_value": "4",
                                 "unit": ""
                             },
                             {
@@ -396,7 +396,7 @@ var equipmentMngDeatilController = {
                                 "data_type": "Str",
                                 "info_code": "RefrigerantType",
                                 "info_name": "制冷剂类型",
-                                "str_value": "",
+                                "str_value": "8",
                                 "unit": ""
                             },
                             {
@@ -486,7 +486,7 @@ var equipmentMngDeatilController = {
                                 "data_type": "Str",
                                 "info_code": "IPGrade",
                                 "info_name": "防护等级",
-                                "str_ value": "",
+                                "str_ value": "防护value",
                                 "unit": ""
                             },
                             {

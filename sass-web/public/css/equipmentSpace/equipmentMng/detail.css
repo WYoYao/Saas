@@ -385,6 +385,7 @@
     position: relative;
     line-height: 30px;
     /* overflow: hidden; */
+    min-height: 30px;
 }
 
 .equipmentDetail .infos .a-label {

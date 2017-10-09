@@ -12,14 +12,14 @@ function addList() {
 //新建float
 function addfloatShow() {
     equipmentLogic.newMerchantEvent();
-    $("#eqaddressfloat").pshow({ title: '录入供应商' });
+    $("#eqaddressfloat").pshow({ title: '录入' + equipmentAddressModal.tabSelName });
     $(".eqaddressFloatWrap").find(".addWrap").show();
     $(".eqaddressFloatWrap").find(".selWrap").hide();
     $("#delEqaddress").hide();
 }
 //详情float
 function selfloatShow() {
-    $("#eqaddressfloat").pshow({ title: '供应商详情' });
+    $("#eqaddressfloat").pshow({ title:  equipmentAddressModal.tabSelName+'详情' });
     $(".eqaddressFloatWrap").find(".addWrap").hide();
     $(".eqaddressFloatWrap").find(".selWrap").show();
     $("#delEqaddress").show();
@@ -60,10 +60,9 @@ function editCancel(target) {
 
 //添加保险单号
 function addInsurerClick(event) {
-    var _this = $(event.currentTarget);
-    var html = $("#addInsurerTemp").html();
-    _this.parents(".insurerWrapPar").append(html);
+    equipmentLogic.addBrandOrInsure();
 }
+
 //删除保险单号或删除品牌
 function delInsurerClick(event) {
     var index = parseInt($(event.currentTarget).attr('ji'));
@@ -75,17 +74,10 @@ function addBrandClick(event) {
     equipmentLogic.addBrandOrInsure();
 }
 
-//编辑保险————添加保险
-function addbxTempClick(event) {
-    var _this = $(event.currentTarget);
-    var html = $("#editAddbx").html();
-    _this.parents(".brandWrapPar").append(html);
-}
-
 
 //删除
 function delEqaddress() {
-    $("#confirmWindow").pshow({ title: '您确定要删除吗？', subtitle: '被删除的内容将无法恢复' });
+    $("#confirmWindow").pshow({ title: '您确定要删除该' + equipmentAddressModal.tabSelName + '吗？', subtitle: '被删除的内容将无法恢复' });
 }
 //删除二次弹窗  确认
 function confirmDel() {
@@ -97,4 +89,9 @@ function confirmDel() {
 //删除二次弹窗   取消
 function confirmhide() {
     $("#confirmWindow").phide();
+}
+
+/*阻止a标签的click冒泡*/
+function aStopPro(event) {
+    event.stopPropagation();
 }

@@ -50,7 +50,7 @@ v.pushComponent({
         currentSystemSelector: new SystemSelector(), // 查询当前专业实例的
         EquipStatisticCount: new EquipStatisticCount(), // 设备数量
         onTab: 'equip_total', // 当前显示的块
-        onPage: 'list', // list 列表 detail // 详情
+        onPage: 'detail', // list 列表 detail // 详情
         listHeight: {}, // 行号的类型
         Scrapped: {}, // 准备报废的设备
     },

@@ -168,7 +168,7 @@ var controller = {
             },
             success: function (result) {
                 var input_mode = result && result.input_mode ? result.input_mode : "";//工单输入方式，0-未记录过，1-自由输入，2-结构化输入
-               console.log(input_mode)
+               // console.log(input_mode)
                 myWorkOrderModel.regular=input_mode==0?false:input_mode==1?false:true;
                 $("#switch-slide").psel(myWorkOrderModel.regular);
             },

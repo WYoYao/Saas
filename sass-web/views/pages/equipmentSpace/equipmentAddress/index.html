@@ -7,7 +7,7 @@
 <div class="eqaddressWrap" id="eqaddressWrap">
     <ptab-navigation id="eqaddresstab" datasource="eqaddresstabArr" text="name" icon="icon" templateid="eqaddressTemp" sel="equipmentAddressVueMethod.tabSel"></ptab-navigation>
     <!-- float弹窗 -->
-    <pwindow-float id="eqaddressfloat" isshade="true" title="这是标题" templateid="floatTemp">
+    <pwindow-float id="eqaddressfloat" isshade="true" title="录入" templateid="floatTemp">
             <button>
                 <pbutton-blue text="删除" icon="p"  isborder="false" id="delEqaddress" click="delEqaddress"></pbutton-blue>            
             </button>
@@ -81,13 +81,13 @@
         <!-- 保险公司 -->
         <div class="eqaddressGrid">
             <pgrid-multifunction>
-                <panel datasource="merchantArr"  lineclick="equipmentAddressVueMethod.gridLineSel" sel="equipmentAddressVueMethod.gridPageChange"></panel>
+                <panel templateid="sctinsuregrid" datasource="merchantArr"  lineclick="equipmentAddressVueMethod.gridLineSel" sel="equipmentAddressVueMethod.gridPageChange"></panel>
                 <header>
-                    <column name="供应商名称" source="company_name"></column>
-                    <column name="联系人" source="contacts"></column>
-                    <column name="联系电话" source="phone"></column>
-                    <column name="保险单号" source="insurer_info"></column>
-                    <column name="保险文件" source="insurer_name"></column> 
+                    <column name="保险公司名称"></column>
+                    <column name="联系人"></column>
+                    <column name="联系电话"></column>
+                    <column name="保险单号"></column>
+                    <column name="保险文件"></column>
                 </header>
                   <page>
                     <ppage-simple number="50" ></ppage-simple>
@@ -99,13 +99,26 @@
         </div>
     </div>
 </script>
+<script type="text/html" id="sctinsuregrid">
+    <em v-text="model.company_name"></em>
+    <em v-text="model.contacts"></em>
+    <em v-text="model.phone"></em>
+    <div>
+        <em v-if="model.insurer_info&&model.insurer_info.length==1" v-text="model.insurer_info[0].insurer_num"></em>
+        <em v-if="model.insurer_info&&model.insurer_info.length>1" v-text="model.insurer_info.length+'个保险单号'" v-on:click="gridInsureOrderClick(model,$event)"></em>
+    </div>
+    <div>
+        <a onclick="aStopPro(event)" v-if="model.insurer_info&&model.insurer_info.length==1" v-text="model.insurer_info[0].insurance_file.name" v-bind:href="model.insurer_info[0].insurance_file.url"></a>
+    </div>
+</script>
+
 <script type="text/html" id="floatTemp">
     <div class="eqaddressFloatWrap">
         <!--新建 -->
         <div class="addWrap">
             <div class="inputTempWrap">
                 <div class="inputTemp">
-                    <span class="inputname"><em>*</em><b>供应商名称:</b></span>
+                    <span class="inputname"><em>*</em><b>{{tabSelName}}名称:</b></span>
                     <div class="inputwrap">
                         <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.company_name">
                         <verify errtip="不可为空"  verifytype="space"></verify>
@@ -146,7 +159,7 @@
                 </div>
 
                 <div class="insurerWrapPar" v-show="tabSelIndex==3">
-                    <div class="insurerWrap" v-for="insu in selMerchantToUpdate.insurer_info">
+                    <div class="insurerWrap" v-for="(insu,oindex) in selMerchantToUpdate.insurer_info">
                         <div class="inputTemp">
                             <span class="inputname"><b>保险单号:</b></span>
                             <div class="inputwrap">
@@ -156,11 +169,12 @@
                         <div class="inputTemp">
                             <span class="inputname"><b>保险文件:</b></span>
                             <div class="inputwrap">
-                                <pupload-attachment></pupload-attachment>
+                                <pupload-attachment insurefile></pupload-attachment>
                             </div>
                         </div>
                         <div class="insureraddBut">
-                            <pbutton-white icon="J" shape="ellipse" click="addInsurerClick"></pbutton-white>
+                            <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0"></pbutton-white>
+                            <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="oindex>0" v-bind:ji="oindex"></pbutton-white>
                         </div>
                     </div>
 
@@ -189,7 +203,7 @@
         <!-- 查看、编辑 -->
         <div class="selWrap">
             <div class="selTemp selTempSel" type="company_name">
-                <span class="selname"><b>供应商名称:</b></span>
+                <span class="selname"><b>{{tabSelName}}名称:</b></span>
                 <div class="selcon">
                     <div class="selInput">
                         <span v-text="selMerchantToInfo.company_name">name</span>
@@ -339,13 +353,13 @@
             </div>
             <!-- 保险 -->
             <div class="selTemp selTempSel bxDiv brandWrapPar" type="insurer_info" v-show="tabSelIndex==3">
-                <div class="bxTemp">
+                <div class="bxTemp" v-for="(order,oindex) in selMerchantToInfo.insurer_info">
                     <div class="bxEditWrap">
                         <span class="selname"><b>保险单号:</b></span>
                         <div class="selcon">
                             <div class="selInput">
-                                <span>单号</span>
-                                <div class="selBut">
+                                <span v-text="order.insurer_num"></span>
+                                <div class="selBut" v-if="oindex==0">
                                     <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
                                 </div>
                             </div>
@@ -353,23 +367,27 @@
                                 <div>
                                     <ptext-text></ptext-text>
                                 </div>
-                                <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
+                                <div class="selBut" v-if="oindex==0">
+                                    <em class="Ficon co" onclick="editConfirm(event)">Z</em>
+                                    <em class="Ficon" onclick="editCancel(this)">x</em>
+                                </div>
                                 <div class="insureraddBut">
-                                    <pbutton-white icon="J" shape="ellipse" click="addbxTempClick"></pbutton-white>
+                                    <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0"></pbutton-white>
+                                    <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="oindex>0" v-bind:ji="oindex"></pbutton-white>
                                 </div>
                             </div>
 
                         </div>
                     </div>
                     <div class="bxEditWrap">
-                        <span class="selname"><b>保险名称:</b></span>
+                        <span class="selname"><b>保险文件:</b></span>
                         <div class="selcon">
                             <div class="selInput">
-                                <span>名称</span>
+                                <a v-text="order.insurance_file.name" v-bind:href="order.insurance_file.url"></a>
                             </div>
                             <div class="editInput">
                                 <div>
-                                    <pupload-attachment></pupload-attachment>
+                                    <pupload-attachment insurefileedit></pupload-attachment>
                                 </div>
 
                             </div>
@@ -383,65 +401,8 @@
 
 
         </div>
-</script>
-
-<!-- 添加保险单号 -->
-<script type="text/html" id="addInsurerTemp">
-    <div class="insurerWrap">
-        <div class="inputTemp">
-            <span class="inputname"><b>保险单号:</b></span>
-            <div class="inputwrap">
-                <ptext-text placeholder="请输入保险单号"></ptext-text>
-            </div>
-        </div>
-        <div class="inputTemp">
-            <span class="inputname"><b>保险文件:</b></span>
-            <div class="inputwrap">
-                <pupload-attachment></pupload-attachment>
-            </div>
-        </div>
-        <div class="insureraddBut">
-            <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
-            <!--<pbutton-white icon="J" shape="ellipse" click="addInsurerClick"></pbutton-white>-->
-        </div>
     </div>
 </script>
-<!-- 编辑保险的时候添加的保险 -->
-<script type="text/html" id="editAddbx">
-    <div class="bxTemp insurerWrap">
-        <div class="bxEditWrap">
-            <span class="selname"><b>保险单号:</b></span>
-            <div class="selcon">
-                <div class="selInput">
-                    <span>单号</span>
-                </div>
-                <div class="editInput">
-                    <div>
-                        <ptext-text></ptext-text>
-                    </div>
-                    <div class="insureraddBut">
-                        <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="bxEditWrap">
-            <span class="selname"><b>保险名称:</b></span>
-            <div class="selcon">
-                <div class="selInput">
-                    <span>名称</span>
-                </div>
-                <div class="editInput">
-                    <div>
-                        <pupload-attachment></pupload-attachment>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</script>
-
 
 <!-- loading -->
 <ploading-part id="eqaddressloading" text="拼命加载中..."></ploading-part>

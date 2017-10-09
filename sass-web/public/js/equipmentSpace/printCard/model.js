@@ -149,6 +149,7 @@ var cardPrintVueMethod = {
     /*设置页面tab选项卡选择事件*/
     setTabSel: function () {
         var tabIndex = $("#divCardSetTab").psel();
+        cardShow();
         var info = cardPrintModal[tabIndex == 0 ? 'eqCardInfo' : 'spCardInfo'];
         var obj = JSON.parse(JSON.stringify(info));
         obj.isNewFile = false;
@@ -183,8 +184,8 @@ var cardPrintLogic = {
         var tabIndex = $("#divCardPrintTab").psel();
         switch (tabIndex) {
             case 0:
-                cardPrintModal.selBuildForEq = cardPrintModal.buildArr[0];
-                cardPrintModal.selMajor = cardPrintModal.majorArr[0];
+                cardPrintModal.selBuildForEq = cardPrintModal.buildArr[0] || {};
+                cardPrintModal.selMajor = cardPrintModal.majorArr[0] || {};
                 cardPrintModal.systemArr = [];
                 cardPrintModal.selSystem = {};
                 break;
@@ -268,6 +269,8 @@ var cardPrintLogic = {
                 obj_id: '', obj_name: '全部'
             });
             cardPrintModal.buildArr = arr;
+            /*初始化时使用*/
+            cardPrintModal.selBuildForEq = cardPrintModal.buildArr[0] || {};
         });
     },
     /*获取某建筑下的楼层*/
@@ -290,6 +293,8 @@ var cardPrintLogic = {
                 code: '', name: '全部'
             });
             cardPrintModal.majorArr = arr;
+            /*初始化时使用*/
+            cardPrintModal.selMajor = cardPrintModal.majorArr[0] || {};
         });
     },
     /*获取某专业下的系统*/

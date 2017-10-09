@@ -24,6 +24,7 @@ $(function () {
     $(".hashtag-bubble").click(function (event) {
         event.stopPropagation();
     });
+    yn_method.getDateTime();
     //------------------------------------------yn__end------------------------------------------
 });
 var yn_method = {
@@ -127,8 +128,10 @@ var yn_method = {
                 textRemain = textRemain.replace(value, "");
             });
             sops += textRemain;
-            $(".regular-obj-text").find("textarea").val(objs);
-            $(".regular-sop-text").find("textarea").val(sops);
+            // $(".regular-obj-text").find("textarea").val(objs);
+            // $(".regular-sop-text").find("textarea").val(sops);
+            myWorkOrderModel.singleMatters.desc_forepart=objs;
+            myWorkOrderModel.singleMatters.desc_aftpart=sops;
         } else {
             var reObjs = $(".regular-obj-text").find("textarea").val();
             var reSops = $(".regular-sop-text").find("textarea").val();
@@ -190,7 +193,7 @@ var yn_method = {
             var pos = span.offset();
             var left = pos.left - divpos.left + 18;
             var top = pos.top - divpos.top + 25;
-            $(textareapop).css({left: left + 'px', top: top + 'px'});
+            $(textareapop).css({position:'absolute',left: left + 'px', top: top + 'px','z-index':'15'});
             $(textareapop).show();
 
         }
@@ -659,8 +662,8 @@ var yn_method = {
 
         $(document).click(function () {
             $(".textarea-prop").hide();
-            $(".aite-bubble").hide();
-            $(".hashtag-bubble").hide();
+            $(".add-obj .aite-bubble").hide();
+            $(".add-sop .hashtag-bubble").hide();
             myWorkOrderModel.clickAiteShow = false;
             myWorkOrderModel.clickHashShow = false;
         })
@@ -812,7 +815,7 @@ var yn_method = {
     }
 }
 yn_method.closeBubble();
-yn_method.getDateTime();
+
 
 
 
