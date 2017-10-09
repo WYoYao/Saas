@@ -312,6 +312,7 @@ var arr = [{
                         "name": "其他"
                     }
                 ],
+                "str_value": "3",
                 "data_type": "Str",
                 "info_code": "PowerType",
                 "info_name": "电源类型",

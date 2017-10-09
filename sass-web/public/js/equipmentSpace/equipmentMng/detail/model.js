@@ -484,31 +484,54 @@ var CardInfo = function() {
         },
         methods: {
             //滚动轴点击事件
-            _clickScroll: function(index) {
+            _clickScroll: function(index, type) {
                 var _that = this;
-                _that.view.scroll = _that.view.scroll.map(function(item, i) {
 
-                    item.isSelected = index == i ? true : false;
-                    return item;
-                });
+                var el = type == 0 ? $("#verticalAlxescontentA") : $("#verticalAlxescontentB");
+
+                if (type == 0) {
+
+                    _that.view.scroll = _that.view.scroll.map(function(item, i) {
+
+                        item.isSelected = index == i ? true : false;
+                        return item;
+                    });
+                } else {
+
+                    _that.EquipDynamicInfo = _that.EquipDynamicInfo.map(function(item, i) {
+
+                        item.isSelected = index == i ? true : false;
+                        return item;
+                    });
+                }
 
                 // 移动对应的高
 
-                var Top = _that._ScrollToIndex($("#verticalAlxescontentb"), index);
+                var Top = _that._ScrollToIndex(el, index);
                 // 修改完滚动条后修改标签节点
-                $("#verticalAlxescontentb").scrollTop(Top);
+                el.scrollTop(Top);
 
-                _that.view.scroll = _that.view.scroll.map(function(item) {
+                if (type == 0) {
 
-                    item.marginTop = 0;
-                    return item;
-                })
+                    _that.view.scroll = _that.view.scroll.map(function(item) {
+
+                        item.marginTop = 0;
+                        return item;
+                    })
+                } else {
+
+                    _that.EquipDynamicInfo = _that.EquipDynamicInfo.map(function(item) {
+
+                        item.marginTop = 0;
+                        return item;
+                    })
+                }
 
 
-                var doc = $("#verticalAlxescontentb")[0],
+                var doc = el[0],
                     scrollTop = doc.scrollTop,
                     scrollHeight = doc.scrollHeight, //总高
-                    scorllarr = _that.scrollLeft, // 当前所有滚动轴的位置
+                    scorllarr = type == 0 ? _that.scrollLeft : _that.scrollRight, // 当前所有滚动轴的位置
                     startPoint = scorllarr[0], // 第一个锚点
                     endPoint = scorllarr[scorllarr.length - 1], // 最后一个锚点
                     indexPoint = scorllarr[index], // 当前锚点
@@ -518,52 +541,66 @@ var CardInfo = function() {
 
                 // 内容区域的上滚动高度小于剩下锚点轴的高度的时候锚点额外高度为0
                 if ((Top - startLong) < 0) {
-                    _that.view.scroll = _that.view.scroll.map(function(item) {
 
-                        item.marginTop = 0;
-                        return item;
-                    })
+                    if (type == 0) {
+
+                        _that.view.scroll = _that.view.scroll.map(function(item) {
+
+                            item.marginTop = 0;
+                            return item;
+                        })
+                    } else {
+
+                        _that.EquipDynamicInfo = _that.EquipDynamicInfo.map(function(item) {
+
+                            item.marginTop = 0;
+                            return item;
+                        })
+                    }
                 } else if (Top > scrollTop) {
                     // 剩下的锚点高度大于剩下的内容高度的时候
                     // var t=scrollHeight-endPoint.top-60;
                     var t = (Top - startLong);
-                    _that.view.scroll = _that.view.scroll.map(function(item) {
+                    if (type == 0) {
 
-                        item.marginTop = t;
-                        return item;
-                    })
+                        _that.view.scroll = _that.view.scroll.map(function(item) {
+
+                            item.marginTop = t;
+                            return item;
+                        })
+                    } else {
+
+                        _that.EquipDynamicInfo = _that.EquipDynamicInfo.map(function(item) {
+
+                            item.marginTop = t;
+                            return item;
+                        })
+                    }
+
 
                 } else {
 
                     // var mtp=Top-indexPoint.top+60;
                     var mtp = Top - startLong;
 
-                    _that.view.scroll = _that.view.scroll.map(function(item) {
+                    if (type == 0) {
 
-                        item.marginTop = mtp;
-                        return item;
-                    })
+                        _that.view.scroll = _that.view.scroll.map(function(item) {
+
+                            item.marginTop = mtp;
+                            return item;
+                        })
+                    } else {
+
+                        _that.EquipDynamicInfo = _that.EquipDynamicInfo.map(function(item) {
+
+                            item.marginTop = mtp;
+                            return item;
+                        })
+                    }
+
                 }
 
-
-
-                // 内容部分已经滚动到最底部
-                // var bres=TotalTop-(doc.scrollHeight-doc.scrollTop);
-                // if(bres>0){ // 已经滚动到最底部的时候
-                //     _that.view.scroll.map(function(item){
-                //         item.marginTop=MarginTop-bres;
-                //     })
-                // }else{
-                //     _that.view.scroll.map(function(item){
-                //         item.marginTop=MarginTop;
-                //     })
-                // }
-
-
-                // _that.view.scroll.map(function(item){
-                //     item.marginTop=index==0?MarginTop:(index==(_that.view.scroll.lenght-1)?MarginTop-60:MarginTop);
-                //     return item;
-                // });
 
             },
             // 将滚动轴滚动至对应的位置
