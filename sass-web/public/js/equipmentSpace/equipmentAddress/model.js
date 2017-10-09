@@ -15,7 +15,7 @@ var equipmentAddressVueMethod = {
         var index = event.pEventAttr.index;
         equipmentAddressModal.tabSelIndex = index;
         tabShow();
-        getCurrTabElement().psel(1);
+        getCurrGridElement().psel(1);
 
         switch (index) {
             case 0:
@@ -96,7 +96,7 @@ var equipmentLogic = {
             }
             equipmentAddressModal.merchantArr = arr;
             var count = dataObj.count || 0;
-            getCurrTabElement().pcount(count);
+            getCurrGridElement().pcount(count);
         }, function () {
             console.error('queryEquipCompanyList err');
         }, function () {
@@ -121,10 +121,12 @@ var equipmentLogic = {
     },
     /*添加商家点击事件时调用此方法，以清空缓存信息*/
     newMerchantEvent: function () {
+        $('#eqaddressfloat [insurefile]').precover();
         equipmentLogic.setValForMerchantToUpdate({});
     },
     /*编辑商家信息点点击事件时调用此方法，以清空缓存信息*/
     editMerchantEvent: function () {
+        $('#eqaddressfloat [insurefileedit]').precover();
         equipmentLogic.setValForMerchantToUpdate(JSON.parse(JSON.stringify(equipmentAddressModal.selMerchantToInfo)));
     },
     setValForMerchantToUpdate: function (objVal) {
@@ -191,7 +193,7 @@ var equipmentLogic = {
             controllerFn = 'newMerchant';
             successCall = function () {
                 if (typeof call == 'function') call();
-                getCurrTabElement().psel(1, false);
+                getCurrGridElement().psel(1, false);
                 equipmentLogic.getMerchantArr(1, function () {
                     $('#eqaddressnotice').pshow({ text: '保存成功', state: 'success' });
                 });
@@ -221,7 +223,7 @@ var equipmentLogic = {
         equipmentAddressController.removeMerchantById(equipmentAddressModal.selMerchantToInfo.company_id,
             function () {
                 call();
-                getCurrTabElement().psel(1, false);
+                getCurrGridElement().psel(1, false);
                 equipmentLogic.getMerchantArr(1, function () {
                     $('#eqaddressnotice').pshow({ text: '删除成功', state: 'success' });
                 });

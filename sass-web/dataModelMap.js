@@ -3,6 +3,10 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
+    'restEquipService/queryEquipInfoPointHis': {
+        "type": "array",
+        "note": "未输入note",
+    },
     'restEquipService/queryEquipDynamicInfo': {
         "type": "array",
         "note": "未输入note",
@@ -10,91 +14,7 @@ var dataModelMap = {
     'restEquipCompanyService/queryEquipCompanySel': {
         "type": "array",
         "note": "未输入note",
-        "proArr": [{
-                "name": "company_id",
-                "type": "string",
-                "note": "company_id"
-            },
-            {
-                "name": "company_type",
-                "type": "string",
-                "note": "company_type"
-            },
-            {
-                "name": "company_name",
-                "type": "string",
-                "note": "company_name"
-            },
-            {
-                "name": "contacts",
-                "type": "string",
-                "note": "contacts"
-            },
-            {
-                "name": "phone",
-                "type": "string",
-                "note": "phone"
-            },
-            {
-                "name": "web",
-                "type": "string",
-                "note": "web"
-            },
-            {
-                "name": "fax",
-                "type": "string",
-                "note": "fax"
-            },
-            {
-                "name": "email",
-                "type": "string",
-                "note": "email"
-            },
-            {
-                "name": "brands",
-                "type": "array",
-                "note": "brands",
-            },
-            {
-                "name": "insurer_info",
-                "type": "array",
-                "note": "insurer_info",
-                "proArr": [{
-                        "name": "insurer_num",
-                        "type": "string",
-                        "note": "insurer_num"
-                    },
-                    {
-                        "name": "insurance_file",
-                        "type": "object",
-                        "note": "insurance_file",
-                        "proArr": [{
-                                "name": "type",
-                                "type": "string",
-                                "note": "type"
-                            },
-                            {
-                                "name": "name",
-                                "type": "string",
-                                "note": "name"
-                            },
-                            {
-                                "name": "url",
-                                "type": "fileLink",
-                                "fileType": 2,
-                                "note": "url"
-                            },
-                            {
-                                "name": "key",
-                                "type": "fileLink",
-                                "fileType": 2,
-                                "note": "key"
-                            }
-                        ]
-                    }
-                ]
-            }
-        ]
+        "proArrBy": 'merchantInfo'
     },
     'restEquipService/updateEquipInfo': {
         "type": "object",
@@ -5968,7 +5888,8 @@ var dataModelMap = {
             }, {
                 "note": "保险文件标识",
                 "name": "url",
-                "type": "fileLink"
+                "type": "fileLink",
+                "fileType": 2
             }]
         }]
     }],

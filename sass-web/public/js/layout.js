@@ -213,10 +213,12 @@ function setMenuItems(project) {
         });
     }
     if (func_packs.indexOf('1011')) {
+        var userId = frameModel.userInfo.person_id;
+        var projectId = frameModel.selectedProjectId;
         menu3.push({
             id: '1011',
             name: '知识库管理',
-            url: '/SOP'
+            url: 'http://127.0.0.1:9060/?userId=' + userId + '&projectId=' + projectId
         });
     }
 

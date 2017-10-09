@@ -318,15 +318,15 @@
     </div>
 </script>
 <script>
-    var layerModel = function layerModel(submitCb, cancelCb, getPoints) {
+    var layerModel = function layerModel() {
         this.left = 0;
         this.top = 0;
         this.display = 'none';
         this.willSubmit = false; //准备提交，控制提交的再次确认框
         this.willCancel = false;
-        this.submitCb = submitCb;
-        this.cancelCb = cancelCb;
-        this.getPoints = getPoints;
+        this.submitCb = function() {};
+        this.cancelCb = function() {};
+        this.getPoints = function() {};
     };
 
     layerModel.prototype.init = function(left, top) {
@@ -335,18 +335,21 @@
         this.display = "block";
     };
 
-    layerModel.prototype.submit = function(left, top, key, value) {
+    layerModel.prototype.submit = function(left, top, submitCb, getPoints) {
+
         this.init(left, top);
         this.willCancel = false;
         this.willSubmit = true;
-        this.key = key;
-        this.value = value;
+        this.submitCb = submitCb;
+        this.getPoints = getPoints;
     }
 
-    layerModel.prototype.cancel = function(left, top) {
+    layerModel.prototype.cancel = function(left, top, cancelCb) {
+
         this.init(left, top);
         this.willSubmit = false;
         this.willCancel = true;
+        this.cancelCb = cancelCb;
     }
 
 
@@ -368,7 +371,7 @@
             };
         },
         template: "#layer",
-        props: ['layer', 'key', 'value', 'set', 'keys'],
+        props: ['layer'],
         computed: {
             position: function() {
                 var _that = this,
@@ -398,7 +401,7 @@
             // 每次变化查询时间节点
             var _that = this;
 
-            if (_that.layer.getPoints != _that.oldGetPoints) {
+            if (_that.layer.getPoints != _that.oldGetPoints && _that.layer.willSubmit == true) {
                 this.layer.getPoints(function(list) {
                     _that.oldGetPoints = _that.layer.getPoints;
                     _that.PointHis = list;
@@ -446,12 +449,6 @@
                 this.layer.willCancel = false;
                 this.layer.display = "none";
             },
-        },
-        watch: {
-            layer: function() {
-
-                console.log(arguments);
-            }
         }
     })
 </script>

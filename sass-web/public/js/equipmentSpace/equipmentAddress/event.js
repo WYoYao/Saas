@@ -27,11 +27,11 @@ function selfloatShow() {
     $(".selTemp").removeClass("selTempEdit").addClass("selTempSel");
 }
 function tabShow() {
-    var el = getCurrTabElement();
+    var el = getCurrGridElement();
     el.show().siblings().hide();
 
 }
-function getCurrTabElement() {
+function getCurrGridElement() {
     var index = $("#eqaddresstab").psel();
     return $(".eqaddressGridWrap>div").eq(index);
 }

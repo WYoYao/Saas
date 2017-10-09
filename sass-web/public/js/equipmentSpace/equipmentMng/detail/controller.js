@@ -2834,11 +2834,11 @@ var equipmentMngDeatilController = {
     //设备管理-详细页:编辑设备信息
     updateEquipInfo: function(argu, type) {
 
-        return new Promise(function(resolve) {
-            setTimeout(function() {
-                resolve();
-            }, 200);
-        })
+        // return new Promise(function(resolve) {
+        //     setTimeout(function() {
+        //         resolve();
+        //     }, 200);
+        // })
 
         /**
          * argu 接口调用的参数
@@ -3228,5 +3228,36 @@ var equipmentMngDeatilController = {
         })
 
         'restEquipCompanyService/queryEquipCompanySel'
+    },
+    //设备管理-详细页:查询设备信息点的历史信息
+    queryEquipInfoPointHis: function(equip_id, info_point_code, cb) {
+
+        pajax.post({
+            url: 'restEquipService/queryEquipInfoPointHis',
+            data: {
+                equip_id: equip_id,
+                info_point_code: info_point_code,
+            },
+            success: function(data) {
+
+                if (data.data) {
+
+                    cb(data.data.map(function(item) {
+                        // 将后台返回的时间字符串格式化为可以实例的时间格式
+                        item.date = item.date.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/g, function() {
+                            var arr = Array.prototype.slice.call(arguments);
+                            return arr.slice(1, 4).join('/') + " " + arr.slice(4, 7).join(':');
+                        })
+                    }))
+
+                }
+            },
+            error: function() {
+
+            },
+            complete: function() {
+
+            },
+        });
     }
 }

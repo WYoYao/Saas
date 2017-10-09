@@ -220,8 +220,8 @@ myWorkOrderModel.workContent = {
 var commonData = {
     deletedChar: '',        //文本框被删除的字符
 
-    user_id: 'gsc',
-    project_id: 'Pj1301020001',
+    user_id: '',
+    project_id: '',
 
     //对象类
     objClass: {
@@ -314,12 +314,15 @@ var myWorkOrderMethod = {//工单管理模块方法
         var textwrap = jqTarget[0];
         var focusIndex = textwrap.selectionStart;
         var text = myWorkOrderModel.description;
+        var len = text.length;
         var text1 = text.slice(0, focusIndex);
         var text2 = text.slice(focusIndex);
         var noLastCharText1 = text1.slice(0, focusIndex - 1);
         var len1 = text1.length;
         var text1Char = text1 + commonData.deletedChar;
         var searchedText;
+        var addedLen = len - commonData.beforeLen;
+        var addedStr = text.slice(focusIndex - addedLen, focusIndex);
         if (code == 51) {       //'#'
 
         } else if (code == 8) {        //退格键删除操作
@@ -350,6 +353,44 @@ var myWorkOrderMethod = {//工单管理模块方法
                         myWorkOrderModel.curMatterPopType = 3;
                     }
                 }
+            }
+        } else {        //输入字符或字符串的情况
+            if (addedStr == '@') {      //输入@符
+                //对象中间不允许输入@
+                if (noLastCharText1.lastIndexOf(' ') < noLastCharText1.lastIndexOf('@')) {
+                    content.content = text.slice(0, focusIndex - 1) + text.slice(focusIndex, len);
+                    return;
+                }
+                //在如'@工具1'前输入@, '@工具1'前添加上空格
+                if (commonData.text2.length && commonData.text2[0] == '@') {
+                    commonData.text2 = ' ' + commonData.text2;
+                }
+                commonData.notReplaceObj = true;
+                //commonMethod.setCurPop(4);
+                var jqPopDataDivs = commonData.editingJqTextwrap.parents(".slide-div").find(".state-all-div").children();
+                var curJqPopDataDiv = $(jqPopDataDivs[index]);
+                jqPopDataDivs.removeClass('showDiv').hide();
+                curJqPopDataDiv.addClass('showDiv').show();
+                //commonMethod.locationTextareaPop(textwrap, textdiv, textareapop, text, addSpecialCharFocusIndex);     //定位
+            } else if (addedStr == '#') {      //输入#符
+
+            } else {        //输入普通字符
+                if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') && text2 == '') {
+                    searchedText = text1.slice(text1.lastIndexOf('@') + 1);
+                    console.log('在@后输入普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
+                    if (!commonData.composing) {
+                        //createSopController.searchObject(searchedText);
+                    }
+                }
+
+                if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') && text2.indexOf(' ') !== -1) {
+                    searchedText = text1.slice(text1.lastIndexOf('@') + 1) + text2.slice(0, text2.indexOf(' '));
+                    console.log('在对象中输入普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
+                    if (!commonData.composing) {
+                        //createSopController.searchObject(searchedText);
+                    }
+                }
+                commonData.notReplaceObj = false;
             }
         }
     },
@@ -768,8 +809,8 @@ var myWorkOrderMethod = {//工单管理模块方法
         event.stopPropagation();
         commonData.contentIndex = contentIndex;
         commonData.infoPoint_obj = obj;      //此处可能为新添加的对象、也可能为已选的对象
-        createSopModel.selectedObj = obj;
-        var content = commonMethod.getCurContent();
+        //createSopModel.selectedObj = obj;
+        //var content = commonMethod.getCurContent();
         var belongChoosedObj = false;
         for (var i = 0; i < content.confirm_result.length; i++) {
             if (obj.obj_id == content.confirm_result[i].obj_id) {

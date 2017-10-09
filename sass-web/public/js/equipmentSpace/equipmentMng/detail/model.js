@@ -615,42 +615,66 @@ var CardInfo = function() {
                     return con;
                 }, 0);
             },
-            submitTip: function(event) {
+            submitTip: function(event, submitCb, getPoints) {
 
-                this.layer.submit(event.clientX, event.clientY);
+                this.layer.submit(event.clientX, event.clientY, submitCb, getPoints);
 
             },
-            cancelTip: function() {
-                this.layer.cancel(event.clientX, event.clientY);
+            cancelTip: function(event, cancelCb) {
+                this.layer.cancel(event.clientX, event.clientY, cancelCb);
             },
             //======================= 单个编辑Start  ==========================
+            /**
+             * 根据传入属性的key 值来获取的当前编辑框中该属性的值的
+             */
+            getValueByKey: function() {
+
+
+                return "";
+            },
             // 编辑状态下的对号按钮点击事件
             _clickSubmit: function(event, key) {
-                var _that = this;
+                var _that = this,
+                    submitCb, getPoints;
 
-                console.log(key);
+                // 获取信息节点的方法
+                getPoints = equipmentMngDeatilController.queryEquipInfoPointHis.bind(null, _that.equip_id, key);
+
+                // 选择提交时候的需要的调用的回调方法
+                submitCb = equipmentMngDeatilController.updateEquipInfo.bind(null, {
+                    equip_id: _that.equip_id,
+                    info_point_code: key,
+                    // info_point_value:
+                });
+
 
                 // 显示提交弹窗
-                _that.submitTip(event);
+                _that.submitTip(event, submitCb, getPoints);
 
             },
             // 编辑状态下的叉号按钮点击事件
             _clickCancel: function(event, key) {
+
                 var _that = this;
 
-                console.log(key);
+                var cancelCb = function() {
+                    _that.view.ide[key] = !_that.view.ide[key];
+                    _that._clickStartChange(key);
+                }
 
                 // 显示取消弹窗
-                _that.cancelTip(event);
+                _that.cancelTip(event, cancelCb);
 
 
             },
             // 点击编辑按钮控件赋值
             _clickStartChange: function(key) {
 
+
                 var el = $("#ideid_" + key),
                     type = querycontroTypeByKey(key), //0文本框  1 下拉框 2 图片上传 3 文件上传 4 日历控件 5 多级联动下拉菜单
-                    value = this.EquipInfo[key]; // 当前对应的值
+                    value = this.EquipInfo[key],
+                    _that = this; // 当前对应的值
 
                 if (type == 0) {
                     // 点击编辑文本赋值
@@ -664,9 +688,28 @@ var CardInfo = function() {
                     var item = this.filterItemByKeyValue(list, SearchKey, value);
                     var index = list.indexOf(item);
                     el.psel(index);
+
                 } else if (type == 2) {
 
+                    var pics = _that.EquipInfo[key] || [];
+                    // 给需要绑定值的上传控件绑定对应的内容
+                    $("#ideid_" + key).psel(pics.map(function(url) {
+                        return {
+                            url: url,
+                        }
+                    }));
+
                 } else if (type == 3) {
+
+                    // 给需要绑定值的上传控件绑定对应的内容
+                    var pics = _that.EquipInfo[key] || [];
+
+                    $("#ideid_" + key).psel(pics.map(function(item) {
+                        return {
+                            name: item.name,
+                            url: item.type == 1 ? item.url : item.key,
+                        }
+                    }));
 
                 } else if (type == 4) {
                     var date = new Date(value);
@@ -885,6 +928,12 @@ var CardInfo = function() {
                         SearchKey: 'insurer_num',
                     }
                 ]
+
+                // var insuranceArr=[{{
+                //     key: 'insurer',
+                //     list: v.instance.insurerList,
+                //     SearchKey: 'company_name',
+                // }}]
 
                 this.someSend(insuranceArr);
             },
@@ -1235,34 +1284,7 @@ var CardInfo = function() {
             }).then(function() {
 
                 // 对下滑的属性全部做统一处理
-                recoverSearch(querySearchNameByKey());
-
-                // 上传文件控件赋值
-                ['drawing', 'check_report', 'archive'].forEach(function(key) {
-
-                    // 给需要绑定值的上传控件绑定对应的内容
-                    var pics = _that.EquipInfo[key] || [];
-
-                    $("#ideid_" + key).psel(pics.map(function(item) {
-                        return {
-                            name: item.name,
-                            url: item.type == 1 ? item.url : item.key,
-                        }
-                    }));
-
-                });
-
-                // 上传文件赋值  （两种不同的区别一直是图片上传一种是文件上传 同时接口返回的数据接口不同）
-                ['picture', 'nameplate'].forEach(function(key) {
-
-                    var pics = _that.EquipInfo[key] || [];
-                    // 给需要绑定值的上传控件绑定对应的内容
-                    $("#ideid_" + key).psel(pics.map(function(url) {
-                        return {
-                            url: url,
-                        }
-                    }));
-                })
+                // recoverSearch(querySearchNameByKey());
 
                 console.log('全部加载完毕');
             })
@@ -1300,11 +1322,6 @@ var CardInfo = function() {
                                     return item;
                                 })
 
-                                // info.str_arr_value = info.str_arr_value.map(function(name) {
-                                //     return {
-                                //         name: name,
-                                //     }
-                                // })
                             } else if (info.data_type == 'Str' && _.isArray(info.cmpt_data) && info.cmpt_data.length) {
 
                                 info.type = 1;
