@@ -66,7 +66,7 @@ var cardPrintController = {
     /*获取空间名片设置的可选项
     */
     getSpCardInfoArr: function (successCall, errCall, completeCall) {
-        this.sendAjax('restCardService/queryEquipOptions', {}, successCall, errCall, completeCall);
+        this.sendAjax('restCardService/querySpaceOptions', {}, successCall, errCall, completeCall);
     },
     /*保存名片*/
     saveCard: function (object, successCall, errCall, completeCall) {

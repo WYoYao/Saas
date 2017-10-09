@@ -90,7 +90,9 @@
                         </div>
                         <div class="matter-body">
                             <!--<div class="matter-kind"></div>-->
-                            <div class="matter-kind">
+
+
+                            <div class="matter-kind" v-for="(model, index0) in allMatters">
                                 <div class="matter-all">
                                     <div class="matter-title">
                                         <div class="matter-title-div">
@@ -141,6 +143,8 @@
                                 </div>
 
                             </div>
+
+
                             <div class="add-new-matter">
                                 <em>J</em><span>添加新事项</span>
                             </div>

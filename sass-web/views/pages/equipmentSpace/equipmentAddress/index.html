@@ -48,7 +48,7 @@
                     <column name="网址" source="web"></column>
                     <column name="传真" source="fax"></column>  
                     <column name="电子邮件" source="email"></column>  
-                 <column name="所含品牌" source="brands"></column>  
+                 <column name="所含品牌" source="brandStr"></column>  
                      </header>
                   <page>
                     <ppage-simple number="50" ></ppage-simple>
@@ -107,7 +107,7 @@
                 <div class="inputTemp">
                     <span class="inputname"><em>*</em><b>供应商名称:</b></span>
                     <div class="inputwrap">
-                        <ptext-text placeholder="请输入">
+                        <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.company_name">
                         <verify errtip="不可为空"  verifytype="space"></verify>
                     </ptext-text>
                     </div>
@@ -116,41 +116,41 @@
                 <div class="inputTemp">
                     <span class="inputname"><b>联系人:</b></span>
                     <div class="inputwrap">
-                        <ptext-text placeholder="请输入"></ptext-text>
+                        <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.contacts"></ptext-text>
                     </div>
 
                 </div>
                 <div class="inputTemp">
                     <span class="inputname"><b>联系电话:</b></span>
                     <div class="inputwrap">
-                        <ptext-text placeholder="请输入电话号码"></ptext-text>
+                        <ptext-text placeholder="'请输入电话号码'" bind="true" value="selMerchantToUpdate.phone"></ptext-text>
                     </div>
                 </div>
                 <div class="inputTemp" v-show="!(tabSelIndex==3)">
                     <span class="inputname"><b>网址:</b></span>
                     <div class="inputwrap">
-                        <ptext-text placeholder="请输入网址"></ptext-text>
+                        <ptext-text placeholder="'请输入网址'" bind="true" value="selMerchantToUpdate.web"></ptext-text>
                     </div>
                 </div>
                 <div class="inputTemp" v-show="!(tabSelIndex==3)">
                     <span class="inputname"><b>传真:</b></span>
                     <div class="inputwrap">
-                        <ptext-text placeholder="请输入传真"></ptext-text>
+                        <ptext-text placeholder="'请输入传真'" bind="true" value="selMerchantToUpdate.fax"></ptext-text>
                     </div>
                 </div>
                 <div class="inputTemp" v-show="!(tabSelIndex==3)">
                     <span class="inputname"><b>电子邮件:</b></span>
                     <div class="inputwrap">
-                        <ptext-text placeholder="请输入电子邮件"></ptext-text>
+                        <ptext-text placeholder="'请输入电子邮件'" bind="true" value="selMerchantToUpdate.email"></ptext-text>
                     </div>
                 </div>
 
                 <div class="insurerWrapPar" v-show="tabSelIndex==3">
-                    <div class="insurerWrap">
+                    <div class="insurerWrap" v-for="insu in selMerchantToUpdate.insurer_info">
                         <div class="inputTemp">
                             <span class="inputname"><b>保险单号:</b></span>
                             <div class="inputwrap">
-                                <ptext-text placeholder="请输入保险单号"></ptext-text>
+                                <ptext-text placeholder="'请输入保险单号'" bind="true" value="insu.insurer_num"></ptext-text>
                             </div>
                         </div>
                         <div class="inputTemp">
@@ -165,16 +165,17 @@
                     </div>
 
                 </div>
-                <div class="brandWrapPar" v-show="tabSelIndex==1">
-                    <div class="insurerWrap">
+                <div class="brandWrapPar" v-if="tabSelIndex==1">
+                    <div class="insurerWrap" v-for="(brand,index) in selMerchantToUpdate.brands">
                         <div class="inputTemp">
                             <span class="inputname"><b>所含品牌:</b></span>
                             <div class="inputwrap">
-                                <ptext-text placeholder="请输入品牌"></ptext-text>
+                                <ptext-text placeholder="'请输入品牌'" bind="true" value="brand.name"></ptext-text>
                             </div>
                         </div>
                         <div class="insureraddBut">
-                            <pbutton-white icon="J" shape="ellipse" click="addBrandClick"></pbutton-white>
+                            <pbutton-white icon="'J'" shape="ellipse" click="addBrandClick" bind="true" v-show="index==0"></pbutton-white>
+                            <pbutton-white icon="'p'" shape="ellipse" click="delInsurerClick" bind="true" v-show="index!=0" v-bind:ji="index"></pbutton-white>
                         </div>
                     </div>
 
@@ -200,7 +201,10 @@
                         <div>
                             <ptext-text value="selMerchantToUpdate.company_name" bind="true"></ptext-text>
                         </div>
-                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                        <div class="selBut">
+                            <em class="Ficon co" onclick="editConfirm(event)">Z</em>
+                            <em class="Ficon" onclick="editCancel(this)">x</em>
+                        </div>
 
                     </div>
 
@@ -219,7 +223,7 @@
                         <div>
                             <ptext-text value="selMerchantToUpdate.contacts" bind="true"></ptext-text>
                         </div>
-                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
 
                     </div>
 
@@ -238,7 +242,7 @@
                         <div>
                             <ptext-text value="selMerchantToUpdate.phone" bind="true"></ptext-text>
                         </div>
-                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
 
                     </div>
 
@@ -257,7 +261,7 @@
                         <div>
                             <ptext-text value="selMerchantToUpdate.web" bind="true"></ptext-text>
                         </div>
-                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
 
                     </div>
 
@@ -276,7 +280,7 @@
                         <div>
                             <ptext-text value="selMerchantToUpdate.fax" bind="true"></ptext-text>
                         </div>
-                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
 
                     </div>
 
@@ -295,7 +299,7 @@
                         <div>
                             <ptext-text value="selMerchantToUpdate.email" bind="true"></ptext-text>
                         </div>
-                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
 
                     </div>
 
@@ -306,29 +310,29 @@
                 <span class="selname"><b>所含品牌:</b></span>
                 <div class="selcon">
                     <div class="selInput">
-                        <span v-for="item in selMerchantToInfo.brands" v-text="item"></span>
+                        <span v-for="item in selMerchantToInfo.brands" v-text="item.name"></span>
                         <div class="selBut">
                             <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
                         </div>
                     </div>
                     <div class="editInput ">
                         <div class="editbrand brandWrapPar">
-                            <div class="insurerWrap" v-for="item in selMerchantToInfo.brands">
+                            <div class="insurerWrap" v-for="(brand,index) in selMerchantToUpdate.brands">
                                 <div class="inputTemp">
                                     <div class="inputwrap">
-                                        <ptext-text placeholder="'请输入品牌'" value="item" bind="true"></ptext-text>
+                                        <ptext-text placeholder="'请输入品牌'" value="brand.name" bind="true"></ptext-text>
                                     </div>
                                 </div>
                                 <div class="insureraddBut">
-                                    <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
-                                    <pbutton-white icon="J" shape="ellipse" click="addBrandClick"></pbutton-white>
+                                    <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="index!=0" v-bind:ji="index"></pbutton-white>
+                                    <pbutton-white icon="J" shape="ellipse" click="addBrandClick" v-show="index==0"></pbutton-white>
                                 </div>
                             </div>
 
 
 
                         </div>
-                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
 
                     </div>
                 </div>
@@ -349,7 +353,7 @@
                                 <div>
                                     <ptext-text></ptext-text>
                                 </div>
-                                <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(event)">x</em></div>
+                                <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
                                 <div class="insureraddBut">
                                     <pbutton-white icon="J" shape="ellipse" click="addbxTempClick"></pbutton-white>
                                 </div>
@@ -394,22 +398,6 @@
             <span class="inputname"><b>保险文件:</b></span>
             <div class="inputwrap">
                 <pupload-attachment></pupload-attachment>
-            </div>
-        </div>
-        <div class="insureraddBut">
-            <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
-            <!--<pbutton-white icon="J" shape="ellipse" click="addInsurerClick"></pbutton-white>-->
-        </div>
-    </div>
-</script>
-
-<!-- 添加品牌 -->
-<script type="text/html" id="addBrandTemp">
-    <div class="insurerWrap">
-        <div class="inputTemp">
-            <span class="inputname"><b></b></span>
-            <div class="inputwrap">
-                <ptext-text placeholder="请输入品牌"></ptext-text>
             </div>
         </div>
         <div class="insureraddBut">

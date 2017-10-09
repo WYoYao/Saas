@@ -346,7 +346,7 @@
                                             <div class="last-level-box">
                                                 <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="(obj,index) in myWorkOrderModel.lastLevel">
                                                     <div :title="obj.obj_name" @click="controller.queryInfoPointForObject(obj)"
-                                                         :class="{ 'selected':obj.obj_id == myWorkOrderModel.selectedObj.obj_id}"><!--getInfoPointForObject(model, index, $event, index0)-->
+                                                         ><!--getInfoPointForObject(model, index, $event, index0)-->
                                                     <!--<div :title="obj.obj_name" @click="controller.getInfoPointForObject(obj, index, $event, index0)">&lt;!&ndash;getInfoPointForObject(model, index, $event, index0)&ndash;&gt;-->
                                                         <span v-text="obj.obj_name">建筑体</span>
                                                     </div>

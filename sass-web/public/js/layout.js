@@ -47,7 +47,7 @@ $(function () {
         } else {        //企业登陆
             frameModel.userMenus = ['修改密码', '退出'];
             frameModel.userName = userInfo.company_name;
-            frameModel.projectList =
+            frameModel.projectList = [];
             frameModel.menuItems = [{
                 name: '',
                 menu: [{
@@ -78,7 +78,7 @@ var frameModel = {
     userInfo: {}
 };
 
-function setUserProjectId() {
+function setUserProjectId(call) {
     $.ajax({
         url: '/setUser',
         type: 'get',
@@ -86,6 +86,7 @@ function setUserProjectId() {
             last_project_id: frameModel.selectedProjectId
         },
         success: function (result) {
+            if (typeof call == 'function') call();
         },
         error: function (error) {
         },
@@ -100,6 +101,20 @@ function selProject(model, event) {
     frameModel.selectedProject = model;
     frameModel.selectedProjectId = model.project_id;
     setMenuItems(model);
+
+    setUserProjectId(function () {
+        pajax.update({
+            url: 'restUserService/savePersonUseProject',
+            data: {},
+            success: function (result) {
+            },
+            error: function (err) {
+            },
+            complete: function () {
+            }
+        });
+    });
+
 
     //TODO菜单默认选中
 }
@@ -222,6 +237,16 @@ function selUserMenu(model) {
     } else if (model == '修改密码') {
 
     } else {
-        pajax.loginOut();
+        pajax.update({
+            url: 'restUserService/logout',
+            data: {},
+            success: function (result) {
+                pajax.loginOut();
+            },
+            error: function (err) {
+            },
+            complete: function () {
+            }
+        });
     }
 }

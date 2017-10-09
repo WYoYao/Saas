@@ -1,46 +1,24 @@
-<!DOCTYPE html>
-<html>
+<% include ../../../template/pageHead.html %>
+<script type="text/javascript" src="../js/equipmentSpace/printCard/event.js"></script>
+<script type="text/javascript" src="../js/equipmentSpace/printCard/model.js"></script>
+<script type="text/javascript" src="../js/public/globalController.js"></script>
+<script type="text/javascript" src="../js/equipmentSpace/printCard/controller.js"></script>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Saas平台运营平台</title>
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+<link rel="stylesheet" href="../css/equipmentSpace/printCard/print.css" />
 
-    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
-    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
-    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+<script src="../js/workOrder/myWorkOrder/event.js"></script>
+<script src="../js/workOrder/myWorkOrder/model.js"></script>
+<script type="text/javascript" src="../js/public/globalController.js"></script>
+<script src="../js/workOrder/myWorkOrder/controller.js"></script>
 
-    <link rel="stylesheet" href="/css/basicMng/person/index.css" />
-    <link rel="stylesheet" href="/css/workOrder/myWorkOrder/myWorkOrderList.css" />
-    <link rel="stylesheet" href="/css/workOrder/myWorkOrder/myWorkOrderCreate.css" />
-    <!--<link rel="stylesheet" href="/css/workOrder/myWorkOrder/newSop.css" />-->
-    <script src="/js/workOrder/myWorkOrder/controller.js"></script>
-    <script src="/js/workOrder/myWorkOrder/model.js"></script>
-    <script src="/js/workOrder/myWorkOrder/event.js"></script>
-    <style>
+<!--<link rel="stylesheet" href="../css/basicMng/person/index.css" />-->
+<link rel="stylesheet" href="../css/workOrder/myWorkOrder/myWorkOrderList.css" />
+<link rel="stylesheet" href="../css/workOrder/myWorkOrder/myWorkOrderCreate.css" />
+<!--<link rel="stylesheet" href="/css/workOrder/myWorkOrder/newSop.css" />-->
 
-    </style>
-</head>
-
-<body>
 <div id="myWorkOrder">
-
-    <!--html by yangning-->
     <%include myWorkOrder.html%>
-    <!--html by yuedongxu-->
-
-
-
 </div>
-</body>
-</html>
+
+
+<% include ../../../template/pageFoot.html %>

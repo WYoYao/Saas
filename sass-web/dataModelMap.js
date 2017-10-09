@@ -5666,7 +5666,7 @@ var dataModelMap = {
             }],
         }]
     },
-    "restSpaceService/querySpaceById ": {
+    "restSpaceService/querySpaceById": {
         "note": "根据id查询空间详细信息",
         "type": "object",
         "proArr": [{
@@ -5875,6 +5875,40 @@ var dataModelMap = {
             "isToSpecial": false
         }]
     },
+    "restFloorService/queryFloorInfoPointHis": {
+        "note": "查询楼层信息点的历史信息",
+        "type": "array",
+        "proArr": [{
+            "note": "时间",
+            "name": "date",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "值",
+            "name": "value",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }]
+    },
+    "restSpaceService/querySpaceInfoPointHis": {
+        "note": "查询空间信息点的历史信息",
+        "type": "array",
+        "proArr": [{
+            "note": "时间",
+            "name": "date",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "值",
+            "name": "value",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }]
+    },
     'merchantInfo': [{
         "note": "商家ID",
         "name": "company_id",
@@ -5943,6 +5977,6 @@ var dataModelMap = {
         "note": "某一个商家信息",
         "type": "object",
         "proArrBy": 'merchantInfo'
-    }
+    },
 };
 module.exports = dataModelMap;

@@ -43,7 +43,7 @@ var cardPrintModal = {
     selSpCardTemplateArr: [{
         info_point_code: 'room_local_name', info_point_name: '空间名称'
     }, {
-        info_point_code: 'equip_local_id', info_point_name: '空间编码'
+        info_point_code: 'room_local_id', info_point_name: '空间编码'
     }],
     spCardTemplateArr: [],
 

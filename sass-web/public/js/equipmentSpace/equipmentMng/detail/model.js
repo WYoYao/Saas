@@ -1,4 +1,4 @@
-var EquipPublicInfo = function () {
+var EquipPublicInfo = function() {
     return {
         "equip_id": "", //设备id,
         "equip_local_id": "", //设备本地编码
@@ -78,7 +78,7 @@ var EquipPublicInfo = function () {
     }
 }
 
-var CardInfo = function () {
+var CardInfo = function() {
     return {
         "equip_id": "", //设备id,
         "equip_qr_code": '', //设备二维码图片的key
@@ -94,7 +94,7 @@ var CardInfo = function () {
 
 
 ;
-(function () {
+(function() {
 
     // 通过key 值获取对应的DOM   0文本框  1 下拉框 2 图片上传 3 文件上传 4 日历控件 5 多级联动下拉菜单(具体属性单独处理)
     var controlType;
@@ -212,17 +212,28 @@ var CardInfo = function () {
     v.pushComponent({
         name: 'equipmentMngDeatil',
         data: {
-            layer:new layerModel(function(){
+            layer: new layerModel(function() {
+                console.log(arguments);
+
                 console.log('submitCb');
-            },function(){
+            }, function() {
                 console.log('cancelCb');
-            },function(){
-                console.log('getPoints');
+            }, function(cb) {
+                cb([{
+                    date: '2017/08/09',
+                    value: '时间节点2'
+                }, {
+                    date: '2017/08/09',
+                    value: '时间节点1'
+                }, {
+                    date: '2017/08/09',
+                    value: '时间节点3'
+                }])
             }), // 全局共用弹窗
             equip_id: '', // 设备ID
             EquipInfo: new EquipPublicInfo(),
             CardInfo: new CardInfo(),
-            EquipDynamicInfo:[],// 通用信息点
+            EquipDynamicInfo: [], // 通用信息点
             WorkOrderState: [], // 工单状态集合
             WorkOrderCode: '', // 选中的工单状态
             EquipRelWorkOrder: [], // 查询到的工单集合
@@ -335,28 +346,27 @@ var CardInfo = function () {
                     insurer_phone: false,
                     insurance_file: false
                 },
-                scroll:[{
-                        tag:'基础',
-                        isSelected:true,
-                    },{
-                        tag:'厂家',
-                        isSelected:false,
-                    },{
-                        tag:'供应&购买',
-                        isSelected:false,
-                    },{
-                        tag:'运行&维保',
-                        isSelected:false,
-                    },{
-                        tag:'保险',
-                        isSelected:false,
-                    },
-                ]
+                scroll: [{
+                    tag: '基础',
+                    isSelected: true,
+                }, {
+                    tag: '厂家',
+                    isSelected: false,
+                }, {
+                    tag: '供应&购买',
+                    isSelected: false,
+                }, {
+                    tag: '运行&维保',
+                    isSelected: false,
+                }, {
+                    tag: '保险',
+                    isSelected: false,
+                }, ]
             }
         },
         computed: {
             // 部门信息是否未空
-            baseIsNull: function () {
+            baseIsNull: function() {
                 var keys = ['equip_local_name',
                     'BIMID',
                     'position',
@@ -380,7 +390,7 @@ var CardInfo = function () {
 
             },
             // 厂家信息是否未空
-            factoryIsNull: function () {
+            factoryIsNull: function() {
                 var keys = [
                     "manufacturer",
                     "brand",
@@ -393,7 +403,7 @@ var CardInfo = function () {
                 return this.fev(this.EquipInfo, keys);
             },
             //供应&购买是否未空
-            buyIsNull: function () {
+            buyIsNull: function() {
                 var keys = [
                     "supplier",
                     "supplier_phone",
@@ -410,7 +420,7 @@ var CardInfo = function () {
                 return this.fev(this.EquipInfo, keys);
             },
             //运行&维保是否未空
-            maintenanceIsNull: function () {
+            maintenanceIsNull: function() {
                 var keys = [
                     "principal",
                     "maintain_id",
@@ -432,7 +442,7 @@ var CardInfo = function () {
                 return this.fev(this.EquipInfo, keys);
             },
             //保险是否未空
-            insuranceIsNull: function () {
+            insuranceIsNull: function() {
                 var keys = [
                     "insurer",
                     "insurer_num",
@@ -445,89 +455,89 @@ var CardInfo = function () {
                 return this.fev(this.EquipInfo, keys);
             },
             // 返回状态显示对应的状态名称
-            stateCovert:function(){
+            stateCovert: function() {
 
-                var _that=this;
-                return this.statusList.filter(function(item){
-                    return item.code==_that.EquipInfo.status;
+                var _that = this;
+                return this.statusList.filter(function(item) {
+                    return item.code == _that.EquipInfo.status;
                 })[0].name;
             },
             // 计算左边滚动轴
-            scrollLeft:function(){
-                var _that=this;
-                return _that.covertHeight(_that.view.scroll,60,120,30).map(function(item,index){
+            scrollLeft: function() {
+                var _that = this;
+                return _that.covertHeight(_that.view.scroll, 60, 120, 30).map(function(item, index) {
 
-                    return Object.assign({},item,{isSelected:_that.view.scroll[index].isSelected});
+                    return Object.assign({}, item, { isSelected: _that.view.scroll[index].isSelected });
                 });
             }
         },
         filters: {
-            
+
         },
         methods: {
             //滚动轴点击事件
-            _clickScroll:function(index){
-                var _that=this;
-                _that.view.scroll=_that.view.scroll.map(function(item,i){
+            _clickScroll: function(index) {
+                var _that = this;
+                _that.view.scroll = _that.view.scroll.map(function(item, i) {
 
-                    item.isSelected=index==i?true:false;
+                    item.isSelected = index == i ? true : false;
                     return item;
                 });
 
                 // 移动对应的高
                 // console.log(_that._ScrollToIndex($("#verticalAlxescontentb"),index));
-                var Top=_that._ScrollToIndex($("#verticalAlxescontentb"),index);
+                var Top = _that._ScrollToIndex($("#verticalAlxescontentb"), index);
                 // 修改完滚动条后修改标签节点
                 $("#verticalAlxescontentb").scrollTop(Top);
 
-                _that.view.scroll=_that.view.scroll.map(function(item){
+                _that.view.scroll = _that.view.scroll.map(function(item) {
 
-                            item.marginTop=0;
-                            return item;
+                    item.marginTop = 0;
+                    return item;
                 })
 
 
-                var doc=$("#verticalAlxescontentb")[0],
-                    scrollTop=doc.scrollTop,
-                    scrollHeight=doc.scrollHeight, //总高
-                    scorllarr=_that.scrollLeft, // 当前所有滚动轴的位置
-                    startPoint=scorllarr[0],  // 第一个锚点
-                    endPoint=scorllarr[scorllarr.length-1],// 最后一个锚点
-                    indexPoint=scorllarr[index], // 当前锚点
-                    startLong=indexPoint.top-indexPoint.marginTop,
-                    endLong=endPoint.top - indexPoint.top;
-                    // Top=Top>scrollTop?scrollTop:Top;
+                var doc = $("#verticalAlxescontentb")[0],
+                    scrollTop = doc.scrollTop,
+                    scrollHeight = doc.scrollHeight, //总高
+                    scorllarr = _that.scrollLeft, // 当前所有滚动轴的位置
+                    startPoint = scorllarr[0], // 第一个锚点
+                    endPoint = scorllarr[scorllarr.length - 1], // 最后一个锚点
+                    indexPoint = scorllarr[index], // 当前锚点
+                    startLong = indexPoint.top - indexPoint.marginTop,
+                    endLong = endPoint.top - indexPoint.top;
+                // Top=Top>scrollTop?scrollTop:Top;
 
-                    // 内容区域的上滚动高度小于剩下锚点轴的高度的时候锚点额外高度为0
-                    if((Top-startLong)<0){
-                        _that.view.scroll=_that.view.scroll.map(function(item){
+                // 内容区域的上滚动高度小于剩下锚点轴的高度的时候锚点额外高度为0
+                if ((Top - startLong) < 0) {
+                    _that.view.scroll = _that.view.scroll.map(function(item) {
 
-                            item.marginTop=0;
-                            return item;
-                        })
-                    }else if(Top>scrollTop){
-                        // 剩下的锚点高度大于剩下的内容高度的时候
-                        // var t=scrollHeight-endPoint.top-60;
-                        var t=(Top-startLong);
-                        _that.view.scroll=_that.view.scroll.map(function(item){
+                        item.marginTop = 0;
+                        return item;
+                    })
+                } else if (Top > scrollTop) {
+                    // 剩下的锚点高度大于剩下的内容高度的时候
+                    // var t=scrollHeight-endPoint.top-60;
+                    var t = (Top - startLong);
+                    _that.view.scroll = _that.view.scroll.map(function(item) {
 
-                            item.marginTop=t;
-                            return item;
-                        })
-                        
-                    }else{
+                        item.marginTop = t;
+                        return item;
+                    })
 
-                        // var mtp=Top-indexPoint.top+60;
-                        var mtp=Top-startLong;
+                } else {
 
-                        _that.view.scroll=_that.view.scroll.map(function(item){
+                    // var mtp=Top-indexPoint.top+60;
+                    var mtp = Top - startLong;
 
-                            item.marginTop=mtp;
-                            return item;
-                        })
-                    }
+                    _that.view.scroll = _that.view.scroll.map(function(item) {
 
-                
+                        item.marginTop = mtp;
+                        return item;
+                    })
+                }
+
+
 
                 // 内容部分已经滚动到最底部
                 // var bres=TotalTop-(doc.scrollHeight-doc.scrollTop);
@@ -546,34 +556,34 @@ var CardInfo = function () {
                 //     item.marginTop=index==0?MarginTop:(index==(_that.view.scroll.lenght-1)?MarginTop-60:MarginTop);
                 //     return item;
                 // });
-                
+
             },
             // 将滚动轴滚动至对应的位置
-            _ScrollToIndex:function(el,index){
+            _ScrollToIndex: function(el, index) {
 
-                return _.range(index).reduce(function(con,i){
+                return _.range(index).reduce(function(con, i) {
 
-                    var itemEl=el.find('.part').eq(i);
+                    var itemEl = el.find('.part').eq(i);
 
-                    con+=(+itemEl.height());
-                    
+                    con += (+itemEl.height());
+
                     return con;
-                },0);
+                }, 0);
             },
-            submitTip:function(event){
-             
-                this.layer.submit(event.clientX,event.clientY);
-                
+            submitTip: function(event) {
+
+                this.layer.submit(event.clientX, event.clientY);
+
             },
-            cancelTip:function(){
-                this.layer.cancel(event.clientX,event.clientY);
+            cancelTip: function() {
+                this.layer.cancel(event.clientX, event.clientY);
             },
             //======================= 单个编辑Start  ==========================
-            _clickStartChange: function (key) {
+            _clickStartChange: function(key) {
 
                 var el = $("#ideid_" + key),
                     type = querycontroTypeByKey(key), //0文本框  1 下拉框 2 图片上传 3 文件上传 4 日历控件 5 多级联动下拉菜单
-                    value=this.EquipInfo[key];  // 当前对应的值
+                    value = this.EquipInfo[key]; // 当前对应的值
 
                 if (type == 0) {
                     // 点击编辑文本赋值
@@ -592,8 +602,8 @@ var CardInfo = function () {
                 } else if (type == 3) {
 
                 } else if (type == 4) {
-                    var date=new Date(value);
-                    el.psel({y:date.format('yyyy'),M:date.format('MM'),d:date.format('dd')});
+                    var date = new Date(value);
+                    el.psel({ y: date.format('yyyy'), M: date.format('MM'), d: date.format('dd') });
 
                 } else if (type == 5) {
 
@@ -603,15 +613,15 @@ var CardInfo = function () {
 
             },
             // 技术信息编辑
-            _clickPointChange:function(id,list,value){
-                $("#PI"+id).psel(list.indexOf(value));
+            _clickPointChange: function(id, list, value) {
+                $("#PI" + id).psel(list.indexOf(value));
             },
             //======================= 单个编辑End  ==========================
             /**
              * 生成转换上传文件或图片的格式
              * @param {any} type 1 图片 2其他格式的附件 
              */
-            pvalConvertAttachments: function (type) {
+            pvalConvertAttachments: function(type) {
 
                 /**
                  * 返回生成对应的提交属性的Object
@@ -619,9 +629,9 @@ var CardInfo = function () {
                  *  @param {any} key 对应的提交的属性
                  * @param {any} isMore 是否是多文件上传
                  */
-                return function (arr, key, isMore) {
+                return function(arr, key, isMore) {
 
-                    return arr.map(function (item) {
+                    return arr.map(function(item) {
 
                         return {
                             path: item.url, //文//件的下载地址， 即网站后台(非java端) 后台返回的下载地址。 必须 *
@@ -639,7 +649,7 @@ var CardInfo = function () {
              * 树状接口通过的属性查询出对应的值
              * 根据传入 key value 值查询对应的树的内容
              */
-            filterItemByKeyValue: function (list, key, value) {
+            filterItemByKeyValue: function(list, key, value) {
 
                 if (!_.isArray(list)) return;
 
@@ -657,7 +667,7 @@ var CardInfo = function () {
             /**
              * 新增部分 转换为可以提交的参数
              */
-            convert2Controller: function (item) {
+            convert2Controller: function(item) {
 
                 var req = {
                     equip_id: this.equip_id,
@@ -678,7 +688,7 @@ var CardInfo = function () {
              *      SearchKey: '', //  下滑栏菜单的查询的查询的时候的需要选择的对应的 key 值
              *  }
              */
-            convert2ide: function (item) {
+            convert2ide: function(item) {
                 var el = $((item.idetype ? "#ideid_" : "#addid_") + item.key),
                     type = querycontroTypeByKey([item.key]),
                     key = item.key,
@@ -734,8 +744,8 @@ var CardInfo = function () {
                 }
 
                 if (!req.info_point_value && req.attachments && !req.attachments.lenght) {
-                    return function () {
-                        return new Promise(function (resolve, reject) {
+                    return function() {
+                        return new Promise(function(resolve, reject) {
                             resolve();
                         })
                     }
@@ -749,14 +759,14 @@ var CardInfo = function () {
              * arr 需要发送的集合
              * type 0 默认新建 1 属于编辑
              */
-            someSend: function (arr, type) {
+            someSend: function(arr, type) {
 
                 var result = [];
 
                 function fn() {
                     if (result.length == arr.length) {
 
-                        if (result.filter(function (str) {
+                        if (result.filter(function(str) {
                                 return str == 'resolve'
                             }).length == arr.length) {
 
@@ -774,28 +784,28 @@ var CardInfo = function () {
                     }
                 }
 
-                arr.map(function (item) {
+                arr.map(function(item) {
                     item.idetype = type;
                     return item;
-                }).map(this.convert2ide).forEach(function (item, index) {
+                }).map(this.convert2ide).forEach(function(item, index) {
 
-                    return item().then(function () {
+                    return item().then(function() {
 
                         result.push('resolve');
                         fn()
 
-                    }, function () {
+                    }, function() {
 
                         result.push('reject');
                         fn()
-                    }).catch(function () {
+                    }).catch(function() {
 
                         result.push('catch');
                     })
                 });
             },
             // 添加保险信息
-            _clickAddinsurance: function () {
+            _clickAddinsurance: function() {
 
                 var insuranceArr = [{
                         key: 'insurer',
@@ -812,7 +822,7 @@ var CardInfo = function () {
                 this.someSend(insuranceArr);
             },
             //添加购买信息
-            _clickAddbuy: function () {
+            _clickAddbuy: function() {
 
                 var buyArr = [{
                         key: 'supplier',
@@ -832,7 +842,7 @@ var CardInfo = function () {
                 this.someSend(buyArr);
             },
             // 添加厂家信息
-            _clickAddfactory: function () {
+            _clickAddfactory: function() {
 
                 var factoryArr = [{
                         key: 'manufacturer',
@@ -858,7 +868,7 @@ var CardInfo = function () {
                 this.someSend(factoryArr);
             },
             // 添加运行维保
-            _clickAddMaintenance: function () {
+            _clickAddMaintenance: function() {
 
                 var maintenanceArr = [{
                         key: 'principal'
@@ -894,7 +904,7 @@ var CardInfo = function () {
                 this.someSend(maintenanceArr);
             },
             // 添加基础信息
-            _clickAddBase: function () {
+            _clickAddBase: function() {
 
                 var baseArr = [{
                         key: 'equip_local_name'
@@ -969,7 +979,7 @@ var CardInfo = function () {
              * keys 需要验证的属性集合
              * return ture 全部为空 return false 全部不为空
              */
-            fev: function (obj, keys) {
+            fev: function(obj, keys) {
 
                 for (var index = 0; index < keys.length; index++) {
 
@@ -990,7 +1000,7 @@ var CardInfo = function () {
                 }
             },
             // 数组的获取对应高度
-            covertHeight: function (arr, minh, maxh, sh) {
+            covertHeight: function(arr, minh, maxh, sh) {
                 // 获取总高度
                 var totalHeight = $("#verticalAlxescontentb").height() - 50,
                     len = arr.lenght,
@@ -1006,8 +1016,8 @@ var CardInfo = function () {
 
                 itemTop = ih < minh ? minh : (minh < ih && ih < maxh) ? ih : maxh;
 
-                aa= arr.map(function (item, index) {
-                    item.top=index * itemTop + sh;
+                aa = arr.map(function(item, index) {
+                    item.top = index * itemTop + sh;
                     item.totalTop = index * itemTop + sh + (item.marginTop || 0);
 
                     return item;
@@ -1017,7 +1027,7 @@ var CardInfo = function () {
                 return aa;
             }
         },
-        beforeMount: function () {
+        beforeMount: function() {
 
             var _that = this;
 
@@ -1025,7 +1035,7 @@ var CardInfo = function () {
              * 设备管理-详细页:查询设备名片信息
              */
             equipmentMngDeatilController.queryEquipCardInfo(_that.equip_id)
-                .then(function (CardInfo) {
+                .then(function(CardInfo) {
                     _that.CardInfo = CardInfo;
 
                 })
@@ -1036,13 +1046,13 @@ var CardInfo = function () {
              */
             var PromsQueryEquipPublicInfo = equipmentMngDeatilController.queryEquipPublicInfo(_that.equip_id);
 
-            PromsQueryEquipPublicInfo.then(function (info) {
+            PromsQueryEquipPublicInfo.then(function(info) {
                 // 附加通用信息
                 _that.EquipInfo = info;
             })
 
 
-            PromsQueryEquipPublicInfo.then(function (info) {
+            PromsQueryEquipPublicInfo.then(function(info) {
 
                 /**
                  * 根据建筑ID查询所属的位置
@@ -1050,12 +1060,12 @@ var CardInfo = function () {
                  */
                 return equipmentMngDeatilController.queryBuildFloorSpaceTree(info.build_id);
 
-            }).then(function (list) {
+            }).then(function(list) {
 
                 //BuildFloorSpaceTree
 
                 // 转换为可选择的Tree
-                var f = function (item) {
+                var f = function(item) {
                     var z = arguments.callee;
                     item.issel = true;
                     item.name = item.obj_name;
@@ -1073,7 +1083,7 @@ var CardInfo = function () {
              * 查询工单状态下拉菜单
              */
             var proQueryWorkOrderState = equipmentMngDeatilController.queryWorkOrderState();
-            proQueryWorkOrderState.then(function (list) {
+            proQueryWorkOrderState.then(function(list) {
                 _that.WorkOrderState = list;
 
                 //查询完之后默认查询第一个
@@ -1085,12 +1095,12 @@ var CardInfo = function () {
              * 所属系统 下拉菜单
              */
             var proQueryAllEquipCategory = equipmentMngDeatilController.queryAllEquipCategory();
-            proQueryAllEquipCategory.then(function (list) {
+            proQueryAllEquipCategory.then(function(list) {
 
                 // 绑定所属系统的下拉菜单 (**需要转换第二级**)
-                _that.SystemDomain = list.reduce(function (con, item) {
+                _that.SystemDomain = list.reduce(function(con, item) {
 
-                    return con.concat(item.content.map(function (info) {
+                    return con.concat(item.content.map(function(info) {
 
                         return info;
                     }));
@@ -1103,7 +1113,7 @@ var CardInfo = function () {
              * 生产厂家下拉列表
              */
             var proQueryEquipCompanySels = equipmentMngDeatilController.queryEquipCompanySel(2);
-            proQueryEquipCompanySels.then(function (list) {
+            proQueryEquipCompanySels.then(function(list) {
                 _that.manufacturerList = list;
 
                 $("#addid_brand").pdisable(true);
@@ -1113,7 +1123,7 @@ var CardInfo = function () {
              * 供应商下拉列表
              */
             var proQueryEquipCompanySelg = equipmentMngDeatilController.queryEquipCompanySel(1)
-            proQueryEquipCompanySelg.then(function (list) {
+            proQueryEquipCompanySelg.then(function(list) {
                 _that.supplierList = list;
             })
 
@@ -1121,7 +1131,7 @@ var CardInfo = function () {
              * 维修商名称 下拉列表
              */
             var proQueryEquipCompanySelw = equipmentMngDeatilController.queryEquipCompanySel(3)
-            proQueryEquipCompanySelw.then(function (list) {
+            proQueryEquipCompanySelw.then(function(list) {
                 _that.maintainerList = list;
             })
 
@@ -1129,60 +1139,60 @@ var CardInfo = function () {
              * 保险公司名称 下拉列表
              */
             var proQueryEquipCompanySelb = equipmentMngDeatilController.queryEquipCompanySel(4)
-            proQueryEquipCompanySelb.then(function (list) {
+            proQueryEquipCompanySelb.then(function(list) {
                 _that.insurerList = list;
             })
 
             // 全部选项加载完毕
-            PromsQueryEquipPublicInfo.then(function () {
+            PromsQueryEquipPublicInfo.then(function() {
 
                 return proQueryWorkOrderState;
-            }).then(function () {
+            }).then(function() {
 
                 return proQueryWorkOrderState;
-            }).then(function () {
+            }).then(function() {
 
                 return proQueryAllEquipCategory;
-            }).then(function () {
+            }).then(function() {
 
                 return proQueryEquipCompanySels;
-            }).then(function () {
+            }).then(function() {
 
                 return proQueryEquipCompanySelg;
-            }).then(function () {
+            }).then(function() {
 
                 return proQueryEquipCompanySelw;
-            }).then(function () {
+            }).then(function() {
 
                 return proQueryEquipCompanySelb;
-            }).then(function () {
+            }).then(function() {
 
                 // 对下滑的属性全部做统一处理
                 recoverSearch(querySearchNameByKey());
 
                 // 上传文件控件赋值
-                ['drawing','check_report','archive'].forEach(function(key){
-                    
-                    // 给需要绑定值的上传控件绑定对应的内容
-                    var pics=_that.EquipInfo[key] || [];
+                ['drawing', 'check_report', 'archive'].forEach(function(key) {
 
-                    $("#ideid_"+key).psel(pics.map(function(item){
+                    // 给需要绑定值的上传控件绑定对应的内容
+                    var pics = _that.EquipInfo[key] || [];
+
+                    $("#ideid_" + key).psel(pics.map(function(item) {
                         return {
-                            name:item.name,
-                            url:item.type==1?item.url:item.key,
+                            name: item.name,
+                            url: item.type == 1 ? item.url : item.key,
                         }
                     }));
 
                 });
 
                 // 上传文件赋值  （两种不同的区别一直是图片上传一种是文件上传 同时接口返回的数据接口不同）
-                ['picture','nameplate'].forEach(function(key){
+                ['picture', 'nameplate'].forEach(function(key) {
 
-                    var pics=_that.EquipInfo[key] || [];
+                    var pics = _that.EquipInfo[key] || [];
                     // 给需要绑定值的上传控件绑定对应的内容
-                    $("#ideid_"+key).psel(pics.map(function(url){
+                    $("#ideid_" + key).psel(pics.map(function(url) {
                         return {
-                            url:url,
+                            url: url,
                         }
                     }));
                 })
@@ -1191,19 +1201,19 @@ var CardInfo = function () {
             })
 
             // 技术参数赋值
-            equipmentMngDeatilController.queryEquipDynamicInfo()
-                .then(function(list){
-                    _that.EquipDynamicInfo=list.map(function(item){
+            equipmentMngDeatilController.queryEquipDynamicInfo(_that.equip_id)
+                .then(function(list) {
+                    _that.EquipDynamicInfo = list.map(function(item) {
 
-                        item.info_Points=item.info_Points.map(function(info){
+                        item.info_Points = item.info_Points.map(function(info) {
 
-                            info.isShow=true;
+                            info.isShow = true;
 
                             // 字符串集合转换为ObjectArray
-                            if(info.data_type=='StrArr'){
-                                info.str_arr_value=info.str_arr_value.map(function(name){
+                            if (info.data_type == 'StrArr') {
+                                info.str_arr_value = info.str_arr_value.map(function(name) {
                                     return {
-                                        name:name,
+                                        name: name,
                                     }
                                 })
                             }
@@ -1222,7 +1232,7 @@ var CardInfo = function () {
         },
         watch: {
             // 查询设备相关的工单
-            WorkOrderCode: function (newVal, oldVal) {
+            WorkOrderCode: function(newVal, oldVal) {
 
                 var _that = this;
                 if (newVal != oldVal) {
@@ -1231,13 +1241,13 @@ var CardInfo = function () {
 
                         order_type: newVal,
                         equip_id: _that.equip_id,
-                    }).then(function (list) {
+                    }).then(function(list) {
 
                         _that.EquipRelWorkOrder = list;
                     })
                 };
             },
-            Build1: function (newVal, oldVal) {
+            Build1: function(newVal, oldVal) {
 
                 var _that = this;
                 if (newVal != oldVal) {
@@ -1247,7 +1257,7 @@ var CardInfo = function () {
                     $("#addid_position3").pdisable(true)
                 }
             },
-            Build2: function (newVal, oldVal) {
+            Build2: function(newVal, oldVal) {
 
                 var _that = this;
                 if (newVal != oldVal) {
@@ -1255,7 +1265,7 @@ var CardInfo = function () {
                     $("#addid_position3").pdisable(false)
                 }
             },
-            brands: function (newVal, oldVal) {
+            brands: function(newVal, oldVal) {
 
                 var _that = this;
                 if (newVal != oldVal) {
@@ -1263,7 +1273,7 @@ var CardInfo = function () {
                     $("#addid_brand").pdisable(false)
                 }
             },
-            insurer_infos: function (newVal, oldVal) {
+            insurer_infos: function(newVal, oldVal) {
 
                 var _that = this;
                 if (newVal != oldVal) {
@@ -1271,7 +1281,7 @@ var CardInfo = function () {
                     $("#addid_insurer_num").pdisable(false)
                 }
             },
-            AllEquipCategory: function (newVal, oldVal) {
+            AllEquipCategory: function(newVal, oldVal) {
 
                 var _that = this;
                 if (newVal != oldVal) {

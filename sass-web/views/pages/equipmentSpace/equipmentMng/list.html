@@ -86,7 +86,7 @@
                         </li>
                     </ul>
                     <ul class="tbody" type='equip_total'>
-                        <li v-for='item in EquipList'>
+                        <li v-for='item in EquipList' @click='_clickIntoDeatil(item)'>
                             <span class="eq-item" v-text='item.equip_local_id'></span>
                             <span class="eq-item" v-text='item.equip_local_name'></span>
                             <span class="eq-item" v-text='item.specification'></span>

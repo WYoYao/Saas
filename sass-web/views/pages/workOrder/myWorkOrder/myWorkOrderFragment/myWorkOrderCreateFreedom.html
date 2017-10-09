@@ -1,6 +1,9 @@
-<div class="matter-freedom" v-show="!myWorkOrderModel.regular">
+<div class="matter-freedom" v-show="!myWorkOrderModel.regular" v-for="(model, index0) in allMatters">
     <div class="textarea-div">
-        <textarea class="freedom-textarea" maxlength="1000" v-model="description" @input="counterNum"></textarea>
+            <textarea class="freedom-textarea" maxlength="1000" v-model="model.description"
+                      @keydown="keydownMatterContent(model, index0, $event)"
+                      @keyup="keyupMatterContent(model, index0, $event)"
+                      @input="counterNum"></textarea>
         <span class="counter"><b class="counterNum">0</b>/1000</span>
         <div class="add-obj-sop-content">
             <div class="add-obj" onclick="yn_method.clickAiteShowFn(this,true,event)">
@@ -16,7 +19,7 @@
             </div>
         </div>
         <div class="textareadiv"></div>
-        <div class="textarea-prop" >
+        <div class="textarea-prop">
             <% include aite.html %>
             <% include hashtag.html %>
             <!--<div class="aite-bubble" v-show="myWorkOrderModel.aite">

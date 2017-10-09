@@ -41,7 +41,7 @@ var equipmentAddressController = {
     },
     /*删除商家*/
     removeMerchantById: function (id, successCall, errCall, completeCall) {
-        this.sendAjax('restEquipCompanyService/deleteEquipCompanyById', {
+        this.sendUpdate('restEquipCompanyService/deleteEquipCompanyById', {
             company_id: id
         }, successCall, errCall, completeCall);
     }

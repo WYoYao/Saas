@@ -1,15 +1,13 @@
 var eqaddresstabArr = [{ name: "供应商名录", icon: 'z' }, { name: "生产商名录", icon: 'z' }, { name: "维修商名录", icon: 'z' }, { name: "保险公司名录", icon: 'z' }];
 $(function () {
-
-   
-
     equipmentLogic.init();
 });
 //tab事件
 
 function addList() {
-    equipmentLogic.saveMerchant();
-    $("#eqaddressfloat").phide();
+    equipmentLogic.saveMerchant(null, function () {
+        $("#eqaddressfloat").phide();
+    });
 }
 //新建float
 function addfloatShow() {
@@ -20,7 +18,7 @@ function addfloatShow() {
     $("#delEqaddress").hide();
 }
 //详情float
-function selfloatShow() {  
+function selfloatShow() {
     $("#eqaddressfloat").pshow({ title: '供应商详情' });
     $(".eqaddressFloatWrap").find(".addWrap").hide();
     $(".eqaddressFloatWrap").find(".selWrap").show();
@@ -28,9 +26,9 @@ function selfloatShow() {
 
     $(".selTemp").removeClass("selTempEdit").addClass("selTempSel");
 }
-function tabShow() { 
- var el=getCurrTabElement();
- el.show().siblings().hide();
+function tabShow() {
+    var el = getCurrTabElement();
+    el.show().siblings().hide();
 
 }
 function getCurrTabElement() {
@@ -39,7 +37,7 @@ function getCurrTabElement() {
 }
 //编辑
 function editSelClick(event) {
-    var par=$(event.currentTarget).parents(".selTemp");
+    var par = $(event.currentTarget).parents(".selTemp");
     par.addClass("selTempEdit").removeClass("selTempSel");
 
 
@@ -47,36 +45,34 @@ function editSelClick(event) {
 }
 //确定
 function editConfirm(event) {
-    var par = $(event.currentTarget).parents(".selTemp");
-    par.addClass("selTempSel").removeClass("selTempEdit");
+    var currJqTarget = $(event.currentTarget);
+    var par = currJqTarget.parents(".selTemp");
     var type = par.attr("type");
-    equipmentLogic.saveMerchant(type);
+    equipmentLogic.saveMerchant(type, function () {
+        currJqTarget.next().click();
+    });
 }
 //取消
-function editCancel(event) {
-    var par = $(event.currentTarget).parents(".selTemp");
+function editCancel(target) {
+    var par = $(target).parents(".selTemp");
     par.addClass("selTempSel").removeClass("selTempEdit");
 }
 
 //添加保险单号
 function addInsurerClick(event) {
     var _this = $(event.currentTarget);
-    var html=$("#addInsurerTemp").html();
+    var html = $("#addInsurerTemp").html();
     _this.parents(".insurerWrapPar").append(html);
 }
-//删除保险单号
+//删除保险单号或删除品牌
 function delInsurerClick(event) {
-    var _this = $(event.currentTarget);
-
-    _this.parents(".insurerWrap").remove();
-
+    var index = parseInt($(event.currentTarget).attr('ji'));
+    equipmentLogic.removeBrandOrInsure(index);
 }
 
 //添加品牌
 function addBrandClick(event) {
-    var _this = $(event.currentTarget);
-    var html = $("#addBrandTemp").html();
-    _this.parents(".brandWrapPar").append(html);
+    equipmentLogic.addBrandOrInsure();
 }
 
 //编辑保险————添加保险
@@ -93,10 +89,12 @@ function delEqaddress() {
 }
 //删除二次弹窗  确认
 function confirmDel() {
-    equipmentLogic.removeMerchantById();
+    equipmentLogic.removeMerchantById(function () {
+        $("#eqaddressfloat").phide();
+    });
     confirmhide();
 }
 //删除二次弹窗   取消
 function confirmhide() {
     $("#confirmWindow").phide();
-    }
+}

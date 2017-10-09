@@ -6,7 +6,6 @@ var controller = {
             methods: myWorkOrderMethod,
         });
 
-
         var workObj = {
             dataObj: {
                 user_id: myWorkOrderModel.user_id,

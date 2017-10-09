@@ -1,8 +1,10 @@
 var myWorkOrderModel = {//工单管理模块数据模型
-    //------------------------------------------ydx__start------------------------------------------
+    //------------------------------------------zy__start------------------------------------------
+    allMatters: [{}],       //所有的事项
+    curMatterIndex: 0,      //当前操作的事项索引
+    curMatterPopType: 4,       //当前事项弹框类型，0-4为选择或搜索对象弹框，0搜索，1选择大类结果无级别，2选择大类结果有左侧级别，3自定义，4选择大类
 
-
-    //------------------------------------------ydx__end------------------------------------------
+    //------------------------------------------zy__end------------------------------------------
 
     //------------------------------------------yn__start------------------------------------------
     //vue绑定的数据data
@@ -162,18 +164,23 @@ var myWorkOrderModel = {//工单管理模块数据模型
     lastLevel: [],
     clickAiteShow: false,
     clickHashShow: false,
+    workOrderDraft:{},//工单草稿内容
+    matters:[],//步骤信息,事项
+    singleMatters:{},//单步事项
     desc_works: [],//工作中设计的工作内容
     workContent:{},//工作内容
-    // pre_conform: "",//强制确认
-    // content: "",//操作内容
-    // content_objs: [],//操作内容中涉及到的对象
-    // notice: "",//注意事项
-    // domain: "",//专业code
-    // domain_name: "",//专业名称
     infoArray:[],//信息点list
     seltype:null,
+    desc_forepart:""
     //------------------------------------------yn__end------------------------------------------
 }
+myWorkOrderModel.singleMatters={
+    matter_name:"",          //事项名称
+    description:"",         //事项描述
+    desc_forepart:"",       //描述内容前段,结构化时用
+    desc_aftpart:"",        //描述内容后段,结构化时用
+    desc_photos:[],         //描述中的图片
+};
 myWorkOrderModel.workContent = {
     work_id: "",        //工作内容id
     work_name: "未命名工作内容1",      //工作内容名称
@@ -211,6 +218,8 @@ myWorkOrderModel.workContent = {
 
 }
 var commonData = {
+    deletedChar: '',        //文本框被删除的字符
+
     user_id: 'gsc',
     project_id: 'Pj1301020001',
 
@@ -296,10 +305,131 @@ var commonData = {
 }
 
 var myWorkOrderMethod = {//工单管理模块方法
-    //------------------------------------------ydx__start------------------------------------------
+    //------------------------------------------zy__start------------------------------------------
+    //事项内容keyup事件
+    keyupMatterContent: function (model, index, event) {
+        myWorkOrderModel.curMatterIndex = index;
+        var code = event.keyCode;
+        var jqTarget = $(event.currentTarget);
+        var textwrap = jqTarget[0];
+        var focusIndex = textwrap.selectionStart;
+        var text = myWorkOrderModel.description;
+        var text1 = text.slice(0, focusIndex);
+        var text2 = text.slice(focusIndex);
+        var noLastCharText1 = text1.slice(0, focusIndex - 1);
+        var len1 = text1.length;
+        var text1Char = text1 + commonData.deletedChar;
+        var searchedText;
+        if (code == 51) {       //'#'
 
+        } else if (code == 8) {        //退格键删除操作
+            if (commonData.deletedChar == ' ') {      //在空格后
+                //只有对象或SOP后面允许输入空格的情况下此处加强判断可以去掉，目前没有限制空格在普通文本中的输入
+                if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') || text1.lastIndexOf(' ') < text1.lastIndexOf('#')) {        //在对象结束空格后      //此处不能发起一次搜索，此时可能的情况：@地源热泵设备类@建筑4
+                    console.log('删除了标识对象或SOP结束的空格，这是不允许的');
+                    content.content = text1 + ' ' + text2;
+                }
+            } else if (text1Char.lastIndexOf(' ') < text1Char.lastIndexOf('@') && text2.indexOf(' ') !== -1) {        //在对象@或普通字符后且在空格前
+                if (commonData.deletedChar == '@') {     //在对象@后
+                    console.log('删除对象@符');
+                } else {     //在普通字符后，例如：'@建筑2' —> '@建2' 发起一次搜索
+                    searchedText = text1.slice(text1.lastIndexOf('@') + 1) + text2.slice(0, text2.indexOf(' '));
+                    console.log('删除对象中的普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
+                    if (searchedText.length) {
+                        globalController.searchObject(searchedText, function (result) {
+                            var data = result && result.data ? result.data : [];
+                            publicMethod.dealSearchedObjects(data, myWorkOrderModel);
+                            myWorkOrderModel.aite = true;
+                            if (data.length) {
+                                myWorkOrderModel.curMatterPopType = 0;
+                            } else {
+                                myWorkOrderModel.curMatterPopType = 3;
+                            }
+                        });
+                    } else {
+                        myWorkOrderModel.curMatterPopType = 3;
+                    }
+                }
+            }
+        }
+    },
 
-    //------------------------------------------ydx__end------------------------------------------
+    //事项内容keydown事件
+    keydownMatterContent: function (model, index, event) {
+        var code = event.keyCode;
+        var jqTarget = $(event.currentTarget);
+        var textwrap = jqTarget[0];
+        var focusIndex = textwrap.selectionStart;
+        var text = myWorkOrderModel.description;
+        if (code == 8) {        //删除操作
+            var deletedType;
+            //判断是否在对象中
+            var text1 = text.slice(0, focusIndex);
+            var text2 = text.slice(focusIndex);
+            var len1 = text1.length;
+            var toDeletedChar = text1[len1 - 1];
+            commonData.deletedChar = text1[len1 - 1];
+        }
+    },
+
+    //判断当前输入字符数是否超上限        //To Delete
+    isLengthErr: function (model, event) {
+        var isLengthErr = false;
+        var maxNum = $(event.target).attr("maxlength");
+        var num = model.description.length;
+        if (maxNum == 101) {
+            if (num > 100) {
+                isLengthErr = true;
+                $(event.target).css("border", "1px solid red");
+                $(event.target).next().css("color", "#ef6767");
+            } else {
+                $(event.target).css("border", "none");
+                $(event.target).next().css("color", "#cacaca");
+            }
+        }
+        return isLengthErr;
+    },
+
+    //设置当前弹窗位置
+    locationPop: function (model, event) {
+        var textwrap = $(event.srcElement);
+        var textpdiv = $(event.srcElement).parent(".textarea-div");
+        var textdiv = $(textwrap).siblings(".textareadiv");
+        var textareapop = $(textwrap).siblings(".textarea-prop");
+        //var value = model.description;
+        //var focusIndex = textwrap[0].selectionStart;
+        //var firstPartStr = value.substring(0, focusIndex);
+        //var secondPartStr = value.substring(focusIndex);
+        //var lastQuanIndex = firstPartStr.lastIndexOf('@');
+        //var lastJingIndex = firstPartStr.lastIndexOf('#');
+        //var lastQuanjingIndex = Math.max(lastQuanIndex, lastJingIndex);
+        //var lastSpaceIndex = firstPartStr.lastIndexOf(' ');
+        //if (lastQuanjingIndex != -1) {
+        //    if (lastQuanIndex > lastJingIndex) {
+        //        myWorkOrderModel.aite = true;
+        //    } else if (lastQuanIndex < lastJingIndex) {
+        //        myWorkOrderModel.aite = false;
+        //        myWorkOrderMethod.selAllTags();
+        //        yn_method.upDownSelect();
+        //    }
+        //    var h1 = '<span>' + firstPartStr.substring(0, lastQuanjingIndex) + '</span>';
+        //    var h2 = '<span>' + firstPartStr.substr(lastQuanjingIndex, 1) + '</span>';
+        //    var htmlValue = h1 + h2;
+        //    htmlValue = htmlValue.replace(/\n/g, '<br/>');
+        //    htmlValue = htmlValue.replace(/\s/g, '&nbsp;');
+        //    textdiv[0].innerHTML = htmlValue;
+        textdiv[0].scrollTop = textwrap.scrollTop;
+        var span = $(textdiv).find('span:last');
+        var divpos = $(textpdiv).offset();
+        var pos = span.offset();
+        var left = pos.left - divpos.left + 18;
+        var top = pos.top - divpos.top + 25;
+        $(textareapop).css({left: left + 'px', top: top + 'px'}).show();
+        //}
+
+    },
+
+    //------------------------------------------zy__end------------------------------------------
 
     //------------------------------------------yn__start------------------------------------------
     //vue的方法
@@ -365,7 +495,7 @@ var myWorkOrderMethod = {//工单管理模块方法
     },
     counterNum: function (event) {
         var maxNum = $(event.target).attr("maxlength");
-        if (maxNum == 101) {
+        if (maxNum == 100) {
             var num = this.workContent.pre_conform.length;
             if (num > 100) {
                 $(event.target).css("border", "1px solid red");
@@ -377,7 +507,7 @@ var myWorkOrderMethod = {//工单管理模块方法
         } else {
             num = this.description.length;
             var textwrap = $(event.srcElement);
-            var textpdiv = $(event.srcElement).parent(".textarea-div");
+            var textpdiv = $(event.srcElement).parents(".textarea-div");
             var textdiv = $(textwrap).siblings(".textareadiv");
             var textareapop = $(textwrap).siblings(".textarea-prop");
             var value = this.description;
@@ -391,10 +521,11 @@ var myWorkOrderMethod = {//工单管理模块方法
             if (lastQuanjingIndex != -1) {
                 if (lastQuanIndex > lastJingIndex) {
                     myWorkOrderModel.aite = true;
+                    // yn_method.upDownSelect(true);
                 } else if (lastQuanIndex < lastJingIndex) {
                     myWorkOrderModel.aite = false;
                     myWorkOrderMethod.selAllTags();
-                    yn_method.upDownSelect(true);
+                    yn_method.upDownSelect(null,null,true);
                 }
                 var h1 = '<span>' + firstPartStr.substring(0, lastQuanjingIndex) + '</span>';
                 var h2 = '<span>' + firstPartStr.substr(lastQuanjingIndex, 1) + '</span>';

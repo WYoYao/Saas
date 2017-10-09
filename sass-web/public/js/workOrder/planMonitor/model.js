@@ -7,8 +7,10 @@ var model = {
         "see_palnDetail", //查看计划详情
         "see_orderDetail", //查看工单详情
         "planCreate", //创建计划
+        "planCreate_next",//下一步
+
     ],
-    curPage: 'planCreate', //当前页面
+    curPage: 'planCreate_next', //当前页面
     user_id: '1', //用户id 暂时使用
     project_id: '1', //项目id  暂时使用
     plan_id: '', //计划id
@@ -549,6 +551,7 @@ var methods = {
         model.newPlanObj.ahead_create_time = $("#aheadCreateTime").pval();
         
         var freqCycle = $("#planRateLeft").psel().text;
+        console.log(freqCycle);
         var freqTimes = [];//存储计划频率每一次的时间
         if(freqCycle == "年"){
             model.newPlanObj.freq_cycle = "y";
@@ -584,20 +587,118 @@ var methods = {
             console.log(JSON.stringify(yearArr));
         }else if(freqCycle == "月"){
             model.newPlanObj.freq_cycle = "m";
-            var yearArr = [];
+            var monthArr = [];
             var arrLength = model.rateMonth;
             for(var i = 0;i<arrLength;i++){
-
-            }
+                //开始时间
+                var st_str = $("#monthStartTime" + i).psel().startTime;
+                var st_d = st_str.substr(0,2);
+                var st_h = st_str.substr(3,2);
+                var st_m = st_str.substr(6,2);
+                var obj_st = {
+                    cycle:"m",
+                    time_day:st_d,
+                    time_hour:st_h,
+                    time_minute:st_m
+                };
+                // 结束时间
+                var ed_str = $("#monthEndTime" + i).psel().startTime;
+                var ed_d = ed_str.substr(0,2);
+                var ed_h = ed_str.substr(3,2);
+                var ed_m = ed_str.substr(6,2);
+                var obj_et = {
+                    cycle:"m",
+                    time_day:ed_d,
+                    time_hour:ed_h,
+                    time_minute:ed_m
+                };
+                monthArr.push({start_time:obj_st,end_time:obj_et});
+            };
+            model.newPlanObj.freq_times = monthArr;
+            console.log(JSON.stringify(monthArr));
         }else if(freqCycle == "周"){
             model.newPlanObj.freq_cycle = "w";
+            var weekArr = [];
+            var arrLength = model.rateWeek;
+            for(var i = 0;i<arrLength;i++){
+                //开始时间
+                var st_str = $("#weekStartTime" + i).psel().startTime;
+                var st_d = methods.filter_weekDetail($("#weekChoiceList_prev" + i).psel().text);
+                var st_h = st_str.substr(0,2);
+                var st_m = st_str.substr(3,2);
+                var obj_st = {
+                    cycle:"w",
+                    time_day:st_d,
+                    time_hour:st_h,
+                    time_minute:st_m
+                };
+                //结束时间
+                var ed_str = $("#weekEndTime" + i).psel().startTime;
+                var ed_d = methods.filter_weekDetail($("#weekChoiceList_next" + i).psel().text);
+                var ed_h = ed_str.substr(0,2);
+                var ed_m = ed_str.substr(3,2);
+                var obj_et = {
+                    cycle:"w",
+                    time_day:ed_d,
+                    time_hour:ed_h,
+                    time_minute:ed_m
+                };
+                weekArr.push({start_time:obj_st,end_time:obj_et});
+                console.log(JSON.stringify(weekArr))
+            };
+            model.newPlanObj.freq_times = weekArr;
         }else if(freqCycle == "日"){
             model.newPlanObj.freq_cycle = "d";
+            var dayArr = [];
+            var arrLength = model.rateDay;
+            for(var i = 0;i<arrLength;i++){
+                //开始时间
+                var st_str = $("#dayStartTime" + i).psel().startTime;
+                // var st_d = st_str.substr(0,2);
+                var st_d = '';
+
+                var st_h = st_str.substr(0,2);
+                var st_m = st_str.substr(3,2);
+                var obj_st = {
+                    cycle:"d",
+                    time_day:st_d,
+                    time_hour:st_h,
+                    time_minute:st_m
+                };
+                // 结束时间
+                var ed_str = $("#dayEndTime" + i).psel().startTime;
+                // var ed_d = ed_str.substr(0,2);
+                var ed_d = '';
+
+                var ed_h = ed_str.substr(0,2);
+                var ed_m = ed_str.substr(3,2);
+                var obj_et = {
+                    cycle:"d",
+                    time_day:ed_d,
+                    time_hour:ed_h,
+                    time_minute:ed_m
+                };
+                dayArr.push({start_time:obj_st,end_time:obj_et});
+            };
+            model.newPlanObj.freq_times = dayArr;
+            console.log(JSON.stringify(dayArr));
         }
         model.newPlanObj.freq_num = $("planRateRig").psel().name;
         console.log(JSON.stringify(model.newPlanObj))
 
 
+    },
+    filter_weekDetail:function(str){
+        var obj = {
+            "周一":1,
+            "周二":2,
+            "周二":3,
+            "周二":4,
+            "周二":5,
+            "周六":6,
+            "周日":7,
+        };
+        return obj[str]
     },
 
 

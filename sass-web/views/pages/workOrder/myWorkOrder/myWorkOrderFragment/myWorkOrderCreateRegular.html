@@ -4,7 +4,11 @@
             <div class="textarea-div">
                 <span>我要对</span>
                 <div>
-                    <textarea onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
+                    <textarea v-model="myWorkOrderModel.singleMatters.desc_forepart" onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
+                    <div class="textareadiv"></div>
+                    <div class="textarea-prop" >
+                        <% include aite.html %>
+                    </div>
                 </div>
             </div>
             <div class="add-obj-sop-content">
@@ -18,7 +22,11 @@
             <div class="textarea-div">
                 <span>进行</span>
                 <div>
-                    <textarea onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
+                    <textarea v-model="myWorkOrderModel.singleMatters.desc_aftpart" onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
+                    <div class="textareadiv"></div>
+                    <div class="textarea-prop" >
+                        <% include hashtag.html %>
+                    </div>
                 </div>
             </div>
             <div class="add-obj-sop-content">

@@ -1,0 +1,105 @@
+<script type="text/x-template" id="tenantTemplate">
+    <li>
+        <div class="ftitle" @click="funcLiSel($event,finfo)" ftype="show" v-bind:class="{'pitch':$root.spaceDetail.tenant_type==finfo.code}">
+            <span class="arrow" v-on:click="funcArrowClick" v-bind:style="{display:isFolder?'block':'none'}">b</span>
+            <span v-text="finfo.name"></span>
+            <span class="sel">Z</span>
+        </div>
+        <ul class="fcont">
+            <tenant-point v-for="citem in finfo.content" :finfo="citem"></tenant-point>
+        </ul>
+    </li>
+</script>
+<script>
+    Vue.component('tenant-point', {
+        template: '#tenantTemplate',
+        props: ['finfo'],
+        computed: {
+            isFolder: function () {
+                return this.finfo.content && this.finfo.content.length > 0;
+            }
+        },
+        watch: {
+        },
+        methods: {
+            funcArrowClick: function (event) {
+                event.stopPropagation();
+                var $farrow = $(event.currentTarget);
+                var $ftitle = $farrow.parent(".ftitle");
+                if ($ftitle.attr('ftype') == 'show') { //展开状态
+                    $ftitle.siblings(".fcont").slideUp();
+                    $farrow.text('r');
+                    $ftitle.attr('ftype', 'close');
+                } else {
+                    $ftitle.siblings(".fcont").slideDown();
+                    $farrow.text('b');
+                    $ftitle.attr('ftype', 'show');
+                }
+            },
+            funcLiSel: function (event,fitem) {
+                event.stopPropagation();
+                var $this=$(event.currentTarget);
+                $this.parents('.contTreeList').slideUp();
+                var instance = spaceInfoModel.instance();
+                instance.spaceDetail.tenant_type=fitem.code;
+                instance.spaceDetail.tenant_type_name=fitem.name;
+            }
+        }
+    });
+
+</script>
+<script type="text/x-template" id="roomTemplate">
+    <li>
+        <div class="ftitle" @click="funcLiSel($event,finfo)" ftype="show" v-bind:class="{'pitch':$root.spaceDetail.room_func_type==finfo.code}">
+            <span class="arrow" v-on:click="funcArrowClick" v-bind:style="{display:isFolder?'block':'none'}">b</span>
+            <span v-text="finfo.name"></span>
+            <span class="sel">Z</span>
+        </div>
+        <ul class="fcont">
+            <room-point v-for="citem in finfo.content" :finfo="citem" :infoId="$root.roomFuncType"></room-point>
+        </ul>
+    </li>
+</script>
+<script>
+    Vue.component('room-point', {
+        template: '#roomTemplate',
+        props: ['finfo','infoId'],
+        computed: {
+            isFolder: function () {
+                return this.finfo.content && this.finfo.content.length > 0;
+            }
+        },
+        watch: {
+        },
+        methods: {
+            funcArrowClick: function (event) {
+                event.stopPropagation();
+                var $farrow = $(event.currentTarget);
+                var $ftitle = $farrow.parent(".ftitle");
+                if ($ftitle.attr('ftype') == 'show') { //展开状态
+                    $ftitle.siblings(".fcont").slideUp();
+                    $farrow.text('r');
+                    $ftitle.attr('ftype', 'close');
+                } else {
+                    $ftitle.siblings(".fcont").slideDown();
+                    $farrow.text('b');
+                    $ftitle.attr('ftype', 'show');
+                }
+            },
+            funcLiSel: function (event,fitem) {
+                event.stopPropagation();
+                var $this=$(event.currentTarget);
+                $this.parents('.contTreeList').slideUp();
+                var instance = spaceInfoModel.instance();
+                instance.spaceDetail.room_func_type=fitem.code;
+                instance.spaceDetail.room_func_type_name=fitem.name;
+            }
+        }
+    });
+
+</script>
+
+
+
+
+

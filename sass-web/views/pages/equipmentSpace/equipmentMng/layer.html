@@ -6,7 +6,7 @@
         height: 400px;
         border: 1px solid red;*/
     }
-
+    
     .layer .tip,
     .layer .confirm {
         position: absolute;
@@ -21,7 +21,7 @@
         box-shadow: 2px 2px 5px #d9d9d9;
         text-indent: 0;
     }
-
+    
     .layer .confirm .titlefont {
         display: block;
         margin-top: 20px;
@@ -31,7 +31,7 @@
         color: #333333;
         text-align: center;
     }
-
+    
     .layer .confirm .description {
         display: block;
         height: 16px;
@@ -40,13 +40,13 @@
         color: #6d6d6d;
         text-align: center;
     }
-
+    
     .layer .confirm .panel {
         position: relative;
         height: 68px;
         width: 100%;
     }
-
+    
     .layer .confirm .panel .sumitbtn,
     .layer .confirm .panel .cancelbtn {
         position: absolute;
@@ -56,46 +56,46 @@
         margin-top: -15px;
         left: 50%;
     }
-
+    
     .layer .confirm .panel .sumitbtn {
         margin-left: -85px;
     }
-
+    
     .layer .confirm .panel .cancelbtn {
         margin-left: 5px;
     }
-
+    
     .layer .tip .box {
         margin: 10px 20px;
         width: auto;
         height: auto;
     }
-
+    
     .layer .tip .header {
         height: 40px;
         margin-top: 26px;
         width: 100%;
     }
-
+    
     .layer .tip .column {
         height: 100%;
         width: 50%;
         line-height: 40px;
         float: left;
     }
-
+    
     .layer .tip .header .radio {
         float: left;
         height: 40px;
         width: 25px;
         padding-top: 4px;
     }
-
+    
     .layer .tip .contenter {
         width: 100%;
         height: auto;
     }
-
+    
     .layer .tip .contenter>ul {
         height: auto;
         max-height: 284px;
@@ -103,7 +103,7 @@
         overflow-y: overlay;
         /* border: 1px solid #cccccc; */
     }
-
+    
     .layer .tip .contenter>ul>li {
         width: 100%;
         height: 36px;
@@ -114,7 +114,7 @@
         border: 1px solid #cccccc;
         border-bottom: none;
     }
-
+    
     .layer .tip .contenter>ul>li>span {
         float: left;
         width: 50%;
@@ -126,30 +126,30 @@
         white-space: nowrap;
         box-sizing: border-box;
     }
-
+    
     .layer .tip .contenter>ul>li:not(.th)>span:nth-child(2n) {
         border-left: 1px solid #cccccc;
     }
-
+    
     .layer .tip .contenter>ul>.th {
         background: #8b959a;
         height: 30px;
         width: 100%;
         border-bottom: none !important;
     }
-
+    
     .layer .tip .contenter>ul>li:nth-child(2n) {
         background: #f8f8f8;
     }
-
+    
     .layer .tip .contenter>ul>li:last-child {
         border-bottom: 1px solid #cccccc;
     }
-
+    
     .layer .tip .contenter>ul>.th span {
         line-height: 30px;
     }
-
+    
     .layer .tip .contenter .label {
         display: block;
         font-size: 14px;
@@ -157,7 +157,7 @@
         width: 100%;
         line-height: 30px;
     }
-
+    
     .layer .tip .contenter .line {
         display: block;
         position: relative;
@@ -168,7 +168,7 @@
         line-height: 12px;
         color: #b0b0b0;
     }
-
+    
     .layer .tip .contenter .line::before,
     .layer .tip .contenter .line::after {
         content: " ";
@@ -178,15 +178,15 @@
         height: 1px;
         background: #dddddd;
     }
-
+    
     .layer .tip .contenter .line::before {
         left: 0;
     }
-
+    
     .layer .tip .contenter .line::after {
         right: 0;
     }
-
+    
     .layer .tip .footer {
         height: 70px;
         width: 100%;
@@ -194,11 +194,11 @@
         text-align: center;
         line-height: 70px;
     }
-
+    
     .layer .tip .footer .btn {
         display: inline-block;
     }
-
+    
     .layer .input {
         position: absolute;
         top: 7px;
@@ -208,15 +208,15 @@
         line-height: 0;
         width: 620px;
     }
-
+    
     .layer .col .input {
         height: 44px;
     }
-
+    
     .layer .error .input {
         height: 64px;
     }
-
+    
     .layer .ide,
     .layer .cancel,
     .layer .smt {
@@ -227,7 +227,7 @@
         text-align: center;
         cursor: pointer;
     }
-
+    
     .layer .ide,
     .layer .cancel {
         position: absolute;
@@ -235,7 +235,7 @@
         right: 0;
         color: #7a94ad;
     }
-
+    
     .layer .smt {
         position: absolute;
         top: 0;
@@ -318,42 +318,41 @@
     </div>
 </script>
 <script>
-
-    var layerModel = function layerModel(submitCb,cancelCb,getPoints) {
+    var layerModel = function layerModel(submitCb, cancelCb, getPoints) {
         this.left = 0;
         this.top = 0;
         this.display = 'none';
-        this.willSubmit= false; //准备提交，控制提交的再次确认框
-        this.willCancel= false;
-        this.submitCb=submitCb;
-        this.cancelCb=cancelCb;
-        this.getPoints=getPoints;
+        this.willSubmit = false; //准备提交，控制提交的再次确认框
+        this.willCancel = false;
+        this.submitCb = submitCb;
+        this.cancelCb = cancelCb;
+        this.getPoints = getPoints;
     };
 
-    layerModel.prototype.init = function (left, top) {
+    layerModel.prototype.init = function(left, top) {
         this.left = left;
         this.top = top;
         this.display = "block";
     };
 
-    layerModel.prototype.submit=function(left,top,key,value){
-        this.init(left,top);
-        this.willCancel=false;
-        this.willSubmit=true;
-        this.key=key;
-        this.value=value;
+    layerModel.prototype.submit = function(left, top, key, value) {
+        this.init(left, top);
+        this.willCancel = false;
+        this.willSubmit = true;
+        this.key = key;
+        this.value = value;
     }
 
-    layerModel.prototype.cancel=function(left,top){
-        this.init(left,top);
-        this.willSubmit=false;
-        this.willCancel=true;
+    layerModel.prototype.cancel = function(left, top) {
+        this.init(left, top);
+        this.willSubmit = false;
+        this.willCancel = true;
     }
 
 
 
     Vue.component('layer', {
-        data: function () {
+        data: function() {
             return {
                 view: new layerModel(),
                 key: '', // key
@@ -363,12 +362,15 @@
                 changeType: false, // 提交类型 true 发布新的内容的，false 修改旧的内容
                 PointHis: [],
                 _clickDateSelKey: '',
+                oldGetPoints: function() {
+
+                },
             };
         },
         template: "#layer",
         props: ['layer', 'key', 'value', 'set', 'keys'],
         computed: {
-            position: function () {
+            position: function() {
                 var _that = this,
                     // 屏幕宽高
                     clientHeight = document.body.clientHeight,
@@ -377,85 +379,61 @@
                     compareWidth = 300,
                     compareHeight = 400,
                     // 鼠标点击位置坐标
-                    x=_that.layer.left,
-                    y=_that.layer.top,
-                    style={},
-                    isLeft=true,
-                    isTop=true;
+                    x = _that.layer.left,
+                    y = _that.layer.top,
+                    style = {},
+                    isLeft = true,
+                    isTop = true;
                 // 右边有位置直接显示右边
-                isLeft=(clientWidth-x)>compareWidth;
-                isTop=(clientHeight-y)>compareHeight;
-                style[isLeft?'left':'right']=(isLeft?x:clientWidth-x) + 'px';
-                style[isTop?'top':'bottom']=(isTop?y:clientHeight-y) + 'px';
-                style.display=_that.layer.display;
+                isLeft = (clientWidth - x) > compareWidth;
+                isTop = (clientHeight - y) > compareHeight;
+                style[isLeft ? 'left' : 'right'] = (isLeft ? x : clientWidth - x) + 'px';
+                style[isTop ? 'top' : 'bottom'] = (isTop ? y : (clientHeight - y + (_that.changeType ? 148 : 388))) + 'px';
+                style.display = _that.layer.display;
 
                 return style;
             }
         },
-        beforeUpdate:function(){
-        
+        beforeUpdate: function() {
+            // 每次变化查询时间节点
+            var _that = this;
+
+            if (_that.layer.getPoints != _that.oldGetPoints) {
+                this.layer.getPoints(function(list) {
+                    _that.oldGetPoints = _that.layer.getPoints;
+                    _that.PointHis = list;
+                })
+            }
         },
-        beforeMount: function () {
+        beforeMount: function() {
 
             var _that = this;
-            
-
             // 创建日期控件
             _that._clickDateSelKey = ptool.produceId();
         },
         methods: {
-            // 显示提交确认框
-            _clickWillSubmit: function () {
-
-                // 查询历史记录判断是否可以首次直接提交
-                controllerproject.queryProjectInfoPointHis(_that.keys, function (arr) {
-
-                    _that.PointHis = arr;
-                })
-            },
-            // 显示取消确认框
-            _clickWillCancel: function () {
-
-                this.willCancel = true;
-            },
             // 修改的提交时候的窗台
-            _clickChangeType: function (bool) {
+            _clickChangeType: function(bool) {
 
                 this.changeType = bool;
             },
             // 提交修改
-            _clickSubmit: function () {
+            _clickSubmit: function() {
 
                 var _that = this;
 
                 // 获取修改时间
                 var dateVal = new Date($('#' + this._clickDateSelKey).psel().startTime).format(
                     'yyyyMMddhhssmm');
-                var res = {
-                    info_point_code: _that.keys,
-                    info_point_value: _that.newValue,
-                    valid_time: !_that.changeType ? dateVal : '', // 判断是否发布新内容
-                }
 
-                // 提交修改修改完成后的修改列表中的数据
-                controllerproject.updateProjectInfo(res, function () {
-                    _that.set(_that.keys, _that.newValue);
-
-                    // 恢复默认值
-                    _that.value = _that.newValue;
-                    _that.newValue = ''; //新的内容
-
+                _that.layer.submitCb({
+                    isNewValue: !_that.changeType ? dateVal : '',
                 });
-
-                _that.showIDE = false; //是否展示编辑框
-                _that.willSubmit = false; //准备提交，控制提交的再次确认框
-                _that.willCancel = false; // 准备取消 ,控制取消再次确认框
-                _that.changeType = false; // 提交类型 true 发布新的内容的，false 修改旧的内容
-                _that.isError = false;
+                _that._clickCancelIDE();
 
             },
             // 取消编辑
-            _clickCancelIDE: function () {
+            _clickCancelIDE: function() {
 
                 // 调用取消回调
                 this.layer.cancelCb();
@@ -463,16 +441,16 @@
                 this._clickCancelCancelIDE();
             },
             // 取消 取消编辑事件
-            _clickCancelCancelIDE: function () {
+            _clickCancelCancelIDE: function() {
 
-                this.layer.willCancel=false;
-                this.layer.display="none";
+                this.layer.willCancel = false;
+                this.layer.display = "none";
             },
         },
         watch: {
-            layer:function(){
-                
-                    console.log(arguments);
+            layer: function() {
+
+                console.log(arguments);
             }
         }
     })

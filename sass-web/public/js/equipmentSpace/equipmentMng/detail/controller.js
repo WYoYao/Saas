@@ -1,98 +1,634 @@
 var equipmentMngDeatilController = {
-    queryEquipDynamicInfo: function (equip_id) {
+    queryEquipDynamicInfo: function(equip_id) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
-            setTimeout(function () {
+            setTimeout(function() {
                 resolve([{
-                    "tag": "tag1", //标签
-                    "info_Points": [ //标签下信息点
-                        {
-                            "info_code": "信息点编码", //信息点编码,字段编码            
-                            "info_name": "信息点名称", //信息点名称  
-                            "unit": "单", //单位
-                            "data_type": "Str", //value值类型
-                            "str_value": "信息点值", //信息点值
-                            "cmpt": "组件编码", //组件编码
-                            "cmpt_data": [ //组件的数据源，用于列表选择
-                                {
-                                    "code": "code",
-                                    "name": "name"
-                                },
-                            ]
-                        }
-                    ]
-                }, {
-                    "tag": "tag2", //标签
-                    "info_Points": [ //标签下信息点
-                        {
-                            "info_code": "信息点编码2", //信息点编码,字段编码            
-                            "info_name": "信息点名称2", //信息点名称  
-                            "unit": "单", //单位
-                            "data_type": "StrArr", //value值类型
-                            "str_arr_value":[1,2,3,4,5],
-                            "str_value": 2, //信息点值
-                            "cmpt": "组件编码", //组件编码
-                            "cmpt_data": [ //组件的数据源，用于列表选择
-                                {
-                                    "code": "code",
-                                    "name": "name"
-                                },
-                            ]
-                        }
-                    ]
-                }, {
-                    "tag": "tag3", //标签
-                    "info_Points": [ //标签下信息点
-                        {
-                            "info_code": "信息点编码3", //信息点编码,字段编码            
-                            "info_name": "信息点名称3", //信息点名称  
-                            "unit": "单", //单位
-                            "data_type": "Str", //value值类型
-                            "str_value": "信息点值", //信息点值
-                            "cmpt": "组件编码", //组件编码
-                            "cmpt_data": [ //组件的数据源，用于列表选择
-                                {
-                                    "code": "code",
-                                    "name": "name"
-                                },
-                            ]
-                        }
-                    ]
-                }])
+                        "info_Points": [{
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "DesignEvapWaterInTemp",
+                                "info_name": "设计蒸发器入 口水温",
+                                "str_value": "1",
+                                "unit": "℃"
+                            }, {
+                                "cmpt": "SD11",
+                                "cmpt_data": [{
+                                        "code": "1",
+                                        "name": "220V"
+                                    },
+                                    {
+                                        "code": "2",
+                                        "name": "380V"
+                                    },
+                                    {
+                                        "code": "3",
+                                        "name": "10kV"
+                                    },
+                                    {
+                                        "code": "4 ",
+                                        "name": "其他"
+                                    }
+                                ],
+                                "data_type": "Str",
+                                "info_code": "PowerType",
+                                "info_name": "电源类型",
+                                "str_value": "1",
+                                "unit": ""
+                            }, {
+                                "cmpt": "SD12",
+                                "cmpt_data": [{
+                                        "code": "1",
+                                        "name": "220V"
+                                    },
+                                    {
+                                        "code": "2",
+                                        "name": "380V"
+                                    },
+                                    {
+                                        "code": "3",
+                                        "name": "10kV"
+                                    },
+                                    {
+                                        "code": "4 ",
+                                        "name": "其他"
+                                    }
+                                ],
+                                "data_type": "Str",
+                                "info_code": "PowerType",
+                                "info_name": "电源类型",
+                                "str_value": ['1', '3'],
+                                "unit": ""
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "DesignEvapWaterOutTemp",
+                                "info_name": "设计蒸发器出口水温",
+                                "str_value": "2",
+                                "unit": "℃"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmp t_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "DesignChillWaterFlow",
+                                "info_name": "额定蒸发器冷冻水流量",
+                                "str_value": "1",
+                                "unit": "m3/h"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "EvapWaterH eatTransArea",
+                                "info_name": "蒸发器水侧换热面积",
+                                "str_value": "2",
+                                "unit": "m2"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedEvapTemp",
+                                "info_name": "额定蒸发温度",
+                                "str_value": "2",
+                                "unit": "℃"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedEvapPress",
+                                "info_name": "额定蒸发压力",
+                                "str_value": "1",
+                                "unit": "MPa"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "E vapPunctureTestPress",
+                                "info_name": "蒸发器耐压试验压力",
+                                "str_value": "2",
+                                "unit": "MPa"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "EvapMaxAllowPress",
+                                "info_name": "蒸发器最高允许工作压力",
+                                "str_value": "1",
+                                "unit": "MPa"
+                            }
+                        ],
+                        "tag": "蒸发器"
+                    },
+                    {
+                        "info_Points": [{
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "CompressStage",
+                                "info_name": "压缩级数",
+                                "str_value": "2",
+                                "unit": "级"
+                            },
+                            {
+                                "cmpt": " SD1",
+                                "cmpt_data": [{
+                                        "code": "1",
+                                        "name": "角转子"
+                                    },
+                                    {
+                                        "code": "2",
+                                        "name": "酶标转子"
+                                    },
+                                    {
+                                        "code": "3",
+                                        "name": "间歇转子"
+                                    },
+                                    {
+                                        "code": "4",
+                                        "name": "水平转子"
+                                    },
+                                    {
+                                        "code": "5",
+                                        "name": "连续流转子"
+                                    },
+                                    {
+                                        "code": "6",
+                                        "name": "其他"
+                                    }
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RotorType",
+                                "info_name": "转子类型",
+                                "str_value": "1",
+                                "unit": ""
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "MaxRPM",
+                                "info_name": "最大转速",
+                                "str_value": "",
+                                "unit": "r/min"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "MaxCentrifugalF",
+                                "info_name": "最大离心力",
+                                "str_value": "",
+                                "unit": "N"
+                            }
+                        ],
+                        "tag": "压缩机"
+                    },
+                    {
+                        "info_Points": [{
+                                "cmpt": "SD1",
+                                "cmpt_da ta": [{
+                                        "code": "1",
+                                        "name": "手动膨胀阀"
+                                    },
+                                    {
+                                        "code": "2",
+                                        "name": "热力膨胀阀"
+                                    },
+                                    {
+                                        "code": "3",
+                                        "name": "电子膨胀阀"
+                                    },
+                                    {
+                                        "code": "4",
+                                        "name": "浮球节流阀"
+                                    },
+                                    {
+                                        "code": "5",
+                                        "name": "节流孔板"
+                                    },
+                                    {
+                                        "code": "6",
+                                        "name": "毛细管"
+                                    },
+                                    {
+                                        " code": "7",
+                                        "name": "其他"
+                                    }
+                                ],
+                                "data_type": "Str",
+                                "info_code": "ValveType",
+                                "info_name": "节流阀种类",
+                                "str_value": "2",
+                                "unit": ""
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "ThrottleStage",
+                                "info _name": "节流级数",
+                                "str_value": "",
+                                "unit": "级"
+                            }
+                        ],
+                        "tag": "节流元件"
+                    },
+                    {
+                        "info_Points": [{
+                                "cmpt": "SD1",
+                                "cmpt_data": [{
+                                        "code": "1",
+                                        "name": "220V"
+                                    },
+                                    {
+                                        "code": "2",
+                                        "name": "380V"
+                                    },
+                                    {
+                                        "code": "3",
+                                        "name": "10kV"
+                                    },
+                                    {
+                                        "code": "4 ",
+                                        "name": "其他"
+                                    }
+                                ],
+                                "data_type": "Str",
+                                "info_code": "PowerType",
+                                "info_name": "电源类型",
+                                "str_value": "",
+                                "unit": ""
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "PowerFreq",
+                                "info_name": "电源频 率",
+                                "str_value": "",
+                                "unit": "Hz"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedU",
+                                "info_name": "额定电压",
+                                "str_value": "",
+                                "unit": "V"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "inf o_code": "RatedI",
+                                "info_name": "额定电流",
+                                "str_value": "",
+                                "unit": "A"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedP",
+                                "info_name": "额定功率",
+                                "str_value": "",
+                                "unit": "kW"
+                            },
+                            {
+                                "cmpt": "A1",
+                                " cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedCool",
+                                "info_name": "额定制冷量",
+                                "str_value": "",
+                                "unit": "kW"
+                            },
+                            {
+                                "cmpt": "cs0001",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedCOP",
+                                "info_name": "额定 COP",
+                                "str_value": "",
+                                "unit": ""
+                            },
+                            {
+                                "cmpt": "SD1",
+                                "cmpt_data": [{
+                                        "code": "1",
+                                        "name": "R134a"
+                                    },
+                                    {
+                                        "code": "2",
+                                        "name": "R125"
+                                    },
+                                    {
+                                        "code": "3",
+                                        "name": "R32"
+                                    },
+                                    {
+                                        "code": "4",
+                                        "name": "R143a"
+                                    },
+                                    {
+                                        "code": "5",
+                                        "name": "R22"
+                                    },
+                                    {
+                                        "code ": "6",
+                                        "name": "R717(NH3)"
+                                    },
+                                    {
+                                        "code": "7",
+                                        "name": "R744(CO2)"
+                                    },
+                                    {
+                                        "code": "8",
+                                        "name": "其他"
+                                    }
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RefrigerantType",
+                                "info_name": "制冷剂类型",
+                                "str_value": "",
+                                "unit": ""
+                            },
+                            {
+                                "cmpt": "A1",
+                                " cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RefrigerantCharge",
+                                "info_name": "制冷剂充注量",
+                                "str_value": "",
+                                "unit": "kg"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedRefrigerantFlow",
+                                "info_name": "额定制冷剂循环流量",
+                                "str_value": "",
+                                "unit": "m3/h"
+                            },
+                            {
+                                "att_value": [
+
+                                ],
+                                "cmpt": "",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Att",
+                                "info_code": "RatedRefrigerateCycle",
+                                "info_name": "额定工况制冷循环图",
+                                "unit": ""
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedLubeTemp",
+                                "info_name": "额定油温",
+                                "str_value": "",
+                                "unit": "℃"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "LubeCap",
+                                "i nfo_name": "额定油量",
+                                "str_value": "",
+                                "unit": "L"
+                            },
+                            {
+                                "cmpt": "",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "WorkTempRange",
+                                "info_name": "工作温度范围",
+                                "str_value": "",
+                                "unit": "℃"
+                            },
+                            {
+                                "cmpt": "",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "WorkRHRange",
+                                "info_name": "工作湿度范围",
+                                "str_value": "",
+                                "unit": "%RH"
+                            },
+                            {
+                                "cmpt": "SD1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "IPGrade",
+                                "info_name": "防护等级",
+                                "str_ value": "",
+                                "unit": ""
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "Noise",
+                                "info_name": "噪声",
+                                "str_value": "",
+                                "unit": "dB"
+                            }
+                        ],
+                        "tag": "整机"
+                    },
+                    {
+                        "info_Points": [{
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_ type": "Str",
+                                "info_code": "DesignCondWaterInTemp",
+                                "info_name": "设计冷凝器入口水温",
+                                "str_value": "",
+                                "unit": "℃"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "DesignCondWaterOutTemp",
+                                "info_n ame": "设计冷凝器出口水温",
+                                "str_value": "",
+                                "unit": "℃"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "DesignCoolWaterFlow",
+                                "info_name": "额定冷凝器冷却水流量",
+                                "str_value": "",
+                                "unit": "m3/h"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "CondWaterHeatTransArea",
+                                "info_name": "冷凝器水侧换热面积",
+                                "str_value": "",
+                                "unit": "m2"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_cod e": "RatedCondTemp",
+                                "info_name": "额定冷凝温度",
+                                "str_value": "",
+                                "unit": "℃"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "RatedCondPress",
+                                "info_name": "额定冷凝压力",
+                                "str_value": "",
+                                "unit": " MPa"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_code": "CondPressTestPress",
+                                "info_name": "冷凝器耐压试验压力",
+                                "str_value": "",
+                                "unit": "MPa"
+                            },
+                            {
+                                "cmpt": "A1",
+                                "cmpt_data": [
+
+                                ],
+                                "data_type": "Str",
+                                "info_ code": "CondMaxAllowPress",
+                                "info_name": "冷凝器最高允许工作压力",
+                                "str_value": "",
+                                "unit": "MPa"
+                            }
+                        ],
+                        "tag": "冷凝器"
+                    }
+                ])
             }, 200);
         })
 
-        return new Promise(function (resolve, reject) {
+        // return new Promise(function(resolve, reject) {
 
-            pajax.post({
-                url: 'restEquipService/queryEquipDynamicInfo',
-                data: {
-                    equip_id: equip_id
-                },
-                success: function (data) {
-                    if (!Object.keys(data).length) {
-                        resolve(data);
-                    } else {
-                        reject(data);
-                    }
-                },
-                error: function () {
-                    reject(err);
-                },
-                complete: function () {
+        //     pajax.post({
+        //         url: 'restEquipService/queryEquipDynamicInfo',
+        //         data: {
+        //             equip_id: equip_id
+        //         },
+        //         success: function(data) {
+        //             if (!Object.keys(data).length) {
+        //                 resolve(data);
+        //             } else {
+        //                 reject(data);
+        //             }
+        //         },
+        //         error: function() {
+        //             reject(err);
+        //         },
+        //         complete: function() {
 
-                },
-            });
-        })
+        //         },
+        //     });
+        // })
     },
     //设备管理-详细页:查询设备通用信息
-    queryEquipPublicInfo: function (equip_id) {
+    queryEquipPublicInfo: function(equip_id) {
 
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
-            setTimeout(function () {
+            setTimeout(function() {
                 // 值为空的时候
                 // resolve(new EquipPublicInfo())
 
@@ -218,24 +754,24 @@ var equipmentMngDeatilController = {
         })
 
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             pajax.post({
                 url: 'restEquipService/queryEquipPublicInfo',
                 data: {
                     equip_id: equip_id
                 },
-                success: function (data) {
+                success: function(data) {
                     if (!Object.keys(data).length) {
                         resolve(data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject(err);
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });
@@ -243,12 +779,12 @@ var equipmentMngDeatilController = {
 
     },
     //设备管理-详细页:查询设备名片信息
-    queryEquipCardInfo: function () {
+    queryEquipCardInfo: function() {
 
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
-            setTimeout(function () {
+            setTimeout(function() {
 
                 resolve({
                     "equip_id": "equip_id", //设备id,
@@ -288,34 +824,34 @@ var equipmentMngDeatilController = {
 
         })
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             pajax.post({
                 url: 'restEquipService/queryEquipCardInfo',
                 data: {
                     equip_id: equip_id
                 },
-                success: function (data) {
+                success: function(data) {
                     if (!Object.keys(data).length) {
                         resolve(data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject(err);
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });
         })
     },
     // 查询工单类型
-    queryWorkOrderState: function () {
+    queryWorkOrderState: function() {
 
-        return new Promise(function (resolve, reject) {
-            setTimeout(function () {
+        return new Promise(function(resolve, reject) {
+            setTimeout(function() {
                 resolve({
                     "data": [{
                             "code": "1",
@@ -353,24 +889,24 @@ var equipmentMngDeatilController = {
         })
 
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             pajax.post({
                 url: 'restGeneralDictService/queryWorkOrderState',
                 data: {
                     "dict_type": "work_order_state"
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data.data) {
                         resolve(data.data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject(err);
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });
@@ -378,11 +914,11 @@ var equipmentMngDeatilController = {
         })
     },
     //设备管理-详细页:查询设备相关的工单
-    queryEquipRelWorkOrder: function (argu) {
+    queryEquipRelWorkOrder: function(argu) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
-            setTimeout(function () {
+            setTimeout(function() {
 
                 resolve(_.range(50).map((item, index) => {
 
@@ -402,34 +938,34 @@ var equipmentMngDeatilController = {
         })
 
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
 
             pajax.post({
                 url: 'restEquipService/queryEquipRelWorkOrder',
                 data: argu,
-                success: function (data) {
+                success: function(data) {
                     if (data.data) {
                         resolve(data.data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject(err);
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });
         })
     },
     // 对象选择:查询设备实例:查询建筑-楼层-空间列表树 (**安装位置**)
-    queryBuildFloorSpaceTree: function (build_id) {
+    queryBuildFloorSpaceTree: function(build_id) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
-            setTimeout(function () {
+            setTimeout(function() {
                 resolve({
                     "data": [{
                             "obj_id": "Bd1301020001003",
@@ -1065,24 +1601,24 @@ var equipmentMngDeatilController = {
             }, 200);
         })
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             pajax.post({
                 url: 'restObjectService/queryBuildFloorSpaceTree',
                 data: {
                     build_id: build_id
                 },
-                success: function (data) {
+                success: function(data) {
                     if (data.data) {
                         resolve(data.data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject(err);
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });
@@ -1090,35 +1626,35 @@ var equipmentMngDeatilController = {
         })
     },
     // 对象选择:查询设备实例-系统专业下所有系统 (**所属系统**)
-    querySystemForSystemDomain: function () {
+    querySystemForSystemDomain: function() {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             pajax.post({
                 url: 'restObjectService/querySystemForSystemDomain',
                 data: {},
-                success: function (data) {
+                success: function(data) {
                     if (data.data) {
                         resolve(data.data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject(err);
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });
         })
     },
     //设备管理-新增页:查询专业-系统类型-设备类型 (** 所属系统 下拉菜单 **) 第二级
-    queryAllEquipCategory: function () {
+    queryAllEquipCategory: function() {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
-            setTimeout(function () {
+            setTimeout(function() {
                 resolve({
                     "data": [{
                             "code": "AC",
@@ -2274,32 +2810,32 @@ var equipmentMngDeatilController = {
         })
 
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             pajax.post({
                 url: 'restDictService/queryAllEquipCategory',
                 data: {},
-                success: function (data) {
+                success: function(data) {
                     if (data.data) {
                         resolve(data.data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject(err);
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });
         })
     },
     //设备管理-详细页:编辑设备信息
-    updateEquipInfo: function (argu, type) {
+    updateEquipInfo: function(argu, type) {
 
-        return new Promise(function (resolve) {
-            setTimeout(function () {
+        return new Promise(function(resolve) {
+            setTimeout(function() {
                 resolve();
             }, 200);
         })
@@ -2308,33 +2844,33 @@ var equipmentMngDeatilController = {
          * argu 接口调用的参数
          * type 请求类型， false 普通提交 true 上传文本
          */
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             pajax[type ? 'updateBeforeWithFile' : 'post']({
                 url: 'restEquipService/updateEquipInfo',
                 data: argu,
-                success: function (data) {
+                success: function(data) {
                     if (!Object.keys(data).length) {
                         resolve(data.data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject();
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });
         })
     },
     //设备管理-新增页:设备通讯录选择：供应商、生产厂家、维修商、保险公司
-    queryEquipCompanySel: function (type) {
+    queryEquipCompanySel: function(type) {
 
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
-            setTimeout(function () {
+            setTimeout(function() {
 
                 if (type == 2) {
 
@@ -2668,24 +3204,24 @@ var equipmentMngDeatilController = {
          * argu 接口调用的参数
          * type 请求类型， false 普通提交 true 上传文本
          */
-        return new Promise(function (resolve, reject) {
+        return new Promise(function(resolve, reject) {
 
             pajax.post({
                 url: 'restEquipCompanyService/queryEquipCompanySel',
                 data: {
                     company_type: new String(type)
                 },
-                success: function (data) {
+                success: function(data) {
                     if ((data.data).length) {
                         resolve(data.data);
                     } else {
                         reject(data);
                     }
                 },
-                error: function () {
+                error: function() {
                     reject();
                 },
-                complete: function () {
+                complete: function() {
 
                 },
             });

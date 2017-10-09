@@ -50,7 +50,7 @@ v.pushComponent({
         currentSystemSelector: new SystemSelector(), // 查询当前专业实例的
         EquipStatisticCount: new EquipStatisticCount(), // 设备数量
         onTab: 'equip_total', // 当前显示的块
-        onPage: 'detail', // list 列表 detail // 详情
+        onPage: 'list', // list 列表 detail // 详情
         listHeight: {}, // 行号的类型
         Scrapped: {}, // 准备报废的设备
     },
@@ -90,6 +90,15 @@ v.pushComponent({
         }
     },
     methods: {
+        // 跳转到详情页
+        _clickIntoDeatil: function(item) {
+
+            v.initPage('equipmentMngDeatil', { equip_id: item.equip_id });
+
+            this.onPage = 'detail';
+
+            console.log(item);
+        },
         // 文字搜索
         _clearSearch: function() {
             $("#searchBtn").precover();
