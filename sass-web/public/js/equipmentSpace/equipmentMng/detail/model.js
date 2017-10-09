@@ -148,6 +148,7 @@ var CardInfo = function() {
     }
 
 
+
     function querySearchNameByKey(key) {
 
         var SearchName = {
@@ -632,21 +633,103 @@ var CardInfo = function() {
 
                 return "";
             },
+            //技术信息点下对号按钮点击事件
+            _clickIfmsSubmit: function() {
+
+            },
+            //技术信息点下叉号按钮点击事件
+            _clickIfmsCancel: function() {
+
+            },
             // 编辑状态下的对号按钮点击事件
             _clickSubmit: function(event, key) {
                 var _that = this,
-                    submitCb, getPoints;
+                    submitCb, getPoints, arr;
 
                 // 获取信息节点的方法
                 getPoints = equipmentMngDeatilController.queryEquipInfoPointHis.bind(null, _that.equip_id, key);
 
                 // 选择提交时候的需要的调用的回调方法
-                submitCb = equipmentMngDeatilController.updateEquipInfo.bind(null, {
-                    equip_id: _that.equip_id,
-                    info_point_code: key,
-                    // info_point_value:
-                });
+                // 如果的是下拉菜单需要查询对应的集合
+                var type = querycontroTypeByKey(key);
+                if (type == 1) {
+                    arr = _that.getSettByKey(key);
+                } else {
+                    arr = [{ key: key }];
+                }
 
+                submitCb = function(isNewValue) {
+                    arr.map(function(item) {
+                            item.idetype = 1;
+                            return item;
+                        })
+                        //执行发送
+                        .map(_that.getReqByKey)
+                        .forEach(function(req) {
+
+                            // 文件上传的参数需要根据数据格式做处理
+                            if (type == '2' || type == '3') {
+                                var pl = _that.EquipInfo[key];
+                                // 文件上传格式为Obj 类型的数组
+                                var objArr = ['drawing', 'check_report', 'archive', 'insurance_file']
+
+                                var strArr = ['picture', 'nameplate'];
+                                if (objArr.indexOf(key) != -1) {
+                                    reqs = req.attachments.map(function(info) {
+                                        // 不是新图片
+                                        if (!info.isNewFile) {
+                                            return _that.filterItemByKeyValue(_that.EquipInfo[key], 'key', info.path)
+                                        } else {
+                                            info.toPro = "key";
+                                            return {
+                                                "type": "2",
+                                                "name": info.fileName,
+                                                "key": info.path,
+                                                "attachments": info,
+                                            }
+                                        }
+                                    })
+
+                                    // 将对应的图片集合转换成为修改方法的参数
+                                    req = {
+                                        info_point_code: key,
+                                        info_point_value: reqs,
+                                        equip_id: _that.equip_id,
+                                    }
+
+                                } else if (strArr.indexOf(key) != -1) {
+
+                                    reqs = req.attachments.map(function(x) {
+                                        x.toPro = 'info_point_value';
+                                        return x;
+                                    });
+
+                                    req = {
+                                        info_point_code: key,
+                                        info_point_value: '',
+                                        equip_id: _that.equip_id,
+                                        attachments: reqs,
+                                    }
+                                }
+
+                            }
+
+
+                            req.valid_time = isNewValue.isNewValue ? isNewValue.isNewValue : "";
+
+
+                            equipmentMngDeatilController.updateEquipInfo(req, (type == 2 || type == 3))
+                                .then(function() {
+
+                                    _that.EquipInfo[key] = req.info_point_value;
+                                    _that.view.ide[key] = !_that.view.ide[key];
+                                    _that._clickStartChange(key);
+                                })
+
+                        })
+
+
+                };
 
                 // 显示提交弹窗
                 _that.submitTip(event, submitCb, getPoints);
@@ -693,7 +776,7 @@ var CardInfo = function() {
 
                     var pics = _that.EquipInfo[key] || [];
                     // 给需要绑定值的上传控件绑定对应的内容
-                    $("#ideid_" + key).psel(pics.map(function(url) {
+                    $("#ideid_" + key).pval(pics.map(function(url) {
                         return {
                             url: url,
                         }
@@ -704,7 +787,7 @@ var CardInfo = function() {
                     // 给需要绑定值的上传控件绑定对应的内容
                     var pics = _that.EquipInfo[key] || [];
 
-                    $("#ideid_" + key).psel(pics.map(function(item) {
+                    $("#ideid_" + key).pval(pics.map(function(item) {
                         return {
                             name: item.name,
                             url: item.type == 1 ? item.url : item.key,
@@ -798,7 +881,7 @@ var CardInfo = function() {
              *      SearchKey: '', //  下滑栏菜单的查询的查询的时候的需要选择的对应的 key 值
              *  }
              */
-            convert2ide: function(item) {
+            getReqByKey: function(item) {
                 var el = $((item.idetype ? "#ideid_" : "#addid_") + item.key),
                     type = querycontroTypeByKey([item.key]),
                     key = item.key,
@@ -806,7 +889,6 @@ var CardInfo = function() {
                     SearchKey = querySearchNameByKey(item.key).SearchKey || void 0,
                     value,
                     req = {};
-
 
                 if (type == 0) {
                     // 文本
@@ -852,6 +934,13 @@ var CardInfo = function() {
 
                     console.log('当前位置暂不确定')
                 }
+
+                return req;
+            },
+            convert2ide: function(item) {
+                var req = {};
+
+                req = this.getReqByKey(item);
 
                 if (!req.info_point_value && req.attachments && !req.attachments.lenght) {
                     return function() {
@@ -914,26 +1003,29 @@ var CardInfo = function() {
                     })
                 });
             },
+            // 根据key 值查询的对应的下拉菜单的配置信息
+            getSettByKey: function(key) {
+
+                // 如果传入的参数是一个对应的数组，则全部进行查询，同时返回的对应的数组
+                if (_.isArray(key)) {
+
+                    // 返回对应的数组集合
+                    return key.map(function(name) {
+
+                        return Object.assign({}, querySearchNameByKey(name), { key: name, })
+                    })
+
+                } else {
+
+                    // 当传入的值的为单个的值的时候，同时也返回的对应的数组
+                    return [Object.assign({}, querySearchNameByKey(key), { key: key, })];
+
+                }
+            },
             // 添加保险信息
             _clickAddinsurance: function() {
 
-                var insuranceArr = [{
-                        key: 'insurer',
-                        list: v.instance.insurerList,
-                        SearchKey: 'company_name',
-                    },
-                    {
-                        key: 'insurer_num',
-                        list: v.instance.insurer_infos,
-                        SearchKey: 'insurer_num',
-                    }
-                ]
-
-                // var insuranceArr=[{{
-                //     key: 'insurer',
-                //     list: v.instance.insurerList,
-                //     SearchKey: 'company_name',
-                // }}]
+                var insuranceArr = getSettByKey['insurer', 'insurer_num'];
 
                 this.someSend(insuranceArr);
             },
@@ -941,10 +1033,6 @@ var CardInfo = function() {
             _clickAddbuy: function() {
 
                 var buyArr = [{
-                        key: 'supplier',
-                        list: v.instance.supplierList,
-                        SearchKey: 'company_name',
-                    }, {
                         key: 'contract_id'
                     },
                     {
@@ -953,7 +1041,7 @@ var CardInfo = function() {
                     {
                         key: 'purchase_price'
                     }
-                ];
+                ].concat(getSettByKey('supplier'));
 
                 this.someSend(buyArr);
             },
@@ -961,16 +1049,6 @@ var CardInfo = function() {
             _clickAddfactory: function() {
 
                 var factoryArr = [{
-                        key: 'manufacturer',
-                        list: v.instance.manufacturerList,
-                        SearchKey: 'company_name',
-                    },
-                    {
-                        key: 'brand',
-                        list: v.instance.brands,
-                        SearchKey: 'name',
-                    },
-                    {
                         key: 'product_date'
                     },
                     {
@@ -979,7 +1057,7 @@ var CardInfo = function() {
                     {
                         key: 'specification'
                     }
-                ];
+                ].concat(getSettByKey(['manufacturer', 'brand']));
 
                 this.someSend(factoryArr);
             },
@@ -1006,16 +1084,8 @@ var CardInfo = function() {
                     },
                     {
                         key: 'maintain_cycle'
-                    }, {
-                        key: 'maintainer',
-                        list: v.instance.maintainerList,
-                        SearchKey: 'company_name',
-                    }, {
-                        key: 'status',
-                        list: v.instance.statusList,
-                        SearchKey: 'name',
                     }
-                ];
+                ].concat(getSettByKey(['maintainer', 'status']));
 
                 this.someSend(maintenanceArr);
             },
@@ -1298,7 +1368,7 @@ var CardInfo = function() {
 
                         item.info_Points = item.info_Points.map(function(info) {
 
-                            info.isShow = true;
+                            info.isShow = false;
                             /**
                              * type 0 普通字符串 文本框
                              *      1 普通下拉选择框

@@ -651,17 +651,17 @@ var equipmentMngDeatilController = {
                         {
                             "type": "1",
                             "name": "设备图纸1",
-                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         }, //附件类型，1-url，2-附件 {
                         {
                             "type": "1",
                             "name": "设备图纸2",
-                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         },
                         {
                             "type": "2",
                             "name": "设备图纸3",
-                            "key": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "key": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         }
                     ],
                     "picture": ['http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88', 'http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88'], //设备照片
@@ -669,17 +669,17 @@ var equipmentMngDeatilController = {
                         {
                             "type": "1",
                             "name": "质检报告1",
-                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         }, //附件类型，1-url，2-附件 {
                         {
                             "type": "1",
                             "name": "质检报告2",
-                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         },
                         {
                             "type": "2",
                             "name": "质检报告3",
-                            "key": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "key": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         }
                     ],
                     "nameplate": ['http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88', 'http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88'], //铭牌照片
@@ -687,17 +687,17 @@ var equipmentMngDeatilController = {
                         {
                             "type": "1",
                             "name": "设备文档1",
-                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         }, //附件类型，1-url，2-附件 {
                         {
                             "type": "1",
                             "name": "设备文档2",
-                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "url": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         },
                         {
                             "type": "2",
                             "name": "设备文档3",
-                            "key": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88"
+                            "key": "http://note.youdao.com/yws/api/personal/file/09650DA734FC4E4CA020C7C1096CC516?method=download&shareKey=afbe47e4d5d9c9db533e34e5c8c7af88?ft=1"
                         }
                     ],
                     "manufacturer": "生产厂家3", //生产厂家
@@ -2851,7 +2851,7 @@ var equipmentMngDeatilController = {
                 data: argu,
                 success: function(data) {
                     if (!Object.keys(data).length) {
-                        resolve(data.data);
+                        resolve(argu);
                     } else {
                         reject(data);
                     }
@@ -3231,6 +3231,17 @@ var equipmentMngDeatilController = {
     },
     //设备管理-详细页:查询设备信息点的历史信息
     queryEquipInfoPointHis: function(equip_id, info_point_code, cb) {
+
+        setTimeout(function() {
+            console.log('测试数据生产环境的需要')
+            cb([
+                { "date": 20151020100000, "value": "操作1" },
+                { "date": 20161020100000, "value": "操作2" },
+                { "date": 20171020100000, "value": "操作3" }
+            ])
+        }, 200);
+
+        return;
 
         pajax.post({
             url: 'restEquipService/queryEquipInfoPointHis',
