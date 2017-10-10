@@ -46,7 +46,7 @@
                         </div>
                     </div>
                     <div class="eachItem leftItem">
-                        <div class="name"><span><em>*</em>安装位置</span><span class="add" @click='_ClickAddBlock()'>+添加新位置</span></div>
+                        <div class="name"><span><em>*</em>安装位置</span><span class="add" @click='_ClickAddBlock("postion")'>+添加新位置</span></div>
                         <div class="cont">
                             <div class="per-combobox-title treeCombox" @click='iv.build_id=!iv.build_id;'>
                                 <span class="per-combobox_name">{{ insertModel.build_name || '请选择安装位置'}}</span>
@@ -59,10 +59,9 @@
                                 </ptree-normal>
                             </div>
                         </div>
-
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>所属系统</span><span class="add">+添加新系统</span></div>
+                        <div class="name"><span>所属系统</span><span class="add" @click='_ClickAddBlock("system")'>+添加新系统</span></div>
                         <div class="cont">
                             <div class="cont">
                                 <div class="per-combobox-title treeCombox" @click='insertModel.build_id?iv.system_id=!iv.system_id:void 0;'>
@@ -193,7 +192,7 @@
                     <div class="header">厂家</div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>生产厂家</span><span class="add">+添加新厂家</span></div>
+                        <div class="name"><span>生产厂家</span><span class="add" @click='_ClickAddBlock("factory")'>+添加新厂家</span></div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_manufacturer_id'" sel='cmbx_manufacturer_id' bind='true'>
                                 <header placeholder="请选择生产厂家"></header>
@@ -202,7 +201,7 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>设备品牌</span><span class="add">+添加新品牌</span></div>
+                        <div class="name"><span>设备品牌</span><span class="add" @click='_ClickAddBlock("brand")'>+添加新品牌</span></div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_brand'"  sel='cmbx_brand' bind='true'>
                                 <header placeholder="请选择设备品牌"></header>
@@ -243,7 +242,7 @@
                     <div class="header">供应&购买</div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>供应商名称</span><span class="add">+添加新供应商</span></div>
+                        <div class="name"><span>供应商名称</span><span class="add" @click='_ClickAddBlock("buy")'>+添加新供应商</span></div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_supplier_id'" sel='cmbx_supplier_id' bind='true'>
                                 <header placeholder="请选择供应商"></header>
@@ -339,7 +338,7 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>维修商名称</span><span class="add">+添加新维修商</span></div>
+                        <div class="name"><span>维修商名称</span><span class="add" @click='_ClickAddBlock("service")'>+添加新维修商</span></div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_maintainer_id'" sel='cmbx_maintainer_id' bind='true'>
                                 <header placeholder="请选择供应商"></header>
@@ -364,7 +363,7 @@
                     <div class="header">保险</div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>保险公司名称</span><span class="add">+添加新保险公司</span></div>
+                        <div class="name"><span>保险公司名称</span><span class="add" @click='_ClickAddBlock("insurance")'>+添加新保险公司</span></div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_insurer_id'" sel='cmbx_insurer_id' bind='true'>
                                 <header placeholder="请选择保险公司"></header>
@@ -373,7 +372,7 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>保险单号</span><span class="add">+添加新保险单号</span></div>
+                        <div class="name"><span>保险单号</span><span class="add" @click='_ClickAddBlock("Insurance_num")'>+添加新保险单号</span></div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_insurer_num'" sel='cmbx_insurer_num' bind='true'>
                                 <header placeholder="请选择保险单号"></header>

@@ -196,32 +196,32 @@
                     });
             },
             // 新建位置
-            _ClickAddPostion:function(name){
+            _ClickAddBlock:function(name){
 
                 var Enum={
                     postion:{ // 位置
-                       
+                       title:'添加新位置'
                     },
                     system:{ // 系统
-
+                        title:'添加新系统'
                     },
                     factory:{ // 厂家
-
+                        title:'添加新厂家'
                     },
                     brand:{ // 品牌
-
+                        title:'添加新品牌'
                     },
                     buy:{ // 供应商
-
+                        title:'添加新供应商'
                     },
                     service:{ // 维修商
-
+                        title:'添加新维修商'
                     },
                     insurance:{ // 保险公司
-
+                        title:'添加新保险公司'
                     },
                     Insurance_num:{ // 保险单号
-
+                        title:'添加新保险单号'
                     }
 
                 }

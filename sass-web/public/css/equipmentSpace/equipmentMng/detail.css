@@ -418,3 +418,94 @@
     top: 0;
     right: 0;
 }
+
+.fW {
+    margin: 0 20px;
+    height: 100%;
+}
+
+.fW .htxt{
+    color: #0094C2;
+    font-size: 14px;
+    line-height: 40px;
+    text-align: left;
+}
+
+.fW .contenter{
+    height: 600px;
+    margin-left: 20px;
+    overflow-y: auto;
+}
+
+.fW .moduleItem {
+    padding-bottom: 20px;
+}
+
+.fW .moduleItem:after {
+    content: '';
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
+
+.fW .moduleItem .header {
+    height: 30px;
+    color: #aaaaaa;
+    font-size: 16px;
+    border-bottom: 1px dashed #e6e6e6;
+    margin-bottom: 18px;
+}
+
+.fW .moduleItem .eachItem {
+    margin-bottom: 30px;
+}
+
+.fW .moduleItem .eachItem.leftItem {
+    width: 270px;
+    float: left;
+    clear: both;
+}
+
+.fW .moduleItem .eachItem.rightItem {
+    width: 270px;
+    float: right;
+}
+
+.fW .moduleItem .eachItem.lineItem {
+    width: 570px;
+    clear: both;
+}
+
+.fW .moduleItem .eachItem .name {
+    margin-bottom: 8px;
+}
+
+.fW .moduleItem .eachItem .name span {
+    position: relative;
+    color: #666666;
+}
+
+.fW .moduleItem .eachItem .name .add{
+    float: right;
+    color: #7a94ad;
+    cursor: pointer;
+}
+
+.fW .moduleItem .eachItem .name em {
+    position: absolute;
+    left: -14px;
+    top: 3px;
+    font-size: 20px;
+    color: #4aab9a;
+    line-height: 1;
+}
+
+.fW .moduleItem .eachItem .cont {
+    min-height: 30px;
+    position: relative;
+}
+
+.fW .txtct{
+    text-align: center;
+}
