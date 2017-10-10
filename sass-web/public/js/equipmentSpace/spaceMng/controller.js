@@ -52,10 +52,12 @@ spaceInfoController.queryFloorWithOrder = function (sign, buildItem) { //查询�
             data = res.data || [];
             if (sign == 'floor') {
                 instance.allFloorInfo = data;
+                setTimeout(function () {
+                    scrollFloor();
+                }, 0);
             } else {//空间里面的楼层数据
                 instance.spaceFloorArr = data;
             }
-
         },
         error: function (errObj) {
             console.error('queryFloorWithOrder err');
@@ -67,21 +69,6 @@ spaceInfoController.queryFloorWithOrder = function (sign, buildItem) { //查询�
 }
 spaceInfoController.queryFloorById = function (fitem) { //根据id查询楼层详细信息
     var instance = spaceInfoModel.instance();
-    //instance.floorDetail = {
-    //    "floor_id": "666",
-    //    "floor_local_id": "666",
-    //    "floor_local_name": "66",       //楼层本地名称
-    //    "floor_sequence_id": "66",        //楼层顺序码
-    //    "BIMID": "aaaa",                  //BIM编码
-    //    "floor_type": "1",
-    //    "area": "66",
-    //    "net_height": "66",
-    //    "floor_func_type": "shuoming",        //楼层功能
-    //    "permanent_people_num": "66",  //楼层常驻人数
-    //    "out_people_flow": "66",         //逐时流出人数
-    //    "in_people_flow": "66",          //逐时流入人数
-    //    "exsit_people_num": "66"         //逐时楼层内现有人数
-    //};
     pajax.post({
         url: 'restFloorService/queryFloorById',
         data: {
@@ -117,9 +104,16 @@ spaceInfoController.verifyFloorName = function (param) { //新增页/编辑页:�
             floor_local_name: instance.floorDetail.floor_local_name,           //楼层本地名称，必须
         },
         success: function (res) {
-            spaceInfoController.fnameRepeat = false;
-            if (typeof param == "function") {//编辑
-                param();//todo  错误tips
+            var canUse = ((res || [])[0] || {}).can_use;
+            if (canUse) {
+                spaceInfoController.fnameRepeat = false;
+                if (typeof param == "function") {//编辑
+                    param();
+                }
+            } else {
+                if (typeof param == "function") {//编辑
+                    $("#spaceNoticeWarn").pshow({ text: "楼层名称不可以使用！", state: "failure" });
+                }
             }
         },
         error: function (errObj) {
@@ -144,8 +138,10 @@ spaceInfoController.verifyFloorLocalId = function (param) { //新增页/编辑�
             floor_local_id: instance.floorDetail.floor_local_id,
         },
         success: function (res) {
-            spaceInfoController.fidRepeat = false;
-
+            var canUse = ((res || [])[0] || {}).can_use;
+            if (canUse) {
+                spaceInfoController.fidRepeat = false;
+            }
         },
         error: function (errObj) {
             console.error('verifyFloorLocalId err');
@@ -167,7 +163,10 @@ spaceInfoController.verifyFloorBimId = function (param) { //新增页/编辑页:
             BIMID: instance.floorDetail.BIMID,
         },
         success: function (res) {
-            spaceInfoController.fbimRepeat = false;
+            var canUse = ((res || [])[0] || {}).can_use;
+            if (canUse) {
+                spaceInfoController.fbimRepeat = false;
+            }
         },
         error: function (errObj) {
             console.error('verifyFloorBimId err');
@@ -197,6 +196,7 @@ spaceInfoController.canSaveAddFloor = function () {//是否可以保存
     spaceInfoController.addFloor();//保存楼层
 }
 spaceInfoController.addFloor = function () { //添加楼层信息
+    $("#spaceLoading").pshow();
     var instance = spaceInfoModel.instance();
     var params = {
         user_id: 'RY1505218031651', //用户id
@@ -214,6 +214,7 @@ spaceInfoController.addFloor = function () { //添加楼层信息
         },
         error: function (errObj) {
             $("#spaceNoticeWarn").pshow({ text: "添加楼层失败！", state: "failure" });
+            $("#spaceLoading").phide();
             console.error('addFloor err');
         },
         complete: function () {
@@ -223,23 +224,27 @@ spaceInfoController.addFloor = function () { //添加楼层信息
 }
 spaceInfoController.updateFloorInfo = function (ftype, fvalue, cb) { //编辑楼层信息
     var instance = spaceInfoModel.instance();
-    var timeObj = $("#editTimeBox").psel();
+    var timeObj = $("#editTimeBox").psel().startTime;
+    var timeString = timeObj.replace(/-/g, '') + '000000';
     pajax.update({
         url: 'restFloorService/updateFloorInfo',
         data: {
             floor_id: instance.floorDetail.floor_id,       	            //楼层id，必须
             info_point_code: ftype,   //修改的信息点编码，必须
             info_point_value: fvalue,                //修改的信息点的值，必须
-            valid_time: instance.editMode == 'modify' ? null : timeObj.startTime,
+            valid_time: instance.editMode == 'modify' ? null : timeString,
         },
         success: function (res) {
             instance.detailEditSign = true;
             if (typeof cb == 'function') {
                 cb();
+                $("#spaceNoticeWarn").pshow({ text: "修改信息成功！", state: "success" });
             }
         },
         error: function (errObj) {
             console.error('updateFloorInfo err');
+            $("#spaceNoticeWarn").pshow({ text: "修改信息失败！", state: "failure" });
+            Vue.set(instance.floorDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原
         },
         complete: function () {
 
@@ -295,7 +300,7 @@ spaceInfoController.querySpaceWithGroup = function () { //查询某建筑下空�
         }
     });
 }
-spaceInfoController.querySpaceForFloor = function (fitem) { //查询某楼层下空间信息
+spaceInfoController.querySpaceForFloor = function () { //查询某楼层下空间信息
     var instance = spaceInfoModel.instance();
     $("#spaceLoading").pshow();
     pajax.post({
@@ -303,7 +308,7 @@ spaceInfoController.querySpaceForFloor = function (fitem) { //查询某楼层下
         data: {
             user_id: 'RY1505218031651', //用户id
             project_id: 'Pj1301020001', //项目id
-            floor_id: fitem.floor_id
+            floor_id: instance.selFloorItem.floor_id
         },
         success: function (res) {
             data = res.data || [];
@@ -341,12 +346,6 @@ spaceInfoController.queryDestroyedSpace = function () { //查询某建筑下已�
 }
 spaceInfoController.querySpaceRemindConfig = function () { //查询空间提醒设置
     var instance = spaceInfoModel.instance();
-    //instance.spaceRemind = [
-    //    { "code": "1", "name": "保养", "is_remind": true, },
-    //    { "code": "2", "name": "维修", "is_remind": true, },
-    //    { "code": "3", "name": "巡检", "is_remind": true, },
-    //    { "code": "4", "name": "运行", "is_remind": false, },
-    //    { "code": "5", "name": "安防", "is_remind": false, }];
     pajax.post({
         url: 'restSpaceService/querySpaceRemindConfig',
         data: {
@@ -386,9 +385,15 @@ spaceInfoController.saveSpaceRemindConfig = function () { //保存空间提醒�
         success: function (res) {
             $("#spaceNoticeWarn").pshow({ text: "设置空间提醒成功！", state: "success" });
             spaceInfoController.querySpaceRemindConfig();//重新获取一次
+            if (instance.floorShowTitle == '建筑下的全部空间') {//重新获取空间
+                spaceInfoController.querySpaceWithGroup();
+            } else {
+                spaceInfoController.querySpaceForFloor();
+            }
         },
         error: function (errObj) {
             $("#spaceNoticeWarn").pshow({ text: "设置空间提醒失败！", state: "failure" });
+            instance.spaceRemind = JSON.parse(JSON.stringify(instance.spaceRemindCopy));
             console.error('saveSpaceRemindConfig err');
         },
         complete: function () {
@@ -398,67 +403,6 @@ spaceInfoController.saveSpaceRemindConfig = function () { //保存空间提醒�
 }
 spaceInfoController.queryAllSpaceCode = function () { //查询空间功能类型
     var instance = spaceInfoModel.instance();
-    //instance.allSpaceCode = [{
-    //    "code": "100",
-    //    "name": "公共区域",
-    //    "content": [{
-    //        "code": "110",
-    //        "name": "盥洗区",
-    //        "content": [
-    //            {
-    //                "code": "111",
-    //                "name": "卫生间"
-    //            },
-    //            {
-    //                "code": "112",
-    //                "name": "更衣室"
-    //            }
-    //        ]
-    //    }, {
-    //        "code": "120",
-    //        "name": "走廊",
-    //        "content": []
-    //    }]
-    //},
-    //    {
-    //        "code": "200",
-    //        "name": "后勤",
-    //        "content": [
-    //            {
-    //                "code": "210",
-    //                "name": "洁洗区",
-    //                "content": [
-    //                    {
-    //                        "code": "211",
-    //                        "name": "洗衣房"
-    //                    },
-    //                    {
-    //                        "code": "212",
-    //                        "name": "消毒间"
-    //                    }
-    //                ]
-    //            },
-    //            {
-    //                "code": "220",
-    //                "name": "备餐区",
-    //                "content": [
-    //                    {
-    //                        "code": "221",
-    //                        "name": "厨房"
-    //                    },
-    //                    {
-    //                        "code": "222",
-    //                        "name": "洗碗间"
-    //                    },
-    //                    {
-    //                        "code": "223",
-    //                        "name": "茶水间"
-    //                    }
-    //                ]
-    //            }
-    //        ]
-    //    }
-    //];
     pajax.post({
         url: 'restDictService/queryAllSpaceCode',
         data: {},
@@ -476,49 +420,6 @@ spaceInfoController.queryAllSpaceCode = function () { //查询空间功能类型
 }
 spaceInfoController.queryAllRentalCode = function () { //查询租赁业态类型
     var instance = spaceInfoModel.instance();
-    //instance.allRentalCode = [
-    //    {
-    //        "code": "100",
-    //        "name": "餐饮",
-    //        "content": [
-    //            {
-    //                "code": "110",
-    //                "name": "高档酒楼",
-    //                "content": []
-    //            },
-    //            {
-    //                "code": "120",
-    //                "name": "中餐炒菜",
-    //                "content": [
-    //                    {
-    //                        "code": "121",
-    //                        "name": "高档时尚"
-    //                    },
-    //                    {
-    //                        "code": "122",
-    //                        "name": "中低档大众"
-    //                    }
-    //                ]
-    //            }
-    //        ]
-    //    },
-    //    {
-    //        "code": "200",
-    //        "name": "服装",
-    //        "content": [
-    //            {
-    //                "code": "210",
-    //                "name": "奢侈品",
-    //                "content": []
-    //            },
-    //            {
-    //                "code": "220",
-    //                "name": "高档单店",
-    //                "content": []
-    //            }
-    //        ]
-    //    }
-    //];
     pajax.post({
         url: 'restDictService/queryAllRentalCode',
         data: {},
@@ -536,13 +437,11 @@ spaceInfoController.queryAllRentalCode = function () { //查询租赁业态类�
 }
 spaceInfoController.queryFloorInfoPointHis = function (infoCode) { //查询楼层信息点的历史信息
     var instance = spaceInfoModel.instance();
-    instance.infoPointHis = [
-        { "date": '2016-08-12', "value": "222" },
-        { "date": '2016-08-12', "value": "333" },
-        { "date": '2016-08-12', "value": "555" }];
     pajax.post({
         url: 'restFloorService/queryFloorInfoPointHis',
         data: {
+            user_id: 'RY1505218031651', //用户id
+            project_id: 'Pj1301020001', //项目id
             floor_id: instance.floorDetail.floor_id,                 //空间id，必须
             info_point_code: infoCode           //信息点编码 ,即字段的英文标识，必须
         },
@@ -560,13 +459,11 @@ spaceInfoController.queryFloorInfoPointHis = function (infoCode) { //查询楼�
 }
 spaceInfoController.querySpaceInfoPointHis = function (infoCode) { //查询空间信息点的历史信息
     var instance = spaceInfoModel.instance();
-    instance.infoPointHis = [
-        { "date": '2016-08-12', "value": "222" },
-        { "date": '2016-08-12', "value": "333" },
-        { "date": '2016-08-12', "value": "555" }];
     pajax.post({
         url: 'restSpaceService/querySpaceInfoPointHis',
         data: {
+            user_id: 'RY1505218031651', //用户id
+            project_id: 'Pj1301020001', //项目id
             space_id: instance.spaceDetail.space_id,                 //空间id，必须
             info_point_code: infoCode           //信息点编码 ,即字段的英文标识，必须
         },
@@ -598,9 +495,16 @@ spaceInfoController.verifySpaceName = function (param) { //新增页/编辑页:�
             room_local_name: instance.spaceDetail.room_local_name,           //空间名称，必须
         },
         success: function (res) {
-            spaceInfoController.snameRepeat = false;
-            if (typeof param == "function") {//编辑
-                param();//todo  错误tips
+            var canUse = ((res || [])[0] || {}).can_use;
+            if (canUse) {
+                spaceInfoController.snameRepeat = false;
+                if (typeof param == "function") {//编辑
+                    param();
+                }
+            } else {
+                if (typeof param == "function") {//编辑
+                    $("#spaceNoticeWarn").pshow({ text: "空间名称不可以使用！", state: "failure" });
+                }
             }
         },
         error: function (errObj) {
@@ -625,7 +529,10 @@ spaceInfoController.verifySpaceLocalId = function (param) { //新增页/编辑�
             room_local_id: instance.spaceDetail.room_local_id,           //空间编码，必须
         },
         success: function (res) {
-            spaceInfoController.sidRepeat = false;
+            var canUse = ((res || [])[0] || {}).can_use;
+            if (canUse) {
+                spaceInfoController.sidRepeat = false;
+            }
         },
         error: function (errObj) {
             console.error('verifySpaceLocalId err');
@@ -647,7 +554,10 @@ spaceInfoController.verifySpaceBimId = function (param) { //新增页/编辑页:
             BIMID: instance.spaceDetail.BIMID,          //空间BIM编码，必须
         },
         success: function (res) {
-            spaceInfoController.sbimRepeat = false;
+            var canUse = ((res || [])[0] || {}).can_use;
+            if (canUse) {
+                spaceInfoController.sbimRepeat = false;
+            }
         },
         error: function (errObj) {
             console.error('verifySpaceBimId err');
@@ -677,6 +587,7 @@ spaceInfoController.canSaveAddSpace = function () {//是否可以保存
     spaceInfoController.addSpace();//保存楼层
 }
 spaceInfoController.addSpace = function () { //添加空间信息
+    $("#spaceLoading").pshow();
     var instance = spaceInfoModel.instance();
     var params = {
         user_id: 'RY1505218031651', //用户id
@@ -688,11 +599,16 @@ spaceInfoController.addSpace = function () { //添加空间信息
         data: params,
         success: function (res) {
             $("#addSpaceDiv").hide();
-           // spaceInfoController.queryFloorWithOrder('floor', instance.selBuild);
             $("#spaceNoticeWarn").pshow({ text: "添加空间成功！", state: "success" });
+            if (instance.floorShowTitle == '建筑下的全部空间') {
+                spaceInfoController.querySpaceWithGroup();
+            } else {
+                spaceInfoController.querySpaceForFloor();
+            }
         },
         error: function (errObj) {
-            $("#spaceNoticeWarn").pshow({ text: "添加空间失败！", state: "success" });
+            $("#spaceNoticeWarn").pshow({ text: "添加空间失败！", state: "failure" });
+            $("#spaceLoading").phide();
             console.error('addSpace err');
         },
         complete: function () {
@@ -702,42 +618,6 @@ spaceInfoController.addSpace = function () { //添加空间信息
 }
 spaceInfoController.querySpaceById = function (sitem) { //根据id查询空间详细信息
     var instance = spaceInfoModel.instance();
-    //instance.spaceDetail = {
-    //    "space_id": "aaa",           //空间id,
-    //    "build_id": "666",          //所属建筑id
-    //    "build_local_name": "建筑22",   //所属建筑名称
-    //    "floor_local_name": "2层",     //所属楼层名称
-    //    "room_local_id": "333",        //空间本地编码
-    //    "room_local_name": "dfas",      //空间名称
-    //    "BIMID": "fdf",          //BIM编码
-    //    "room_func_type": "111",       //空间功能区类型
-    //    "room_func_type_name": "卫生间",  //空间功能区类型名称
-    //    "length": "55",               //长
-    //    "width": "44",                //宽
-    //    "height": "66",               //高
-    //    "area": "33",                 //面积
-    //    "elec_cap": "443",             //配电容量
-    //    "intro": "dfgdfgdf",                //备注文字
-    //    "tenant_type": "110",          //租赁业态类型
-    //    "tenant_type_name": "高档酒店",     //租赁业态类型名称
-    //    "tenant": "rter",               //所属租户
-    //    "permanent_people_num": "cvb", //空间内常驻人数
-    //    "out_people_flow": "878",      //逐时流出人数
-    //    "in_people_flow": "66",       //逐时流入人数
-    //    "exsit_people_num": "88",     //逐时空间内现有人数
-    //    "elec_power": "77",           //用电功率
-    //    "cool_consum": "88",          //逐时冷量
-    //    "heat_consum": "99",          //逐时热量
-    //    "ac_water_press": "788",       //空调水压力
-    //    "water_consum": "999",         //用水量
-    //    "water_press": "666",          //自来水压力
-    //    "hot_water_consum": "77",     //热水用水量
-    //    "hot_water_press": "999",      //热水压力
-    //    "gas_consum": "777",           //用燃气量
-    //    "gas_press": "888",            //燃气压力
-    //    "PMV": "888",                  //热舒适PMV
-    //    "PPD": "666"                   //热舒适PPD
-    //}
     pajax.post({
         url: 'restSpaceService/querySpaceById',
         data: {
@@ -759,22 +639,26 @@ spaceInfoController.querySpaceById = function (sitem) { //根据id查询空间�
 }
 spaceInfoController.verifyDestroySpace = function () { //验证空间是否可以拆除
     var instance = spaceInfoModel.instance();
-    pajax.post({
+    pajax.update({
         url: 'restSpaceService/verifyDestroySpace',
         data: {
+            user_id: 'RY1505218031651', //用户id
+            project_id: 'Pj1301020001', //项目id
             space_id: instance.spaceDetail.space_id,             //空间id，
         },
         success: function (res) {
-            $("#spaceNoticeWarn").pshow({ text: "当前空间下还有设备，不可拆除 ！", state: "failure" });
-            $("#spaceNoticeWarn").pshow({ text: "工单计划中尚包含此空间，不可拆除 ！", state: "failure" });
-            $("#desSpaceDialog").pshow({ title: "您确定要作废该空间吗？", subtitle: "作废后，您只能在“已拆除空间”页面查看到它的详情" });
-
+            var canDestroy = ((res || [])[0] || {}).can_destroy;
+            var remind = ((res || [])[0] || {}).remind;
+            if (canDestroy) {
+                $("#desSpaceDialog").pshow({ title: "您确定要作废该空间吗？", subtitle: "作废后，您只能在“已拆除空间”页面查看到它的详情" });
+            } else {
+                $("#spaceNoticeWarn").pshow({ text: remind, state: "failure" });
+            }
         },
         error: function (errObj) {
             console.error('verifyDestroySpace err');
         },
         complete: function () {
-            $("#desSpaceDialog").pshow({ title: "您确定要作废该空间吗？", subtitle: "作废后，您只能在“已拆除空间”页面查看到它的详情" });
 
         }
     });
@@ -784,12 +668,23 @@ spaceInfoController.destroySpace = function () { //拆除空间
     pajax.update({
         url: 'restSpaceService/destroySpace',
         data: {
+            user_id: 'RY1505218031651', //用户id
+            project_id: 'Pj1301020001', //项目id
             space_id: instance.spaceDetail.space_id,            //空间id，
         },
         success: function (res) {
+            $("#spaceNoticeWarn").pshow({ text: "拆除空间成功！", state: "success" });
+            $("#desSpaceDialog").phide();
+            $("#spaceCheckFloat").phide();//弹出框隐藏
+            if (instance.floorShowTitle == '建筑下的全部空间') {
+                spaceInfoController.querySpaceWithGroup();
+            } else {
+                spaceInfoController.querySpaceForFloor();
+            }
         },
         error: function (errObj) {
             console.error('destroySpace err');
+            $("#spaceNoticeWarn").pshow({ text: "拆除空间失败！", state: "failure" });
         },
         complete: function () {
 
@@ -798,23 +693,29 @@ spaceInfoController.destroySpace = function () { //拆除空间
 }
 spaceInfoController.updateSpaceInfo = function (ftype, fvalue, cb) { //编辑空间信息
     var instance = spaceInfoModel.instance();
-    var timeObj = $("#editTimeBox").psel();
+    var timeObj = $("#editTimeBox").psel().startTime;
+    var timeString = timeObj.replace(/-/g, '') + '000000';
     pajax.update({
         url: 'restSpaceService/updateSpaceInfo',
         data: {
             space_id: instance.spaceDetail.space_id,             //空间id，
             info_point_code: ftype,   //修改的信息点编码，必须
             info_point_value: fvalue,                //修改的信息点的值，必须
-            valid_time: instance.editMode == 'modify' ? null : timeObj.startTime,
+            valid_time: instance.editMode == 'modify' ? null : timeString,
         },
         success: function (res) {
             instance.detailEditSign = true;
             if (typeof cb == 'function') {
                 cb();
+                $("#spaceNoticeWarn").pshow({ text: "修改信息成功！", state: "success" });
             }
         },
         error: function (errObj) {
             console.error('updateSpaceInfo err');
+            $("#spaceNoticeWarn").pshow({ text: "修改信息失败！", state: "failure" });
+            ftype == 'room_func_type_name' && (true, Vue.set(instance.spaceDetail, 'room_func_type', spaceInfoController.editDetailCopy['room_func_type']));//空间类型
+            ftype == 'tenant_type_name' && (true, Vue.set(instance.spaceDetail, 'tenant_type', spaceInfoController.editDetailCopy['tenant_type']));//空间类型
+            Vue.set(instance.spaceDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原
         },
         complete: function () {
 

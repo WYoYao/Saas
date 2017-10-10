@@ -48,27 +48,43 @@ var publicMethod = {
 
     //设置当前弹窗
     setCurPop: function (index, popType) {
+        commonData.checkedObjs = [];
+
+        var jqTextareaDiv = commonData.editingJqTextwrap.parents(".textarea-div");
+        jqTextareaDiv.find(".textarea-prop").show();
+
+        var jqPopDataDivs = jqTextareaDiv.find(".free-aite-pops").children();
+        var curJqPopDataDiv = $(jqPopDataDivs[index]);
+        jqPopDataDivs.hide();
+        //jqTextareaDiv.find('.aite-bubble').hide();
+
+        var hashtagDiv = jqTextareaDiv.find(".hashtag-bubble");
+        //$(".hashtag-bubble").hide();
+
         if (popType == 'obj') {     //@对象弹框
-            var jqPopDataDivs = commonData.editingJqTextwrap.parents(".textarea-div").find(".free-aite-pops").children();
-            var curJqPopDataDiv = $(jqPopDataDivs[index]);
-            commonData.editingJqTextwrap.parents(".textarea-div").find(".textarea-prop").show();
-            jqPopDataDivs.hide();
-            curJqPopDataDiv.show();
-            publicMethod.locationPop(commonData.curMatterContent);
-        } else {        //#SOP弹框
-            var hashtagDiv = commonData.editingJqTextwrap.parents(".textarea-div").find(".hashtag-bubble");
             $(".hashtag-bubble").hide();
+            jqTextareaDiv.find('.aite-bubble').show();
+            curJqPopDataDiv.show();
+            publicMethod.locationPop(commonData.curMatterContent, commonData.types[0]);
+        } else {        //#SOP弹框
+            jqTextareaDiv.find('.aite-bubble').hide();
             hashtagDiv.show();
         }
     },
 
     //设置当前弹窗位置
-    locationPop: function (model) {
+    locationPop: function (model, type) {
         var textwrap = commonData.editingJqTextwrap;
         var textpdiv = commonData.editingJqTextwrap.parents(".textarea-div")
         var textdiv = $(textwrap).siblings(".textareadiv");
         var textareapop = $(textwrap).siblings(".textarea-prop");
-        var value = model.description;
+
+        //var value = model.description ? model.description : myWorkOrderModel.workContent.content;     //取值方法统一如下
+
+        var contentData = publicMethod.getContentData(type);
+        var attrName1 = contentData.attrName1;
+        var value = contentData.content[attrName1];
+
         var focusIndex = textwrap[0].selectionStart;
         var firstPartStr = value.substring(0, focusIndex);
         var secondPartStr = value.substring(focusIndex);
@@ -99,18 +115,25 @@ var publicMethod = {
     },
 
     confirmCheckedMatterObjs: function () {
-        publicMethod.confirmCheckedObjs('matter');
+        var work_c = $(event.currentTarget).parents(".import-box")[0]
+        if (work_c) {
+            publicMethod.confirmCheckedObjs(commonData.types[1]);
+        } else {
+            publicMethod.confirmCheckedObjs(commonData.types[0]);
+        }
     },
 
     //确认勾选的对象
     confirmCheckedObjs: function (type) {
-        var attrName1 = type == 'matter' ? 'description' : 'content';
-        var attrName2 = type == 'matter' ? 'desc_objs' : 'content_objs';
-        //筛选出去掉的对象
-        var deletedObjs = [];
-        var content = myWorkOrderModel.allMatters[commonData.curMatterIndex];
-        var content_objs = content[attrName2] ? content[attrName2] : [];
-        deletedObjs = commonData.maybeDeletedObjs;
+        var contentData = publicMethod.getContentData(type);
+        var attrName1 = contentData.attrName1;
+        var attrName2 = contentData.attrName2;
+        var content = contentData.content;
+        var content_objs = contentData.content_objs;
+        var symbol = type == commonData.types[0] ? '@' : '#';
+        //var checkedItems = type == commonData.types[0] ? commonData.checkedObjs : commonData.checkedSops;
+
+        var deletedObjs = commonData.maybeDeletedObjs;
         console.log('deletedObjs为: ' + JSON.stringify(deletedObjs));
         //筛选出增加的对象
         var addedObjs = [];
@@ -120,7 +143,7 @@ var publicMethod = {
             var newAdded = true;
             for (var j = 0; j < content_objs.length; j++) {
                 var initialObj = content_objs[j];
-                if (checkedObj.obj_id == initialObj.obj_id) {
+                if (checkedObj[type + '_id'] == initialObj[type + '_id']) {
                     newAdded = false;
                     break;
                 }
@@ -133,11 +156,11 @@ var publicMethod = {
         console.log('addedObjs为: ' + JSON.stringify(addedObjs));
 
         //删除被替代的对象
-        if (!commonData.matchExistingObj.obj_id) {
-            var replacedObjName = commonData.text1.slice(commonData.text1.lastIndexOf('@') + 1) + commonData.text2.slice(0, commonData.text2.indexOf(' '));
+        if (!commonData.matchExistingObj[type + '_id']) {
+            var replacedObjName = commonData.text1.slice(commonData.text1.lastIndexOf(symbol) + 1) + commonData.text2.slice(0, commonData.text2.indexOf(' '));
             if (content[attrName2]) {
                 for (var i = 0; i < content[attrName2].length; i++) {
-                    if (content[attrName2][i].obj_name == replacedObjName) {
+                    if (content[attrName2][i][type + '_name'] == replacedObjName) {
                         content[attrName2].splice(i, 1);
                     }
                 }
@@ -147,31 +170,41 @@ var publicMethod = {
         //  添加新选择的对象内容
         var addedText = '';
         for (var i = 0; i < addedObjs.length; i++) {
-            var name = addedObjs[i].obj_name;
-            var prefix = '@';
+            var name = addedObjs[i][type + '_name'];
+            var prefix = symbol;
             addedText += prefix + name + ' ';
         }
 
         //设置数据content.content
         if (commonData.notReplaceObj) {     //普通文本中输入@, 不替代对象
-            content[attrName1] = commonData.text1.slice(0, commonData.text1.lastIndexOf('@')) + addedText + commonData.text2;
-        } else if (!commonData.matchExistingObj.obj_id) {       //当前输入对象未匹配搜索结果时，删除当前输入的对象，并在该位置加上新增的对象
-            content[attrName1] = commonData.text1.slice(0, commonData.text1.lastIndexOf('@')) + addedText + commonData.text2.slice(commonData.text2.indexOf(' ') + 1);
+            content[attrName1] = commonData.text1.slice(0, commonData.text1.lastIndexOf(symbol)) + addedText + commonData.text2;
+        } else if (!commonData.matchExistingObj[type + '_id']) {       //当前输入对象未匹配搜索结果时，删除当前输入的对象，并在该位置加上新增的对象
+            content[attrName1] = commonData.text1.slice(0, commonData.text1.lastIndexOf(symbol)) + addedText + commonData.text2.slice(commonData.text2.indexOf(' ') + 1);
         } else {
             content[attrName1] = commonData.text1 + commonData.text2.slice(0, commonData.text2.indexOf(' ') + 1) + addedText + commonData.text2.slice(commonData.text2.indexOf(' ') + 1);
         }
         //删除取消选择的对象内容
         for (var i = 0; i < deletedObjs.length; i++) {
-            var name = deletedObjs[i].obj_name;
-            var deletedText = '@' + name + ' ';
+            var name = deletedObjs[i][type + '_name'];
+            var deletedText = symbol + name + ' ';
             content[attrName1] = content[attrName1].replace(deletedText, '');
         }
+
+        if (type != commonData.types[0]) {      //To Confirm
+            myWorkOrderModel.workContent.content += content[attrName1]
+            myWorkOrderModel.workContent.content_objs.push(content[attrName2])
+        }
+
         //关闭弹窗
         //左侧有级别树时恢复初始
         //$('#leftLevelTree' + commonData.contentIndex).precover();     TODO
         //$("#textarea-pop").hide();
         publicMethod.hideCurPop();
 
+        if (type == commonData.types[0] || type == commonData.types[1]) {
+            myWorkOrderModel.allMatters[commonData.curMatterIndex][attrName1] = content[attrName1];
+        }
+        //console.log('1、allMatters: ' + JSON.stringify(myWorkOrderModel.allMatters));
         publicMethod.updateObjs(null, null, type);      //更新当前修改的对象，可能被替代
     },
 
@@ -183,14 +216,15 @@ var publicMethod = {
         var content = contentData.content;
         var content_objs = contentData.content_objs;
         var originalSelected;
+        var symbol = type == commonData.types[0] ? '@' : '#';
         //搜索状态下不将当前可能被替换的对象更新至content.content_objs
         if (index === 0) {
-            var searchedText = keyword ? keyword : commonData.text1.slice(commonData.text1.lastIndexOf('@') + 1) + commonData.text2.slice(0, commonData.text2.indexOf(' '));
+            var searchedText = keyword ? keyword : commonData.text1.slice(commonData.text1.lastIndexOf(symbol) + 1) + commonData.text2.slice(0, commonData.text2.indexOf(' '));
             publicMethod.isMatchExistingObj(searchedText, myWorkOrderModel.curLevelList, type);
-            if (commonData.matchExistingObj.obj_id) {
+            if (commonData.matchExistingObj[type + '_id']) {
                 originalSelected = false;
                 for (var i = 0; i < content_objs.length; i++) {
-                    if (content_objs[i].obj_name == commonData.matchExistingObj.obj_name) {
+                    if (content_objs[i][type + '_name'] == commonData.matchExistingObj[type + '_name']) {
                         originalSelected = true;
                         break;
                     }
@@ -202,9 +236,9 @@ var publicMethod = {
         }
         //获取当前文本框中的对象
         var text = content[attrName1];
-        var textArr = text ? text.split('@') : [];
+        var textArr = text ? text.split(symbol) : [];
         var objArr = [];
-        var i = !text || text.length && text[0] == '@' ? 0 : 1;      //第一项可能为非@的情况
+        var i = !text || text.length && text[0] == symbol ? 0 : 1;      //第一项可能为非@的情况
         for (i; i < textArr.length; i++) {
             if (textArr[i]) {
                 var obj_name = textArr[i].slice(0, textArr[i].indexOf(' '));
@@ -218,7 +252,7 @@ var publicMethod = {
             for (var i = 0; i < content_objs.length; i++) {
                 var deleted = true;
                 for (var j = 0; j < objArr.length; j++) {
-                    if (content_objs[i].obj_name == objArr[j]) {
+                    if (content_objs[i][type + '_name'] == objArr[j]) {
                         deleted = false;
                         break;
                     }
@@ -241,37 +275,45 @@ var publicMethod = {
         for (var i = 0; i < objArr.length; i++) {
             originalSelected = false;
             for (var j = 0; j < content_objsCopy.length; j++) {
-                if (objArr[i] == content_objsCopy[j].obj_name) {
+                if (objArr[i] == content_objsCopy[j][type + '_name']) {
                     originalSelected = true;
                     break;
                 }
             }
             if (!originalSelected/* && (index !== 0 || obj_name !== searchedText)*/) {
-                content_objs.push({
-                    obj_name: objArr[i],
-                    obj_type: "other"
-                });
+                var tempObj = {};
+                tempObj[type + '_name'] = objArr[i];
+                tempObj['obj_type'] = "other";
+                content_objs.push(tempObj);
             }
         }
 
+        if (type == commonData.types[0] || type == commonData.types[1]) {
+            myWorkOrderModel.allMatters[commonData.curMatterIndex][attrName2] = content_objs;
+        }
+        //console.log('2、allMatters: ' + JSON.stringify(myWorkOrderModel.allMatters));
         publicMethod.markInitialSelectedObjs(type);
     },
 
     //获取文本框相关数据
     getContentData: function (type) {
-        var attrName1 = type == 'matter' ? 'description' : 'content';
-        var attrName2 = type == 'matter' ? 'desc_objs' : 'content_objs';
-        var content = publicMethod.getCurDataObj(type) ? publicMethod.getCurDataObj(type) : {};
-        var content_objs = content[attrName2] ? publicMethod.getCurDataObj(type)[attrName2] : [];
+        var types = commonData.types;
+        var attrName1 = type == types[0] || type == types[1] ? 'description' : 'content';
+        var attrName2 = type == types[0] ? 'desc_objs' : type == types[1] ? 'desc_sops' : 'content_objs';
+        var content = publicMethod.getCurDataObj(type);
+        if (!content[attrName2]) content[attrName2] = [];
+        var content_objs = content[attrName2];
         return {content: content, content_objs: content_objs, attrName1: attrName1, attrName2: attrName2};
     },
 
     //获取当前文本框中操作的数据对象
     getCurDataObj: function (type) {
-        if (type == 'matter') {
+        if (type == commonData.types[0]) {
+            if (!myWorkOrderModel.allMatters[commonData.curMatterIndex]) myWorkOrderModel.allMatters[commonData.curMatterIndex] = {};
             return myWorkOrderModel.allMatters[commonData.curMatterIndex];
         } else {
-            return myWorkOrderModel.curContent ? myWorkOrderModel.curContent : {};
+            if (!myWorkOrderModel.curContent) myWorkOrderModel.curContent = {};
+            return myWorkOrderModel.curContent;
         }
     },
 
@@ -290,14 +332,14 @@ var publicMethod = {
         commonData.matchExistingObj = {};
         for (var i = 0; i < data.length; i++) {
             var item = data[i];
-            if (keyword == item.obj_name) {
+            if (keyword == item[type + '_name']) {
                 //item.checked = true;
                 commonData.matchExistingObj = item;
                 break;
             }
         }
         //如果能匹配搜索结果列表中的某个对象，则将该对象推入content.content_objs中
-        if (commonData.matchExistingObj.obj_id) {
+        if (commonData.matchExistingObj[type + '_id']) {
             var contentData = publicMethod.getContentData(type);
             var content_objs = contentData.content_objs;
             content_objs.push(JSON.parse(JSON.stringify(commonData.matchExistingObj)));
@@ -315,7 +357,12 @@ var publicMethod = {
             content_objs[i].initialChecked = true;
         }
 
-        myWorkOrderModel.allMatters = JSON.parse(JSON.stringify(myWorkOrderModel.allMatters));
+
+        if (type == commonData.types[0] || type == commonData.types[1]) {
+            myWorkOrderModel.allMatters = JSON.parse(JSON.stringify(myWorkOrderModel.allMatters));
+        }
+
+        //console.log('3、allMatters: ' + JSON.stringify(myWorkOrderModel.allMatters));
     },
 
     //判断是否是已选对象
@@ -328,7 +375,7 @@ var publicMethod = {
             var isSelectedObj = false;
             //if (content.content_objs) {
             for (var j = 0; j < /*content.*/content_objs.length; j++) {
-                if (item.obj_id == /*content.*/content_objs[j].obj_id) {
+                if (item[type + '_id'] == /*content.*/content_objs[j][type + '_id']) {
                     isSelectedObj = true;
                     break;
                 }
@@ -342,10 +389,86 @@ var publicMethod = {
         myWorkOrderModel.curLevelList = JSON.parse(JSON.stringify(myWorkOrderModel.curLevelList));
     },
 
+    //查询可供选择的sop前的参数处理
+    toQuerySopListForSel: function (isInit, copyOrQuote) {
+        //if (isInit) $('#delaySearch input').val('');      //To Modify
+        if (copyOrQuote) commonData.copyOrQuote = copyOrQuote;
+        var obj = {
+            need_return_criteria: true
+        };
+        //var searchedText = $('#delaySearch input').val();       //To Add
+        //if (searchedText) obj.sop_name = searchedText;
+        if (!isInit) {
+            if (commonData.selectedBrands.length) obj.brands = commonData.selectedBrands;
+            if (commonData.selectedOrder_type.length) obj.order_type = commonData.selectedOrder_type;
+            if (commonData.selectedFit_objs.length) obj.fit_obj_ids = commonData.selectedFit_objs;
+            if (commonData.selectedLabels.length) obj.labels = commonData.selectedLabels;
+        }
+        controller.querySopListForSel(obj);
+        //method_yn.scrollLoad();       //To Add
+    },
+
+    //选择SOPcheckedObjs
+    /*
+     checkSop: function (model, event) {
+     var state = event.pEventAttr.state;
+     var sop_id = model.sop_id;
+     if (state) {
+     var indexStr = $(event.target).parents('.aite-list').attr('index');
+     var index = parseInt(indexStr);
+     model.index = index;
+     commonData.checkedSops.push(model);
+     } else {
+     for (var i = 0; i < commonData.checkedSops.length; i++) {
+     if (commonData.checkedSops[i].sop_id == sop_id) {
+     commonData.checkedSops.splice(i, 1);
+     break;
+     }
+     }
+     }
+     },
+     */
+
+    //确认选择SOP
+    confirmCheckSops: function () {
+        publicMethod.confirmCheckedObjs(commonData.types[1]);
+    },
+
+    //比较方法，用于排序
+    compare: function (property) {
+        return function (a, b) {
+            var value1 = a[property];
+            var value2 = b[property];
+            return value1 - value2;
+        }
+    },
+
+    //初始化供选择的sop的模态框
+    initSopModal: function () {
+        //$('.filter-close-btn').hide();
+        //$('.filterBtn')[0].style.display = "inline-block";
+        //$("#search-filter-box").hide();
+        //$(".search-filter")[0].style.width = "470px";
+        publicMethod.selAllTags();
+        commonData.firstSetMore = true;
+    },
+
+    //选中所有"全部"标签locationPop
+    selAllTags: function () {
+        // event.stopPropagation();
+        $('.sel-all').addClass('sel-span');
+        myWorkOrderMethod.toggleSameClassCriterias(myWorkOrderModel.sopCriteria.brandsArr, 'selectedBrands', false);
+        myWorkOrderMethod.toggleSameClassCriterias(myWorkOrderModel.sopCriteria.order_type, 'selectedOrder_type', false, 'code');
+        myWorkOrderMethod.toggleSameClassCriterias(myWorkOrderModel.sopCriteria.fit_objs, 'selectedFit_objs', false, 'obj_id');
+        myWorkOrderMethod.toggleSameClassCriterias(myWorkOrderModel.sopCriteria.labelsArr, 'selectedLabels', false);
+    },
+
 
 }
 
 var commonData = {
+    types: ['obj', 'sop', 'content'],
+    copyOrQuote: null,      //1复制，2引用
     curMatterIndex: 0,      //当前事项索引
 
     deletedChar: '',        //文本框被删除的字符

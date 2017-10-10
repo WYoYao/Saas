@@ -544,8 +544,8 @@ var d = {
 
         }],
         plan_start_type: "1", //计划开始类型,1-发布成功后立即，2-指定时间
-        plan_start_time: "2017-09-19 12:12:00",
-        plan_end_time: "2017-09-19 12:12:00",
+        plan_start_time: "20170919121200",
+        plan_end_time: "20170919121200",
         draft_matters: [ //步骤信息
             {
                 "matter_name": "未命名事项1", //事项名称
@@ -705,9 +705,9 @@ var d = {
         ],
         destroy_person_id: "111",
         destroy_person_named: "李四",
-        destroy_time: "2017-09-19 12:12:00",
-        create_time: "2017-09-19 12:12:00",
-        update_time: "2017-09-19 12:12:00",
+        destroy_time: "20170919121200",
+        create_time: "20170919121200",
+        update_time: "20170919121200",
 
     }, ],
     planDetailData: {
@@ -718,46 +718,46 @@ var d = {
         order_type_name: "维保",
         urgency: "高",
         ahead_create_time: "10",
-        freq_cycle: "w",
-        freq_num: "22",
+        freq_cycle: "d",
+        freq_num: 3,
         freq_times: [{
             "start_time": {
-                "cycle": "w", //周期,y/m/w/d
-                "time_day": "06.12", //周一，1号，“0612”,6月12日
+                "cycle": "d", //周期,y/m/w/d
+                "time_day": "01", //周一，1号，“0612”,6月12日
                 "time_hour": "10", //10时
                 "time_minute": "15" //15分
             },
             "end_time": {
-                "cycle": "w",
-                "time_day": "06.12",
+                "cycle": "d",
+                "time_day": "01",
                 "time_hour": "20",
                 "time_minute": "15"
             }
 
         }, {
             "start_time": {
-                "cycle": "w", //周期,y/m/w/d
-                "time_day": "06.12", //周一，1号，“0612”,6月12日
+                "cycle": "d", //周期,y/m/w/d
+                "time_day": "01", //周一，1号，“0612”,6月12日
                 "time_hour": "10", //10时
                 "time_minute": "15" //15分
             },
             "end_time": {
-                "cycle": "w",
-                "time_day": "06.12",
+                "cycle": "d",
+                "time_day": "01",
                 "time_hour": "20",
                 "time_minute": "15"
             }
 
         }, {
             "start_time": {
-                "cycle": "w", //周期,y/m/w/d
-                "time_day": "06.12", //周一，1号，“0612”,6月12日
+                "cycle": "d", //周期,y/m/w/d
+                "time_day": "05", //周一，1号，“0612”,6月12日
                 "time_hour": "10", //10时
                 "time_minute": "15" //15分
             },
             "end_time": {
-                "cycle": "w",
-                "time_day": "06.12",
+                "cycle": "d",
+                "time_day": "07",
                 "time_hour": "20",
                 "time_minute": "15"
             }

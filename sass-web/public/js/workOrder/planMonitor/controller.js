@@ -450,52 +450,8 @@ var controller = {
             }
         });
     },
-    getOrderDetail: function(order_id, model) { //查看工单详情
-        var userId = model.user_id;
-        pajax.post({
-            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            // url: 'restMyWorkOrderService/queryWorkOrderById',
-            data: {
-                user_id: userId,
-                order_id: order_id
-            },
-            success: function(res) {
-                var _data = res && res.data ? res.data : [];
-                _data = d.orderDetailData; //临时使用
-                model.orderDetailData = _data;
-                controller.getWorkOrderServiceList(userId, order_id); //查询工单操作列表
-            },
-            error: function(error) {
-
-            },
-
-            complete: function() {
-                $("#list_loading").phide();
-            }
-        });
-    },
-    getWorkOrderServiceList: function(userId, orderId) { //获取工单操作时间列表
-        pajax.post({
-            // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            url: 'restMyWorkOrderService/queryOperateRecord',
-            data: {
-                user_id: userId,
-                order_id: orderId
-            },
-            success: function(res) {
-                var _data = res && res.data ? res.data : [];
-                _data = d.orderOperatList; //临时使用
-                model.orderOperatList = _data;
-            },
-            error: function(error) {
-
-            },
-
-            complete: function() {
-                $("#list_loading").phide();
-            }
-        });
-    },
+    
+    
     getPlanCreateNext:function(_data){//创建计划预览
         pajax.post({
             url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
@@ -505,6 +461,7 @@ var controller = {
                 var _data = res && res.data ? res.data : [];
                 _data = d.planCreateData; //临时使用
                 model.planCreateDetail = _data;
+                model.curPage = model.pages[7];
             },
             error: function(error) {
 
@@ -537,9 +494,8 @@ var controller = {
         });
     },
     getAddOrderPlan:function(_data){//添加工单计划
-         $("#list_loading").pshow();
-        pajax.post({
-            //url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+        $("#list_loading").pshow();
+        pajax.update({
             url: 'restWoPlanService/addWoPlan',
             data: _data,
             success: function(res) {
@@ -559,6 +515,50 @@ var controller = {
             }
         });
     },
+    getEditOrderPlan:function(_data){//编辑计划保存
+        $("#list_loading").pshow();
+        pajax.update({
+            url: 'restWoPlanService/updateWoPlan',
+            data: _data,
+            success: function(res) {
+
+                console.log("success")
+                $("#publishNotice").pshow({ text: '发布成功', state: "success" });
+
+               
+            },
+            error: function(error) {
+                 $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });
+
+            },
+
+            complete: function() {
+                $("#list_loading").phide();
+            }
+        });
+        
+    },
+    getToolList:function(_data){
+        pajax.post({
+            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            // url: 'saas/restObjectService/queryTempObjectList',
+            data: _data,
+            success: function(res) {
+                var _data = res && res.data ? res.data : [];
+                _data = [{obj_id:"11",obj_type:"3",obj_name:"锤子"},{obj_id:"11",obj_type:"3",obj_name:"十字镐"}];
+                model.toolList = _data;
+                console.log(_data)
+                $("#choiceObjExample").show();
+            },
+            error: function(error) {
+
+            },
+
+            complete: function() {
+                $("#list_loading").phide();
+            }
+        });
+    }
 
 
 }

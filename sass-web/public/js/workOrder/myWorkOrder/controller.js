@@ -31,7 +31,7 @@ var controller = {
         };
         controller.queryWorkOrderType(workObj);//查询工单类型
         controller.queryWorkOrder('restMyWorkOrderService/queryMyDraftWorkOrder', drafWorkObj);//查询草稿箱内工单
-        controller.querySopListForSel(obj);
+        //controller.querySopListForSel(obj);
         controller.queryUserWoInputMode();//用户输入方式
     },
 
@@ -223,8 +223,8 @@ var controller = {
 
                 myWorkOrderModel.buildList = data;
                 myWorkOrderModel.curLevelList = JSON.parse(JSON.stringify(data));
-                /*isPop3 ? publicMethod.isSelectedObj1() : */publicMethod.isSelectedObj('matter');
-                /*isPop3 ? publicMethod.setCurPop3(1) : */publicMethod.setCurPop(1, 'obj');
+                /*isPop3 ? publicMethod.isSelectedObj1() : */publicMethod.isSelectedObj(null, commonData.types[0]);
+                /*isPop3 ? publicMethod.setCurPop3(1) : */publicMethod.setCurPop(1, commonData.types[0]);
                 //$(event).parent(".none-both").hide().siblings(".only-checkbox").show();
                 // myWorkOrderModel.workType = data;
             },
@@ -366,6 +366,8 @@ var controller = {
                 $(dom).parent(".none-both").hide().siblings(".both-all").show();
                 $("#myWork-list-notice").pshow({text: '设备查询成功', state: "success"});
                 controller.queryGeneralDictByKey()
+                console.log(myWorkOrderModel.curObjType)
+                console.log(myWorkOrderModel.curObjType!=='custom')
 
             },
             error: function (err) {
@@ -466,9 +468,15 @@ var controller = {
                 myWorkOrderMethod.setCriteriaStatus('order_type', 'selectedOrder_type', true, 'code');
                 myWorkOrderMethod.setCriteriaStatus('fit_objs', 'selectedFit_objs', true, 'obj_id');
                 myWorkOrderMethod.setCriteriaStatus('labels', 'selectedLabels', false);
+
+                myWorkOrderModel.curLevelList = JSON.parse(JSON.stringify(myWorkOrderModel.sopList));
+                if (commonData.firstSetMore) {
+                    publicMethod.initSopModal();
+                }
+                /*isPop3 ? publicMethod.isSelectedObj1() : */publicMethod.isSelectedObj(null, commonData.types[1]);
+                /*isPop3 ? publicMethod.setCurPop3(1) : */publicMethod.setCurPop(null, commonData.types[1]);
             },
             error: function (err) {
-                $("#myWork-list-notice").pshow({text: '查询sop失败', state: "failure"});
             },
             complete: function () {
                 $('#loadCover').phide();
@@ -575,6 +583,80 @@ var controller = {
                 createSopModel.infoPointList = data;
                 if (jqInfoPointPop) jqInfoPointPop.show();
                 createSopModel.isCustomizeBtnAble = true;*/
+            },
+            error: function (err) {
+            },
+            complete: function () {
+                $('#loadCover').phide();
+            }
+        });
+    },
+    //12、添加自定义对象
+    addTempObjectWithType: function (obj, isConfirmCustomizeObj, isShowPop, isNextPage) {
+        //$('#loading').pshow();
+        pajax.update({
+            url: 'restObjectService/addTempObjectWithType',
+            data: obj,
+            success: function (result) {
+                if (!isNextPage) {
+                    commonMethod.addedTempObjectWithType(obj, isConfirmCustomizeObj, isShowPop);
+                } else {
+                    commonMethod.addedTempObjectWithType1(obj, isConfirmCustomizeObj, isShowPop);
+                }
+            },
+            error: function (err) {
+            },
+            complete: function () {
+                //$('#loading').phide();
+            }
+        });
+    },
+    //2、搜索物理世界对象
+    searchObject: function (keyword, notShowPop) {
+        $('#loadCover').pshow();
+        pajax.post({
+            url: 'restObjectService/searchObject',
+            data: {
+                user_id: myWorkOrderModel.user_id,
+                project_id: myWorkOrderModel.project_id,
+                keyword: keyword
+            },
+            success: function (result) {
+                var data = result && result.data ? result.data : [];
+                //data = JSON.parse(JSON.stringify(searchedObjects.data));       //To Delete
+                if (!notShowPop) {
+                    var value = keyword;
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        if (item.obj_name) item.obj_name_arr = commonMethod.strToMarkedArr(item.obj_name, value);
+                        if (item.parents) {
+                            for (var j = 0; j < item.parents.length; j++) {
+                                var item1 = item.parents[j];
+
+                                item1.linked_names = item1.parent_names.join('>');
+                                if (item1.linked_names) item1.linked_names_arr = commonMethod.strToMarkedArr(item1.linked_names, value);
+                            }
+                        }
+                    }
+
+                    //判断输入的对象是否能匹配搜索结果列表中的某个对象，可以在弹窗关闭时再进行判断
+                    //commonMethod.isMatchExistingObj(keyword, data);
+
+                    //createSopModel.searchedObjectList = data;
+                    myWorkOrderModel.curLevelList = data;
+                    myWorkOrderModel.curObjType = 'search';
+                    //commonMethod.updateObjs();
+                    if (data.length) {
+                        commonMethod.setCurPop(0);
+                    } else {        //无匹配的结果时转换为自定义形式
+                        commonMethod.setCurPop(3);
+                    }
+                    commonMethod.isSelectedObj();
+                    commonMethod.locationTextareaPop(commonData.textwrap, commonData.textdiv, commonData.textareapop, commonData.text);     //定位
+                } else {
+                    commonMethod.updateObjs(0, keyword);
+                }
+
             },
             error: function (err) {
             },

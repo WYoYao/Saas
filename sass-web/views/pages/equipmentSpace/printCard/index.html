@@ -42,9 +42,9 @@
 
                     <div class="print_Condition">
                         <em class="ulName">所属系统：</em>
-                        <!--<em class="emCo">请选择系统</em>-->
-                        <ul>
-                            <li  v-for="item in systemArr" v-text="item.system_name" @click="systemSel(item,event)":class="{active:item.system_id==selSystem.system_id}">全部</li>
+                        <em class="emCo" v-show="systemArr.length==0">请选择系统</em>
+                        <ul v-show="systemArr.length>0">
+                            <li  v-for="item in systemArr" v-text="item.system_name" @click="systemSel(item,event)" :class="{active:item.system_id==selSystem.system_id}">全部</li>
                         </ul>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                                 <column name="设备型号" source="specification"></column>
                                 <column name="所在位置" source="position"></column>
                                 <column name="供应商" source="supplier"></column>
-                                <column name="录入时间" source="create_time" sort="true" ></column>
+                                <column name="录入时间" source="create_time" sort="true" defaultsort="desc"></column>
                             </header>
                             <page>
                                 <ppage-simple number="1"></ppage-simple>
@@ -119,7 +119,7 @@
                                 <column name="空间名称" source="room_local_name"></column>
                                 <column name="功能区类型" source="room_func_type_name"></column>
                                 <column name="备注" source="intro"></column>
-                                <column name="录入时间" source="create_time" sort="true"></column>
+                                <column name="录入时间" source="create_time" sort="true" defaultsort="desc"></column>
                             </header>
                             <page>
                                 <ppage-simple number="1"></ppage-simple>
@@ -158,7 +158,7 @@
                         <div class="printCard_name">
                             <input type="text" :value="eqCardInfoToUpdate.title" />
                         </div>
-                        <ul class="printCard_ul">
+                        <ul class="printCard_ul" id="uleqCardInfo">
                             <li class="printCard_li"><em>设备名称:</em></li>
                             <li class="printCard_li"><em>设备编号:</em></li>
                             <li v-for="item in eqCardTemplateArr">
@@ -185,7 +185,7 @@
                         <div class="printCard_name">
                             <input type="text" :value="spCardInfoUpdate.title" />
                         </div>
-                        <ul class="printCard_ul">
+                        <ul class="printCard_ul" id="ulspCardInfo">
                             <li class="printCard_li"><em>空间名称:</em></li>
                             <li class="printCard_li"><em>空间编号:</em></li>
                             <li v-for="item in spCardTemplateArr">

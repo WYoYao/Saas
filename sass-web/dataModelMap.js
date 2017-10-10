@@ -3,6 +3,25 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
+    'restEquipService/addEquip': {
+        "type": "object",
+        "note": "未输入note",
+        "proArr": [{
+            "name": "Result",
+            "type": "string",
+            "note": "Result"
+        },
+            {
+                "name": "ResultMsg",
+                "type": "string",
+                "note": "ResultMsg"
+            }
+        ]
+    },
+    'restObjectService/querySystemForBuild':{
+        "type": "array",
+        "note": "未输入note",
+    },
     'restEquipService/queryEquipInfoPointHis': {
         "type": "array",
         "note": "未输入note",
@@ -20,10 +39,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "Result",
-                "type": "string",
-                "note": "Result"
-            },
+            "name": "Result",
+            "type": "string",
+            "note": "Result"
+        },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -35,10 +54,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "code",
-                "type": "string",
-                "note": "code"
-            },
+            "name": "code",
+            "type": "string",
+            "note": "code"
+        },
             {
                 "name": "name",
                 "type": "string",
@@ -49,10 +68,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "content",
                 "proArr": [{
-                        "name": "code",
-                        "type": "string",
-                        "note": "code"
-                    },
+                    "name": "code",
+                    "type": "string",
+                    "note": "code"
+                },
                     {
                         "name": "name",
                         "type": "string",
@@ -63,10 +82,10 @@ var dataModelMap = {
                         "type": "array",
                         "note": "content",
                         "proArr": [{
-                                "name": "code",
-                                "type": "string",
-                                "note": "code"
-                            },
+                            "name": "code",
+                            "type": "string",
+                            "note": "code"
+                        },
                             {
                                 "name": "name",
                                 "type": "string",
@@ -82,10 +101,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "order_id",
-                "type": "string",
-                "note": "order_id"
-            },
+            "name": "order_id",
+            "type": "string",
+            "note": "order_id"
+        },
             {
                 "name": "summary",
                 "type": "string",
@@ -128,10 +147,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "equip_id",
-                "type": "string",
-                "note": "equip_id"
-            },
+            "name": "equip_id",
+            "type": "string",
+            "note": "equip_id"
+        },
             {
                 "name": "equip_qr_code",
                 "type": "fileLink",
@@ -143,10 +162,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "card_info",
                 "proArr": [{
-                        "name": "info_point_code",
-                        "type": "string",
-                        "note": "info_point_code"
-                    },
+                    "name": "info_point_code",
+                    "type": "string",
+                    "note": "info_point_code"
+                },
                     {
                         "name": "info_point_name",
                         "type": "string",
@@ -165,10 +184,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "Result",
-                "type": "string",
-                "note": "Result"
-            },
+            "name": "Result",
+            "type": "string",
+            "note": "Result"
+        },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -180,10 +199,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "can_destroy",
-                "type": "boolean",
-                "note": "can_destroy"
-            },
+            "name": "can_destroy",
+            "type": "boolean",
+            "note": "can_destroy"
+        },
             {
                 "name": "remind",
                 "type": "string",
@@ -191,59 +210,71 @@ var dataModelMap = {
             }
         ]
     },
+    'equipList': [{
+        "name": "equip_id",
+        "type": "string",
+        "note": "equip_id"
+    }, {
+        "name": "equip_local_id",
+        "type": "string",
+        "note": "equip_local_id"
+    }, {
+        "name": "equip_local_name",
+        "type": "string",
+        "note": "equip_local_name"
+    }, {
+        "name": "specification",
+        "type": "string",
+        "note": "specification"
+    }, {
+        "name": "position",
+        "type": "string",
+        "note": "position"
+    }, {
+        "name": "supplier",
+        "type": "string",
+        "note": "supplier"
+    }, {
+        "name": "download_flag",
+        "type": "string",
+        "note": "是否下载过 0 为下载   1 已下载"
+    }, {
+        "name": "create_time",
+        "type": "date",
+        "note": "create_time",
+        "format": 'y.M.d h:m'
+    },{
+        "name": "destroy_remind_type",
+        "type": "string",
+        "note": "报废提醒类型，1-距离时间，2-超出时间"
+    }, {
+        "name": "destroy_remind",
+        "type": "string",
+        "note": "destroy_remind"
+    }],
     'restEquipService/queryEquipList': {
         "type": "array",
-        "note": "未输入note",
-        "proArr": [{
-                "name": "equip_id",
-                "type": "string",
-                "note": "equip_id"
-            },
-            {
-                "name": "equip_local_id",
-                "type": "string",
-                "note": "equip_local_id"
-            },
-            {
-                "name": "equip_local_name",
-                "type": "string",
-                "note": "equip_local_name"
-            },
-            {
-                "name": "specification",
-                "type": "string",
-                "note": "specification"
-            },
-            {
-                "name": "position",
-                "type": "string",
-                "note": "position"
-            },
-            {
-                "name": "supplier",
-                "type": "string",
-                "note": "supplier"
-            },
-            {
-                "name": "create_time",
-                "type": "string",
-                "note": "create_time"
-            },
-            {
-                "name": "destroy_remind",
-                "type": "string",
-                "note": "destroy_remind"
-            }
-        ]
+        "note": "设备管理首页-查询项目下设备列表",
+        "proArrBy": 'equipList'
+    },
+    'restCardService/queryEquipList': {
+        "type": "array",
+        "note": "设备名片页-已下载的设备列表",
+        "proArrBy": 'equipList'
+    },
+    'restCardService/queryNotDownloadEquipList': {
+        "type": "array",
+        "note": "设备名片页-未下载的设备列表",
+        "proArrBy": 'equipList'
     },
     'restSchedulingConfigService/saveOrUpdateSchedulingConfig': {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "Result",
-                "type": "string",
-                "note": "Result"
-            },
+            "name": "Result",
+            "type": "string",
+            "note": "Result"
+        },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -255,10 +286,10 @@ var dataModelMap = {
         "type": "object",
         "note": "设备管理-首页:查询设备统计数量",
         "proArr": [{
-                "name": "equip_total",
-                "type": "number",
-                "note": "equip_total"
-            },
+            "name": "equip_total",
+            "type": "number",
+            "note": "equip_total"
+        },
             {
                 "name": "new_count",
                 "type": "number",
@@ -285,10 +316,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "build_id",
-                "type": "string",
-                "note": "build_id"
-            },
+            "name": "build_id",
+            "type": "string",
+            "note": "build_id"
+        },
             {
                 "name": "build_name",
                 "type": "string",
@@ -299,10 +330,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "system",
                 "proArr": [{
-                        "name": "system_id",
-                        "type": "string",
-                        "note": "system_id"
-                    },
+                    "name": "system_id",
+                    "type": "string",
+                    "note": "system_id"
+                },
                     {
                         "name": "system_local_id",
                         "type": "string",
@@ -321,10 +352,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "Result",
-                "type": "string",
-                "note": "Result"
-            },
+            "name": "Result",
+            "type": "string",
+            "note": "Result"
+        },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -350,10 +381,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "Result",
-                "type": "string",
-                "note": "Result"
-            },
+            "name": "Result",
+            "type": "string",
+            "note": "Result"
+        },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -365,10 +396,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "dict_id",
-                "type": "string",
-                "note": "dict_id"
-            },
+            "name": "dict_id",
+            "type": "string",
+            "note": "dict_id"
+        },
             {
                 "name": "code",
                 "type": "string",
@@ -400,10 +431,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "noun_type",
-                "type": "string",
-                "note": "noun_type"
-            },
+            "name": "noun_type",
+            "type": "string",
+            "note": "noun_type"
+        },
             {
                 "name": "noun_type_name",
                 "type": "string",
@@ -415,10 +446,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "date",
-                "type": "string",
-                "note": "date"
-            },
+            "name": "date",
+            "type": "string",
+            "note": "date"
+        },
             {
                 "name": "value",
                 "type": "string",
@@ -430,10 +461,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "code",
-                "type": "string",
-                "note": "code"
-            },
+            "name": "code",
+            "type": "string",
+            "note": "code"
+        },
             {
                 "name": "name",
                 "type": "string",
@@ -455,10 +486,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "Result",
-                "type": "string",
-                "note": "Result"
-            },
+            "name": "Result",
+            "type": "string",
+            "note": "Result"
+        },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -470,10 +501,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "date",
-                "type": "string",
-                "note": "date"
-            },
+            "name": "date",
+            "type": "string",
+            "note": "date"
+        },
             {
                 "name": "value",
                 "type": "string",
@@ -485,10 +516,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "build_id",
-                "type": "string",
-                "note": "build_id"
-            },
+            "name": "build_id",
+            "type": "string",
+            "note": "build_id"
+        },
             {
                 "name": "build_code",
                 "type": "string",
@@ -564,10 +595,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "picture",
                 "proArr": [{
-                        "name": "key",
-                        "type": "fileLink",
-                        "fileType": "1"
-                    },
+                    "name": "key",
+                    "type": "fileLink",
+                    "fileType": "1"
+                },
                     {
                         "name": "name",
                         "type": "string",
@@ -660,10 +691,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "drawing",
                 "proArr": [{
-                        "name": "key",
-                        "type": "fileLink",
-                        "fileType": "2"
-                    },
+                    "name": "key",
+                    "type": "fileLink",
+                    "fileType": "2"
+                },
                     {
                         "name": "name",
                         "type": "string",
@@ -681,10 +712,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "archive",
                 "proArr": [{
-                        "name": "key",
-                        "type": "fileLink",
-                        "fileType": "2"
-                    },
+                    "name": "key",
+                    "type": "fileLink",
+                    "fileType": "2"
+                },
                     {
                         "name": "name",
                         "type": "string",
@@ -702,10 +733,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "consum_model",
                 "proArr": [{
-                        "name": "key",
-                        "type": "string",
-                        "note": "key"
-                    },
+                    "name": "key",
+                    "type": "string",
+                    "note": "key"
+                },
                     {
                         "name": "name",
                         "type": "string",
@@ -729,10 +760,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "build_id",
-                "type": "string",
-                "note": "build_id"
-            },
+            "name": "build_id",
+            "type": "string",
+            "note": "build_id"
+        },
             {
                 "name": "build_code",
                 "type": "string",
@@ -769,10 +800,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "Result",
-                "type": "string",
-                "note": "Result"
-            },
+            "name": "Result",
+            "type": "string",
+            "note": "Result"
+        },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -784,10 +815,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "customer_id",
-                "type": "string",
-                "note": "customer_id"
-            },
+            "name": "customer_id",
+            "type": "string",
+            "note": "customer_id"
+        },
             {
                 "name": "company_name",
                 "type": "string",
@@ -848,10 +879,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "pictures",
                 "proArr": [{
-                        "name": "0",
-                        "type": "string",
-                        "note": "0"
-                    },
+                    "name": "0",
+                    "type": "string",
+                    "note": "0"
+                },
                     {
                         "name": "1",
                         "type": "string",
@@ -890,10 +921,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "project_id",
-                "type": "string",
-                "note": "project_id"
-            },
+            "name": "project_id",
+            "type": "string",
+            "note": "project_id"
+        },
             {
                 "name": "project_local_id",
                 "type": "string",
@@ -1285,10 +1316,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-                "name": "code",
-                "type": "string",
-                "note": "code"
-            },
+            "name": "code",
+            "type": "string",
+            "note": "code"
+        },
             {
                 "name": "name",
                 "type": "string",
@@ -1304,10 +1335,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "time_plan",
                 "proArr": [{
-                        "name": "end",
-                        "type": "string",
-                        "note": "end"
-                    },
+                    "name": "end",
+                    "type": "string",
+                    "note": "end"
+                },
                     {
                         "name": "start",
                         "type": "string",
@@ -1321,26 +1352,26 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-                "name": "Content",
+            "name": "Content",
+            "type": "array",
+            "note": "Content",
+            "proArr": [{
+                "name": "columns",
                 "type": "array",
-                "note": "Content",
+                "note": "columns",
                 "proArr": [{
-                    "name": "columns",
-                    "type": "array",
-                    "note": "columns",
-                    "proArr": [{
-                            "name": "0",
-                            "type": "string",
-                            "note": "0"
-                        },
-                        {
-                            "name": "1",
-                            "type": "string",
-                            "note": "1"
-                        }
-                    ]
-                }]
-            },
+                    "name": "0",
+                    "type": "string",
+                    "note": "0"
+                },
+                    {
+                        "name": "1",
+                        "type": "string",
+                        "note": "1"
+                    }
+                ]
+            }]
+        },
             {
                 "name": "Count",
                 "type": "number",
@@ -1362,11 +1393,11 @@ var dataModelMap = {
         "note": "人员信息-列表页:查询人员列表",
         "type": "array",
         "proArr": [{
-                "note": "员工id",
-                "name": "person_id",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "员工id",
+            "name": "person_id",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "所属项目id",
                 "name": "project_id",
@@ -1429,23 +1460,23 @@ var dataModelMap = {
         "note": "人员信息-列表页:查询人员缩略图",
         "type": "array",
         "proArr": [{
-                "note": "岗位",
-                "name": "position",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            },
+            "note": "岗位",
+            "name": "position",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        },
             {
                 "note": "员工数组",
                 "name": "persons",
                 "mapName": "",
                 "type": "array",
                 "proArr": [{
-                        "note": "员工id",
-                        "name": "person_id",
-                        "mapName": "",
-                        "type": "string"
-                    },
+                    "note": "员工id",
+                    "name": "person_id",
+                    "mapName": "",
+                    "type": "string"
+                },
                     {
                         "note": "所属项目id",
                         "name": "project_id",
@@ -1479,11 +1510,11 @@ var dataModelMap = {
         "note": "人员信息-详细页:根据查询人员详细信息",
         "type": "object",
         "proArr": [{
-                "note": "员工id",
-                "name": "person_id",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "员工id",
+            "name": "person_id",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "所属项目id",
                 "name": "project_id",
@@ -1553,11 +1584,11 @@ var dataModelMap = {
                 "mapName": "",
                 "type": "array",
                 "proArr": [{
-                        "note": "id",
-                        "name": "code",
-                        "mapName": "",
-                        "type": "string"
-                    },
+                    "note": "id",
+                    "name": "code",
+                    "mapName": "",
+                    "type": "string"
+                },
                     {
                         "note": "名字",
                         "name": "name",
@@ -1604,11 +1635,11 @@ var dataModelMap = {
                 "mapName": "",
                 "type": "array",
                 "proArr": [{
-                        "note": "id",
-                        "name": "role_id",
-                        "mapName": "",
-                        "type": "string"
-                    },
+                    "note": "id",
+                    "name": "role_id",
+                    "mapName": "",
+                    "type": "string"
+                },
                     {
                         "note": "名字",
                         "name": "role_name",
@@ -1623,11 +1654,11 @@ var dataModelMap = {
         "note": "角色管理-列表页:查询角色列表",
         "type": "array",
         "proArr": [{
-                "note": "角色id",
-                "name": "role_id",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "角色id",
+            "name": "role_id",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "所属项目id",
                 "name": "project_id",
@@ -1658,11 +1689,11 @@ var dataModelMap = {
         "note": "角色管理-查询权限项列表",
         "type": "array",
         "proArr": [{
-                "note": "权限项id",
-                "name": "func_pack_id",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "权限项id",
+            "name": "func_pack_id",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "权限项名称",
                 "name": "func_pack_name",
@@ -1687,11 +1718,11 @@ var dataModelMap = {
         "note": "角色管理-根据id查询角色详细信息",
         "type": "object",
         "proArr": [{
-                "note": "角色id",
-                "name": "role_id",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "角色id",
+            "name": "role_id",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "项目id",
                 "name": "project_id",
@@ -1710,11 +1741,11 @@ var dataModelMap = {
                 "mapName": "",
                 "type": "array",
                 "proArr": [{
-                        "note": "权限项id",
-                        "name": "func_pack_id",
-                        "mapName": "",
-                        "type": "string"
-                    },
+                    "note": "权限项id",
+                    "name": "func_pack_id",
+                    "mapName": "",
+                    "type": "string"
+                },
                     {
                         "note": "权限项名称",
                         "name": "func_pack_name",
@@ -1735,11 +1766,11 @@ var dataModelMap = {
         "note": "数据字典 查询专业",
         "type": "array",
         "proArr": [{
-                "note": "id",
-                "name": "code",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "id",
+            "name": "code",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "名字",
                 "name": "name",
@@ -1814,11 +1845,11 @@ var dataModelMap = {
         "mapName": "",
         "type": "array",
         "proArr": [{
-                "note": "方案计划id",
-                "name": "plan_id",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "方案计划id",
+            "name": "plan_id",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "工单类型编码",
                 "name": "order_type",
@@ -1862,11 +1893,11 @@ var dataModelMap = {
         "mapName": "",
         "type": "object",
         "proArr": [{
-                "note": "返回结果状态",
-                "name": "Result",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "返回结果状态",
+            "name": "Result",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "返回结果状态信息",
                 "name": "ResultMsg",
@@ -1880,11 +1911,11 @@ var dataModelMap = {
         "mapName": "",
         "type": "object",
         "proArr": [{
-                "note": "返回结果状态",
-                "name": "Result",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "返回结果状态",
+            "name": "Result",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "提醒信息",
                 "name": "Item",
@@ -1909,10 +1940,10 @@ var dataModelMap = {
         "note": "查询项目下人员列表",
         "type": "array",
         "proArr": [{
-                "note": "员工id",
-                "name": "person_id",
-                "type": "string"
-            },
+            "note": "员工id",
+            "name": "person_id",
+            "type": "string"
+        },
             {
                 "note": "员工姓名",
                 "name": "name",
@@ -1924,18 +1955,18 @@ var dataModelMap = {
         "note": "查询岗位下在职人员",
         "type": "array",
         "proArr": [{
-                "note": "岗位名称",
-                "name": "position",
-                "type": "string"
-            },
+            "note": "岗位名称",
+            "name": "position",
+            "type": "string"
+        },
             {
                 "note": "岗位下人员列表",
                 "name": "persons",
                 "proArr": [{
-                        "note": "员工id",
-                        "name": "person_id",
-                        "type": "string"
-                    },
+                    "note": "员工id",
+                    "name": "person_id",
+                    "type": "string"
+                },
                     {
                         "note": "员工姓名",
                         "name": "name",
@@ -1949,10 +1980,10 @@ var dataModelMap = {
         "note": "根据id查询详细信息",
         "type": "object",
         "proArr": [{
-                "note": "方案id",
-                "name": "plan_id",
-                "type": "string"
-            },
+            "note": "方案id",
+            "name": "plan_id",
+            "type": "string"
+        },
             {
                 "note": "项目id",
                 "name": "project_id",
@@ -1983,10 +2014,10 @@ var dataModelMap = {
                 "name": "post_and_duty",
                 "type": "array",
                 "proArr": [{
-                        "note": "类型,2代表岗位,3代表人",
-                        "name": "type",
-                        "type": "string"
-                    },
+                    "note": "类型,2代表岗位,3代表人",
+                    "name": "type",
+                    "type": "string"
+                },
                     {
                         "note": "岗位名称",
                         "name": "name",
@@ -1997,10 +2028,10 @@ var dataModelMap = {
                         "name": "duty",
                         "type": "array",
                         "proArr": [{
-                                "note": "code",
-                                "name": "control_code",
-                                "type": "string"
-                            },
+                            "note": "code",
+                            "name": "control_code",
+                            "type": "string"
+                        },
                             {
                                 "note": "职责名称",
                                 "name": "control_name",
@@ -2032,10 +2063,10 @@ var dataModelMap = {
                                 "name": "next_route",
                                 "type": "array",
                                 "proArr": [{
-                                        "note": "类型,2岗位,3人",
-                                        "name": "type",
-                                        "type": "number"
-                                    },
+                                    "note": "类型,2岗位,3人",
+                                    "name": "type",
+                                    "type": "number"
+                                },
                                     {
                                         "note": "岗位名称/人员名称",
                                         "name": "name",
@@ -2074,10 +2105,10 @@ var dataModelMap = {
         "note": "流转方案新建保存",
         "type": "object",
         "proArr": [{
-                "note": "方案id",
-                "name": "plan_id",
-                "type": "string"
-            },
+            "note": "方案id",
+            "name": "plan_id",
+            "type": "string"
+        },
             {
                 "note": "项目id",
                 "name": "project_id",
@@ -2112,10 +2143,10 @@ var dataModelMap = {
                 "note": "岗位职责",
                 "name": "post_and_duty",
                 "proArr": [{
-                        "note": "类型,2代表岗位,3代表人",
-                        "name": "type",
-                        "type": "string"
-                    },
+                    "note": "类型,2代表岗位,3代表人",
+                    "name": "type",
+                    "type": "string"
+                },
                     {
                         "note": "岗位名称",
                         "name": "name",
@@ -2126,10 +2157,10 @@ var dataModelMap = {
                         "name": "duty",
                         "type": "array",
                         "proArr": [{
-                                "note": "code",
-                                "name": "control_code",
-                                "type": "string"
-                            },
+                            "note": "code",
+                            "name": "control_code",
+                            "type": "string"
+                        },
                             {
                                 "note": "职责名称",
                                 "name": "control_name",
@@ -2155,10 +2186,10 @@ var dataModelMap = {
                                 "note": "下级路由",
                                 "name": "next_route",
                                 "proArr": [{
-                                        "note": "类型,2岗位,3人",
-                                        "name": "type",
-                                        "type": "number"
-                                    },
+                                    "note": "类型,2岗位,3人",
+                                    "name": "type",
+                                    "type": "number"
+                                },
                                     {
                                         "note": "岗位名称/人员名称",
                                         "name": "name",
@@ -2196,10 +2227,10 @@ var dataModelMap = {
         "note": "根据id查询详细信息",
         "type": "object",
         "proArr": [{
-                "note": "方案id",
-                "name": "plan_id",
-                "type": "string"
-            },
+            "note": "方案id",
+            "name": "plan_id",
+            "type": "string"
+        },
             {
                 "note": "项目id",
                 "name": "project_id",
@@ -2230,10 +2261,10 @@ var dataModelMap = {
                 "name": "post_and_duty",
                 "type": "array",
                 "proArr": [{
-                        "note": "类型,2代表岗位,3代表人",
-                        "name": "type",
-                        "type": "string"
-                    },
+                    "note": "类型,2代表岗位,3代表人",
+                    "name": "type",
+                    "type": "string"
+                },
                     {
                         "note": "岗位名称",
                         "name": "name",
@@ -2250,10 +2281,10 @@ var dataModelMap = {
                         "name": "duty",
                         "type": "array",
                         "proArr": [{
-                                "note": "code",
-                                "name": "control_code",
-                                "type": "string"
-                            },
+                            "note": "code",
+                            "name": "control_code",
+                            "type": "string"
+                        },
                             {
                                 "note": "职责名称",
                                 "name": "control_name",
@@ -2285,10 +2316,10 @@ var dataModelMap = {
                                 "name": "next_route",
                                 "type": "array",
                                 "proArr": [{
-                                        "note": "类型,2岗位,3人",
-                                        "name": "type",
-                                        "type": "number"
-                                    },
+                                    "note": "类型,2岗位,3人",
+                                    "name": "type",
+                                    "type": "number"
+                                },
                                     {
                                         "note": "岗位名称/人员名称",
                                         "name": "name",
@@ -2327,10 +2358,10 @@ var dataModelMap = {
         "note": "查询岗位和人员列表",
         "type": "array",
         "proArr": [{
-                "note": "类型2岗位3人",
-                "name": "type",
-                "type": "string"
-            },
+            "note": "类型2岗位3人",
+            "name": "type",
+            "type": "string"
+        },
             {
                 "note": "岗位名称人员名称",
                 "name": "name",
@@ -2346,10 +2377,10 @@ var dataModelMap = {
                 "name": "persons",
                 "type": "array",
                 "proArr": [{
-                        "note": "员工id",
-                        "name": "person_id",
-                        "type": "string"
-                    },
+                    "note": "员工id",
+                    "name": "person_id",
+                    "type": "string"
+                },
                     {
                         "note": "员工姓名",
                         "name": "name",
@@ -2363,10 +2394,10 @@ var dataModelMap = {
         "note": "工单状态",
         "type": "array",
         "proArr": [{
-                "note": "编号",
-                "name": "code",
-                "type": "string"
-            },
+            "note": "编号",
+            "name": "code",
+            "type": "string"
+        },
             {
                 "note": "状态名称",
                 "name": "name",
@@ -2383,10 +2414,10 @@ var dataModelMap = {
         "note": "所有工单",
         "type": "array",
         "proArr": [{
-                "note": "工单id",
-                "name": "order_id",
-                "type": "string"
-            },
+            "note": "工单id",
+            "name": "order_id",
+            "type": "string"
+        },
             {
                 "note": "工单类型",
                 "name": "order_type",
@@ -2433,11 +2464,11 @@ var dataModelMap = {
         "note": "查询当前用户能使用的工单类型",
         "type": "array",
         "proArr": [{
-                "note": "id",
-                "name": "code",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "id",
+            "name": "code",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "名字",
                 "name": "name",
@@ -2462,10 +2493,10 @@ var dataModelMap = {
         "note": "我的草稿箱工单",
         "type": "array",
         "proArr": [{
-                "note": "工单id",
-                "name": "order_id",
-                "type": "string"
-            },
+            "note": "工单id",
+            "name": "order_id",
+            "type": "string"
+        },
             {
                 "note": "工单类型",
                 "name": "order_type",
@@ -2492,10 +2523,10 @@ var dataModelMap = {
         "note": "我发布的工单",
         "type": "array",
         "proArr": [{
-                "note": "工单id",
-                "name": "order_id",
-                "type": "string"
-            },
+            "note": "工单id",
+            "name": "order_id",
+            "type": "string"
+        },
             {
                 "note": "工单类型",
                 "name": "order_type",
@@ -2537,10 +2568,10 @@ var dataModelMap = {
         "note": "我参与的工单",
         "type": "array",
         "proArr": [{
-                "note": "工单id",
-                "name": "order_id",
-                "type": "string"
-            },
+            "note": "工单id",
+            "name": "order_id",
+            "type": "string"
+        },
             {
                 "note": "工单类型",
                 "name": "order_type",
@@ -2583,11 +2614,11 @@ var dataModelMap = {
         "mapName": "",
         "type": "object",
         "proArr": [{
-                "note": "返回结果状态",
-                "name": "Result",
-                "mapName": "",
-                "type": "string"
-            },
+            "note": "返回结果状态",
+            "name": "Result",
+            "mapName": "",
+            "type": "string"
+        },
             {
                 "note": "返回结果状态信息",
                 "name": "ResultMsg",
@@ -3889,46 +3920,46 @@ var dataModelMap = {
             "name": "wo_exec_controls",
             "type": "array",
             "proArr": [{
-                    "note": "引擎需要的id",
-                    "name": "$ID",
-                    "type": "string"
-                }, {
-                    "note": "exec_control_id",
-                    "name": "exec_control_id",
-                    "type": "string"
-                }, {
-                    "note": "控制模板编码,名称查询数据字典",
-                    "name": "control_code",
-                    "type": "string"
-                }, {
-                    "note": "操作人名字",
-                    "name": "operator_name",
-                    "type": "string"
-                }, {
-                    "note": "操作开始时间",
-                    "name": "operate_start_time",
-                    "type": "string"
-                }, {
-                    "note": "操作结束时间",
-                    "name": "operate_end_time",
-                    "type": "string"
-                }, {
-                    "note": "申请类型，finish-正常结束，stop-中止",
-                    "name": "apply_type",
-                    "type": "string"
-                }, {
-                    "note": "审核结果,1-通过，0-不通过",
-                    "name": "audit_result",
-                    "type": "string"
-                }, {
-                    "note": "意见",
-                    "name": "opinion",
-                    "type": "string"
-                }, {
-                    "note": "下级路由",
-                    "name": "next_route",
-                    "type": "array"
-                },
+                "note": "引擎需要的id",
+                "name": "$ID",
+                "type": "string"
+            }, {
+                "note": "exec_control_id",
+                "name": "exec_control_id",
+                "type": "string"
+            }, {
+                "note": "控制模板编码,名称查询数据字典",
+                "name": "control_code",
+                "type": "string"
+            }, {
+                "note": "操作人名字",
+                "name": "operator_name",
+                "type": "string"
+            }, {
+                "note": "操作开始时间",
+                "name": "operate_start_time",
+                "type": "string"
+            }, {
+                "note": "操作结束时间",
+                "name": "operate_end_time",
+                "type": "string"
+            }, {
+                "note": "申请类型，finish-正常结束，stop-中止",
+                "name": "apply_type",
+                "type": "string"
+            }, {
+                "note": "审核结果,1-通过，0-不通过",
+                "name": "audit_result",
+                "type": "string"
+            }, {
+                "note": "意见",
+                "name": "opinion",
+                "type": "string"
+            }, {
+                "note": "下级路由",
+                "name": "next_route",
+                "type": "array"
+            },
                 {
                     "note": "操作时间",
                     "name": "create_time",
@@ -5158,37 +5189,37 @@ var dataModelMap = {
         "note": "查询某建筑下楼层信息",
         "type": "array",
         "proArr": [{
-                "note": "楼层id",
-                "name": "floor_id",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            }, {
-                "note": "楼层编码",
-                "name": "floor_local_id",
-                "mapName": "",
-                "type": "string",
-            }, {
-                "note": "楼层本地名称",
-                "name": "floor_local_name",
-                "mapName": "",
-                "type": "string",
-            }, {
-                "note": "楼层顺序码",
-                "name": "floor_sequence_id",
-                "mapName": "",
-                "type": "string",
-            }, {
-                "note": "楼层性质，1. 普通楼层 2. 中庭 3. 室外 4. 其他",
-                "name": "floor_type",
-                "mapName": "",
-                "type": "string",
-            }, {
-                "note": "楼层面积",
-                "name": "area",
-                "mapName": "",
-                "type": "string",
-            },
+            "note": "楼层id",
+            "name": "floor_id",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "楼层编码",
+            "name": "floor_local_id",
+            "mapName": "",
+            "type": "string",
+        }, {
+            "note": "楼层本地名称",
+            "name": "floor_local_name",
+            "mapName": "",
+            "type": "string",
+        }, {
+            "note": "楼层顺序码",
+            "name": "floor_sequence_id",
+            "mapName": "",
+            "type": "string",
+        }, {
+            "note": "楼层性质，1. 普通楼层 2. 中庭 3. 室外 4. 其他",
+            "name": "floor_type",
+            "mapName": "",
+            "type": "string",
+        }, {
+            "note": "楼层面积",
+            "name": "area",
+            "mapName": "",
+            "type": "string",
+        },
             {
                 "note": "楼层高",
                 "name": "net_height",
@@ -5199,55 +5230,60 @@ var dataModelMap = {
                 "name": "floor_func_type",
                 "mapName": "",
                 "type": "string",
-            },
+            }, {
+                "note": "是否选中",
+                "name": "ischeck",
+                "mapName": "",
+                "type": "boolean",
+            }
         ]
     },
     "restFloorService/queryFloorById": {
         "note": "根据id查询楼层详细信息",
         "type": "object",
         "proArr": [{
-                "note": "楼层id",
-                "name": "floor_id",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            }, {
-                "note": "楼层编码",
-                "name": "floor_local_id",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            }, {
-                "note": "楼层本地名称",
-                "name": "floor_local_name",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            }, {
-                "note": "楼层顺序码",
-                "name": "floor_sequence_id",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            }, {
-                "note": "BIM编码",
-                "name": "BIMID",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            }, {
-                "note": "楼层性质，1. 普通楼层 2. 中庭 3. 室外 4. 其他",
-                "name": "floor_type",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            }, {
-                "note": "楼层面积",
-                "name": "area",
-                "mapName": "",
-                "type": "string",
-                "isToSpecial": false
-            },
+            "note": "楼层id",
+            "name": "floor_id",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "楼层编码",
+            "name": "floor_local_id",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "楼层本地名称",
+            "name": "floor_local_name",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "楼层顺序码",
+            "name": "floor_sequence_id",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "BIM编码",
+            "name": "BIMID",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "楼层性质，1. 普通楼层 2. 中庭 3. 室外 4. 其他",
+            "name": "floor_type",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        }, {
+            "note": "楼层面积",
+            "name": "area",
+            "mapName": "",
+            "type": "string",
+            "isToSpecial": false
+        },
             {
                 "note": "楼层高",
                 "name": "net_height",
@@ -5302,6 +5338,7 @@ var dataModelMap = {
             "name": "floor_local_name",
             "mapName": "",
             "type": "string",
+            "isToSpecial": false
         }, {
             "note": "空间",
             "name": "spaces",
@@ -5483,11 +5520,6 @@ var dataModelMap = {
             "name": "is_remind",
             "mapName": "",
             "type": "boolean",
-        }, {
-            "note": "图片地址",
-            "name": "picAddr",
-            "mapName": "",
-            "type": "string",
         }]
     },
     "restDictService/queryAllSpaceCode": {
@@ -5903,5 +5935,70 @@ var dataModelMap = {
         "type": "object",
         "proArrBy": 'merchantInfo'
     },
+    'restCardService/queryCardInfo': {
+        "note": "上一次设置的设备名片或空间名片",
+        "type": "object",
+        "proArr": [{
+            "note": "项目id",
+            "name": "project_id",
+            "type": "string"
+        }, {
+            "note": "对象类型，space、equip",
+            "name": "obj_type",
+            "type": "string"
+        }, {
+            "note": "标题和logo",
+            "name": "card_title",
+            "type": "object",
+            "proArr": [{
+                "note": "标题",
+                "name": "title",
+                "type": "string"
+            }, {
+                "note": "logo的key",
+                "name": "logo",
+                "type": "fileLink"
+            }]
+        }, {
+            "note": "名片信息项",
+            "name": "card_info",
+            "type": "array",
+            "proArr": [{
+                "note": "信息项编码",
+                "name": "info_point_code",
+                "type": "string"
+            }, {
+                "note": "信息项名称",
+                "name": "info_point_name",
+                "type": "string"
+            }]
+        }]
+    },
+    'restCardService/queryEquipOptions': {
+        "note": "设备选择项",
+        "type": "array",
+        "proArr": [{
+            "note": "信息点编码",
+            "name": "info_point_code",
+            "type": "string"
+        }, {
+            "note": "信息点名称",
+            "name": "info_point_name",
+            "type": "string"
+        }]
+    },
+    'restCardService/querySpaceOptions': {
+        "note": "空间选择项",
+        "type": "array",
+        "proArr": [{
+            "note": "信息点编码",
+            "name": "info_point_code",
+            "type": "string"
+        }, {
+            "note": "信息点名称",
+            "name": "info_point_name",
+            "type": "string"
+        }]
+    }
 };
 module.exports = dataModelMap;

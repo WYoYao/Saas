@@ -13,14 +13,14 @@
                         <div class="type-urgency">
                             <div>
                                 <h4>工单类型：</h4>
-                                <pcombobox-normal id="'work-type'" bind="true" >
+                                <pcombobox-normal id="'work-type'" bind="true" sel="yn_method.workTypeFn">
                                     <header placeholder="请选择"></header>
                                     <item datasource="myWorkOrderModel.workTypeC" text="name"></item>
                                 </pcombobox-normal>
                             </div>
                             <div>
                                 <h4>工单紧急程度：</h4>
-                                <pcombobox-normal id="'work-urgency'" bind="true" >
+                                <pcombobox-normal id="'work-urgency'" bind="true" sel="yn_method.urgencyFn">
                                     <item datasource="myWorkOrderModel.urgency" text="name"></item>
                                 </pcombobox-normal>
                             </div>
@@ -53,7 +53,7 @@
                                 <div class="regular-time">
                                     <div class="time-div">
                                         <div>
-                                            <input type="text" placeholder="请输入数字,支持小数点后一位"
+                                            <input type="text" placeholder="请输入数字,支持小数点后一位" id="ask_end_limit"
                                                    onkeyup="if(!/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{0,1})$/gi.test(value) && value!='')execCommand('undo')" onafterpaste="if(!/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{0,1})$/gi.test(value) && value!='')execCommand('undo')">
                                         </div>
                                         <div>
@@ -114,7 +114,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="matter-error">
+                                    <div class="matter-error" style="display: none">
                                         <div class="error error-test">
                                             <div>
                                                 <em>!</em><span>该事项名称已被使用，请换一个</span>

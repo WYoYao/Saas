@@ -392,6 +392,10 @@
     background-color: white;
     border-top: 1px solid #d9d9d9;
 }
+.aite-footer>div:not(:first-of-type){
+    display: inline-block;
+    vertical-align: top;
+}
 .aite-body{
     width: 100%;
     height: calc(100% - 105px);
@@ -1255,12 +1259,37 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
     padding: 10px 10px 5px 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 15;
+}
+.slide-div.operate .textareadiv{
+    width: 100%;
+    height: 90px;
+    box-sizing: border-box;
+    padding: 10px 10px 5px 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+}
+.slide-div.operate .textarea-prop{
+    position: absolute;
+    z-index: 20;
 }
 .obj-fragment-div{
     position: absolute;
     bottom: 10px;
     left: 20px;
     cursor: pointer;
+}
+.obj-fragment-div .aite-bubble{
+    position: absolute;
+    top: 15px;
+    left: 110px;
+    z-index: 20;
+    display: none;
 }
 .aite-btn,.info-btn,.sel-btn{
     color: #7a94ad;
@@ -1378,7 +1407,9 @@
     display: block;
     width: 540px;
 }
-
+.result .add-info-btn .aite-bubble{
+    display: none;
+}
 .result .aite-bubble .aite-body{
     height: calc(100% - 160px);
 }

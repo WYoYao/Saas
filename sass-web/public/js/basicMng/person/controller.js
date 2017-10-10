@@ -268,7 +268,7 @@ personController.updatePersonById = function () { //编辑人员
     });
 }
 
-personController.addPerson = function () { //添加人员 todo 图片
+personController.addPerson = function () { //添加人员 
     $("#personLoading").pshow();
     var selPerson = personInfoModel.instance().selPerson;
     if (personController.attachments.length == 0) {

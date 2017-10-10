@@ -2,888 +2,900 @@
 .contentWrap {
     height: 100%;
     background: #E6E9EC;
-    padding: 15px 10px 0px;
+    padding: 16px 12px 0px;
     box-sizing: border-box;
-}
-
-.contentWrap .spaceContent {
-    height: 100%;
-    background: #ffffff;
-    padding: 20px 20px 10px 465px;
-    box-sizing: border-box;
-    box-shadow: 0 -1px 5px 0 rgba(0, 0, 0, 0.05);
-    border-radius: 6px 6px 0 0;
     position: relative;
 }
 
-.contentWrap .spaceContent .leftContent {
-    position: absolute;
-    top: 20px;
-    bottom: 10px;
-    left: 20px;
-    width: 430px;
-    border: 1px solid #d9e2e8;
-    box-sizing: border-box;
-}
-
-.contentWrap .spaceContent .leftContent .leftHead {
-    height: 51px;
-    border-bottom: 1px solid #d9e2e8;
-    padding: 10px 20px 0;
-    box-sizing: border-box;
-}
-
-.contentWrap .spaceContent .leftContent .leftHead .buildCombobox {
-    float: left;
-    width: 170px;
-}
-
-.contentWrap .spaceContent .leftContent .leftHead .checkAll {
-    color: #637e99;
-    float: right;
-    width: 112px;
-    cursor: pointer;
-    margin-top: 6px;
-}
-
-.contentWrap .spaceContent .leftContent .leftHead .checkAll em {
-    margin-right: 8px;
-    font-family: 'perficon';
-    font-size: 18px;
-    vertical-align: middle;
-}
-
-.contentWrap .spaceContent .leftContent .floorWrap {
-    display: flex;
-    flex-direction: column-reverse;
-    height: -moz-calc(100% - 51px);
-    height: -webkit-calc(100% - 51px);
-    height: calc(100% - 51px);
-}
-
-.contentWrap .spaceContent .leftContent .floorWrap .addButton {
-    border-top: 1px solid #d9e2e8;
-    height: 50px;
-    line-height: 50px;
-    color: #637e99;
-    text-align: center;
-    cursor: pointer;
-    background: #f8f8f8;
-}
-
-.contentWrap .spaceContent .leftContent .floorWrap .addButton em {
-    margin-right: 8px;
-    font-family: 'perficon';
-    font-size: 14px;
-    vertical-align: middle;
-}
-
-.contentWrap .spaceContent .leftContent .floorWrap .floorContent {
-    border-top: 1px solid #d9e2e8;
-    max-height: -moz-calc(100% - 102px);
-    max-height: -webkit-calc(100% - 102px);
-    max-height: calc(100% - 102px);
-    box-sizing: border-box;
-    overflow-y: auto;
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .floorItem {
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .floorItem .itemCont {
-    position: relative;
-    height: 114px;
-    border-bottom: 1px solid #d9e2e8;
-    cursor: pointer;
-    padding-left: 22px;
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .itemCont:hover {
-    background: #f8f8f8;
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .itemCont::after {
-    content: '';
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .floorTitle {
-    height: 46px;
-    width: 330px;
-    line-height: 48px;
-    color: #666666;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .floorTitle em {
-    margin: 0 6px;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .floorNumber {
-    position: absolute;
-    font-size: 16px;
-    color: #333333;
-    top: 12px;
-    right: 26px;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .floorNumber span {
-    font-size: 20px;
-    color: #02a9d1;
-    margin-right: 6px;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .info {
-    height: 26px;
-    line-height: 26px;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .info span {
-    margin-right: 20px;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .checkDetail {
-    position: absolute;
-    bottom: 20px;
-    right: 30px;
-    color: #637e99;
-    cursor: pointer;
-    display: none;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont:hover .checkDetail {
-    display: block;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .moveButton {
-    float: right;
-    width: 20px;
-    height: 114px;
-    border-left: 1px solid #d9e2e8;
-    padding-top: 26px;
-    box-sizing: border-box;
-    background: #ffffff;
-    display: none;
-    cursor: default;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont:hover .moveButton {
-    display: block;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .moveButton span {
-    font-family: 'perficon';
-    font-size: 14px;
-    color: #7a94ad;
-    cursor: pointer;
-    display: block;
-    text-align: center;
-}
-
-.contentWrap .spaceContent .leftContent .itemCont .moveButton .up {
-    margin-bottom: 40px;
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .itemCont.sel {
-    background: #02a9d1;
-    color: #ffffff;
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .itemCont.sel .floorTitle {
-    color: #ffffff;
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .itemCont.sel .floorNumber {
-    color: #ffffff;
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .itemCont.sel .floorNumber span {
-    color: #ffffff;
-}
-
-.contentWrap .spaceContent .leftContent .floorContent .itemCont.sel .checkDetail {
-    color: #ffffff;
-}
-
-.contentWrap .spaceContent .leftContent .floorWrap .floorContent .groundDiv {
-    color: #ffffff;
-    background: url(/images/spaceMng/ground.png) no-repeat center;
-    height: 20px;
-    line-height: 20px;
-    text-align: center;
-}
-
-.contentWrap .spaceContent .rightContent {
-    width: 100%;
-    height: 100%;
-    border: 1px solid #d9e2e8;
-    box-sizing: border-box;
-}
-
-.contentWrap .spaceContent .rightContent .spaceHead {
-    height: 51px;
-    border-bottom: 1px solid #d9e2e8;
-    padding: 10px 20px;
-    box-sizing: border-box;
-}
-
-.contentWrap .spaceContent .rightContent .spaceHead .title {
-    color: #333333;
-    font-size: 16px;
-    padding-left: 10px;
-    line-height: 28px;
-    border-left: 4px solid #02a9d1;
-}
-
-.contentWrap .spaceContent .rightContent .spaceHead .rightTitle {
-    float: right;
-}
-
-.contentWrap .spaceContent .rightContent .spaceHead .warnpic, .contentWrap .spaceContent .rightContent .spaceHead .checkpic {
-    padding-left: 20px;
-    margin-left: 20px;
-    float: left;
-    border-left: 1px solid #d9e2e8;
-}
-
-.contentWrap .spaceContent .rightContent .spaceHead .warnpic span {
-    display: block;
-    width: 20px;
-    height: 28px;
-    background: url(/images/spaceMng/warn.png) no-repeat center;
-    cursor: pointer;
-}
-
-.contentWrap .spaceContent .rightContent .spaceHead .checkpic span {
-    display: block;
-    width: 20px;
-    height: 28px;
-    cursor: pointer;
-    background: url(/images/spaceMng/remove.png) no-repeat center;
-}
-
-.contentWrap .spaceContent .rightContent .allFloor, .contentWrap .spaceContent .rightContent .singleFloor {
-    height: -moz-calc(100% - 51px);
-    height: -webkit-calc(100% - 51px);
-    height: calc(100% - 51px);
-    background: #f5f8f9;
-    box-sizing: border-box;
-    padding: 20px 20px 0;
-    overflow-y: auto;
-}
-
-.contentWrap .spaceContent .allFloor .floorItem {
-    margin-bottom: 10px;
-}
-
-.contentWrap .spaceContent .allFloor .floorItem .title {
-    font-size: 16px;
-    color: #333333;
-    height: 30px;
-    border-bottom: 1px dashed #d9e2e8;
-}
-
-.contentWrap .spaceContent .allFloor .floorItem .allSpace {
-    padding-top: 16px;
-}
-
-.contentWrap .spaceContent .allFloor .floorItem .allSpace:after {
-    content: '';
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem {
-    width: 300px;
-    height: 150px;
-    box-sizing: border-box;
-    background: #ffffff;
-    border: 1px solid #d9e2e8;
-    border-radius: 5px;
-    margin-bottom: 20px;
-    margin-right: 20px;
-    padding: 20px 20px 0;
-    float: left;
-    cursor: pointer;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .allOrder {
-    height: 30px;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .allOrder:after {
-    content: '';
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .orderItem {
-    float: left;
-    position: relative;
-    margin-right: 10px;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .orderItem .icon {
-    display: block;
-    width: 20px;
-    height: 20px;
-    background-repeat: no-repeat;
-    background-position: center;
-    cursor: pointer;
-}
-
-.contentWrap .spaceContent .safeOrder {
-    background-image: url(/images/spaceMng/safeOrder.png);
-}
-
-.contentWrap .spaceContent .repairOrder {
-    background-image: url(/images/spaceMng/repairOrder.png);
-}
-
-.contentWrap .spaceContent .checkOrder {
-    background-image: url(/images/spaceMng/checkOrder.png);
-}
-
-.contentWrap .spaceContent .runOrder {
-    background-image: url(/images/spaceMng/runOrder.png);
-}
-
-.contentWrap .spaceContent .securOrder {
-    background-image: url(/images/spaceMng/securOrder.png);
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .orderItem .num {
-    position: absolute;
-    width: 12px;
-    height: 12px;
-    line-height: 12px;
-    text-align: center;
-    color: #ffffff;
-    border-radius: 10px;
-    background: #ff5555;
-    font-size: 12px;
-    top: -2px;
-    right: -4px;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .orderItem .orderList {
-    position: absolute;
-    width: 300px;
-    top: 24px;
-    left: 0px;
-    border: 1px solid #d0d0d0;
-    display: none;
-}
-
-.contentWrap .spaceContent .allSpace .orderItem .orderList li {
-    background: #ffffff;
-    border-bottom: 1px solid #e6e6e6;
-    height: 40px;
-    cursor: pointer;
-    padding-left: 10px;
-    color: #637e99;
-    line-height: 40px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.contentWrap .spaceContent .allSpace .orderItem .orderList li:last-child {
-    border-bottom: none;
-}
-
-.contentWrap .spaceContent .allSpace .orderItem .orderList li .state {
-    width: 70px;
-    height: 20px;
-    line-height: 20px;
-    background: #b5b5b5;
-    text-align: center;
-    color: #ffffff;
-    float: left;
-    border-radius: 20px;
-    margin-top: 10px;
-    margin-right: 10px;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .info {
-    color: #666666;
-    margin-bottom: 16px;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .info em {
-    margin: 0 6px;
-}
-
-.contentWrap .spaceContent .allSpace .spaceItem .name {
-    color: #333333;
-    line-height: 24px;
-    font-size: 16px;
-}
-
-.contentWrap .spaceContent .allFloor .floorItem .noSpace {
-    padding-top: 16px;
-    padding-bottom: 20px;
-}
-
-.contentWrap .spaceContent .allFloor .floorItem .noSpace span {
-    width: 220px;
-    height: 40px;
-    background: #e6edef;
-    border-radius: 40px;
-    line-height: 40px;
-    text-align: center;
-    color: #999999;
-    font-size: 16px;
-    display: block;
-}
-
-.contentWrap .spaceContent .rightContent .noData {
-    height: -moz-calc(100% - 51px);
-    height: -webkit-calc(100% - 51px);
-    height: calc(100% - 51px);
-    background: #f5f8f9;
-    position: relative;
-    background: url(/images/spaceMng/nodata.png) no-repeat center;
-}
-
-.contentWrap .spaceContent .warnCont {
-    padding: 30px;
-}
-
-.contentWrap .spaceContent .warnCont .warnExplain {
-    color: #888888;
-    text-align: center;
-    border: 1px solid #dddddd;
-    height: 40px;
-    line-height: 40px;
-    width: 490px;
-    background: #f8f8f8;
-}
-
-.contentWrap .spaceContent .warnCont .warnList li {
-    border: 1px solid #dddddd;
-    border-top: none;
-    height: 40px;
-    line-height: 40px;
-    padding-left: 20px;
-}
-
-.contentWrap .spaceContent .warnCont .warnList li .cont {
-    padding-left: 26px;
-    padding-top: 3px;
-    padding-bottom: 3px;
-    background-repeat: no-repeat;
-    background-position: left center;
-}
-
-.contentWrap .spaceContent .warnCont .warnList li .checkbox {
-    float: right;
-    margin-right: 20px;
-    margin-top: 12px;
-    width: 16px;
-    height: 16px;
-    border: 1px solid #7a94ad;
-    border-radius: 2px;
-    box-sizing: border-box;
-    cursor: pointer;
-    background: #fff;
-    position: relative;
-}
-
-.contentWrap .spaceContent .warnCont .warnList li .checkbox.checked {
-    background: #7a94ad;
-}
-
-.contentWrap .spaceContent .warnCont .warnList li .checkbox.checked:before {
-    box-sizing: content-box;
-    content: "";
-    border: 2px solid #fff;
-    border-left: 0;
-    border-top: 0;
-    height: 7px;
-    left: 4px;
-    top: 1px;
-    transform: rotate(45deg);
-    width: 4px;
-    transition: transform .15s cubic-bezier(.71, -0.46, .88, .6) .05s;
-    transform-origin: center;
-    position: absolute;
-}
-
-.contentWrap .spaceContent .warnCont .edit_button {
-    text-align: center;
-    padding-top: 30px;
-}
-
-.contentWrap .spaceContent .removeSpace {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    border-radius: 6px 6px 0 0;
-    padding: 50px 20px 10px;
-    box-sizing: border-box;
-    display: none;
-}
-
-.contentWrap .spaceContent .removeSpace .removeHead {
-    position: absolute;
-    top: 10px;
-    left: 20px;
-    right: 20px;
-    overflow: hidden;
-    height: 30px;
-}
-
-.contentWrap .spaceContent .removeSpace .removeHead .cancel {
-    position: absolute;
-    top: 0;
-    left: 0;
-}
-
-.contentWrap .spaceContent .removeSpace .removeHead .title {
-    height: 30px;
-    line-height: 30px;
-    font-size: 18px;
-    text-align: center;
-}
-
-.contentWrap .spaceContent .removeSpace .removeCont {
-    height: 100%;
-    border: 1px solid #d9e2e8;
-    box-sizing: border-box;
-    background: #f5f8f9;
-    overflow-y: auto;
-}
-
-.contentWrap .spaceContent .removeSpace .removeCont .allFloor {
-    padding: 20px 20px 0;
-}
-
-.contentWrap .spaceContent .removeSpace .removeCont .noData {
-    height: 100%;
-    background: url(/images/spaceMng/nodata.png) no-repeat center;
-}
-
-.contentWrap .spaceContent .detailFloat {
-    width: 460px;
-    height: 100%;
-    box-sizing: border-box;
-    overflow-y: auto;
-}
-
-.contentWrap .spaceContent .detailFloat .detailHead {
-    height: 30px;
-    line-height: 1;
-    font-size: 16px;
-    color: #aaaaaa;
-    padding: 0 20px 0 30px;
-    border-bottom: 1px dashed #e6e6e6;
-    margin-top: 30px;
-    margin-bottom: 10px;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem {
-    padding: 0 20px 0 30px;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem:hover {
-    background: #f5f5f5;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .contShow {
-    height: 44px;
-    line-height: 44px;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .contShow .name {
-    margin-right: 8px;
-    color: #777777;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .contShow .unit {
-    margin-left: 6px;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .contShow .edit {
-    float: right;
-    color: #637e99;
-    height: 16px;
-    cursor: pointer;
-    line-height: 16px;
-    margin-top: 14px;
-    display: none;
-    cursor: pointer;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .contShow .edit em {
-    font-family: 'perficon';
-    font-size: 16px;
-    margin-right: 4px;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .canEdit:hover .edit {
-    display: block;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .editShow {
-    min-height: 58px;
-    display: none;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .editShow:after {
-    content: '';
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .editShow .editInput {
-    width: 200px;
-    float: left;
-    margin-top: 7px;
-    position: relative;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .editShow .editDown {
-    width: 226px;
-    float: left;
-    margin-top: 7px;
-    position: relative;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .editShow .editText {
-    height: 122px;
-    width: 200px;
-    float: left;
-    margin-top: 7px;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .editShow .name {
-    margin-right: 8px;
-    color: #777777;
-    float: left;
-    height: 44px;
-    line-height: 44px;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .editShow .sure {
-    float: right;
-    font-family: 'perficon';
-    font-size: 16px;
-    color: #68c5b3;
-    margin-right: 12px;
-    margin-top: 14px;
-    cursor: pointer;
-}
-
-.contentWrap .spaceContent .detailFloat .detailItem .editShow .cancel {
-    float: right;
-    font-family: 'perficon';
-    font-size: 16px;
-    color: #7a94ad;
-    margin-top: 14px;
-    cursor: pointer;
-}
-
-.contentWrap .spaceContent .removeSpace .addFloorCont {
-    background: #ffffff;
-}
-
-.contentWrap .spaceContent .addFloorCont {
-    background: #ffffff;
-}
-
-.contentWrap .spaceContent .addFloorCont .addDetail {
-    width: 486px;
-    padding-top: 30px;
-    margin: 0 auto;
-}
-
-.contentWrap .spaceContent .addFloorCont .addItem {
-    margin-bottom: 30px;
-}
-
-.contentWrap .spaceContent .addFloorCont .addItem:after {
-    content: '';
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-.contentWrap .spaceContent .addFloorCont .addItem .name {
-    float: left;
-    width: 140px;
-    text-align: right;
-    height: 30px;
-    line-height: 30px;
-    margin-right: 10px;
-    color: #666666;
-}
-
-.contentWrap .spaceContent .addFloorCont .addItem .name span {
-    position: relative;
-}
-
-.contentWrap .spaceContent .addFloorCont .addItem .name em {
-    position: absolute;
-    left: -14px;
-    top: 3px;
-    font-size: 20px;
-    color: #4aab9a;
-    line-height: 1;
-}
-
-.contentWrap .spaceContent .addFloorCont .addItem .cont {
-    float: left;
-    min-height: 30px;
-    width: 200px;
-}
-
-.contentWrap .spaceContent .addFloorCont .addItem .funcCont {
-    width: 330px;
-}
-
-.contentWrap .spaceContent .removeSpace .removeCont .addSpaceCont {
-    padding-top: 30px;
-    width: 770px;
-    padding-left: 200px;
-    box-sizing: border-box;
-    margin: 0 auto;
-    position: relative;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 56px;
-    border-left: 2px solid #becede;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes .circle {
-    box-shadow: 0px 0px 0px 2px #becede;
-    width: 20px;
-    height: 20px;
-    border-radius: 20px;
-    cursor: pointer;
-    position: relative;
-    top: 80px;
-    left: -10px;
-    background: #ffffff;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:nth-child(2) {
-    top: 220px;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:nth-child(3) {
-    top: 360px;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:nth-child(4) {
-    top: 500px;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:nth-child(5) {
-    top: 640px;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes .circle .name {
-    color: #aaaaaa;
-    font-size: 16px;
-    position: absolute;
-    right: 38px;
-    top: 0;
-    white-space: nowrap;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:hover {
-    background: #b4e9f6;
-    color: #02a9d1;
-}
-
-.contentWrap .spaceContent .addSpaceCont .verticalAxes .circle.sel {
-    box-shadow: 0px 0px 0px 5px #b4e9f6;
-    background: #02a9d1;
-    color: #02a9d1;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem {
-    padding-bottom: 20px;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem:after {
-    content: '';
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .header {
-    height: 30px;
-    color: #aaaaaa;
-    font-size: 16px;
-    border-bottom: 1px dashed #e6e6e6;
-    margin-bottom: 18px;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem {
-    margin-bottom: 30px;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem.leftItem {
-    width: 270px;
-    float: left;
-    clear: both;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem.rightItem {
-    width: 270px;
-    float: right;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem.lineItem {
-    width: 570px;
-    clear: both;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem .name {
-    margin-bottom: 8px;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem .name span {
-    position: relative;
-    color: #666666;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem .name em {
-    position: absolute;
-    left: -14px;
-    top: 3px;
-    font-size: 20px;
-    color: #4aab9a;
-    line-height: 1;
-}
-
-.contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem .cont {
-    min-height: 30px;
-    position: relative;
-}
+    .contentWrap #see_orderDetail_bg {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+    }
+
+    .contentWrap .spaceContent {
+        height: 100%;
+        background: #ffffff;
+        padding: 20px 20px 10px 465px;
+        box-sizing: border-box;
+        box-shadow: 0 -1px 5px 0 rgba(0, 0, 0, 0.05);
+        border-radius: 6px 6px 0 0;
+        position: relative;
+    }
+
+        .contentWrap .spaceContent .leftContent {
+            position: absolute;
+            top: 20px;
+            bottom: 10px;
+            left: 20px;
+            width: 430px;
+            border: 1px solid #d9e2e8;
+            box-sizing: border-box;
+        }
+
+            .contentWrap .spaceContent .leftContent .leftHead {
+                height: 51px;
+                border-bottom: 1px solid #d9e2e8;
+                padding: 10px 20px 0;
+                box-sizing: border-box;
+            }
+
+                .contentWrap .spaceContent .leftContent .leftHead .buildCombobox {
+                    float: left;
+                    width: 170px;
+                }
+
+                .contentWrap .spaceContent .leftContent .leftHead .checkAll {
+                    color: #637e99;
+                    float: right;
+                    width: 112px;
+                    cursor: pointer;
+                    margin-top: 6px;
+                }
+
+                    .contentWrap .spaceContent .leftContent .leftHead .checkAll em {
+                        margin-right: 8px;
+                        font-family: 'perficon';
+                        font-size: 18px;
+                        vertical-align: middle;
+                    }
+
+            .contentWrap .spaceContent .leftContent .floorWrap {
+                display: flex;
+                flex-direction: column-reverse;
+                height: -moz-calc(100% - 51px);
+                height: -webkit-calc(100% - 51px);
+                height: calc(100% - 51px);
+            }
+
+                .contentWrap .spaceContent .leftContent .floorWrap .addButton {
+                    border-top: 1px solid #d9e2e8;
+                    height: 50px;
+                    line-height: 50px;
+                    color: #637e99;
+                    text-align: center;
+                    cursor: pointer;
+                    background: #f8f8f8;
+                }
+
+                    .contentWrap .spaceContent .leftContent .floorWrap .addButton em {
+                        margin-right: 8px;
+                        font-family: 'perficon';
+                        font-size: 14px;
+                        vertical-align: middle;
+                    }
+
+                .contentWrap .spaceContent .leftContent .floorWrap .floorContent {
+                    border-top: 1px solid #d9e2e8;
+                    max-height: -moz-calc(100% - 102px);
+                    max-height: -webkit-calc(100% - 102px);
+                    max-height: calc(100% - 102px);
+                    box-sizing: border-box;
+                    overflow-y: auto;
+                }
+
+            .contentWrap .spaceContent .leftContent .floorContent .floorItem {
+            }
+
+                .contentWrap .spaceContent .leftContent .floorContent .floorItem .itemCont {
+                    position: relative;
+                    height: 114px;
+                    border-bottom: 1px solid #d9e2e8;
+                    cursor: pointer;
+                    padding-left: 22px;
+                }
+
+            .contentWrap .spaceContent .leftContent .floorContent .itemCont:hover {
+                background: #f8f8f8;
+            }
+
+            .contentWrap .spaceContent .leftContent .floorContent .itemCont::after {
+                content: '';
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden;
+            }
+
+            .contentWrap .spaceContent .leftContent .itemCont .floorTitle {
+                height: 46px;
+                width: 330px;
+                line-height: 48px;
+                color: #666666;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+            }
+
+                .contentWrap .spaceContent .leftContent .itemCont .floorTitle em {
+                    margin: 0 6px;
+                }
+
+            .contentWrap .spaceContent .leftContent .itemCont .floorNumber {
+                position: absolute;
+                font-size: 16px;
+                color: #333333;
+                top: 12px;
+                right: 26px;
+            }
+
+                .contentWrap .spaceContent .leftContent .itemCont .floorNumber span {
+                    font-size: 20px;
+                    color: #02a9d1;
+                    margin-right: 6px;
+                }
+
+            .contentWrap .spaceContent .leftContent .itemCont .info {
+                height: 26px;
+                line-height: 26px;
+            }
+
+                .contentWrap .spaceContent .leftContent .itemCont .info span {
+                    margin-right: 20px;
+                }
+
+            .contentWrap .spaceContent .leftContent .itemCont .checkDetail {
+                position: absolute;
+                bottom: 20px;
+                right: 30px;
+                color: #637e99;
+                cursor: pointer;
+                display: none;
+            }
+
+            .contentWrap .spaceContent .leftContent .itemCont:hover .checkDetail {
+                display: block;
+            }
+
+            .contentWrap .spaceContent .leftContent .itemCont .moveButton {
+                float: right;
+                width: 20px;
+                height: 114px;
+                border-left: 1px solid #d9e2e8;
+                padding-top: 26px;
+                box-sizing: border-box;
+                background: #ffffff;
+                display: none;
+                cursor: default;
+            }
+
+            .contentWrap .spaceContent .leftContent .itemCont:hover .moveButton {
+                display: block;
+            }
+
+            .contentWrap .spaceContent .leftContent .itemCont .moveButton span {
+                font-family: 'perficon';
+                font-size: 14px;
+                color: #7a94ad;
+                cursor: pointer;
+                display: block;
+                text-align: center;
+            }
+
+            .contentWrap .spaceContent .leftContent .itemCont .moveButton .up {
+                margin-bottom: 40px;
+            }
+
+            .contentWrap .spaceContent .leftContent .floorContent .itemCont.sel {
+                background: #02a9d1;
+                color: #ffffff;
+            }
+
+                .contentWrap .spaceContent .leftContent .floorContent .itemCont.sel .floorTitle {
+                    color: #ffffff;
+                }
+
+                .contentWrap .spaceContent .leftContent .floorContent .itemCont.sel .floorNumber {
+                    color: #ffffff;
+                }
+
+                    .contentWrap .spaceContent .leftContent .floorContent .itemCont.sel .floorNumber span {
+                        color: #ffffff;
+                    }
+
+                .contentWrap .spaceContent .leftContent .floorContent .itemCont.sel .checkDetail {
+                    color: #ffffff;
+                }
+
+            .contentWrap .spaceContent .leftContent .floorWrap .floorContent .groundDiv {
+                color: #ffffff;
+                background: url(/images/spaceMng/ground.png) no-repeat center;
+                height: 20px;
+                line-height: 20px;
+                text-align: center;
+            }
+
+        .contentWrap .spaceContent .rightContent {
+            width: 100%;
+            height: 100%;
+            border: 1px solid #d9e2e8;
+            box-sizing: border-box;
+        }
+
+            .contentWrap .spaceContent .rightContent .spaceHead {
+                height: 51px;
+                border-bottom: 1px solid #d9e2e8;
+                padding: 10px 20px;
+                box-sizing: border-box;
+            }
+
+                .contentWrap .spaceContent .rightContent .spaceHead .title {
+                    color: #333333;
+                    font-size: 16px;
+                    padding-left: 10px;
+                    line-height: 28px;
+                    border-left: 4px solid #02a9d1;
+                }
+
+                .contentWrap .spaceContent .rightContent .spaceHead .rightTitle {
+                    float: right;
+                }
+
+                .contentWrap .spaceContent .rightContent .spaceHead .warnpic, .contentWrap .spaceContent .rightContent .spaceHead .checkpic {
+                    padding-left: 20px;
+                    margin-left: 20px;
+                    float: left;
+                    border-left: 1px solid #d9e2e8;
+                }
+
+                    .contentWrap .spaceContent .rightContent .spaceHead .warnpic span {
+                        display: block;
+                        width: 20px;
+                        height: 28px;
+                        background: url(/images/spaceMng/warn.png) no-repeat center;
+                        cursor: pointer;
+                    }
+
+                    .contentWrap .spaceContent .rightContent .spaceHead .checkpic span {
+                        display: block;
+                        width: 20px;
+                        height: 28px;
+                        cursor: pointer;
+                        background: url(/images/spaceMng/remove.png) no-repeat center;
+                    }
+
+            .contentWrap .spaceContent .rightContent .allFloor, .contentWrap .spaceContent .rightContent .singleFloor {
+                height: -moz-calc(100% - 51px);
+                height: -webkit-calc(100% - 51px);
+                height: calc(100% - 51px);
+                background: #f5f8f9;
+                box-sizing: border-box;
+                padding: 20px 20px 0;
+                overflow-y: auto;
+            }
+
+        .contentWrap .spaceContent .allFloor .floorItem {
+            margin-bottom: 10px;
+        }
+
+            .contentWrap .spaceContent .allFloor .floorItem .title {
+                font-size: 16px;
+                color: #333333;
+                height: 30px;
+                border-bottom: 1px dashed #d9e2e8;
+            }
+
+            .contentWrap .spaceContent .allFloor .floorItem .allSpace {
+                padding-top: 16px;
+            }
+
+                .contentWrap .spaceContent .allFloor .floorItem .allSpace:after {
+                    content: '';
+                    display: block;
+                    height: 0;
+                    clear: both;
+                    visibility: hidden;
+                }
+
+        .contentWrap .spaceContent .allSpace .spaceItem {
+            width: 300px;
+            height: 150px;
+            box-sizing: border-box;
+            background: #ffffff;
+            border: 1px solid #d9e2e8;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            padding: 20px 20px 0;
+            float: left;
+            cursor: pointer;
+        }
+
+            .contentWrap .spaceContent .allSpace .spaceItem .allOrder {
+                height: 30px;
+            }
+
+                .contentWrap .spaceContent .allSpace .spaceItem .allOrder:after {
+                    content: '';
+                    display: block;
+                    height: 0;
+                    clear: both;
+                    visibility: hidden;
+                }
+
+            .contentWrap .spaceContent .allSpace .spaceItem .orderItem {
+                float: left;
+                position: relative;
+                margin-right: 10px;
+            }
+
+                .contentWrap .spaceContent .allSpace .spaceItem .orderItem .icon {
+                    display: block;
+                    width: 20px;
+                    height: 20px;
+                    background-repeat: no-repeat;
+                    background-position: center;
+                    cursor: pointer;
+                }
+
+        .contentWrap .spaceContent .safeOrder {
+            background-image: url(/images/spaceMng/safeOrder.png);
+        }
+
+        .contentWrap .spaceContent .repairOrder {
+            background-image: url(/images/spaceMng/repairOrder.png);
+        }
+
+        .contentWrap .spaceContent .checkOrder {
+            background-image: url(/images/spaceMng/checkOrder.png);
+        }
+
+        .contentWrap .spaceContent .runOrder {
+            background-image: url(/images/spaceMng/runOrder.png);
+        }
+
+        .contentWrap .spaceContent .securOrder {
+            background-image: url(/images/spaceMng/securOrder.png);
+        }
+
+        .contentWrap .spaceContent .allSpace .spaceItem .orderItem .num {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            line-height: 12px;
+            text-align: center;
+            color: #ffffff;
+            border-radius: 10px;
+            background: #ff5555;
+            font-size: 12px;
+            top: -2px;
+            right: -4px;
+        }
+
+        .contentWrap .spaceContent .allSpace .spaceItem .orderItem .orderList {
+            position: absolute;
+            width: 300px;
+            top: 24px;
+            left: 0px;
+            border: 1px solid #d0d0d0;
+            display: none;
+        }
+
+        .contentWrap .spaceContent .allSpace .orderItem .orderList li {
+            background: #ffffff;
+            border-bottom: 1px solid #e6e6e6;
+            height: 40px;
+            cursor: pointer;
+            padding-left: 10px;
+            color: #637e99;
+            line-height: 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+            .contentWrap .spaceContent .allSpace .orderItem .orderList li:hover {
+                background: #f8f8f8;
+            }
+
+            .contentWrap .spaceContent .allSpace .orderItem .orderList li:last-child {
+                border-bottom: none;
+            }
+
+            .contentWrap .spaceContent .allSpace .orderItem .orderList li .state {
+                width: 70px;
+                height: 20px;
+                line-height: 20px;
+                background: #b5b5b5;
+                text-align: center;
+                color: #ffffff;
+                float: left;
+                border-radius: 20px;
+                margin-top: 10px;
+                margin-right: 10px;
+            }
+
+        .contentWrap .spaceContent .allSpace .spaceItem .info {
+            color: #666666;
+            margin-bottom: 16px;
+        }
+
+            .contentWrap .spaceContent .allSpace .spaceItem .info em {
+                margin: 0 6px;
+            }
+
+        .contentWrap .spaceContent .allSpace .spaceItem .name {
+            color: #333333;
+            line-height: 24px;
+            font-size: 16px;
+        }
+
+        .contentWrap .spaceContent .allFloor .floorItem .noSpace {
+            padding-top: 16px;
+            padding-bottom: 20px;
+        }
+
+            .contentWrap .spaceContent .allFloor .floorItem .noSpace span {
+                width: 220px;
+                height: 40px;
+                background: #e6edef;
+                border-radius: 40px;
+                line-height: 40px;
+                text-align: center;
+                color: #999999;
+                font-size: 16px;
+                display: block;
+            }
+
+        .contentWrap .spaceContent .rightContent .noData {
+            height: -moz-calc(100% - 51px);
+            height: -webkit-calc(100% - 51px);
+            height: calc(100% - 51px);
+            background: #f5f8f9;
+            position: relative;
+            background: url(/images/spaceMng/nodata.png) no-repeat center;
+        }
+
+        .contentWrap .spaceContent .warnCont {
+            padding: 30px;
+        }
+
+            .contentWrap .spaceContent .warnCont .warnExplain {
+                color: #888888;
+                text-align: center;
+                border: 1px solid #dddddd;
+                height: 40px;
+                line-height: 40px;
+                width: 490px;
+                background: #f8f8f8;
+            }
+
+            .contentWrap .spaceContent .warnCont .warnList li {
+                border: 1px solid #dddddd;
+                border-top: none;
+                height: 40px;
+                line-height: 40px;
+                padding-left: 20px;
+            }
+
+                .contentWrap .spaceContent .warnCont .warnList li .cont {
+                    padding-left: 26px;
+                    padding-top: 3px;
+                    padding-bottom: 3px;
+                    background-repeat: no-repeat;
+                    background-position: left center;
+                }
+
+                .contentWrap .spaceContent .warnCont .warnList li .checkbox {
+                    float: right;
+                    margin-right: 20px;
+                    margin-top: 12px;
+                    width: 16px;
+                    height: 16px;
+                    border: 1px solid #7a94ad;
+                    border-radius: 2px;
+                    box-sizing: border-box;
+                    cursor: pointer;
+                    background: #fff;
+                    position: relative;
+                }
+
+                    .contentWrap .spaceContent .warnCont .warnList li .checkbox.checked {
+                        background: #7a94ad;
+                    }
+
+                        .contentWrap .spaceContent .warnCont .warnList li .checkbox.checked:before {
+                            box-sizing: content-box;
+                            content: "";
+                            border: 2px solid #fff;
+                            border-left: 0;
+                            border-top: 0;
+                            height: 7px;
+                            left: 4px;
+                            top: 1px;
+                            transform: rotate(45deg);
+                            width: 4px;
+                            transition: transform .15s cubic-bezier(.71, -0.46, .88, .6) .05s;
+                            transform-origin: center;
+                            position: absolute;
+                        }
+
+            .contentWrap .spaceContent .warnCont .edit_button {
+                text-align: center;
+                padding-top: 30px;
+            }
+
+        .contentWrap .spaceContent .removeSpace {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #ffffff;
+            border-radius: 6px 6px 0 0;
+            padding: 50px 20px 10px;
+            box-sizing: border-box;
+            display: none;
+        }
+
+            .contentWrap .spaceContent .removeSpace .removeHead {
+                position: absolute;
+                top: 10px;
+                left: 20px;
+                right: 20px;
+                overflow: hidden;
+                height: 30px;
+            }
+
+                .contentWrap .spaceContent .removeSpace .removeHead .cancel {
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+                }
+
+                .contentWrap .spaceContent .removeSpace .removeHead .title {
+                    height: 30px;
+                    line-height: 30px;
+                    font-size: 18px;
+                    text-align: center;
+                }
+
+            .contentWrap .spaceContent .removeSpace .removeCont {
+                height: 100%;
+                border: 1px solid #d9e2e8;
+                box-sizing: border-box;
+                background: #f5f8f9;
+                overflow-y: auto;
+            }
+
+                .contentWrap .spaceContent .removeSpace .removeCont .allFloor {
+                    padding: 20px 20px 0;
+                }
+
+                .contentWrap .spaceContent .removeSpace .removeCont .noData {
+                    height: 100%;
+                    background: url(/images/spaceMng/nodata.png) no-repeat center;
+                }
+
+        .contentWrap .spaceContent .detailFloat {
+            width: 460px;
+            height: 100%;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+            .contentWrap .spaceContent .detailFloat .detailHead {
+                height: 30px;
+                line-height: 1;
+                font-size: 16px;
+                color: #aaaaaa;
+                padding: 0 20px 0 30px;
+                border-bottom: 1px dashed #e6e6e6;
+                margin-top: 30px;
+                margin-bottom: 10px;
+            }
+
+            .contentWrap .spaceContent .detailFloat .detailItem {
+                padding: 0 20px 0 30px;
+            }
+
+                .contentWrap .spaceContent .detailFloat .detailItem:hover {
+                    background: #f5f5f5;
+                }
+
+                .contentWrap .spaceContent .detailFloat .detailItem .contShow {
+                    height: 44px;
+                    line-height: 44px;
+                }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .contShow .name {
+                        margin-right: 8px;
+                        color: #777777;
+                    }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .contShow .unit {
+                        margin-left: 6px;
+                    }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .contShow .edit {
+                        float: right;
+                        color: #637e99;
+                        height: 16px;
+                        cursor: pointer;
+                        line-height: 16px;
+                        margin-top: 14px;
+                        display: none;
+                        cursor: pointer;
+                    }
+
+                        .contentWrap .spaceContent .detailFloat .detailItem .contShow .edit em {
+                            font-family: 'perficon';
+                            font-size: 16px;
+                            margin-right: 4px;
+                        }
+
+                .contentWrap .spaceContent .detailFloat .detailItem .canEdit:hover .edit {
+                    display: block;
+                }
+
+                .contentWrap .spaceContent .detailFloat .detailItem .editShow {
+                    min-height: 58px;
+                    display: none;
+                }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .editShow:after {
+                        content: '';
+                        display: block;
+                        height: 0;
+                        clear: both;
+                        visibility: hidden;
+                    }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .editShow .editInput {
+                        width: 200px;
+                        float: left;
+                        margin-top: 7px;
+                        position: relative;
+                    }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .editShow .editDown {
+                        width: 226px;
+                        float: left;
+                        margin-top: 7px;
+                        position: relative;
+                    }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .editShow .editText {
+                        height: 122px;
+                        width: 200px;
+                        float: left;
+                        margin-top: 7px;
+                    }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .editShow .name {
+                        margin-right: 8px;
+                        color: #777777;
+                        float: left;
+                        height: 44px;
+                        line-height: 44px;
+                    }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .editShow .sure {
+                        float: right;
+                        font-family: 'perficon';
+                        font-size: 16px;
+                        color: #68c5b3;
+                        margin-right: 12px;
+                        margin-top: 14px;
+                        cursor: pointer;
+                    }
+
+                    .contentWrap .spaceContent .detailFloat .detailItem .editShow .cancel {
+                        float: right;
+                        font-family: 'perficon';
+                        font-size: 16px;
+                        color: #7a94ad;
+                        margin-top: 14px;
+                        cursor: pointer;
+                    }
+
+        .contentWrap .spaceContent .removeSpace .addFloorCont {
+            background: #ffffff;
+        }
+
+        .contentWrap .spaceContent .addFloorCont {
+            background: #ffffff;
+        }
+
+            .contentWrap .spaceContent .addFloorCont .addDetail {
+                width: 486px;
+                padding-top: 30px;
+                margin: 0 auto;
+            }
+
+            .contentWrap .spaceContent .addFloorCont .addItem {
+                margin-bottom: 30px;
+            }
+
+                .contentWrap .spaceContent .addFloorCont .addItem:after {
+                    content: '';
+                    display: block;
+                    height: 0;
+                    clear: both;
+                    visibility: hidden;
+                }
+
+                .contentWrap .spaceContent .addFloorCont .addItem .name {
+                    float: left;
+                    width: 140px;
+                    text-align: right;
+                    height: 30px;
+                    line-height: 30px;
+                    margin-right: 10px;
+                    color: #666666;
+                }
+
+                    .contentWrap .spaceContent .addFloorCont .addItem .name span {
+                        position: relative;
+                    }
+
+                    .contentWrap .spaceContent .addFloorCont .addItem .name em {
+                        position: absolute;
+                        left: -14px;
+                        top: 3px;
+                        font-size: 20px;
+                        color: #4aab9a;
+                        line-height: 1;
+                    }
+
+                .contentWrap .spaceContent .addFloorCont .addItem .cont {
+                    float: left;
+                    min-height: 30px;
+                    width: 200px;
+                }
+
+                .contentWrap .spaceContent .addFloorCont .addItem .funcCont {
+                    width: 330px;
+                }
+
+        .contentWrap .spaceContent .removeSpace .removeCont .addSpaceCont {
+            padding-top: 30px;
+            width: 770px;
+            padding-left: 200px;
+            box-sizing: border-box;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .contentWrap .spaceContent .addSpaceCont .verticalAxes {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 56px;
+            border-left: 2px solid #becede;
+        }
+
+            .contentWrap .spaceContent .addSpaceCont .verticalAxes .circle {
+                box-shadow: 0px 0px 0px 2px #becede;
+                width: 20px;
+                height: 20px;
+                border-radius: 20px;
+                cursor: pointer;
+                position: relative;
+                top: 80px;
+                left: -10px;
+                background: #ffffff;
+            }
+
+                .contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:nth-child(2) {
+                    top: 220px;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:nth-child(3) {
+                    top: 360px;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:nth-child(4) {
+                    top: 500px;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:nth-child(5) {
+                    top: 640px;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .verticalAxes .circle .name {
+                    color: #aaaaaa;
+                    font-size: 16px;
+                    position: absolute;
+                    right: 38px;
+                    top: 0;
+                    white-space: nowrap;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .verticalAxes .circle:hover {
+                    background: #b4e9f6;
+                    color: #02a9d1;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .verticalAxes .circle.sel {
+                    box-shadow: 0px 0px 0px 5px #b4e9f6;
+                    background: #02a9d1;
+                    color: #02a9d1;
+                }
+
+        .contentWrap .spaceContent .addSpaceCont .moduleItem {
+            padding-bottom: 20px;
+        }
+
+            .contentWrap .spaceContent .addSpaceCont .moduleItem:after {
+                content: '';
+                display: block;
+                height: 0;
+                clear: both;
+                visibility: hidden;
+            }
+
+            .contentWrap .spaceContent .addSpaceCont .moduleItem .header {
+                height: 30px;
+                color: #aaaaaa;
+                font-size: 16px;
+                border-bottom: 1px dashed #e6e6e6;
+                margin-bottom: 18px;
+            }
+
+            .contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem {
+                margin-bottom: 30px;
+            }
+
+                .contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem.leftItem {
+                    width: 270px;
+                    float: left;
+                    clear: both;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem.rightItem {
+                    width: 270px;
+                    float: right;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem.lineItem {
+                    width: 570px;
+                    clear: both;
+                }
+
+                .contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem .name {
+                    margin-bottom: 8px;
+                }
+
+                    .contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem .name span {
+                        position: relative;
+                        color: #666666;
+                    }
+
+                    .contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem .name em {
+                        position: absolute;
+                        left: -14px;
+                        top: 3px;
+                        font-size: 20px;
+                        color: #4aab9a;
+                        line-height: 1;
+                    }
+
+                .contentWrap .spaceContent .addSpaceCont .moduleItem .eachItem .cont {
+                    min-height: 30px;
+                    position: relative;
+                }
 
 .contTreeHead {
     width: 100%;
@@ -905,16 +917,16 @@
     z-index: 4;
 }
 
-.contTreeHead:hover {
-    background: #f8f8f8;
-}
+    .contTreeHead:hover {
+        background: #f8f8f8;
+    }
 
-.contTreeHead em {
-    font-family: 'perficon';
-    font-size: 14px;
-    position: absolute;
-    right: 10px;
-}
+    .contTreeHead em {
+        font-family: 'perficon';
+        font-size: 14px;
+        position: absolute;
+        right: 10px;
+    }
 
 .contTreeList {
     max-height: 212px;
@@ -931,77 +943,76 @@
     display: none;
 }
 
-.contTreeList .ftitle {
-    font-size: 14px;
-    color: #4f4f4f;
-    height: 37px;
-    border-bottom: 1px solid #dcdcdc;
-    line-height: 37px;
-    box-sizing: border-box;
-    cursor: pointer;
-    padding-left: 40px;
-    padding-right: 40px;
-    position: relative;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    .contTreeList .ftitle {
+        font-size: 14px;
+        color: #4f4f4f;
+        height: 37px;
+        border-bottom: 1px solid #dcdcdc;
+        line-height: 37px;
+        box-sizing: border-box;
+        cursor: pointer;
+        padding-left: 40px;
+        padding-right: 40px;
+        position: relative;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
-}
+        .contTreeList .ftitle:hover {
+            background: #f8f8f8;
+        }
 
-.contTreeList .ftitle:hover {
-    background: #f8f8f8;
-}
+    .contTreeList li li .ftitle {
+        padding-left: 60px;
+    }
 
-.contTreeList li li .ftitle {
-    padding-left: 60px;
-}
+    .contTreeList li li li .ftitle {
+        padding-left: 80px;
+    }
 
-.contTreeList li li li .ftitle {
-    padding-left: 80px;
-}
+    .contTreeList li li li li .ftitle {
+        padding-left: 100px;
+    }
 
-.contTreeList li li li li .ftitle {
-    padding-left: 100px;
-}
+    .contTreeList .ftitle .arrow {
+        font-family: 'perficon';
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        position: absolute;
+        top: 6px;
+        margin-left: -30px;
+        color: #637e99;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 100%;
+        box-sizing: border-box;
+        border: 1px solid transparent;
+    }
 
-.contTreeList .ftitle .arrow {
-    font-family: 'perficon';
-    width: 24px;
-    height: 24px;
-    line-height: 24px;
-    position: absolute;
-    top: 6px;
-    margin-left: -30px;
-    color: #637e99;
-    text-align: center;
-    cursor: pointer;
-    border-radius: 100%;
-    box-sizing: border-box;
-    border: 1px solid transparent;
-}
+        .contTreeList .ftitle .arrow:hover {
+            border: 1px solid #cacaca;
+        }
 
-.contTreeList .ftitle .arrow:hover {
-    border: 1px solid #cacaca;
-}
+    .contTreeList .ftitle .sel {
+        font-family: 'perficon';
+        width: 16px;
+        height: 16px;
+        line-height: 16px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        text-align: center;
+        cursor: pointer;
+        color: #ffffff;
+        background: #cacaca;
+        border-radius: 100%;
+    }
 
-.contTreeList .ftitle .sel {
-    font-family: 'perficon';
-    width: 16px;
-    height: 16px;
-    line-height: 16px;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    text-align: center;
-    cursor: pointer;
-    color: #ffffff;
-    background: #cacaca;
-    border-radius: 100%;
-}
-
-.contTreeList .ftitle.pitch .sel {
-    background: #7a94ad;
-}
+    .contTreeList .ftitle.pitch .sel {
+        background: #7a94ad;
+    }
 
 .saveModeCont {
     padding: 40px 30px 30px;
@@ -1009,123 +1020,125 @@
     box-sizing: border-box;
 }
 
-.saveModeCont .editButton {
-    text-align: center;
-    margin-top: 34px;
-}
+    .saveModeCont .editButton {
+        text-align: center;
+        margin-top: 34px;
+    }
 
-.saveModeCont .selectCont {
-    overflow: hidden;
-    text-align: center;
-    margin-bottom: 32px;
-}
+    .saveModeCont .selectCont {
+        overflow: hidden;
+        text-align: center;
+        margin-bottom: 32px;
+    }
 
-.saveModeCont .selectCont .radioButton {
-    display: inline-block;
-}
+        .saveModeCont .selectCont .radioButton {
+            display: inline-block;
+        }
 
-.saveModeCont .selectCont .radioButton:first-child {
-    margin-right: 50px;
-}
+            .saveModeCont .selectCont .radioButton:first-child {
+                margin-right: 50px;
+            }
 
-.saveModeCont .selectCont .radioButton .but {
-    float: left;
-    width: 16px;
-    height: 16px;
-    border: 1px solid #7a94ad;
-    border-radius: 100%;
-    box-sizing: border-box;
-    position: relative;
-    cursor: pointer;
-    background: #fff;
-}
+            .saveModeCont .selectCont .radioButton .but {
+                float: left;
+                width: 16px;
+                height: 16px;
+                border: 1px solid #7a94ad;
+                border-radius: 100%;
+                box-sizing: border-box;
+                position: relative;
+                cursor: pointer;
+                background: #fff;
+            }
 
-.saveModeCont .selectCont .radioButton .but:hover {
-    background-color: rgb(233, 233, 233);
-}
+                .saveModeCont .selectCont .radioButton .but:hover {
+                    background-color: rgb(233, 233, 233);
+                }
 
-.saveModeCont .selectCont .radioButton .but:before {
-    content: '';
-    position: absolute;
-    left: 10%;
-    right: 10%;
-    top: 10%;
-    bottom: 10%;
-    border-radius: 100%;
-}
+                .saveModeCont .selectCont .radioButton .but:before {
+                    content: '';
+                    position: absolute;
+                    left: 10%;
+                    right: 10%;
+                    top: 10%;
+                    bottom: 10%;
+                    border-radius: 100%;
+                }
 
-.saveModeCont .selectCont .radioButton.checked .but:before {
-    background: #7a94ad
-}
+            .saveModeCont .selectCont .radioButton.checked .but:before {
+                background: #7a94ad;
+            }
 
-.saveModeCont .selectCont .radioButton .cont {
-    float: left;
-    margin-left: 8px;
-}
+            .saveModeCont .selectCont .radioButton .cont {
+                float: left;
+                margin-left: 8px;
+            }
 
-.saveModeCont .selectLine {
-    height: 0px;
-    border-top: 1px solid #dddddd;
-    font-size: 12px;
-    color: #aaaaaa;
-    text-align: center;
-    line-height: 4px;
-    margin-bottom: 34px;
-}
+    .saveModeCont .selectLine {
+        height: 0px;
+        border-top: 1px solid #dddddd;
+        font-size: 12px;
+        color: #aaaaaa;
+        text-align: center;
+        line-height: 4px;
+        margin-bottom: 34px;
+    }
 
-.saveModeCont .selectLine span {
-    padding: 0 10px;
-    background: #ffffff;
-}
+        .saveModeCont .selectLine span {
+            padding: 0 10px;
+            background: #ffffff;
+        }
 
-.saveModeCont .contTitle {
-    margin-bottom: 10px;
-    padding-left: 50px;
-}
+    .saveModeCont .contTitle {
+        margin-bottom: 10px;
+        padding-left: 50px;
+    }
 
-.saveModeCont .timeBox {
-    margin-bottom: 28px;
-    padding-left: 50px;
-}
+    .saveModeCont .timeBox {
+        margin-bottom: 28px;
+        padding-left: 50px;
+    }
 
-.saveModeCont .historyTitle {
-    color: #ffffff;
-    background: #8b959a;
-    border: 1px solid #cccccc;
-    border-bottom: none;
-    width: 260px;
-    margin-left: 50px;
-    box-sizing: border-box;
-}
+    .saveModeCont .historyTitle {
+        color: #ffffff;
+        background: #8b959a;
+        border: 1px solid #cccccc;
+        border-bottom: none;
+        width: 260px;
+        margin-left: 50px;
+        box-sizing: border-box;
+    }
 
-.saveModeCont .historyTitle span {
-    display: inline-block;
-    width: 50%;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-}
+        .saveModeCont .historyTitle span {
+            display: inline-block;
+            width: 50%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+        }
 
-.saveModeCont .historyList {
-    border: 1px solid #cccccc;
-    border-top: none;
-    width: 260px;
-    margin-left: 50px;
-    box-sizing: border-box;
-}
+    .saveModeCont .historyList {
+        border: 1px solid #cccccc;
+        border-top: none;
+        width: 260px;
+        margin-left: 50px;
+        box-sizing: border-box;
+    }
 
-.saveModeCont .historyList li {
-    border-bottom: 1px solid #dddddd;
-}
-.saveModeCont .historyList li:last-child {
-    border-bottom: none;
-}
-.saveModeCont .historyList li span {
-    display: inline-block;
-    width: 50%;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
-    box-sizing: border-box;
-    border-right: 1px solid #dddddd;
-}
+        .saveModeCont .historyList li {
+            border-bottom: 1px solid #dddddd;
+        }
+
+            .saveModeCont .historyList li:last-child {
+                border-bottom: none;
+            }
+
+            .saveModeCont .historyList li span {
+                display: inline-block;
+                width: 50%;
+                height: 36px;
+                line-height: 36px;
+                text-align: center;
+                box-sizing: border-box;
+                border-right: 1px solid #dddddd;
+            }

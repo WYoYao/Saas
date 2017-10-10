@@ -16,20 +16,32 @@ $(function () {
         if ($this.hasClass('checked')) {
             return;
         }
-      //  $this.addClass('checked');
-      //  $this.siblings('.radioButton').removeClass('checked');
         if (instance.editMode == 'modify') {
             instance.editMode = 'change';
         } else {
             instance.editMode = 'modify';
         }
     });
-});
+    $("#spaceNavigBar").on('click', '.circle', function (event) {
+        var $this = $(event.currentTarget);
+        $("#spaceNavigBar .circle").removeClass("sel");
+        $this.addClass("sel");
+        var stype = $this.attr("stype");
+        document.getElementById(stype).scrollIntoView();
+    });
 
+});
+function scrollFloor() {
+    var scrollHeight = document.getElementById("floorContent").scrollHeight;
+    var offsetHeight = document.getElementById("floorContent").offsetHeight;
+    if (scrollHeight > offsetHeight) {
+        $("#floorContent").scrollTop(scrollHeight);
+    }
+}
 function editItem(event) {
     var instance = spaceInfoModel.instance();
     instance.detailEditSign = false;//其他不可以编辑
-    instance.editMode='modify';//保存方式
+    instance.editMode = 'modify';//保存方式
     var $this = $(event.currentTarget);
     var $contShow = $this.parents(".contShow");
     $contShow.hide();
@@ -42,18 +54,13 @@ function editItem(event) {
     }
     if (instance.editFloatName == 'space') {
         spaceInfoController.editDetailCopy[ftype] = instance.spaceDetail[ftype];//备份 todo
-        // ftype == 'build_local_name' && (true, spaceInfoController.editDetailCopy['build_id'] = instance.spaceDetail['build_id']) && (true, $('#editBuildDrop').psel(instance.spaceDetail.build_local_name));//建筑的选择
-        //ftype == 'floor_local_name' && (true, spaceInfoController.editDetailCopy['floor_id'] = instance.spaceDetail['floor_id']) && (true, $('#editFloorDrop').psel(instance.spaceDetail.floor_local_name));//如果是楼层
-        ftype == 'build_local_name' && (true, $('#editBuildDrop').psel(instance.spaceDetail.build_local_name));//建筑的选择 下拉
-        ftype == 'floor_local_name' && (true, $('#editFloorDrop').psel(instance.spaceDetail.floor_local_name));//如果是楼层 下拉
         ftype == 'room_func_type_name' && (true, spaceInfoController.editDetailCopy['room_func_type'] = instance.spaceDetail['room_func_type']);//空间类型
         ftype == 'tenant_type_name' && (true, spaceInfoController.editDetailCopy['tenant_type'] = instance.spaceDetail['tenant_type']);//租户类型
-
     }
 }
 function cancelEdit(event) {
     var $this = $(event.currentTarget);
-    $("#quitEditDialog").pshow({title: "确定退出编辑吗？", subtitle: "取消编辑将不保存当前编辑信息"});//弹出弹出框
+    $("#quitEditDialog").pshow({ title: "确定退出编辑吗？", subtitle: "取消编辑将不保存当前编辑信息" });//弹出弹出框
     $("#quitEditBut").data('thisObj', $this);
 }
 function sureEdit(event) {//弹出编辑确认框
@@ -74,37 +81,35 @@ function infoEditSure() {//ftype来自于哪里啊
     //保存数据
     var $thisObj = $("#sureEditBut").data('thisObj');
     var ftype = $thisObj.parents(".detailItem").attr("ftype");
-
-    function call() {
+    if (spaceInfoController.editDetailCopy[ftype] == (instance.editFloatName == 'floor' ? instance.floorDetail[ftype] : instance.spaceDetail[ftype])) {
+        $("#spaceNoticeWarn").pshow({ text: "没有修改！", state: "failure" });
+        return;
+    }
+    function call() {//编辑状态隐藏
         var $editShow = $thisObj.parents(".editShow");
         $editShow.hide();
         $editShow.siblings(".contShow").show();
     }
-
     if (instance.editFloatName == 'floor') {
         var fvalue = instance.floorDetail[ftype];
         if (ftype == 'floor_local_name') {//如果是楼层名字
-            function callback() {
+            function floorCall() {
                 spaceInfoController.updateFloorInfo(ftype, fvalue, call);//编辑接口
             }
-
-            spaceInfoController.verifyFloorName(callback);//判断名字是否可用
+            spaceInfoController.verifyFloorName(floorCall);//判断名字是否可用
             return;
         }
         spaceInfoController.updateFloorInfo(ftype, fvalue, call);//编辑接口
     }
     if (instance.editFloatName == 'space') {
-        ftype == 'build_local_name' && (true, ftype = 'build_id');//建筑的选择
-        ftype == 'floor_local_name' && (true, ftype = 'floor_id');//如果是楼层
         ftype == 'room_func_type_name' && (true, ftype = 'room_func_type');//空间类型
         ftype == 'tenant_type_name' && (true, ftype = 'tenant_type');//租户类型
         var fvalue = instance.spaceDetail[ftype];
         if (ftype == 'room_local_name') {//如果是名字
-            function callback() {
+            function spaceCall() {
                 spaceInfoController.updateSpaceInfo(ftype, fvalue, call);//编辑接口
             }
-
-            spaceInfoController.verifySpaceName(callback);//判断名字是否可用
+            spaceInfoController.verifySpaceName(spaceCall);//判断名字是否可用
             return;
         }
         spaceInfoController.updateSpaceInfo(ftype, fvalue, call);//编辑接口
@@ -126,8 +131,6 @@ function quitEditSure() {//确认取消编辑
         Vue.set(instance.floorDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原
     }
     if (instance.editFloatName == 'space') {
-        // ftype == 'build_local_name' && (true, Vue.set(instance.spaceDetail, 'build_id', spaceInfoController.editDetailCopy['build_id']));//建筑的选择
-        // ftype == 'floor_local_name' && (true, Vue.set(instance.spaceDetail, 'floor_id', spaceInfoController.editDetailCopy['floor_id']));//如果是楼层
         ftype == 'room_func_type_name' && (true, Vue.set(instance.spaceDetail, 'room_func_type', spaceInfoController.editDetailCopy['room_func_type']));//空间类型
         ftype == 'tenant_type_name' && (true, Vue.set(instance.spaceDetail, 'tenant_type', spaceInfoController.editDetailCopy['tenant_type']));//空间类型
         Vue.set(instance.spaceDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原
@@ -173,21 +176,21 @@ function saveAddFloor() {
     var instance = spaceInfoModel.instance();
     var floorDetail = instance.floorDetail;
     if (spaceInfoController.addFloorSign == 'up') {
-        var upSequence = instance.allFloorInfo[0].floor_sequence_id;
+        var upSequence = instance.allFloorInfo.length == 0 ? -1 : instance.allFloorInfo[0].floor_sequence_id;
         var thisSequence = parseInt(upSequence) + 1;
     }
     if (spaceInfoController.addFloorSign == 'down') {
-        var downSequence = instance.allFloorInfo[instance.allFloorInfo.length - 1].floor_sequence_id;
+        var downSequence = instance.allFloorInfo.length == 0 ? 0 : instance.allFloorInfo[instance.allFloorInfo.length - 1].floor_sequence_id;
         var thisSequence = parseInt(downSequence) - 1;
     }
     floorDetail.floor_sequence_id = thisSequence;
 
     if (!floorDetail.floor_local_name.ptrimHeadTail()) {
-        $("#spaceNoticeWarn").pshow({text: "楼层名称不能为空！", state: "failure"});
+        $("#spaceNoticeWarn").pshow({ text: "楼层名称不能为空！", state: "failure" });
         return;
     }
     if (!floorDetail.floor_local_id.ptrimHeadTail()) {
-        $("#spaceNoticeWarn").pshow({text: "楼层编码不能为空！", state: "failure"});
+        $("#spaceNoticeWarn").pshow({ text: "楼层编码不能为空！", state: "failure" });
         return;
     }
 
@@ -231,7 +234,7 @@ function spaceBuildSel(item) {//空间中的建筑选择
     spaceInfoController.queryFloorWithOrder('space', item);//根据建筑查询楼层
     instance.spaceDetail.build_id = item.obj_id;//选中的建筑id
     instance.spaceDetail.build_local_name = item.obj_name;//选中的建筑名字
-    //建筑选择后需要清空楼层吗 todo
+    //建筑选择后需要清空楼层
     $("#spaceFloorDrop").precover('请选择楼层');
     instance.spaceDetail.floor_id = '';//选中的楼层id
     instance.spaceDetail.floor_local_name = '';//选中的楼层id
@@ -257,15 +260,15 @@ function saveAddSpace() {
     var spaceDetail = instance.spaceDetail;
 
     if (!spaceDetail.build_id) {
-        $("#spaceNoticeWarn").pshow({text: "所属建筑不能为空！", state: "failure"});
+        $("#spaceNoticeWarn").pshow({ text: "所属建筑不能为空！", state: "failure" });
         return;
     }
     if (!spaceDetail.room_local_name.ptrimHeadTail()) {
-        $("#spaceNoticeWarn").pshow({text: "空间名称不能为空！", state: "failure"});
+        $("#spaceNoticeWarn").pshow({ text: "空间名称不能为空！", state: "failure" });
         return;
     }
     if (!spaceDetail.room_local_id.ptrimHeadTail()) {
-        $("#spaceNoticeWarn").pshow({text: "空间编号不能为空！", state: "failure"});
+        $("#spaceNoticeWarn").pshow({ text: "空间编号不能为空！", state: "failure" });
         return;
     }
     //验证是有重复
@@ -283,14 +286,13 @@ function verifyDestroy() {//是否可以拆除
 }
 function destroySure() {//拆除空间
     spaceInfoController.destroySpace();
-    $("#desSpaceDialog").phide();
 }
 function destroyCancle() {
     $("#desSpaceDialog").phide();
 }
 
-var floorTypeArr = [{name: '普通楼层'}, {name: '中庭'}, {name: '室外'}, {name: '其他'}];
-var buildArr = [{name: '建筑1'}, {name: '建筑2'}, {name: '建筑3'}];
-var floorArr = [{name: '楼层1'}, {name: '楼层2'}, {name: '楼层3'}];
-var funcArr = [{name: '功能1'}, {name: '功能2'}, {name: '功能3'}];
-var leaseTypeArr = [{name: '租赁业态类型1'}, {name: '租赁业态类型2'}, {name: '租赁业态类型3'}];
+var floorTypeArr = [{ name: '普通楼层' }, { name: '中庭' }, { name: '室外' }, { name: '其他' }];
+var buildArr = [{ name: '建筑1' }, { name: '建筑2' }, { name: '建筑3' }];
+var floorArr = [{ name: '楼层1' }, { name: '楼层2' }, { name: '楼层3' }];
+var funcArr = [{ name: '功能1' }, { name: '功能2' }, { name: '功能3' }];
+var leaseTypeArr = [{ name: '租赁业态类型1' }, { name: '租赁业态类型2' }, { name: '租赁业态类型3' }];

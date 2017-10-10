@@ -3,7 +3,7 @@
         <div class="see_orderDetail_page">
             <div class="see_orderDetail_page_top">
                 <div class="see_orderDetail_page_back">
-                    <pbutton-white  text="返回" onclick="orderDetail_pub.orderDetail_goBack()"></pbutton-white>
+                    <pbutton-white text="返回" onclick="orderDetail_pub.orderDetail_goBack()"></pbutton-white>
                 </div>
                 <div class="see_orderDetail_page_save" v-if="!true">
                     <div>
@@ -30,18 +30,49 @@
                             <h5>
                                 要求开始时间
                             </h5>
-                            <span v-text="orderDetailData.ask_start_time? timeFormatting(orderDetailData.ask_start_time):'' ">2017.5.1 08:00</span>
+                            <span v-text="orderDetailData.ask_start_time? orderDetail_pub.timeFormatting(orderDetailData.ask_start_time):'' ">2017.5.1 08:00</span>
                             <h5>
                                 要求结束时间
                             </h5>
-                            <span v-text="orderDetailData.ask_end_time?timeFormatting(orderDetailData.ask_end_time) : ''">2017.7.1 08:00</span>
+                            <span v-text="orderDetailData.ask_end_time?orderDetail_pub.timeFormatting(orderDetailData.ask_end_time) : ''">2017.7.1 08:00</span>
                         </li>
                         <li>
                             <h4>
                                 所需工具
                             </h4>
-                            <div v-text="arrToString(orderDetailData.required_tools)">
+                            <div v-text="orderDetail_pub.arrToString(orderDetailData.required_tools)">
                                 扳手、螺丝刀、电钻
+                            </div>
+                            <div>
+                                <pbutton-white bind='true' text="'+添加工具'" @click="clickToolListShow()"></pbutton-white>
+                                <div class="tool-select-list tool nextStepSelToolPop" id="nextStepSelToolPop" >
+                                    <div class="tool-select-list-title">
+                                        <span>选择工具</span>
+                                    </div>
+                                    <div class="tool-select-list-search">
+                                        <psearch-delay id="delay-search" placeholder="添加关键字"></psearch-delay>
+                                    </div>
+                                    <div class="tool-select-list-body">
+                                        <div class="search-list" v-for="(item, toolIndex) in model.toolList">
+                                            <span v-text="item.obj_name" :title="item.obj_name">工具1</span>
+                                            <div>
+                                                <!--<pswitch-checkbox bind="true" id="'nextStepToolCheckbox' + toolIndex" disabled="item.selected" click="commonMethod.toggleSelTool"></pswitch-checkbox>-->
+                                                <div :id="'nextStepToolCheckbox' + toolIndex" class="pcheckbox" @click="toggleSelTool(item,event)">
+                                                    <span class="pcheckbox_input" :class="item.checked ? 'pcheckbox-checked' : ''"></span>
+                                                    <span class="pswitch_label"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tool-select-list-btn">
+                                        <!--<div>-->
+                                        <!--<pbutton-white text="自定义"></pbutton-white>-->
+                                        <!--</div>-->
+                                        <div>
+                                            <pbutton-blue text="确定" click="methods.choiceToolYes()"></pbutton-blue>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </li>
                     </ul>
@@ -164,7 +195,7 @@
                                 <img :src="matter_steps.feedback[0].photos[0]" alt="">
                             </div>
                             <div class="see_orderDetail_grid_tab_div_sign_rig">
-                                <span>操作人:</span><i v-text="arrToString(matter_steps.executors)"></i>
+                                <span>操作人:</span><i v-text="orderDetail_pub.arrToString(matter_steps.executors)"></i>
                             </div>
                         </div>
                     </div>
@@ -185,7 +216,7 @@
                                     <span v-text="wo_exec_controls.control_code == 'apply'?'申请':'审核'">
                                         
                                     </span><i>时间：</i>
-                                    <i v-text="timeFormatting(wo_exec_controls.operate_start_time)">
+                                    <i v-text="orderDetail_pub.timeFormatting(wo_exec_controls.operate_start_time)">
                                         
                                     </i>
                                 </div>
@@ -221,11 +252,11 @@
                         </li>
                         <li>
                             <i>操作时间</i>
-                            <span v-text="timeFormatting(wo_exec_controls.operate_start_time)">20170921150500</span>
+                            <span v-text="orderDetail_pub.timeFormatting(wo_exec_controls.operate_start_time)">20170921150500</span>
                         </li>
                         <li>
                             <i>指派给</i>
-                            <span v-text="arrToString(wo_exec_controls.next_route)"></span>
+                            <span v-text="orderDetail_pub.arrToString(wo_exec_controls.next_route)"></span>
                         </li>
                     </ul>
                     <ul v-for="operatList in orderOperatList">
@@ -235,7 +266,7 @@
                         </li>
                         <li>
                             <i>开始时间</i>
-                            <span v-text="timeFormatting(operatList.start_time)">20170921150500</span>
+                            <span v-text="orderDetail_pub.timeFormatting(operatList.start_time)">20170921150500</span>
                         </li>
                         <li>
                             <i>停留时长</i>

@@ -15,9 +15,9 @@
                     </panel>
                 </ptime-form>
             </div>
-            <div class="contTitle">历史记录：</div>
-            <div class="historyTitle"><span>生效时间</span><span>变化内容</span></div>
-            <ul class="historyList">
+            <div class="contTitle" v-show="infoPointHis.length>0">历史记录：</div>
+            <div class="historyTitle" v-show="infoPointHis.length>0"><span>生效时间</span><span>变化内容</span></div>
+            <ul class="historyList" v-show="infoPointHis.length>0">
                 <li v-for="item in infoPointHis"><span>{{item.date}}</span><span>{{item.value}}</span></li>
             </ul>
         </div>

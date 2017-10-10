@@ -66,12 +66,19 @@
         
                 <% include ./insert.html %>
 
+                <% include ./insert_float.html %>
+
+            
+    <!-- 报废设备 Start -->
     <pwindow-confirm id="confirmWindow">
-        <button>
+                <button>
                     <pbutton-blue text="确定" click="scrappedEquipment"></pbutton-blue>
                     <pbutton-white text="取消" click="cancelScrappedEquipment"></pbutton-white>
                 </button>
     </pwindow-confirm>
+    <!-- 报废设备 End -->
+
+
     <ploading-part id='equipmentMngloading'></ploading-part>
     <pnotice-message id='equipmentMngpnotice'></pnotice-message>
 

@@ -20,17 +20,21 @@ spaceInfoModel.instance = function () {
                 allRentalCode: [],//租赁业态类型
                 detailEditSign: true,//楼层是否可以编辑
                 floorShowTitle: '建筑下的全部空间',//是否显示所有floor
+                selFloorItem: {},//选中的楼层
 
                 spaceFloorArr: [],//空间添加中的楼层
-                selSpaceFloor: {},//空间添加选中的楼层
                 spaceDetail: {},//空间详细信息
                 removeShowSign: false,//是否是拆除界面
 
-                infoPointHis:[],//历史信息
-                editFloatName:'floor',
-                editMode:'modify',//保存方式是  修改输入错误
+                infoPointHis: [],//历史信息
+                editFloatName: 'floor',
+                editMode: 'modify',//保存方式是  修改输入错误
 
-                roomFuncType:'100'
+                //工单
+                curPage: '',
+                orderDetailData: {},
+                orderOperatList:[],
+                roomFuncType: '100'
             },
             methods: {
                 upFloor: function (findex, item) {
@@ -73,7 +77,7 @@ spaceInfoModel.instance = function () {
                     $("#floorCheckFloat .editShow").css({ 'display': 'none' });
                     spaceInfoController.queryFloorById(item);
                     this.detailEditSign = true;
-                    this.editFloatName='floor';
+                    this.editFloatName = 'floor';
                 },
                 spaceItemClick: function (item) {//空间模块的点击事件
                     $("#spaceCheckFloat").pshow();
@@ -81,10 +85,11 @@ spaceInfoModel.instance = function () {
                     $("#spaceCheckFloat .editShow").css({ 'display': 'none' });
                     spaceInfoController.querySpaceById(item);
                     this.removeShowSign ? this.detailEditSign = false : this.detailEditSign = true;
-                    this.editFloatName='space';
+                    this.editFloatName = 'space';
                 },
                 floorItemClick: function (item) {//楼层模块的点击事件
-                    spaceInfoController.querySpaceForFloor(item);
+                    this.selFloorItem = item;
+                    spaceInfoController.querySpaceForFloor();
                     this.floorShowTitle = item.floor_local_name + '空间';
                     this.allFloorInfo.forEach(function (ele) {
                         ele.ischeck = false;
@@ -98,15 +103,15 @@ spaceInfoModel.instance = function () {
                     event.stopPropagation();
                     var $orderList = $(event.currentTarget).find(".orderList");
                     if (item.orders.length == 1) {//只有一个工单
-
+                        orderDetail_pub.getOrderDetail(this, item.order_id, '1');
                     }
                     if (item.orders.length > 1) {
                         $orderList.is(":visible") ? $orderList.css({ 'display': 'none' }) : $orderList.css({ 'display': 'block' });
                     }
                 },
-                orderLiClick: function (item) {//工单列表一行的点击
-
-
+                orderLiClick: function (event, item) {//工单列表一行的点击
+                    event.stopPropagation();
+                    orderDetail_pub.getOrderDetail(this, item.order_id, '1');
                 }
             },
             beforeMount: function () {
@@ -152,7 +157,7 @@ function spaceObj() {
     self.room_local_name = "";         //空间名称
     self.BIMID = "";                 //BIM编码
     self.room_func_type = ''            //空间功能区类型
-    self.room_func_type_name='',
+    self.room_func_type_name = '',
     self.length = '';
     self.width = '';
     self.height = '';
@@ -160,7 +165,7 @@ function spaceObj() {
     self.elec_cap = '';                  //配电容量
     self.intro = '';                     //备注文字
     self.tenant_type = '';               //租赁业态类型
-    self.tenant_type_name='',
+    self.tenant_type_name = '',
     self.tenant = '';                   //所属租户
     self.permanent_people_num = '';      //空间内常驻人数
     self.out_people_flow = '';          //逐时流出人数

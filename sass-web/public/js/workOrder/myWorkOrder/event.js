@@ -177,7 +177,7 @@ var yn_method = {
                 // yn_method.upDownSelect(true);
             } else if (lastQuanIndex < lastJingIndex) {
                 myWorkOrderModel.aite = false;
-                myWorkOrderMethod.selAllTags();
+                publicMethod.selAllTags();
                 //where--自由输入方式/结构输入，who--@/#，which--手动输入浮窗/点击浮窗
                 yn_method.upDownSelecting(null, null, true);
             }
@@ -713,6 +713,7 @@ var yn_method = {
         $(document).click(function () {
             $(".textarea-prop").hide();
             $(".add-obj .aite-bubble").hide();
+            $(".obj-fragment-div .aite-bubble").hide();
             $(".add-sop .hashtag-bubble").hide();
             myWorkOrderModel.clickAiteShow = false;
             myWorkOrderModel.clickHashShow = false;
@@ -864,6 +865,11 @@ var yn_method = {
         console.log(myWorkOrderModel.desc_works);
         myWorkOrderModel.addContent = false;
 
+    },
+    contentAiteShow:function (dom,event) {
+        event.stopPropagation();
+        $(dom).children(".aite-bubble").show();
+        // publicMethod.setCurPop(4, 'obj');
     }
 }
 yn_method.closeBubble();

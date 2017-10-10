@@ -1,4 +1,4 @@
-<div class="aite-bubble" :class="{'click-aite':myWorkOrderModel.clickAiteShow}" v-show="myWorkOrderModel.aite">
+<div class="aite-bubble" :class="{'click-aite':myWorkOrderModel.clickAiteShow}">
     <div class="aite-title" >
         <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)"/>
         <span>请选择</span>
@@ -38,41 +38,18 @@
                 </div>
             </div>
         </div>
-        <!-- 左侧1级，无专业、系统搜索，右侧复选
-         <div class="both-all-common" v-show="false">
-             <div class="tree-body">
-                 <div class="tree-box">
-                     <ptree-normal bind="true" datasource="myWorkOrderModel.leftLevel" sel="yn_method.clickLeftItem">
-
-                         <item  text="obj_name" issearch="false"  child="content"></item>
-                     </ptree-normal>
-                 </div>
-                 <div class="last-level-box">
-                     <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="obj in myWorkOrderModel.lastLevel">
-                         <div :title="obj.obj_name">
-                             <span v-text="obj.obj_name">建筑体</span>
-                         </div>
-                         <div>
-                             <pswitch-checkbox bind="true"></pswitch-checkbox>
-                             &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
-                             &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </div>-->
         <!--树1-3级，专业、系统搜索、复选-->
         <div class="both-all">
             <div class="system-major" v-show="myWorkOrderModel.curObjType=='equip'">
                 <div>
                     <span>添加筛选条件:</span>
                 </div>
-                <pcombobox-normal isborder="false" bind="true" sel="controller.querySystemForSystemDomain">
+                <pcombobox-normal isborder="false" id="'major-need'" bind="true" sel="controller.querySystemForSystemDomain">
                     <header placeholder="专业"></header>
                     <item datasource="myWorkOrderModel.domainList" text="name"></item>
                 </pcombobox-normal>
                 <div>+</div>
-                <pcombobox-normal isborder="false" bind="true">
+                <pcombobox-normal isborder="false" id="'system'" bind="true">
                     <header placeholder="系统"></header>
                     <item datasource="myWorkOrderModel.systemList" text="system_name"></item>
                 </pcombobox-normal>
@@ -107,11 +84,17 @@
                                 <span v-text="obj.obj_name">建筑体</span>
                             </div>
                             <div>
-                                <pswitch-checkbox bind="true" id="obj.obj_id"></pswitch-checkbox>
+                                <!--<pswitch-checkbox bind="true" id="obj.obj_id"></pswitch-checkbox>-->
                                 <!--<div class="pcheckbox" @click="$root.checkObject(obj, index,event)">
                                     <span class="pcheckbox_input" :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
                                     <span class="pswitch_label"></span>
                                 </div>-->
+                                <div :id="'noLeftLevelCheckbox' + index" class="pcheckbox"
+                                     @click="$root.checkObject(obj, index)">
+                                        <span class="pcheckbox_input"
+                                              :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
+                                    <span class="pswitch_label"></span>
+                                </div>
                             </div>
                         </div>
                     </div>

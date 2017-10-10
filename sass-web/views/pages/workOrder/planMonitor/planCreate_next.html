@@ -34,9 +34,9 @@
                         </div>
                         <div>
                             <span>计划生效时间：</span>
-                            <i v-text="model.newPlanObj.plan_start_time == ''?'发布成功后立即':model.newPlanObj.plan_start_time">
+                            <i v-text="model.newPlanObj.plan_start_time == ''?'发布成功后立即':orderDetail_pub.timeFormatting(model.newPlanObj.plan_start_time)">
                                 
-                            </i>&nbsp;——&nbsp;<i v-text="model.newPlanObj.plan_end_time == ''?'一直有效':model.newPlanObj.plan_end_time"></i>
+                            </i>&nbsp;——&nbsp;<i v-text="model.newPlanObj.plan_end_time == ''?'一直有效':orderDetail_pub.timeFormatting(model.newPlanObj.plan_end_time)"></i>
                         </div>
                     </div>
                     <div class="see_planDetail_grid_top_tit_con see_planDetail_grid_top_tit_con3">
@@ -121,7 +121,7 @@
                                 签字：
                             </div>
                             <div class="see_planDetail_grid_tab_div_sign_rig">
-                                <span>操作人:</span><i v-text="arrToString(matter_steps.executors)"></i>
+                                <span>操作人:</span><i v-text="orderDetail_pub.arrToString(matter_steps.executors)"></i>
                             </div>
                         </div>
                     </div>

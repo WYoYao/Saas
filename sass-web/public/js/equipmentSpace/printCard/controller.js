@@ -68,6 +68,11 @@ var cardPrintController = {
     getSpCardInfoArr: function (successCall, errCall, completeCall) {
         this.sendAjax('restCardService/querySpaceOptions', {}, successCall, errCall, completeCall);
     },
+    /*获取上一次设置的设备名片或空间名片
+    */
+    getOldCardSet: function (type, successCall, errCall, completeCall) {
+        this.sendAjax('restCardService/queryCardInfo', { obj_type: type }, successCall, errCall, completeCall);
+    },
     /*保存名片*/
     saveCard: function (object, successCall, errCall, completeCall) {
         this.sendUpdate('restCardService/saveEquipCardStyle', object, successCall, errCall, completeCall);

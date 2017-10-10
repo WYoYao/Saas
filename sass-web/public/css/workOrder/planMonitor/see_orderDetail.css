@@ -16,6 +16,7 @@
     border-right: 1px solid #d9e2e8; */
     box-shadow: -5px 6px 10px rgba(13, 4, 8, 0.1);
     padding: 20px 20px 10px 20px;
+    border-radius: 6px 6px 0 0;
 }
 
 .see_orderDetail_page {
@@ -71,6 +72,7 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    position: relative;
 }
 .see_orderDetail_grid_top ul>li >div{
     padding-left: 18px;
