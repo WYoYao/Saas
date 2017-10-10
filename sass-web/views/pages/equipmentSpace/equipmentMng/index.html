@@ -44,16 +44,28 @@
     <script src="/js/equipmentSpace/equipmentMng/detail/event.js"></script>
     <!-- 设备管理详情 End -->
 
+    <!-- 新建设备详情 Start -->
+    <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/insert.css">
+    <script src="/js/equipmentSpace/equipmentMng/insert/controller.js"></script>
+    <script src="/js/equipmentSpace/equipmentMng/insert/model.js"></script>
+    <script src="/js/equipmentSpace/equipmentMng/insert/event.js"></script>
+    <!-- 新建设备详情 End -->
+
 </head>
 
 <body>
     <div class="component" id="component">
         <div id="equipmentMng">
-            <layer :layer="layer"></layer>
-            <% include ./list.html %>
+
+                <layer :layer="layer"></layer>
+
+     
+                <% include ./list.html %>
+      
                 <% include ./detail.html %>
-        </div>
-    </div>
+        
+                <% include ./insert.html %>
+
     <pwindow-confirm id="confirmWindow">
         <button>
                     <pbutton-blue text="确定" click="scrappedEquipment"></pbutton-blue>

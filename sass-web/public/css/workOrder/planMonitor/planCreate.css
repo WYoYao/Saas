@@ -60,7 +60,8 @@
 	margin-bottom: 20px;
 }
 .planCreate_page_con_left{
-	width: 320px;
+	min-width: 320px;
+	max-width: 400px;
 	max-height: 900px;
 	overflow: auto;
 	
@@ -253,4 +254,8 @@
 	/* width: calc(100% - 320px); */
 	height: 100%;
 	border-left: 1px solid #d9e2e8;
+}
+.plan_Time_choice{
+	display: none;
+	margin-top: 10px;
 }

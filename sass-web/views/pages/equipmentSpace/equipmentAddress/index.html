@@ -7,12 +7,23 @@
 <div class="eqaddressWrap" id="eqaddressWrap">
     <ptab-navigation id="eqaddresstab" datasource="eqaddresstabArr" text="name" icon="icon" templateid="eqaddressTemp" sel="equipmentAddressVueMethod.tabSel"></ptab-navigation>
     <!-- float弹窗 -->
-    <pwindow-float id="eqaddressfloat" isshade="true" title="录入" templateid="floatTemp">
+    <pwindow-float id="eqaddressfloat" isshade="true" title="录入" templateid="floatTemp" hide="equipmentLogic.closeFloat()">
             <button>
                 <pbutton-blue text="删除" icon="p"  isborder="false" id="delEqaddress" click="delEqaddress"></pbutton-blue>            
             </button>
              <animate maxpx="0" minpx="-480"  orientation="right"> </animate>
         </pwindow-float>
+
+    <!--保险列表pop气泡-->
+    <div class="insuranceGridPop">   
+        <div class="header"><span>保险单号</span><span>保险文件</span></div>
+        <ul>
+            <li v-for="item in equipmentAddressModal.selInsureOrderArr"><span v-text="item.insurer_num">dfdfdf</span><span class="span2"><a  v-bind:href="item.insurance_file.url">文件在此可点击查看</a></span></li>
+        </ul>
+
+
+
+    </div>
 </div>
 
 <script type="text/html" id="eqaddressTemp">
@@ -79,7 +90,7 @@
             </pgrid-multifunction>
         </div>
         <!-- 保险公司 -->
-        <div class="eqaddressGrid">
+        <div class="eqaddressGrid" id="insuranceGridWrap">
             <pgrid-multifunction>
                 <panel templateid="sctinsuregrid" datasource="merchantArr"  lineclick="equipmentAddressVueMethod.gridLineSel" sel="equipmentAddressVueMethod.gridPageChange"></panel>
                 <header>
@@ -353,8 +364,48 @@
             </div>
             <!-- 保险 -->
             <div class="selTemp selTempSel bxDiv brandWrapPar" type="insurer_info" v-show="tabSelIndex==3">
-                <div class="bxTemp" v-for="(order,oindex) in selMerchantToInfo.insurer_info">
-                    <div class="bxEditWrap">
+                <!-- 查看 -->
+                <div class="selInput">
+                    <div class="tempDiv">
+                        <span class="selname"><b>保险单号:</b></span>
+                        <div class="selcon selInput">
+                            <span v-text="selMerchantToInfo.email">name</span>
+
+                        </div>
+                    </div>
+                    <div class="tempDiv">
+                        <span class="selname"><b>保险文件:</b></span>
+                        <div class="selInput selcon">
+                            <span v-text="selMerchantToInfo.email">name</span>
+                        </div>
+                    </div>
+                    <div class="selBut">
+                        <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
+                    </div>
+                </div>
+                <!-- 编辑 -->
+                <div class="editInput">
+                    <div class="tempDiv">
+                        <span class="selname"><b>保险单号:</b></span>
+                        <div class="selcon ">
+                            <ptext-text value="selMerchantToUpdate.email" bind="true"></ptext-text>
+                        </div>
+                    </div>
+                    <div class="tempDiv">
+                        <span class="selname"><b>保险文件:</b></span>
+                        <div class="selcon">
+                            <pupload-attachment insurefileedit></pupload-attachment>
+                        </div>
+                    </div>
+                    <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
+                    <div class="insureraddBut">
+                        <pbutton-white icon="J" shape="ellipse" click="addInsurerClick"></pbutton-white>
+                        <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
+                    </div>
+
+                </div>
+                <!--<div class="bxTemp" v-for="(order,oindex) in selMerchantToInfo.insurer_info">
+                 <div class="bxEditWrap">
                         <span class="selname"><b>保险单号:</b></span>
                         <div class="selcon">
                             <div class="selInput">
@@ -394,7 +445,7 @@
 
                         </div>
                     </div>
-                </div>
+                </div>-->
 
 
             </div>

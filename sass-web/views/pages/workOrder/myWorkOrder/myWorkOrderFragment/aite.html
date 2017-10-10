@@ -3,9 +3,9 @@
         <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)"/>
         <span>请选择</span>
     </div>
-    <div class="aite-body">
+    <div class="aite-body free-aite-pops">
         <!--即时搜索，只有复选-->
-        <div class="timely-checkbox" v-show="false">
+        <div class="timely-checkbox">
             <div class="aite-list">
                 <div>
                     <p><span>空间1</span></p>
@@ -19,13 +19,20 @@
             </div>
         </div>
         <!--无级别 只有复选-->
-        <div class="only-checkbox" v-show="false">
-            <div class="aite-list" v-for="item in myWorkOrderModel.buildList">
-                <div :title="item.obj_name">
-                    <span v-text="item.obj_name"></span>
+        <div class="only-checkbox">
+            <div class="aite-list" v-for="(model, index) in myWorkOrderModel.curLevelList">
+                <div :title="model.obj_name">
+                    <span v-text="model.obj_name"></span>
                 </div>
                 <div>
-                    <pswitch-checkbox bind="true"></pswitch-checkbox>
+                    <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
+                    <div :id="'noLeftLevelCheckbox' + index" class="pcheckbox"
+                         @click="$root.checkObject(model, index)">
+                                        <span class="pcheckbox_input"
+                                              :class="model.checked ? 'pcheckbox-checked' : ''"></span>
+                        <span class="pswitch_label"></span>
+                    </div>
+
                     <!--<span class="pcheckbox_input"></span>-->
                     <!--<span class="pswitch_label"></span>-->
                 </div>
@@ -55,7 +62,7 @@
              </div>
          </div>-->
         <!--树1-3级，专业、系统搜索、复选-->
-        <div class="both-all" v-show="false">
+        <div class="both-all">
             <div class="system-major" v-show="myWorkOrderModel.curObjType=='equip'">
                 <div>
                     <span>添加筛选条件:</span>
@@ -112,7 +119,7 @@
             </div>
         </div>
         <!--自定义-->
-        <div class="customize" v-show="false">
+        <div class="customize">
             <div class="customize-tips">
                 <span>未找到相关内容，您输入的内容将被添加为自定义</span>
             </div>
@@ -137,7 +144,7 @@
             </div>
         </div>
         <!--选择大类-->
-        <div class="none-both" v-show="true">
+        <div class="none-both">
             <div class="aite-list"  onclick="controller.queryBuild(this)">
                 <div>
                     <span>建筑体</span>
@@ -166,7 +173,16 @@
         </div>
     </div>
     <div class="aite-footer">
-        <pbutton-white text="自定义"></pbutton-white>
-        <pbutton-blue text="确定" disabled="true"></pbutton-blue>
+        <pbutton-white text="自定义" click="publicMethod.setCurPop(3, 'obj')"></pbutton-white>
+        <div v-show="myWorkOrderModel.curObjType !== 'custom'">
+            <pbutton-blue text="确定"
+                          id="sureBtn"
+                          click="publicMethod.confirmCheckedMatterObjs"></pbutton-blue>
+        </div>
+        <div v-show="myWorkOrderModel.curObjType === 'custom'">
+            <pbutton-blue text="确定"
+                          id="sureBtn"
+                          click="publicMethod.confirmCustomizeObj"></pbutton-blue>
+        </div>
     </div>
 </div>

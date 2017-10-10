@@ -1,9 +1,9 @@
-<div id="see_orderDetail_bg" v-if="curPage == pages[5]">
+<div id="see_orderDetail_bg" v-if="curPage == 'see_orderDetail'">
     <div class="see_orderDetail_box">
         <div class="see_orderDetail_page">
             <div class="see_orderDetail_page_top">
                 <div class="see_orderDetail_page_back">
-                    <pbutton-white bind='true' text="'返回'" @click="goBackPlanList()"></pbutton-white>
+                    <pbutton-white  text="返回" onclick="orderDetail_pub.orderDetail_goBack()"></pbutton-white>
                 </div>
                 <div class="see_orderDetail_page_save" v-if="!true">
                     <div>
@@ -30,7 +30,7 @@
                             <h5>
                                 要求开始时间
                             </h5>
-                            <span  v-text="orderDetailData.ask_start_time? timeFormatting(orderDetailData.ask_start_time):'' ">2017.5.1 08:00</span>
+                            <span v-text="orderDetailData.ask_start_time? timeFormatting(orderDetailData.ask_start_time):'' ">2017.5.1 08:00</span>
                             <h5>
                                 要求结束时间
                             </h5>
@@ -88,15 +88,15 @@
                                                     <li>
                                                         <h5>确认操作结果：</h5>
                                                         <div v-for="confirm_result in steps.confirm_result">
-                                                        <!-- {{steps.confirm_result}} -->
+                                                            <!-- {{steps.confirm_result}} -->
                                                             <em v-text="confirm_result.obj_name"></em>
                                                             <span v-for="parents in confirm_result.parents">
                                                                 (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
                                                             </span>
-                                                        </div>
-                                                        <div v-for="confirm_result in steps.confirm_result">
-                                                            <i v-for="info_points in confirm_result.info_points" v-text="info_points.name"></i>
-                                                            <i  v-for="customs in confirm_result.customs" v-text="customs.name"></i>
+                                                            <div>
+                                                                <i v-for="info_points in confirm_result.info_points" v-text="info_points.name"></i>
+                                                                <i v-for="customs in confirm_result.customs" v-text="customs.name"></i>
+                                                            </div>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -156,7 +156,7 @@
                             </div>
                         </div>
                         <!-- 没有id且没有描述 -->
-                        <div  v-if="!matter_steps.obj_step_id && !matter_steps.description" class="see_orderDetail_grid_tab_div_sign">
+                        <div v-if="!matter_steps.obj_step_id && !matter_steps.description" class="see_orderDetail_grid_tab_div_sign">
                             <div class="see_orderDetail_grid_tab_div_sign_left">
                                 签字：
                             </div>
@@ -228,7 +228,6 @@
                             <span v-text="arrToString(wo_exec_controls.next_route)"></span>
                         </li>
                     </ul>
-
                     <ul v-for="operatList in orderOperatList">
                         <li>
                             <i>操作人</i>
@@ -244,7 +243,6 @@
                         </li>
                     </ul>
                 </div>
-
             </div>
         </div>
     </div>

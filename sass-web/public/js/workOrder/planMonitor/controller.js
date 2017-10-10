@@ -37,9 +37,9 @@ var controller = {
                 list.forEach(function(info, index) {
                     info["name"] = info.name + "计划";
                     if (index == '0') {
-                        info["icon"] = "F"
+                        info["icon"] = "z"
                     } else {
-                        info["icon"] = "G"
+                        info["icon"] = "z"
                     }
                 });
                 // console.log(list)
@@ -194,7 +194,7 @@ var controller = {
                     var et = info.newList[info.newList.length - 1].markDay
                     var _st = st.substring(0, 4) + '-' + st.substring(4, 6) + '-' + st.substring(6, 8);
                     var _et = et.substring(0, 4) + '-' + et.substring(4, 6) + '-' + et.substring(6, 8);
-                    console.log(_st, _et);
+                    // console.log(_st, _et);
                     var startTimeMs = Date.parse(new Date(_st));
                     var endTimeMs = Date.parse(new Date(_et));
                     // console.log(startTimeMs,endTimeMs)
@@ -495,7 +495,70 @@ var controller = {
                 $("#list_loading").phide();
             }
         });
-    }
+    },
+    getPlanCreateNext:function(_data){//创建计划预览
+        pajax.post({
+            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            // url: 'restWoPlanService/getWoMattersPreview',
+            data: _data,
+            success: function(res) {
+                var _data = res && res.data ? res.data : [];
+                _data = d.planCreateData; //临时使用
+                model.planCreateDetail = _data;
+            },
+            error: function(error) {
+
+            },
+
+            complete: function() {
+                $("#list_loading").phide();
+            }
+        });
+    },
+    getObjExample:function(_data){//获取对象实例请求
+        pajax.post({
+            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            // url: 'restObjectService/queryObjectByClass',
+            data: _data,
+            success: function(res) {
+                var _data = res && res.data ? res.data : [];
+                _data = d.objExample; //临时使用
+                model.planObjExampleArr = _data;
+                console.log(_data)
+                $("#choiceObjExample").show();
+            },
+            error: function(error) {
+
+            },
+
+            complete: function() {
+                $("#list_loading").phide();
+            }
+        });
+    },
+    getAddOrderPlan:function(_data){//添加工单计划
+         $("#list_loading").pshow();
+        pajax.post({
+            //url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            url: 'restWoPlanService/addWoPlan',
+            data: _data,
+            success: function(res) {
+
+                console.log("success")
+                $("#publishNotice").pshow({ text: '发布成功', state: "success" });
+
+               
+            },
+            error: function(error) {
+                 $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });
+
+            },
+
+            complete: function() {
+                $("#list_loading").phide();
+            }
+        });
+    },
 
 
 }

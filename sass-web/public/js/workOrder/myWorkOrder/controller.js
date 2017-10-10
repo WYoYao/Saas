@@ -208,7 +208,7 @@ var controller = {
 
     },
     /*查询建筑体*/
-    queryBuild: function (event) {
+    queryBuild: function (dom, param2, isPop3) {
         myWorkOrderModel.buildList = [];
         $('#loadCover').pshow();
         pajax.post({
@@ -220,13 +220,15 @@ var controller = {
             success: function (result) {
                 var data = result && result.data ? result.data : [];
                 myWorkOrderModel.curObjType = 'build';
+
                 myWorkOrderModel.buildList = data;
-                $(event).parent(".none-both").hide().siblings(".only-checkbox").show();
+                myWorkOrderModel.curLevelList = JSON.parse(JSON.stringify(data));
+                /*isPop3 ? publicMethod.isSelectedObj1() : */publicMethod.isSelectedObj('matter');
+                /*isPop3 ? publicMethod.setCurPop3(1) : */publicMethod.setCurPop(1, 'obj');
+                //$(event).parent(".none-both").hide().siblings(".only-checkbox").show();
                 // myWorkOrderModel.workType = data;
-                $("#myWork-list-notice").pshow({text: '建筑体查询成功', state: "success"});
             },
             error: function (err) {
-                $("#myWork-list-notice").pshow({text: '建筑体查询失败', state: "failure"});
             },
             complete: function () {
                 $('#loadCover').phide();
@@ -344,8 +346,10 @@ var controller = {
             }
         });
     },
-    /*查询设备，左侧三级*/
+    /*查询设备实例(左侧三级) 即：查询建筑-楼层-空间列表树*/
     queryBuildFloorSpaceTree: function (dom) {
+        myWorkOrderModel.curSelectedDomain = {};
+        myWorkOrderModel.curSelectedSystem = {};
         myWorkOrderModel.leftLevel = [];
         myWorkOrderModel.lastLevel = [];
         $('#loadCover').pshow();
@@ -353,11 +357,7 @@ var controller = {
             url: 'restObjectService/queryBuildFloorSpaceTree',        //未返回对象类型
             data: {
                 user_id: myWorkOrderModel.user_id,
-                project_id: myWorkOrderModel.project_id,
-                // need_back_parents: deleteFloorLevel,
-                // obj_id: obj_id,            //对象id,建筑或者楼层的id,必须
-                // obj_type: obj_type,	     //对象类型，build、floor,必须
-
+                project_id: myWorkOrderModel.project_id
             },
             success: function (result) {
                 var data = result && result.data ? result.data : [];

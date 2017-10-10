@@ -1,4 +1,4 @@
-<div id="planCreate_bg" v-if="curPage == pages[6]">
+<div id="planCreate_bg" v-show="curPage == pages[6]">
     <div class="planCreate_box">
         <div class="planCreate_page">
             <div class="planCreate_page_top">
@@ -17,11 +17,11 @@
                     <div class="planCreate_page_con_left_name">
                         <h4><span>*</span><i>计划名称</i></h4>
                         <div id="plan_name">
-                            <ptext-text></ptext-text>
+                            <ptext-text bind="true" v-model="model.newPlanObj.plan_name"></ptext-text>
                         </div>
                     </div>
                     <div class="planCreate_page_con_left_orderType">
-                        <h4><strong></strong><i>工单类型：</i><em>维保</em></h4>
+                        <h4><strong></strong><i>工单类型：</i><em v-text="model.orderTypeName"></em></h4>
                     </div>
                     <div class="planCreate_page_con_left_order_level">
                         <h4><span>*</span><i>工单紧急程度</i></h4>
@@ -36,7 +36,7 @@
                         <h4><span>*</span><i>工单提前发送时间：</i></h4>
                         <div id="aheadCreateTime">
                             <!-- <span>提前：</span> -->
-                            <ptext-text text="提前：" placeholder = "请在此输入时间" align="left"></ptext-text>
+                            <ptext-text text="提前：" placeholder="请在此输入时间" align="left"></ptext-text>
                         </div>
                     </div>
                     <div class="planCreate_page_con_left_planRate">
@@ -52,7 +52,6 @@
                                 <item datasource="model.planRateRig" text="name"></item>
                             </pcombobox-normal>
                             <p>次</p>
-                                
                         </div>
                         <!-- 年 -->
                         <ul v-if="rateYear" class="planCreate_page_con_left_planRateList planCreate_page_con_left_planRateList_year">
@@ -99,7 +98,6 @@
                                         </ptime-form>  
                                         
                                     </span>
-                                    
                                     <i>至</i>
                                     <span>
                                         <pcombobox-normal id="'weekChoiceList_next' + index" bind="true" sel="">
@@ -111,7 +109,6 @@
                                         </ptime-form>
                                             
                                     </span>
-                                    
                                 </section>
                             </li>
                         </ul>
@@ -135,18 +132,28 @@
                         <h4>计划生效时间：</h4>
                         <div>
                             <span>起</span>
-                            <pcombobox-normal bind="true" sel="">
+                            <pcombobox-normal id="'choice_planStartTime'" bind="true" sel="methods.plan_startTime_show(model,event)">
                                 <header placeholder="发布成功后立即"></header>
                                 <item datasource="model.effectTime_startList" text="name"></item>
                             </pcombobox-normal>
                         </div>
+                        <span class="plan_Time_choice" id="plan_startTime">
+                            <ptime-form bind='true'>
+                                <panel startyear="2013" endyear="2022" timeType="yMdhm"></panel>
+                            </ptime-form>
+                        </span>
                         <div>
                             <span>止</span>
-                            <pcombobox-normal bind="true" sel="">
+                            <pcombobox-normal id="'choice_planEndTime'" bind="true" sel="methods.plan_endTime_show(model,event)">
                                 <header placeholder="一直有效"></header>
                                 <item datasource="model.effectTime_endList" text="name"></item>
                             </pcombobox-normal>
                         </div>
+                        <span class="plan_Time_choice" id="plan_endTime">
+                            <ptime-form bind='true'>
+                                <panel startyear="2013" endyear="2022" timeType="yMdhm"></panel>
+                            </ptime-form>
+                        </span>
                     </div>
                 </div>
                 <div class="planCreate_page_con_rig">

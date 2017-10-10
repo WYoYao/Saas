@@ -46,8 +46,14 @@ var equipmentAddressVueMethod = {
     /*保险公司列表--多个保险单号时，点击查看单号详情*/
     gridInsureOrderClick: function (model, event) {
         event.stopPropagation();
+        var pageX = event.pageX;
+        var pageY = event.pageY;
         equipmentAddressModal.selInsureOrderArr = model.insurer_info;
-        alert(111);
+        $(".insuranceGridPop").css({
+            left: pageX - 150,
+            top: pageY - 20
+        });
+        $(".insuranceGridPop").show();
     }
 };
 
@@ -75,26 +81,29 @@ var equipmentLogic = {
         }
         return { brands: newBrands, brandStr: brandsArr.join(',') || '' };
     },
+    /*构造商家*/
+    constructorMerchant: function (arr) {
+        arr = arr || [];
+        for (var i = 0; i < arr.length; i++) {
+            var curr = arr[i];
+            var brands = curr.brands || [];
+            var objBrand = equipmentLogic.changeBrands(brands);
+            curr.brands = objBrand.brands;
+            curr.brandStr = objBrand.brandStr;
+        }
+        return arr;
+    },
     /*获取商家列表
     */
     getMerchantArr: function (pageIndex, call) {
+        $('#eqaddressloading').pshow();
         equipmentAddressModal.merchantArr = [];
         equipmentAddressModal.selMerchantToInfo = {};
         equipmentAddressModal.selMerchantToUpdate = {};
         var merchantType = this.getMerchantType();
-
-        $('#eqaddressloading').pshow();
         equipmentAddressController.getMerchantArr(pageIndex, equipmentAddressModal.pageEachNumber, merchantType, function (data) {
             var dataObj = data || {};
-            var arr = dataObj.data || [];
-            for (var i = 0; i < arr.length; i++) {
-                var curr = arr[i];
-                var brands = curr.brands || [];
-                var objBrand = equipmentLogic.changeBrands(brands);
-                curr.brands = objBrand.brands;
-                curr.brandStr = objBrand.brandStr;
-            }
-            equipmentAddressModal.merchantArr = arr;
+            equipmentAddressModal.merchantArr = equipmentLogic.constructorMerchant(dataObj.data);
             var count = dataObj.count || 0;
             getCurrGridElement().pcount(count);
         }, function () {
@@ -110,8 +119,14 @@ var equipmentLogic = {
         equipmentAddressController.getMerchantById(equipmentAddressModal.selMerchantToInfo.company_id,
             function (data) {
                 data = data || {};
-                var isCanDelete = data.can_delete || false;
-                equipmentAddressModal.selMerchantToInfo.can_delete = isCanDelete;
+                var merchant = equipmentLogic.constructorMerchant([data])[0] || {};
+                equipmentAddressModal.selMerchantToInfo = merchant;
+                for (var i = 0; i < equipmentAddressModal.merchantArr.length; i++) {
+                    if (equipmentAddressModal.merchantArr[i].company_id == merchant.company_id) {
+                        equipmentAddressModal.merchantArr[i] = merchant;
+                        break;
+                    }
+                }
             }, function () {
                 console.error('getMerchantById err');
             }, function () {
@@ -121,13 +136,29 @@ var equipmentLogic = {
     },
     /*添加商家点击事件时调用此方法，以清空缓存信息*/
     newMerchantEvent: function () {
-        $('#eqaddressfloat [insurefile]').precover();
         equipmentLogic.setValForMerchantToUpdate({});
     },
     /*编辑商家信息点点击事件时调用此方法，以清空缓存信息*/
     editMerchantEvent: function () {
-        $('#eqaddressfloat [insurefileedit]').precover();
         equipmentLogic.setValForMerchantToUpdate(JSON.parse(JSON.stringify(equipmentAddressModal.selMerchantToInfo)));
+        if (this.getMerchantType() == 4) {
+            Vue.nextTick(function () {
+                var insureArr = equipmentAddressModal.selMerchantToUpdate.insurer_info || [];
+                var uploadJqTargets = $('#eqaddressfloat [insurefile]');
+                for (var i = 0; i < uploadJqTargets.length; i++) {
+                    var currInsureFile = insureArr[i].insurance_file || {};
+                    uploadJqTargets.eq(i).pval({
+                        url: currInsureFile.url, name: currInsureFile.name
+                    });
+                }
+            });
+        }
+    },
+    /*关闭浮动层*/
+    closeFloat: function () {
+        console.log($('#eqaddressfloat [insurefile]').length);
+        $('#eqaddressfloat [insurefileedit]').precover();
+        $('#eqaddressfloat [insurefile]').precover();
     },
     setValForMerchantToUpdate: function (objVal) {
         if (!objVal.brands) objVal.brands = [{ name: '' }];
@@ -138,6 +169,7 @@ var equipmentLogic = {
     *infoType 信息点对应的属性名称，用于编辑时，从保存按钮的if属性上获取
     */
     saveMerchant: function (infoType, call) {
+        $('#eqaddressloading').pshow();
         //构造保险单号
         var uploadJqTargets;
         function constructorInsureInfo() {
@@ -174,16 +206,16 @@ var equipmentLogic = {
             successCall = function () {
                 equipmentLogic.getMerchantById(function () {
                     if (typeof call == 'function') call();
-                    var objVal = obj[infoType];
-                    if (infoType == 'brands') {
-                        var objBrand = equipmentLogic.changeBrands(objVal);
-                        equipmentAddressModal.selMerchantToUpdate.brands = objBrand.brands;
-                        equipmentAddressModal.selMerchantToUpdate.brandStr = objBrand.brandStr;
+                    //var objVal = obj[infoType];
+                    //if (infoType == 'brands') {
+                    //    var objBrand = equipmentLogic.changeBrands(objVal);
+                    //    equipmentAddressModal.selMerchantToUpdate.brands = objBrand.brands;
+                    //    equipmentAddressModal.selMerchantToUpdate.brandStr = objBrand.brandStr;
 
-                        equipmentAddressModal.selMerchantToInfo.brands = objBrand.brands;
-                        equipmentAddressModal.selMerchantToInfo.brandStr = objBrand.brandStr;
-                    } else
-                        equipmentAddressModal.selMerchantToInfo[infoType] = equipmentAddressModal.selMerchantToUpdate[infoType];
+                    //    equipmentAddressModal.selMerchantToInfo.brands = objBrand.brands;
+                    //    equipmentAddressModal.selMerchantToInfo.brandStr = objBrand.brandStr;
+                    //} else
+                    //    equipmentAddressModal.selMerchantToInfo[infoType] = equipmentAddressModal.selMerchantToUpdate[infoType];
                     $('#eqaddressnotice').pshow({ text: '保存成功', state: 'success' });
                 });
             };

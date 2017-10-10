@@ -1,0 +1,291 @@
+.printCardWrap {
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 16px 10px 0;
+}
+
+.printCardCon {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #fff;
+    height: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    position: relative;    width: 100%;
+}
+
+.printCardConA {
+    border: 1px solid #d9e2e8;
+    padding: 0 15px;
+    box-sizing: border-box;
+    height: 100%;
+    position: relative;
+    width:100%;
+}
+/*.printCardConB {
+    border: 1px solid #d9e2e8;
+    box-sizing: border-box;height: 100%;
+}*/
+.printCardCon_pageA {
+    width: 100%;
+    border: 1px solid #d9e2e8;
+}
+
+.printCardConHeader {
+    width: 100%;
+    text-align: center;
+    position: relative;
+    height: 50px;
+    line-height: 50px;
+}
+
+    .printCardConHeader .header_tab {
+        display: inline-block;
+        display: inline-block;
+        height: 30px;
+        margin-top: 10px;
+    }
+
+    .printCardConHeader .header_right {
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    .printCardConHeader .header_left {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+.printCardCon_card {
+    width: 100%;
+    border-top: 1px solid #d9e2e8;
+    box-sizing: border-box;
+    height: calc(100% - 50px);
+    position: absolute;
+    left: 0;
+    background: #f5f8f9;
+    overflow: auto;
+}
+
+.printCard_temp {
+    height: 407px;
+    width: 500px;
+    margin: 0 auto;
+    border-radius: 6px;
+    border: 1px solid #d6d6d6;
+    box-sizing: border-box;
+    margin-top: 2%;
+    margin-top: 80px;
+}
+
+.printCard_logo {
+    width: 100%;
+    height: 60px;
+    border-bottom: 1px solid #d6d6d6;
+    overflow: hidden;
+    box-sizing: border-box;
+    background: #f8f8f8;
+    border-radius: 6px 6px 0;
+    line-height: 60px;
+    text-align: center;
+    color: #637e99;
+    font-size: 16px;
+    position: relative;
+}
+
+    .printCard_logo .logoWrap {
+        width: 450px;
+        height: 40px;
+        position: absolute;
+        top: 10px;
+        left: 23px;
+        background-size: cover;
+    }
+
+        .printCard_logo .logoWrap label {
+            width: 100%;
+            display: block;
+            height: 100%;
+            cursor: pointer;
+        }
+
+.printCard_con {
+    padding: 0 40px;
+    box-sizing: border-box;
+    background: #fff;
+    height: calc(100% - 60px);
+    padding-top: 20px;
+    border-radius: 0 0 6px 6px;
+}
+
+.printCard_name {
+    height: 40px;
+    font-size: 26px;
+    box-sizing: border-box;
+    font-weight: bold;
+}
+
+    .printCard_name input {
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        font-size: 20px;
+    }
+
+.printCard_ul {
+    width: 269px;
+    height: 233px;
+    float: left;
+    margin-top: 5px;
+}
+
+    .printCard_ul > li {
+        line-height: 24px;
+        font-size: 14px;
+        margin-top: 10px;
+        min-height: 24px;
+    }
+
+.printCard_code {
+    float: left;
+    width: 112px;
+    height: 112px;
+    background: url(../../../images/card.png) no-repeat center center ;
+    margin-left: 20px;
+    margin-top: 76px;
+}
+
+.printCard_li {
+    padding-left: 62px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 45px;
+}
+
+    .printCard_li em {
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+
+.printCardCon_pageA {
+    padding: 10px 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.print_Condition {
+    min-height: 40px;
+    position: relative;
+    padding-left: 100px;
+    box-sizing: border-box;
+    line-height: 32px;
+    font-size: 14px;    overflow: hidden;
+}
+
+    .print_Condition .ulName {
+        position: absolute;
+        left: 0;
+    }
+
+    .print_Condition li {
+        padding: 0px 5px;
+        float: left;
+        margin-left: 10px;
+        border-radius: 3px;
+        height: 24px;
+        line-height: 24px;
+        box-sizing: border-box;
+        cursor: pointer;
+        margin: 4px 5px;
+        border: 1px solid rgba(0,0,0,0);
+    }
+
+        .print_Condition li:hover, .print_Condition li.active {
+            color: #2ab0d4;
+            border: 1px solid #2ab0d4;
+            box-sizing: border-box;
+        }
+
+    .print_Condition .emCo {
+        color: #bbb;
+    }
+
+.printCardCon_pageB .gridHeader {
+    height: 45px;
+    border-bottom: 1px solid #d9e2e8;
+    width: 100%;
+    position: relative;
+    line-height: 45px;
+}
+
+    .printCardCon_pageB .gridHeader .header_right {
+        right: 0;
+        position: absolute;
+        top: 0;
+    }
+
+    .printCardCon_pageB .gridHeader .header_left {
+        left: 0;
+        position: absolute;
+        top: 0;
+    }
+
+/*È·ÈÏÃûÆ¬*/
+.confirmCardModalWrap {
+    width: 1170px;
+    height: 560px;
+    position: relative;
+}
+
+.confirmCardModal_but {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 60px;
+    text-align: center;
+}
+
+    .confirmCardModal_but > div {
+        display: inline-block;
+        margin: 0 20px;
+        line-height: 30px;
+    }
+
+.confirmCardModalH {
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    color: #888888;
+}
+
+._floatpgae {
+    float: left;
+    margin-left: 55px;
+    margin-top: 0;
+}
+
+._gridPop {
+    font-size: 14px;
+    color: #fff;
+    background: #d3d3d3;
+    display: inline-block;
+    height: 24px;
+    line-height: 24px;
+    border-radius: 4px;
+    width: 80px;
+    text-align: center;
+}
+#downEquipmentWrap,#downSpaceWrap {
+width:100%;}
+.printCardCon_pageB {
+width:100%;}
+
+    .printCardCon_pageB .gridCon {
+   width:100%; }

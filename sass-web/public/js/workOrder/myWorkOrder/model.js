@@ -1,15 +1,16 @@
 var myWorkOrderModel = {//工单管理模块数据模型
     //------------------------------------------zy__start------------------------------------------
+    curObjType: "",
     allMatters: [{}],       //所有的事项
     curMatterIndex: 0,      //当前操作的事项索引
     curMatterPopType: 4,       //当前事项弹框类型，0-4为选择或搜索对象弹框，0搜索，1选择大类结果无级别，2选择大类结果有左侧级别，3自定义，4选择大类
-
+    curContent: {},     //当前工作内容
     //------------------------------------------zy__end------------------------------------------
 
     //------------------------------------------yn__start------------------------------------------
     //vue绑定的数据data
-    user_id: 'RY1505218031651', //用户id
-    project_id: 'Pj1301020001', //项目id
+    user_id: '', //用户id
+    project_id: '', //项目id
     LorC: true,//列表页或者新建页
     workAlready: [
         {
@@ -152,7 +153,7 @@ var myWorkOrderModel = {//工单管理模块数据模型
     ],
     ask_end_limit: "",//要求固定时间完成
     aite: true,
-    curObjType: "",
+    //curObjType: "",
     buildList: [],//建筑体
     leftLevel: [],//楼层通用设备
     sopList: [],//sop列表
@@ -164,22 +165,22 @@ var myWorkOrderModel = {//工单管理模块数据模型
     lastLevel: [],
     clickAiteShow: false,
     clickHashShow: false,
-    workOrderDraft:{},//工单草稿内容
-    matters:[],//步骤信息,事项
-    singleMatters:{},//单步事项
+    workOrderDraft: {},//工单草稿内容
+    matters: [],//步骤信息,事项
+    singleMatters: {},//单步事项
     desc_works: [],//工作中设计的工作内容
-    workContent:{},//工作内容
-    infoArray:[],//信息点list
-    seltype:null,
-    desc_forepart:""
+    workContent: {},//工作内容
+    infoArray: [],//信息点list
+    seltype: null,
+    desc_forepart: ""
     //------------------------------------------yn__end------------------------------------------
 }
-myWorkOrderModel.singleMatters={
-    matter_name:"",          //事项名称
-    description:"",         //事项描述
-    desc_forepart:"",       //描述内容前段,结构化时用
-    desc_aftpart:"",        //描述内容后段,结构化时用
-    desc_photos:[],         //描述中的图片
+myWorkOrderModel.singleMatters = {
+    matter_name: "",          //事项名称
+    description: "",         //事项描述
+    desc_forepart: "",       //描述内容前段,结构化时用
+    desc_aftpart: "",        //描述内容后段,结构化时用
+    desc_photos: [],         //描述中的图片
 };
 myWorkOrderModel.workContent = {
     work_id: "",        //工作内容id
@@ -196,19 +197,19 @@ myWorkOrderModel.workContent = {
             obj_type: "",
             parents: [
                 /*{parent_ids: ["***", "***", "***"], parent_names: ["建筑1", "楼层1", "空间"]},
-                {parent_ids: ["***", "***"], parent_names: ["专业1", "系统1"]},
-                {parent_ids: ["***", "***", "***"], parent_names: ["专业1", "系统大类", "设备大类"]}*/
+                 {parent_ids: ["***", "***"], parent_names: ["专业1", "系统1"]},
+                 {parent_ids: ["***", "***", "***"], parent_names: ["专业1", "系统大类", "设备大类"]}*/
             ],
             info_points: [
                 /*{"id": "***", "code": "****", "name": "****"},
-                {"id": "***", "code": "****", "name": "****"}*/
+                 {"id": "***", "code": "****", "name": "****"}*/
             ],
             customs: [//自定义项，type：1-文本，2-单选，3-多选,4、无单位的数字,5、有单位的数字
-               /* {"name": "确认信息2", "type": "1"},
-                {"name": "确认信息2", "type": "2", "items": ["选项1", "选项2", "选项3"]},
-                {"name": "确认信息3", "type": "3", "items": ["选项1", "选项2", "选项3"]},
-                {"name": "确认信息4", "type": "4"},
-                {"name": "确认信息5", "type": "5", "unit": "***"}*/
+                /* {"name": "确认信息2", "type": "1"},
+                 {"name": "确认信息2", "type": "2", "items": ["选项1", "选项2", "选项3"]},
+                 {"name": "确认信息3", "type": "3", "items": ["选项1", "选项2", "选项3"]},
+                 {"name": "确认信息4", "type": "4"},
+                 {"name": "确认信息5", "type": "5", "unit": "***"}*/
             ]
         },
     ],
@@ -217,103 +218,23 @@ myWorkOrderModel.workContent = {
     selectedObj: {},        //选择信息点 对象列表已选择的对象
 
 }
-var commonData = {
-    deletedChar: '',        //文本框被删除的字符
-
-    user_id: '',
-    project_id: '',
-
-    //对象类
-    objClass: {
-        system_class: '通用系统类',
-        equip_class: '通用设备类',
-        build: '建筑体',
-        floor: '楼层',
-        space: '空间',
-        system: '系统',
-        equip: '设备',
-        component: '部件',
-        tool: '工具',
-    },
-
-    contentItemAttrNames: ['pre_conform', 'content', 'notice', 'confirm_result', 'domain'],
-
-    checkedSops: [],     //页面选择的SOP
-    selectedBrands: [],     //选择的品牌
-    selectedLabels: [],     //选择的自定义标签
-    selectedOrder_type: [],     //选择的工单类型
-    selectedFit_objs: [],     //选择的适用对象
-    firstSetMore: true,      //是否为第一次设置'更多'显示
-    beforeCheckedSteps: 0,      //选择复制/引用sop之前页面步骤数
-    checkedSopsSteps: 0,        //复制/引用sop的步骤数
-
-    //curObjType: 'init',     //当前对象类型
-
-    maybeDeletedContent: {},        //可能被删除的工作内容
-    maybeDeletedContentIndex: null,         //可能被删除的工作内容在当前步骤下的索引
-
-    beforeLen: null,        //keydown时文本长度
-
-    editingContentObjs: [],     //编辑中的操作内容涉及的对象列表
-    editingJqTextwrap: null,      //编辑的文本框dom节点对应的jquery对象
-
-    buildList: [],      //建筑体列表
-    tempObjectList: [],      //工具/部件列表
-    equip: [],      //设备
-    equipClass: [],      //设备实例
-
-    contentIndex: 0,        //当前工作内容索引
-
-    initialSelectedObjs: [],       //操作内容中初始已选择的对象
-    otherSelectedObjs: [],      //操作内容中其他类别已选择的对象
-    selectedObjs: [],       //所有选择的对象
-    initialCheckedObjs: [],        //操作内容中当前类别初始选择的对象
-    checkedObjs: [],        //弹框页面check的对象
-
-    maybeDeletedObjs: [],       //可能被删除的已选对象数组
-
-    contentObjsCopy: [],       //当前内容中的对象
-    // 副本
-
-    focusContent: false,        //是否聚焦操作内容输入框
-
-    jqTarget: null,
-    textwrap: null,
-    textdiv: null,
-    textareapop: null,
-    text: '',
-    text1: '',
-    text2: '',
-
-
-    infoPoint_obj: {},        //信息点所属的对象
-    info_pointsCopy: [],        //修改前的信息点
-
-    jqInfoPointPop: null,       //选择信息点弹框
-    jqPopDataDivs2: [],       //信息点弹框
-    belongChoosedObj: false,         //信息点是否属于已选择的对象
-
-    controlName: '普通文本',        //选择的控件名称
-
-    selectedTools2Copy: [],     //新建/编辑SOP 下一步页面中所选的工具列表 副本
-
-    matchExistingObj: {},       //自定义对象时匹配的已存在的对象
-
-    composing: false,        //输入框中是否为 非单个字符输入状态
-    notReplaceObj: false,       //在普通文本中间添加对象时不替代文本
-
-}
 
 var myWorkOrderMethod = {//工单管理模块方法
     //------------------------------------------zy__start------------------------------------------
     //事项内容keyup事件
     keyupMatterContent: function (model, index, event) {
+        commonData.curMatterIndex = index;
+        commonData.curMatterContent = JSON.parse(JSON.stringify(model));
         myWorkOrderModel.curMatterIndex = index;
         var code = event.keyCode;
         var jqTarget = $(event.currentTarget);
         var textwrap = jqTarget[0];
+
+
+        commonData.editingJqTextwrap = jqTarget;
+
         var focusIndex = textwrap.selectionStart;
-        var text = myWorkOrderModel.description;
+        var text = model.description || '';
         var len = text.length;
         var text1 = text.slice(0, focusIndex);
         var text2 = text.slice(focusIndex);
@@ -359,6 +280,7 @@ var myWorkOrderMethod = {//工单管理模块方法
                 //对象中间不允许输入@
                 if (noLastCharText1.lastIndexOf(' ') < noLastCharText1.lastIndexOf('@')) {
                     content.content = text.slice(0, focusIndex - 1) + text.slice(focusIndex, len);
+                    console.log('对象中间不允许输入@');
                     return;
                 }
                 //在如'@工具1'前输入@, '@工具1'前添加上空格
@@ -366,14 +288,22 @@ var myWorkOrderMethod = {//工单管理模块方法
                     commonData.text2 = ' ' + commonData.text2;
                 }
                 commonData.notReplaceObj = true;
-                //commonMethod.setCurPop(4);
-                var jqPopDataDivs = commonData.editingJqTextwrap.parents(".slide-div").find(".state-all-div").children();
-                var curJqPopDataDiv = $(jqPopDataDivs[index]);
-                jqPopDataDivs.removeClass('showDiv').hide();
-                curJqPopDataDiv.addClass('showDiv').show();
-                //commonMethod.locationTextareaPop(textwrap, textdiv, textareapop, text, addSpecialCharFocusIndex);     //定位
+                publicMethod.setCurPop(4, 'obj');
             } else if (addedStr == '#') {      //输入#符
-
+                //SOP中间不允许输入#
+                if (noLastCharText1.lastIndexOf(' ') < noLastCharText1.lastIndexOf('#')) {
+                    content.content = text.slice(0, focusIndex - 1) + text.slice(focusIndex, len);
+                    console.log('sop中间不允许输入#');
+                    return;
+                }
+                //在如'#SOP1'前输入#, '#SOP1'前添加上空格
+                if (commonData.text2.length && commonData.text2[0] == '@') {
+                    commonData.text2 = ' ' + commonData.text2;
+                }
+                commonData.notReplaceSop = true;
+                myWorkOrderMethod.selAllTags();
+                yn_method.upDownSelect();
+                publicMethod.setCurPop(null, 'sop');
             } else {        //输入普通字符
                 if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') && text2 == '') {
                     searchedText = text1.slice(text1.lastIndexOf('@') + 1);
@@ -401,7 +331,8 @@ var myWorkOrderMethod = {//工单管理模块方法
         var jqTarget = $(event.currentTarget);
         var textwrap = jqTarget[0];
         var focusIndex = textwrap.selectionStart;
-        var text = myWorkOrderModel.description;
+        var text = model.description || '';
+        commonData.beforeLen = text.length;
         if (code == 8) {        //删除操作
             var deletedType;
             //判断是否在对象中
@@ -410,6 +341,39 @@ var myWorkOrderMethod = {//工单管理模块方法
             var len1 = text1.length;
             var toDeletedChar = text1[len1 - 1];
             commonData.deletedChar = text1[len1 - 1];
+        }
+    },
+
+    //复选框选择或取消选择对象
+    checkObject: function (model, index) {
+        model.checked = !model.checked;
+        myWorkOrderModel.curLevelList = JSON.parse(JSON.stringify(myWorkOrderModel.curLevelList));
+        var content_objs = publicMethod.getCurMatter().content_objs || [];
+        if (model.checked) {
+            commonData.checkedObjs.push(model);
+            //判断是否为content中已选对象，将其从maybeDeletedObjs中删除
+            for (var i = 0; i < content_objs.length; i++) {
+                if (content_objs[i].obj_id == model.obj_id) {
+                    commonData.maybeDeletedObjs.splice(i, 1);
+                    break;
+                }
+            }
+        } else {
+
+            for (var i = 0; i < commonData.checkedObjs.length; i++) {
+                if (commonData.checkedObjs[i].obj_id == model.obj_id) {
+                    commonData.checkedObjs.splice(i, 1);
+                    break;
+                }
+            }
+            //判断是否为content中已选对象，将其推入maybeDeletedObjs
+            for (var i = 0; i < content_objs.length; i++) {
+                if (content_objs[i].obj_id == model.obj_id) {
+                    commonData.maybeDeletedObjs.push(JSON.parse(JSON.stringify(content_objs[i])));
+                    break;
+                }
+            }
+
         }
     },
 
@@ -432,12 +396,16 @@ var myWorkOrderMethod = {//工单管理模块方法
     },
 
     //设置当前弹窗位置
+/*
     locationPop: function (model, event) {
-        var textwrap = $(event.srcElement);
-        var textpdiv = $(event.srcElement).parents(".textarea-div");
+        //var textwrap = $(event.srcElement);
+        //var textpdiv = $(event.srcElement).parents(".textarea-div");
+        var textwrap = commonData.editingJqTextwrap;
+        var textpdiv = commonData.editingJqTextwrap.parents(".textarea-div")
         var textdiv = $(textwrap).siblings(".textareadiv");
         var textareapop = $(textwrap).siblings(".textarea-prop");
-        //var value = model.description;
+        //var value = model
+        // .description;
         //var focusIndex = textwrap[0].selectionStart;
         //var firstPartStr = value.substring(0, focusIndex);
         //var secondPartStr = value.substring(focusIndex);
@@ -469,6 +437,7 @@ var myWorkOrderMethod = {//工单管理模块方法
         //}
 
     },
+*/
 
     //------------------------------------------zy__end------------------------------------------
 
@@ -545,7 +514,7 @@ var myWorkOrderMethod = {//工单管理模块方法
                 $(event.target).css("border", "none");
                 $(event.target).next().css("color", "#cacaca");
             }
-        } else {
+/*
             num = this.description.length;
             var textwrap = $(event.srcElement);
             var textpdiv = $(event.srcElement).parents(".textarea-div");
@@ -567,6 +536,7 @@ var myWorkOrderMethod = {//工单管理模块方法
                     myWorkOrderModel.aite = false;
                     myWorkOrderMethod.selAllTags();
                     yn_method.upDownSelect(null,null,true);
+                    // yn_method.upDownSelecting(null,null,true);
                 }
                 var h1 = '<span>' + firstPartStr.substring(0, lastQuanjingIndex) + '</span>';
                 var h2 = '<span>' + firstPartStr.substr(lastQuanjingIndex, 1) + '</span>';
@@ -582,58 +552,8 @@ var myWorkOrderMethod = {//工单管理模块方法
                 var top = pos.top - divpos.top + 25;
                 $(textareapop).css({left: left + 'px', top: top + 'px'});
                 $(textareapop).show();
-
-            }
-
-
-            // if (num && value[num-1] == '@') {
-            //     //TODO:
-            //     myWorkOrderModel.aite=true;
-            //
-            //
-            //     var h1 = '<span>' + firstPartStr.substring(0, lastQuanjingIndex) + '</span>';
-            //     var h2 = '<span>' + firstPartStr.substr(lastQuanjingIndex, 1) + '</span>';
-            //     var htmlValue = h1 + h2;
-            //     htmlValue = htmlValue.replace(/\n/g, '<br/>');
-            //     htmlValue = htmlValue.replace(/\s/g, '&nbsp;');
-            //     textdiv[0].innerHTML = htmlValue;
-            //     textdiv[0].scrollTop = textwrap.scrollTop;
-            //
-            //     var span = $(textdiv).find('span:last');
-            //     var divpos = $(textdiv).offset();
-            //     var pos = span.offset();
-            //
-            //     var left = pos.left - divpos.left;
-            //     var top = pos.top - divpos.top;
-            //
-            //     $(textareapop).css({left: left + 'px', top: top + 'px'}).show();
-            //
-            //     /*$("#textarea-pop").click(function (e) {
-            //         e.stopPropagation();
-            //         $(this).show();
-            //     });*/
-            //
-            // } else if (num && value[num-1] == '#') {
-            //     myWorkOrderModel.aite=false;
-            //     return;
-            // }else if (num && value[num-1] == ' ') {
-            //     // $(textareapop).hide();
-            //     focusIndex = -1;
-            //     return;
-            // } else if (num && value[num-1] != '@' && num && value[num-1] != ' ' && num && value.indexOf("@") != -1) {
-            //     // var _this = event.target;
-            //     // var stateDiv = $(textareapop).find(".state-all-div").children();
-            //     // stateDiv.each(function () {
-            //     //     $(this).removeClass("showdiv").hide();
-            //     // });
-            //     // $(_this).siblings("#textarea-pop").find(".state-one").addClass("showdiv").show();
-            //
-            //     /*$("#textarea-pop").click(function (e) {
-            //         e.stopPropagation();
-            //         $(this).show();
-            //     });*/
-            // }
-
+         }
+*/
 
         }
         $(event.target).next().find(".counterNum").text(num);
@@ -790,6 +710,7 @@ var myWorkOrderMethod = {//工单管理模块方法
         }
     },
     //复选框选择或取消选择对象      //To Delete
+/*
     checkObject: function (model, index, event) {
         var state = event.pEventAttr.state;
         if (state) {
@@ -804,6 +725,7 @@ var myWorkOrderMethod = {//工单管理模块方法
         }
         //commonMethod.setSureBtnStatus();      //交互去掉确定按钮disable状态
     },
+*/
     //查询信息点
     getInfoPointForObject: function (obj, index1, event, contentIndex) {
         event.stopPropagation();
@@ -825,7 +747,7 @@ var myWorkOrderMethod = {//工单管理模块方法
             commonData.confirmResultIndex = content.confirm_result.length;
         }
         commonData.belongChoosedObj = belongChoosedObj;
-        controller.queryInfoPointForObject(obj,null);
+        controller.queryInfoPointForObject(obj, null);
     },
 
     //选择信息点-复选框选择或取消选择信息点

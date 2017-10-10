@@ -1,5 +1,8 @@
 $(function () {
     cardPrintLogic.init();
+    var height = $($(".printCardConA")[0]).height();
+    var heightA = $("#printCardList .printCardCon_pageA").height();
+    $("#printCardList .printCardCon_pageB .gridCon").height(height - heightA - 46 - 100);
 });
 
 var cardPrintEvent = {
@@ -47,12 +50,11 @@ var cardPrintEvent = {
 };
 
 
-var printCardObj = {};
 
 //定制名片tab切换
-function cardShow() {
+cardPrintEvent.cardShow = function () {
     var tabIndex = $("#divCardSetTab").psel();
-    switch (tabIndex){
+    switch (tabIndex) {
         case 0:
             $("#roomCardW").show();
             $("#equimentCardW").hide();
@@ -65,10 +67,7 @@ function cardShow() {
 
 }
 
-// 定制卡片
-//cardPrintEvent.customMadeCard = function () {
 
-//};
 cardPrintEvent.customMadeCardHide = function () {
     $("#printCardList").show();
     $("#printCardDz").hide();

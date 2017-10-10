@@ -1,5 +1,9 @@
 var eqaddresstabArr = [{ name: "供应商名录", icon: 'z' }, { name: "生产商名录", icon: 'z' }, { name: "维修商名录", icon: 'z' }, { name: "保险公司名录", icon: 'z' }];
 $(function () {
+    $(document).on("click", function () {
+        $(".insuranceGridPop").hide();
+    });
+
     equipmentLogic.init();
 });
 //tab事件
@@ -16,6 +20,7 @@ function addfloatShow() {
     $(".eqaddressFloatWrap").find(".addWrap").show();
     $(".eqaddressFloatWrap").find(".selWrap").hide();
     $("#delEqaddress").hide();
+    $(document).click();
 }
 //详情float
 function selfloatShow() {
@@ -29,7 +34,7 @@ function selfloatShow() {
 function tabShow() {
     var el = getCurrGridElement();
     el.show().siblings().hide();
-
+    $(document).click();
 }
 function getCurrGridElement() {
     var index = $("#eqaddresstab").psel();
@@ -81,10 +86,10 @@ function delEqaddress() {
 }
 //删除二次弹窗  确认
 function confirmDel() {
+    confirmhide();
     equipmentLogic.removeMerchantById(function () {
         $("#eqaddressfloat").phide();
     });
-    confirmhide();
 }
 //删除二次弹窗   取消
 function confirmhide() {

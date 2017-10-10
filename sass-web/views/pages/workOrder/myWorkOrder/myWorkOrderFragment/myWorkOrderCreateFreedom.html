@@ -1,6 +1,6 @@
 <div class="matter-freedom" v-show="!myWorkOrderModel.regular" v-for="(model, index0) in allMatters">
     <div class="textarea-div">
-            <textarea class="freedom-textarea" maxlength="1000" v-model="myWorkOrderModel.description"
+            <textarea class="freedom-textarea" maxlength="1000" v-model="model.description"
                       @keydown="keydownMatterContent(model, index0, $event)"
                       @keyup="keyupMatterContent(model, index0, $event)"
                       @input="counterNum"></textarea>
@@ -8,11 +8,9 @@
         <div class="add-obj-sop-content">
             <div class="add-obj" onclick="yn_method.clickAiteShowFn(this,true,event)">
                 <span>@添加对象</span>
-                <% include aite.html %>
             </div>
             <div class="add-sop" onclick="yn_method.clickAiteShowFn(this,false,event)">
                 <span>#添加SOP</span>
-                <% include hashtag.html %>
             </div>
             <div class="add-content" onclick="yn_method.addContent(true)">
                 <span>添加工作内容</span>

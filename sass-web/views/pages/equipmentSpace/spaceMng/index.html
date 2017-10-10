@@ -33,8 +33,8 @@
     <% include /template.html %>
     <div class="contentWrap" id="spaceMoleMange">
         <div class="spaceContent">
+            <ploading-part id="spaceLoading"></ploading-part>
             <pwindow-modal id="spaceWarnSet" title="空间提醒设置" templateid="space-warn-edit"></pwindow-modal>
-            <pnotice-message id="spaceNoticeWarn"></pnotice-message>
             <pwindow-float id="floorCheckFloat" templateid="floor-detail-float" title="楼层详情">
                 <animate maxpx="0" minpx="-460" orientation="right"></animate>
            </pwindow-float>
@@ -57,6 +57,7 @@
                 </button>
             </pwindow-confirm>
             <pwindow-modal id="saveModeSel" title="保存方式" templateid="select-save-mode"></pwindow-modal>
+             <pnotice-message id="spaceNoticeWarn"></pnotice-message>
             <div class="leftContent">
                 <div class="leftHead">
                     <div class="buildCombobox">
@@ -97,13 +98,13 @@
                     </div>
                     <span class="title">{{floorShowTitle}}</span>
                 </div>
-                <div class="allFloor" v-show="floorShowTitle=='建筑下的全部空间'">
-                    <div class="floorItem" v-for="item in allSpace">
+                <div class="allFloor" v-show="floorShowTitle=='建筑下的全部空间'&&allSpace.length>0">
+                    <div class="floorItem" v-for="item in allSpace" v-show="!!item.floor_local_name">
                         <div class="title">{{item.floor_local_name}}</div>
                         <div class="noSpace" v-show="item.spaces.length==0"><span>该楼层内尚无空间</span></div>
                         <div class="allSpace" v-show="item.spaces.length>0">
                             <div class="spaceItem" v-for="sitem in item.spaces" v-on:click="spaceItemClick(sitem)">
-                                <div class="allOrder">
+                                <div class="allOrder" v-show="sitem.work_orders.length>0">
                                     <div class="orderItem" v-for="witem in sitem.work_orders" v-on:click="orderSignClick($event,witem)">
                                         <span class="icon" v-bind:class="{'safeOrder':witem.order_type=='1','repairOrder':witem.order_type=='2','checkOrder':witem.order_type=='3','runOrder':witem.order_type=='4','securOrder':witem.order_type=='5'}"></span>
                                         <span class="num" v-show="witem.orders.length>1">{{witem.orders.length}}</span>
@@ -118,9 +119,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="allSpace singleFloor" v-show="floorShowTitle!='建筑下的全部空间'">
+                <div class="allSpace singleFloor" v-show="floorShowTitle!='建筑下的全部空间'&&floorSpace.length>0">
                     <div class="spaceItem" v-for="item in floorSpace" v-on:click="spaceItemClick(item)">
-                        <div class="allOrder">
+                        <div class="allOrder" v-show="item.work_orders.length>0">
                             <div class="orderItem" v-for="witem in item.work_orders" v-on:click="orderSignClick($event,witem)">
                                 <span class="icon" v-bind:class="{'safeOrder':witem.order_type=='1','repairOrder':witem.order_type=='2','checkOrder':witem.order_type=='3','runOrder':witem.order_type=='4','securOrder':witem.order_type=='5'}"></span>
                                 <span class="num" v-show="witem.orders.length>1">{{witem.orders.length}}</span>
@@ -133,7 +134,7 @@
                         <div class="name">{{item.room_local_name}}</div>
                     </div>
                 </div>
-                <div class="noData" style="display: none;">
+                <div class="noData" v-show="(floorShowTitle=='建筑下的全部空间'&&allSpace.length==0)||(floorShowTitle!='建筑下的全部空间'&&floorSpace.length==0)"  >
                 </div>
             </div>
             <div class="removeSpace" id="removeSpace">
@@ -144,8 +145,8 @@
                     <div class="title">已拆除空间</div>
                 </div>
                 <div class="removeCont">
-                    <div class="allFloor">
-                        <div class="floorItem" v-for="item in desFloorSpace">
+                    <div class="allFloor" v-show="desFloorSpace.length>0">
+                        <div class="floorItem" v-for="item in desFloorSpace" v-show="!!item.floor_local_name">
                             <div class="title">{{item.floor_local_name}}</div>
                             <div class="noSpace" v-show="item.spaces.length==0"><span>该楼层内尚无空间</span></div>
                             <div class="allSpace" v-show="item.spaces.length>0">
@@ -156,7 +157,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="noData" style="display: none;">
+                    <div class="noData" v-show="desFloorSpace.length==0">
                     </div>
                 </div>
             </div>
@@ -170,7 +171,7 @@
                         <div class="addItem">
                             <div class="name"><span><em>*</em>楼层名称：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'最多10个字'" bind="true" value="floorDetail.floor_local_name">
+                                <ptext-text placeholder="'最多10个字'" bind="true" value="floorDetail.floor_local_name" floortype="nameInput">
                                     <verify errtip="不能为空" verifytype="space"><verify>
                                 </ptext-text>
                             </div>
@@ -178,7 +179,7 @@
                         <div class="addItem">
                             <div class="name"><span><em>*</em>楼层编码：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'最多50个字'" bind="true" value="floorDetail.floor_local_id">
+                                <ptext-text placeholder="'最多50个字'" bind="true" value="floorDetail.floor_local_id" floortype="idInput">
                                     <verify errtip="不能为空" verifytype="space"><verify>
                                 </ptext-text>
                             </div>
@@ -193,7 +194,7 @@
                         <div class="addItem">
                             <div class="name"><span>楼层性质：</span></div>
                             <div class="cont">
-                                <pcombobox-normal align="left" sel="floorTypeSel" id="addFloorType">
+                                <pcombobox-normal align="left" sel="floorTypeSel" floortype="typeDrop">
                                     <header placeholder="请选择楼层性质"></header>
                                     <item datasource="floorTypeArr" text="name"></item>
                                 </pcombobox-normal>

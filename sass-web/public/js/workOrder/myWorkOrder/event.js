@@ -130,8 +130,8 @@ var yn_method = {
             sops += textRemain;
             // $(".regular-obj-text").find("textarea").val(objs);
             // $(".regular-sop-text").find("textarea").val(sops);
-            myWorkOrderModel.singleMatters.desc_forepart=objs;
-            myWorkOrderModel.singleMatters.desc_aftpart=sops;
+            myWorkOrderModel.singleMatters.desc_forepart = objs;
+            myWorkOrderModel.singleMatters.desc_aftpart = sops;
         } else {
             var reObjs = $(".regular-obj-text").find("textarea").val();
             var reSops = $(".regular-sop-text").find("textarea").val();
@@ -160,7 +160,6 @@ var yn_method = {
          }*/
 
 
-
         var textwrap = $(event.srcElement);
         var textpdiv = $(event.srcElement).parents(".textarea-div");
         var textdiv = $(textwrap).siblings(".textareadiv");
@@ -179,7 +178,8 @@ var yn_method = {
             } else if (lastQuanIndex < lastJingIndex) {
                 myWorkOrderModel.aite = false;
                 myWorkOrderMethod.selAllTags();
-                yn_method.upDownSelect(null, null, true);
+                //where--自由输入方式/结构输入，who--@/#，which--手动输入浮窗/点击浮窗
+                yn_method.upDownSelecting(null, null, true);
             }
             var h1 = '<span>' + firstPartStr.substring(0, lastQuanjingIndex) + '</span>';
             var h2 = '<span>' + firstPartStr.substr(lastQuanjingIndex, 1) + '</span>';
@@ -193,12 +193,10 @@ var yn_method = {
             var pos = span.offset();
             var left = pos.left - divpos.left + 18;
             var top = pos.top - divpos.top + 25;
-            $(textareapop).css({position:'absolute',left: left + 'px', top: top + 'px','z-index':'15'});
+            $(textareapop).css({position: 'absolute', left: left + 'px', top: top + 'px', 'z-index': '15'});
             $(textareapop).show();
 
         }
-
-
 
 
     },
@@ -486,47 +484,63 @@ var yn_method = {
     /*#浮窗中上下键选择*/
     upDownSelecting: function (where, who, which) {//where--自由输入方式/结构输入，who--@/#，which--手动输入浮窗/点击浮窗
         var num = 0;
-        var hashtagBubble = null;
+        // var hashtagBubble = null;
         var bubble = null;
-        var searchList=null;
+        // var searchList = null;
+        var timely=null;
         /*完善中*/
         if (where && who && which) {//自由方式输入时@浮窗
-            bubble = $(".matter-freedom .textarea-prop .aite-bubble");
-            searchList=$(".matter-freedom .textarea-prop .aite-bubble .timely-checkbox");
+            // bubble = $(".matter-freedom .textarea-prop .aite-bubble");
+            timely=$(".matter-freedom .textarea-prop .aite-bubble .timely-checkbox");
+            if(timely.css("visibility")=="visible"){
+                bubble=timely;
+            }
         } else if (where && who && !which) {//自由方式点击@浮窗
-            bubble = $(".matter-freedom .add-obj .aite-bubble");
+            // bubble = $(".matter-freedom .add-obj .aite-bubble");
+            timely=$(".matter-freedom .add-obj .aite-bubble .timely-checkbox");
+            if(timely.css("visibility")=="visible"){
+                bubble=timely;
+            }
         } else if (where && !who && which) {//自由方式输入时#浮窗
             bubble = $(".matter-freedom .textarea-prop .hashtag-bubble")
         } else if (where && !who && !which) {//自由方式点击时#浮窗
             bubble = $(".matter-freedom .add-sop .hashtag-bubble")
         } else if (!where && who && which) {//结构化方式输入时@浮窗
-            bubble = $(".matter-regular .textarea-prop .aite-bubble");
-        }else if(!where && who && !which){//结构化方式点击时@浮窗
-            bubble = $(".matter-regular .add-obj .hashtag-bubble");
-        }else if(!where && !who && which){//结构化方式输入时#浮窗
+            // bubble = $(".matter-regular .textarea-prop .aite-bubble");
+            timely=$(".matter-regular .textarea-prop .aite-bubble .timely-checkbox");
+            if(timely.css("visibility")=="visible"){
+                bubble=timely;
+            }
+        } else if (!where && who && !which) {//结构化方式点击时@浮窗
+            // bubble = $(".matter-regular .add-obj .hashtag-bubble");
+            timely=$(".matter-regular .add-obj .aite-bubble .timely-checkbox");
+            if(timely.css("visibility")=="visible"){
+                bubble=timely;
+            }
+        } else if (!where && !who && which) {//结构化方式输入时#浮窗
             bubble = $(".matter-regular .textarea-prop .hashtag-bubble");
-        }else if(!where && !who && !which){//结构化方式点击时#浮窗
+        } else if (!where && !who && !which) {//结构化方式点击时#浮窗
             bubble = $(".matter-regular .add-sop .hashtag-bubble");
         }
 
 
-
         /*if (which) {//输入时的#浮窗
-            hashtagBubble = $(".matter-freedom .textarea-prop .hashtag-sop")
-        } else {
-            // hashtagBubble=$(".add-sop .sop-list .aite-list")
-            hashtagBubble = $(".matter-freedom .add-sop .hashtag-sop")
+         hashtagBubble = $(".matter-freedom .textarea-prop .hashtag-sop")
+         } else {
+         // hashtagBubble=$(".add-sop .sop-list .aite-list")
+         hashtagBubble = $(".matter-freedom .add-sop .hashtag-sop")
 
-        }*/
+         }*/
         $(document).keyup(function (e) {
             var code = e.keyCode;
             // e.preventDefault();
             if (code == 40 && num == 0) {
-                if (!myWorkOrderModel.aite) {
-                    // $(".sop-list .aite-list:first-of-type").addClass("updownmove");
+                // if (!myWorkOrderModel.aite) {
                     // $(hashtagBubble).eq(0).addClass("updownmove");
-                    $(bubble).find(".aite-list").eq(0).addClass("updownmove");
-                }
+                    if (!who || who && timely) {
+                        $(bubble).find(".aite-list").eq(0).addClass("updownmove");
+                    }
+                // }
                 num++;
             } else {
                 if ($(".updownmove")[0]) {
@@ -537,20 +551,20 @@ var yn_method = {
                             // e.preventDefault();
                             if (prev) {
                                 if (!myWorkOrderModel.aite) {
-                                    $(hashtagBubble).find(".aite-list").each(function () {
+                                    $(bubble).find(".aite-list").each(function () {
                                         $(this).removeClass("updownmove");
                                     });
                                     $(prev).addClass("updownmove");
                                     // $(".sop-body .sop-list").animate({
                                     //     scrollTop: "-=40px"
-                                    // })
+                                    // });
                                 }
                             }
                             break;
                         case 40://下
                             if (!myWorkOrderModel.aite) {
                                 if (next) {
-                                    $(hashtagBubble).find(".aite-list").each(function () {
+                                    $(bubble).find(".aite-list").each(function () {
                                         $(this).removeClass("updownmove");
                                     });
                                     $(next).addClass("updownmove");
@@ -563,27 +577,25 @@ var yn_method = {
 
                             break;
                         case 32://空格选中
-                            if (!myWorkOrderModel.aite) {
+                            // if (!myWorkOrderModel.aite) {
                                 // var id = $(".sop-list .aite-list.updownmove>div:last-of-type>div").attr("id");
-                                var id = $(hashtagBubble).find(".aite-list.updownmove>div:last-of-type>div").attr("id");
-                                $(hashtagBubble).find("#" + id).psel(true);//空格选中
-                                $(hashtagBubble).find("#able-btn").pdisable(false);
-                            }
+                                var id = $(bubble).find(".aite-list.updownmove>div:last-of-type>div").attr("id");
+                                $(bubble).find("#" + id).psel(true);//空格选中
+                                $(bubble).find("#able-btn").pdisable(false);
+                            // }
                             break;
                         case 13://回车确定
-                            if (!myWorkOrderModel.aite) {
-                                var checks = $(hashtagBubble).find(".aite-list>div:last-of-type").children("div");
+                            // if (!myWorkOrderModel.aite) {
+                                var checks = $(bubble).find(".aite-list>div:last-of-type").children("div");
                                 var sop = "";
                                 checks.each(function (i, dom, arr) {
-                                    var check = $(hashtagBubble).find("#" + dom.id).psel();
+                                    var check = $(bubble).find("#" + dom.id).psel();
                                     if (check) {
-                                        sop += "#" + $(hashtagBubble).find(dom).parent().prev().children().text() + " ";
+                                        sop += "#" + $(bubble).find(dom).parent().prev().children().text() + " ";
                                     }
                                 });
                                 myWorkOrderModel.description += sop;
-                                // $(".matter-freedom textarea").
-
-                            }
+                            // }
                             break;
                         default:
                             break;
@@ -602,7 +614,12 @@ var yn_method = {
         }
     },
     /*回车确定*/
-    enterSop: function (e, which) {
+    /*enterSop: function (e, which) {
+        var timely=$(".textarea-prop .aite-bubble .timely-checkbox");
+        // var timely=$(".add-obj .aite-bubble .timely-checkbox");
+        if(timely.css("visibility")=="visible"){
+            hashtagBubble=timely;
+        }
         if (which) {//输入时的#浮窗
             // hashtagBubble=$(".textarea-prop .sop-list .aite-list")
             hashtagBubble = $(".textarea-prop .hashtag-sop")
@@ -622,7 +639,40 @@ var yn_method = {
                     sop += "#" + $(e.target).parents(".hashtag-bubble").find("#" + dom.id).parent().prev().children().text() + " ";
                 }
             });
+            if (which) {//输入时的#浮窗
+                sop = sop.substring(1);
+            }
+            myWorkOrderModel.description += sop;
+            // $(".matter-freedom textarea").
 
+        }
+    },*/
+    /*回车确定*/
+    enterSop: function (e, which) {
+        var timely=$(".textarea-prop .aite-bubble .timely-checkbox");
+        // var timely=$(".add-obj .aite-bubble .timely-checkbox");
+        if(timely.css("visibility")=="visible"){
+            hashtagBubble=timely;
+        }
+        if (which) {//输入时的#浮窗
+            // hashtagBubble=$(".textarea-prop .sop-list .aite-list")
+            hashtagBubble = $(".textarea-prop .hashtag-sop")
+        } else {
+            // hashtagBubble=$(".add-sop .sop-list .aite-list")
+            hashtagBubble = $(".add-sop .hashtag-sop")
+
+        }
+        if (!myWorkOrderModel.aite) {
+            // var checks = $(".sop-list .aite-list>div:last-of-type").children("div");
+            var checks = $(e.target).parents(".hashtag-bubble").find(".sop-list .aite-list>div:last-of-type").children("div");
+
+            var sop = "";
+            checks.each(function (i, dom, arr) {
+                var check = $(e.target).parents(".hashtag-bubble").find("#" + dom.id).psel();
+                if (check) {
+                    sop += "#" + $(e.target).parents(".hashtag-bubble").find("#" + dom.id).parent().prev().children().text() + " ";
+                }
+            });
             if (which) {//输入时的#浮窗
                 sop = sop.substring(1);
             }
@@ -691,7 +741,9 @@ var yn_method = {
             myWorkOrderModel.clickAiteShow = false;
             myWorkOrderModel.clickHashShow = true;
         }
-        $(e).children("div").show()
+        $(e).children("div").show();
+        //where--自由输入方式/结构输入，who--@/#，which--手动输入浮窗/点击浮窗
+        yn_method.upDownSelecting(true,false,false);
     },
     delObjs: function (dom) {
         $(dom).parents(".obj-div").remove();

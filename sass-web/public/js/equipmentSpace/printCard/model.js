@@ -45,17 +45,7 @@ var cardPrintModal = {
     }, {
         info_point_code: 'room_local_id', info_point_name: '空间编码'
     }],
-    spCardTemplateArr: [],
-
-    equipmentType: [{ name: '设备型号' }, { name: '设备类型' }, { name: '安装位置' }, { name: '所属系统' }, { name: '所属部门' }, { name: '设备品牌' }, { name: '投产日期' }, { name: '负责人' }, { name: '使用寿命' }, { name: '维修商' }, { name: '无' }],
-
-    //后面会删除
-    gridArr: [{ name: '小王1', age: '18', hobby: '唱歌' }
-    , { name: '小王2', age: '18', hobby: '唱歌' }
-    , { name: '小王3', age: '18', hobby: '唱歌' }
-    , { name: '小王4', age: '18', hobby: '唱歌' }
-  
-    ],
+    spCardTemplateArr: []
 };
 
 var cardPrintVueMethod = {
@@ -139,6 +129,10 @@ var cardPrintVueMethod = {
         var currPageIndex = event.pEventAttr.pageIndex;
         cardPrintLogic.getCardList();
     },
+    /*表格排序事件*/
+    gridSortChange: function (event) {
+        console.log(0)
+    },
     /*名片设置，下拉列表选择事件*/
     gridCheckboxChange: function (model, event) {
         var tabIndex = $("#divCardPrintTab").psel();
@@ -149,7 +143,7 @@ var cardPrintVueMethod = {
     /*设置页面tab选项卡选择事件*/
     setTabSel: function () {
         var tabIndex = $("#divCardSetTab").psel();
-        cardShow();
+        cardPrintEvent.cardShow();
         var info = cardPrintModal[tabIndex == 0 ? 'eqCardInfo' : 'spCardInfo'];
         var obj = JSON.parse(JSON.stringify(info));
         obj.isNewFile = false;

@@ -57,18 +57,21 @@
                             <pbutton-blue text="下载设备名片" click="cardPrintEvent.downEvent" ></pbutton-blue>
                         </div>
                     </div>
-                    <div class="gridCon">
-                        <pgrid-multifunction style="height: 400px;">
-                            <panel datasource="gridArr" pagesize="5" sel="_console2" checkbox="true" click="_console" change="_console" ></panel>
+                    <div class="gridCon" style="height: 400px;" id="gridCardPrintForEq" >
+                        <pgrid-multifunction>
+                            <panel datasource="eqArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="gridTemp"></panel>
                             <header>
-                                <column name="姓名" source="name" click="_console" sort="true" sortevent="_console2"></column>
-                                <column name="年龄" source="age"></column>
-                                <column name="爱好" source="hobby"></column>
+                                <column name="设备编号" source="equip_local_id" ></column>
+                                <column name="设备名称" source="equip_local_name"></column>
+                                <column name="设备型号" source="specification"></column>
+                                <column name="所在位置" source="position"></column>
+                                <column name="供应商" source="supplier"></column>
+                                <column name="录入时间" source="create_time" sort="true" ></column>
                             </header>
-                        
-                            <button>
-                                <pbutton-blue text="点我啊" click="_console2"></pbutton-blue>
-                            </button>
+                            <page>
+                                <ppage-simple number="1"></ppage-simple>
+                            </page>
+
                         </pgrid-multifunction>
 
                     </div>
@@ -108,20 +111,21 @@
                             <pbutton-blue text="下载空间名片" click="cardPrintEvent.downEvent"></pbutton-blue>
                         </div>
                     </div>
-                    <div class="gridCon">
-                        <!--operation="true" templateid="xx"-->
-         <!--               <pgrid-multifunction style="height: 400px;">
-                            <panel datasource="gridArr" pagesize="5" sel="_console2" checkbox="true" click="_console" change="_console" ></panel>
+                    <div class="gridCon" style="height: 400px;" id="gridCardPrintForSp">
+                        <pgrid-multifunction >
+                            <panel datasource="spArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="spGridTemp"></panel>
                             <header>
-                                <column name="姓名" source="name" click="_console" sort="true" sortevent="_console2"></column>
-                                <column name="年龄" source="age"></column>
-                                <column name="爱好" source="hobby"></column>
+                                <column name="空间编号" source="space_id"  ></column>
+                                <column name="空间名称" source="room_local_name"></column>
+                                <column name="功能区类型" source="room_func_type_name"></column>
+                                <column name="备注" source="intro"></column>
+                                <column name="录入时间" source="create_time" sort="true"></column>
                             </header>
-                        
-                            <button>
-                                <pbutton-blue text="点我啊" click="_console2"></pbutton-blue>
-                            </button>
-                        </pgrid-multifunction>-->
+                            <page>
+                                <ppage-simple number="1"></ppage-simple>
+                            </page>
+
+                        </pgrid-multifunction>
 
                     </div>
 
@@ -163,13 +167,6 @@
                                     <item datasource="item.source" text="info_point_name" ></item>
                                 </pcombobox-normal>
                             </li>
-                          
-     <!--                       <li>
-                                <pcombobox-normal bind="true">
-                                    <header  placeholder="安装位置"></header>
-                                    <item datasource="equipmentType" text="name" ></item>
-                                </pcombobox-normal>
-                            </li>-->
                         </ul>
                         <div class="printCard_code"></div>
                     </div>
@@ -197,12 +194,6 @@
                                     <item datasource="item.source" text="info_point_name" ></item>
                                 </pcombobox-normal>
                             </li>
-                  <!--          <li>
-                                <pcombobox-normal bind="true">
-                                    <header  placeholder="设备类型"></header>
-                                    <item datasource="equipmentType" text="name" ></item>
-                                </pcombobox-normal>
-                            </li>-->
                       
                         </ul>
                         <div class="printCard_code"></div>
@@ -213,11 +204,29 @@
         </div>
 
     </div>
-</div>
-<!--保存确定名片 modal-->
+
+    <!--保存确定名片 modal-->
 <pwindow-modal id="confirmCardModal" title="确认名片样式" templateid="confirmCardHtml"></pwindow-modal>
-<script type="text/html" id="xx">
-    <div>xxxxxx</div>
+</div>
+
+<!-- 设备自定义表格 -->
+<script type="text/html" id="gridTemp">
+    <div v-text="model.equip_local_id"></div>
+    <div v-text="model.equip_local_name"></div>
+    <div v-text="model.specification"></div>
+    <div v-text="model.position"></div>
+    <div v-text="model.supplier"></div>
+    <div v-text="model.create_time"></div>
+    <div><div class="_gridPop" v-show="!model.download_flag">尚未下载</div></div>
+</script>
+<!-- 空间自定义表格 -->
+<script type="text/html" id="spGridTemp">
+    <div v-text="model.space_id"></div>
+    <div v-text="model.room_local_name"></div>
+    <div v-text="model.room_func_type_name"></div>
+    <div v-text="model.intro"></div>
+    <div v-text="model.create_time"></div>
+    <div><div class="_gridPop" v-show="!model.download_flag">尚未下载</div></div>
 </script>
 <!-- 确认名片temp -->
 <script type="text/html" id="confirmCardHtml">
@@ -232,7 +241,7 @@
                 <ul class="printCard_ul">
                     <li class="printCard_li" v-for="item in selEqCardTemplateArr"><em v-text="item.info_point_name">设备名称:</em><b>ZHILENGJI09871</b></li>
                   
-<!--                    <li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>-->
+<!--<li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>-->
                 </ul>
                 <div class="printCard_code"></div>
             </div>

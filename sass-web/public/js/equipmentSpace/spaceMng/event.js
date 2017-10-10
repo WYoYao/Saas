@@ -165,7 +165,9 @@ function addFloorShow(event, param) {//添加楼层页面显示
     instance.floorDetail = new floorObj();
     spaceInfoController.addFloorSign = param;
     $("#addFloorDiv").show();
-    $("#addFloorType").precover();
+    $("#addFloorDiv [floortype='nameInput']").precover();//恢复默认  
+    $("#addFloorDiv [floortype='idInput']").precover();//恢复默认  
+    $("#addFloorDiv [floortype='typeDrop']").precover();//恢复默认  
 }
 function saveAddFloor() {
     var instance = spaceInfoModel.instance();
@@ -230,9 +232,9 @@ function spaceBuildSel(item) {//空间中的建筑选择
     instance.spaceDetail.build_id = item.obj_id;//选中的建筑id
     instance.spaceDetail.build_local_name = item.obj_name;//选中的建筑名字
     //建筑选择后需要清空楼层吗 todo
-    //$("#spaceFloorDrop").precover('请选择楼层');
-    //instance.spaceDetail.floor_id = '';//选中的楼层id
-    //instance.spaceDetail.floor_local_name = '';//选中的楼层id
+    $("#spaceFloorDrop").precover('请选择楼层');
+    instance.spaceDetail.floor_id = '';//选中的楼层id
+    instance.spaceDetail.floor_local_name = '';//选中的楼层id
 }
 
 function checkAllFloor(event) {//查看右侧所有楼层空间
@@ -241,6 +243,8 @@ function checkAllFloor(event) {//查看右侧所有楼层空间
     instance.allFloorInfo.forEach(function (ele) {
         ele.ischeck = false;
     });
+    spaceInfoController.querySpaceWithGroup();
+
 }
 function spaceFloorSel(item) {//空间中的楼层选择
     var instance = spaceInfoModel.instance();
