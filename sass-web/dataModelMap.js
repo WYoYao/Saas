@@ -3,6 +3,10 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
+    'restEquipService/queryEquipDynamicInfoForAdd':{
+        "type": "array",
+        "note": "未输入note",
+    },
     'restEquipService/addEquip': {
         "type": "object",
         "note": "未输入note",

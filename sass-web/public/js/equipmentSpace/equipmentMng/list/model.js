@@ -50,7 +50,7 @@ v.pushComponent({
         currentSystemSelector: new SystemSelector(), // 查询当前专业实例的
         EquipStatisticCount: new EquipStatisticCount(), // 设备数量
         onTab: 'equip_total', // 当前显示的块
-        onPage: 'insert', // list 列表 detail // 详情 // 新建 insert    //新建系统 addSystem
+        onPage: 'list', // list 列表 detail // 详情 // 新建 insert    //系统管理 System
         listHeight: {}, // 行号的类型
         Scrapped: {}, // 准备报废的设备
     },
@@ -212,6 +212,16 @@ v.pushComponent({
         _clickScrapped: function(item) {
             this.Scrapped = item;
             $("#confirmWindow").pshow({ title: '确定要报废此设备吗？', subtitle: '被报废的设备将不可以再编辑信息以及再被加入到工单中' })
+        },
+        // 录入新设备
+        goInsert:function(){
+            
+            v.initPage("equipmentMngInsert")
+            this.onPage='insert';
+        },
+        goSystemMgn:function(){
+            v.initPage("System")
+            this.onPage='System';
         }
     },
     beforeMount: function() {

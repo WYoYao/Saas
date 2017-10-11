@@ -1,6 +1,60 @@
 ;
 (function () {
 
+    // 公用方法
+
+    /**
+     * upload 控件获取值转换成为attachment 值
+     * @param {Object} param   附件单个实例
+     * @param {String} key     对应的键值
+     * @param {int} type     对应的键值  1 图片 2 非图片 默认非图片
+     * @param {Bool} multiFile 是否多个文件默认多个
+     */
+    function uploadPval2attachment(param, key, type, multiFile) {
+
+        type = type || 2;
+        multiFile = multiFile === false ? false : true;
+
+        return {
+            path: param.url, //文//件的下载地址， 即网站后台(非java端) 后台返回的下载地址。 必须 *
+            toPro: key, //此文件对应的属性名称 *
+            multiFile: multiFile, //是否是多附件， 默认true *
+            fileName: param.name, // 文件真实名称 *
+            fileSuffix: param.suffix, //文件后缀,不带点// *
+            isNewFile: (param.isNewFile != void 0) ? param.isNewFile : true, // 是不是新文件， 默认true， 为false时将不进行文件上传 *
+            fileType: type, //文件类型， 1 图片 2 非图片， 暂时只有fm系统会用到； 默认1 /
+        }
+    }
+
+    /**
+     * 树状接口通过的属性查询出对应的值
+     * 根据传入 key value 值查询对应的树的内容
+     */
+    /**
+     * 根据下拉菜单 psel() 出来的值查询 查询对应的数据源
+     * 
+     * @param {Array} 数据源 
+     * @param {String} 查询值对应的key 
+     * @param {String} 查询值
+     * @returns 
+     */
+    function filterItemByKeyValue(list, key, value) {
+
+        if (!_.isArray(list)) return;
+
+        function fltbyName(con, item) {
+
+            if (item[key] == value) con = item;
+
+            return con;
+
+        }
+
+        return list.length ? list.reduce(fltbyName) : {};
+    }
+
+    // 公用方法
+
     /**
      * 关系树通过之前的关系完成对应的关联
      */
@@ -58,6 +112,7 @@
     function createTreeSelFn(key) {
 
         return function (item) {
+            var _that = v.instance;
 
             // 选择安装位置的时候楼层不能被选择
             if (key == 'build_id' && item.obj_type == 'floor') {
@@ -111,6 +166,37 @@
                 }
             })
 
+            // 当设备类型选择后需要动态查询技术参数
+            if (key == "equip_category") {
+                _that.queryEquipDynamicInfoForAdd(item.code);
+            }
+
+            // 如果的当前选项为所属系统  ** 当前只能默认选中不能默认展开 **
+            // if (key == "system_id") {
+            //     var system_category = item.system_category;
+
+            //     function fn(x) {
+            //         var f=arguments.callee;
+
+            //         if (_.isArray(x.content)) {
+
+            //             var tag=x.code;
+            //             if(tag==system_category && x.content.length){
+            //                 $("#Tree_equip_category").psel({
+            //                     nodeId:x.content[0].code,
+            //                     isEvent:true,
+            //                     type:1,
+            //                 })
+            //             }
+
+            //             // 递归
+            //             x.content.forEach(f);
+            //         }
+            //     }
+
+            //     _that.AllEquipCategory.forEach(fn)
+            // }
+
 
         }
     }
@@ -158,16 +244,21 @@
 
             var fileList = arr.map(function (item) {
 
-                return {
-                    path: item.url, //文//件的下载地址， 即网站后台(非java端) 后台返回的下载地址。 必须 *
-                    toPro: key, //此文件对应的属性名称 *
-                    multiFile: true, //是否是多附件， 默认true *
-                    fileName: item.name, // 文件真实名称 *
-                    fileSuffix: item.suffix, //文件后缀,不带点// *
-                    isNewFile: (item.isNewFile != void 0) ? item.isNewFile : true, // 是不是新文件， 默认true， 为false时将不进行文件上传 *
-                    fileType: UploadEnum[key].type, //文件类型， 1 图片 2 非图片， 暂时只有fm系统会用到； 默认1 /
-                }
+                return uploadPval2attachment(item, key, UploadEnum[key].type);
             });
+
+            // var fileList = arr.map(function (item) {
+
+            //     return {
+            //         path: item.url, //文//件的下载地址， 即网站后台(非java端) 后台返回的下载地址。 必须 *
+            //         toPro: key, //此文件对应的属性名称 *
+            //         multiFile: true, //是否是多附件， 默认true *
+            //         fileName: item.name, // 文件真实名称 *
+            //         fileSuffix: item.suffix, //文件后缀,不带点// *
+            //         isNewFile: (item.isNewFile != void 0) ? item.isNewFile : true, // 是不是新文件， 默认true， 为false时将不进行文件上传 *
+            //         fileType: UploadEnum[key].type, //文件类型， 1 图片 2 非图片， 暂时只有fm系统会用到； 默认1 /
+            //     }
+            // });
 
             if (UploadEnum[key].struct == 1) {
 
@@ -309,18 +400,18 @@
     });
 
 
-    var PtimeEnum={
-        product_date:{},
-        start_date:{},
-        maintain_deadline:{},
+    var PtimeEnum = {
+        product_date: {},
+        start_date: {},
+        maintain_deadline: {},
     }
 
-    function createPtimeSelFn(key){
+    function createPtimeSelFn(key) {
 
-        return function(item){
-            var _that=v.instance;
+        return function (item) {
+            var _that = v.instance;
 
-            _that.insertModel[key]=item.pEventAttr.startTime;
+            _that.insertModel[key] = item.pEventAttr.startTime;
         }
     }
 
@@ -329,15 +420,31 @@
         window['ptime_' + key] = createPtimeSelFn(key);
     });
 
-    function createCancelAddBlock(key){
+    // 根据的key值 类型获取对应的值
+    function getEquipDynamicInfoBykey(key, type, content) {
 
-        return function(key){
-            $("#floatWindow_"+key).phide();
+        // 获取DOM
+        var el = $("#EDI" + key),
+            type = type, // 类型
+            res; // 返回值
+
+        res = type == 1 ? el.psel() : el.pval();
+
+        if (type == 1) {
+            // 下拉菜单
+            if(res==false)return "";
+
+            var item =filterItemByKeyValue(content.cmpt_data,"name",res.name);
+                return item.code;
+
+        } else if(type==4){
+            // 上传控件
+            return res.map(function (item) {
+                return uploadPval2attachment(item, key);
+            })
         }
-    }
+    };
 
-
-
-
+    window.getEquipDynamicInfoBykey=getEquipDynamicInfoBykey;
 
 })();

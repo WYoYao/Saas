@@ -2,10 +2,10 @@
     <div class="content ">
         <div class="headerd">
             <span class="btn fl">
-                <pbutton-white text="取消" click=""></pbutton-white>
+                <pbutton-white text="取消" @click.capture="_clickInsertBack()"></pbutton-white>
             </span>
             <span class="btn fr bfbtn" @click.capture="_SubmitEquip()">
-                <pbutton-blue text="保存" click=""></pbutton-blue>
+                <pbutton-blue text="保存"></pbutton-blue>
             </span>
         </div>
         <div class="contentd i_borderTop">
@@ -381,9 +381,56 @@
                         </div>
                     </div>
                 </div>
-                <div class="moduleItem">
-                    <div class="header">技术参数</div>
+
+                <!-- 技术参数 Start -->
+                <div class="moduleItem" v-for='item in EquipDynamicInfoList'>
+                    <div class="header" v-text='item.tag'></div>
+
+                    <div class="eachItem" :class='{leftItem:index%2==0,rightItem:index%2==1}' v-for='(info,index) in item.info_Points'>
+                        <div class="name"><span v-text='info.info_name'></span></div>
+
+                        <!-- 文本开始 Start -->
+                        <div class="cont" v-if='info.type==0'>
+                            <ptext-text value='info.str_value' bind='true'>
+                            </ptext-text>
+                        </div>
+                        <!-- 文本开始 End -->
+
+                        <!-- 普通下拉选择框 Start -->
+                        <div class="cont" v-if='info.type==1'>
+                            <pcombobox-normal id="'EDI'+info.info_code" bind='true'>
+                                <item datasource="info.cmpt_data" text="name"></item>
+                            </pcombobox-normal>
+                        </div>
+                        <!-- 普通下拉选择框 End -->
+
+                        <!-- 普通复选框 Start -->
+                        <div class="cont" v-if='info.type==2'>
+                            <div class="per-switch-checkbox" v-for='check in info.cmpt_data' @click='check.isChecked=!check.isChecked'>
+                                <span class="per-checkbox_input" :class="{'per-checkbox-checked':check.isChecked}"></span>
+                                <span class="per-switch_label" v-text='check.name'></span>
+                            </div>
+                        </div>
+                        <!-- 普通复选框 End -->
+
+                        <!-- 上传下载附件 带单位 Start -->
+                        <div class="cont" v-if='info.type==3'>
+                            <pupload-attachment id="'EDI'+info.info_code" number="4" bind='true'></pupload-attachment>
+                        </div>
+                        <!-- 文本开始 带单位 End -->
+
+                        <!-- 文本开始 带单位 Start -->
+                        <div class="cont" v-if='info.type==4'>
+                            <ptext-text value='info.str_value' bind='true' text="info.unit">
+                            </ptext-text>
+                        </div>
+                        <!-- 文本开始 带单位 End -->
+                    </div>
+
+
                 </div>
+
+                <!-- 技术参数 End -->
             </div>
         </div>
     </div>

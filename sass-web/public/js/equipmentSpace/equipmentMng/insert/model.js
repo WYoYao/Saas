@@ -107,6 +107,7 @@
             attachments: {}, // 上传文件的分类集合
             SystemForBuild: [], //  建筑结构下的系统实例
             insertModel: {}, // 提交的订单资料
+            EquipDynamicInfoList: [], // 设备动态信息
             iv: { // 控制树状菜单的显示隐藏
                 build_id: false,
                 system_id: false,
@@ -244,6 +245,61 @@
                 }
 
             },
+            // 查询设备动态信息
+            queryEquipDynamicInfoForAdd: function (equip_category) {
+                var _that = this;
+                controllerInsert.queryEquipDynamicInfoForAdd(equip_category)
+                    .then(function (list) {
+
+                        _that.EquipDynamicInfoList =  _that.EquipDynamicInfoCovert(list);
+                    })
+            },
+            // 查询技术信息
+            getEquipDynamicInfo:function(){
+
+                var _that=this;
+                    res={},
+                    list=_that.EquipDynamicInfoList;
+                // tag 循环
+                return list.reduce(function(con,item){
+                    // points 循环
+                    return item.info_Points.reduce(function(con,info){
+
+                        
+                        if((info.type==0 || info.type==4) && info.str_value.length){
+
+                            con[info.info_code]=info.str_value;
+
+                        }else if(info.type==1){
+
+                            var text=getEquipDynamicInfoBykey(info.info_code,1,info);
+                            if(text)con[info.info_code]=text;
+
+                        }else if(info.type==2){
+
+                            var arr=info.cmpt_data
+                                .filter(function(x){
+                                    return x.isChecked;
+                                }).map(function(x){
+                                    return x.code;
+                                });
+                            
+                            if(arr.length)con[info.info_code]=arr;
+
+                        }else if(info.type==3){
+
+                            var attachments=getEquipDynamicInfoBykey(info.info_code,4,info);
+
+                            con.attachments=con.attachments || [];
+                            con.attachments=con.attachments.concat(attachments);
+                        }
+
+                        return con;
+
+                    },con)
+                },{});
+
+            },
             // 保存设备
             _SubmitEquip: function () {
                 var _that = this;
@@ -311,6 +367,20 @@
 
                 console.log(request);
 
+                var EquipDynamicInfo = _that.getEquipDynamicInfo();
+
+                // 合并技术参数和基本参数的上传附件
+                if(EquipDynamicInfo.attachments && EquipDynamicInfo.attachments.length){
+                    request.attachments=request.attachments || [];
+
+                    request.attachments=request.attachments.concat(EquipDynamicInfo.attachments);
+
+                };
+
+                request=Object.assign({},EquipDynamicInfo,request);
+
+                console.log(request);
+
                 controllerInsert.addEquip(request)
                     .then(function () {
                         $("#equipmentMngpnotice").pshow({
@@ -318,6 +388,12 @@
                             state: "success"
                         });
                     });
+            },
+            // 返回
+            _clickInsertBack:function(){
+                var _that=this;
+                v.initPage("equipmentMng")
+                _that.onPage='list';
             },
         },
         beforeMount: function () {
@@ -417,7 +493,7 @@
             // 添加空间需要调用的事件
             spceBindClick();
 
-            
+
         },
         watch: {
             insertModel: function (newValue, oldValue) {

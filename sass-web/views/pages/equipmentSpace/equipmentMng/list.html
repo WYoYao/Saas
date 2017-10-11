@@ -34,10 +34,10 @@
                 <span class="clearSearch" @click='_clearSearch()' v-show='currentSelector.keyword.length'>x</span>
                 <ptext-text id='searchBtn' placeholder="关键字" text="&nbsp;&nbsp;"></ptext-text>
                 </span>
-                <span class="addequipment">
-                        <pbutton-white text="录入新设备" icon="e" click="buttonClick"></pbutton-white>
+                <span class="addequipment" @click.capture="goInsert()">
+                        <pbutton-white text="录入新设备" icon="e"></pbutton-white>
                     </span>
-                <span class="systemMgn">
+                <span class="systemMgn" @click.capture="goSystemMgn()">
                         <pbutton-white text="系统管理" icon="e" click="buttonClick"></pbutton-white>
                     </span>
             </div>

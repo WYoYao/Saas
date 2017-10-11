@@ -38,5 +38,28 @@ var controllerInsert={
                 },
             });
         })
+    },
+    /**
+     * 设备管理-新增页:查询设备动态信息
+     */
+    queryEquipDynamicInfoForAdd:function(equip_category){
+
+        return new Promise(function(resolve,reject){
+            pajax.post({
+                url: 'restEquipService/queryEquipDynamicInfoForAdd',
+                data: {
+                    equip_category:equip_category
+                },
+                success: function(data) {
+                    resolve(data.data);
+                },
+                error: function() {
+                    reject(err);
+                },
+                complete: function() {
+
+                },
+            });
+        })
     }
 }
