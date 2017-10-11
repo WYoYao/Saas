@@ -389,12 +389,6 @@
                         });
                     });
             },
-            // 返回
-            _clickInsertBack:function(){
-                var _that=this;
-                v.initPage("equipmentMng")
-                _that.onPage='list';
-            },
         },
         beforeMount: function () {
             var _that = this;

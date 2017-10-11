@@ -45,7 +45,13 @@ v.pushComponent({
         ServicingList: [], //维修中列表
         MaintenanceList: [], // 维保中列表
         ScrappedList: [], //报废列表
-        EquipStateList: [{ "code": true, "name": "运行中" }, { "code": false, "name": "已报废" }], //设备状态
+        EquipStateList: [{
+            "code": true,
+            "name": "运行中"
+        }, {
+            "code": false,
+            "name": "已报废"
+        }], //设备状态
         currentSelector: new currentSelector(), // 查询列表内容
         currentSystemSelector: new SystemSelector(), // 查询当前专业实例的
         EquipStatisticCount: new EquipStatisticCount(), // 设备数量
@@ -67,53 +73,61 @@ v.pushComponent({
         // }
     },
     filters: {
-        num2str: function(str) {
+        num2str: function (str) {
 
             if (_.isNumber(str)) str = Array.prototype.slice.call(new String(str)).reverse().join('');
             return Array.prototype.slice.call(
-                str.replace(/\d{3}?/g, function(word, startIndex) {
+                str.replace(/\d{3}?/g, function (word, startIndex) {
 
                     return startIndex + 3 == str.length ? word : word + ",";
                 })
             ).reverse().join('');
         },
-        yyyyMMddhhmmss2date: function(str) {
+        yyyyMMddhhmmss2date: function (str) {
 
-            return str.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/g, function() {
+            return str.replace(/^(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})$/g, function () {
                 var arr = Array.prototype.slice.call(arguments);
                 return arr.slice(1, 4).join('/') + " " + arr.slice(4, 7).join(':');
             });
         },
-        date2yyyyMMddhhmm: function(date) {
+        date2yyyyMMddhhmm: function (date) {
 
             return (new Date(date)).format('yyyy.MM.dd hh.mm');
         }
     },
     methods: {
+        // 返回
+        _clickInsertBack: function () {
+            var _that = this;
+            v.initPage("equipmentMng")
+            _that.onPage = 'list';
+        },
         // 跳转到详情页
-        _clickIntoDeatil: function(item) {
+        _clickIntoDeatil: function (item) {
 
-            v.initPage('equipmentMngDeatil', { equip_id: item.equip_id });
+            v.initPage('equipmentMngDeatil', {
+                equip_id: item.equip_id
+            });
 
             this.onPage = 'detail';
 
             console.log(item);
         },
         // 文字搜索
-        _clearSearch: function() {
+        _clearSearch: function () {
             $("#searchBtn").precover();
             this.currentSelector = new currentSelector();
             this.setCurrentSelectorAttr('keyword', '');
         },
         // 搜索按钮点击事件
-        _clickSearch: function() {
+        _clickSearch: function () {
 
             this.currentSelector = new currentSelector();
 
             this.setCurrentSelectorAttr('keyword', $("#searchBtn").pval());
         },
         // 获取行高
-        computelistHeight: function() {
+        computelistHeight: function () {
 
             var height = document.querySelector('.queryblock').offsetHeight + (this.onTab == 'equip_total' ? document.querySelector('.searchHeader').offsetHeight : document.querySelector('.spaceHeader').offsetHeight);
 
@@ -125,7 +139,7 @@ v.pushComponent({
             };
         },
         //页面切换效果
-        switchOnTab: function(str) {
+        switchOnTab: function (str) {
             // 切换页面效果
             this.onTab = str;
 
@@ -146,20 +160,20 @@ v.pushComponent({
 
         },
         // 查询列表
-        setCurrentSelectorAttr: function(key, value) {
+        setCurrentSelectorAttr: function (key, value) {
 
             this.currentSelector[key] = value;
             var _that = this;
 
             this.currentSelector.page = 1;
 
-            equipmentMngList.queryEquipEnum(_that.onTab, this.currentSelector).then(function(list) {
+            equipmentMngList.queryEquipEnum(_that.onTab, this.currentSelector).then(function (list) {
                 _that[EnumType[_that.onTab]] = list;
             })
 
         },
         // 清空对应的属性
-        rmCurrentSelectorAttr: function(key, value) {
+        rmCurrentSelectorAttr: function (key, value) {
             var _that = this;
             var Enum = ['domain_code', 'build_id'];
             var convertEnum = {
@@ -179,8 +193,11 @@ v.pushComponent({
                     _that.$nextTick(_that.computelistHeight);
 
                 } else {
-                    equipmentMngList.querySystemForSystemDomain(this.currentSystemSelector).then(function(res) {
-                        var all = { "system_id": "", "system_name": "全部" };
+                    equipmentMngList.querySystemForSystemDomain(this.currentSystemSelector).then(function (res) {
+                        var all = {
+                            "system_id": "",
+                            "system_name": "全部"
+                        };
 
                         res = _.isArray(res) ? res : [];
 
@@ -196,7 +213,7 @@ v.pushComponent({
             }
         },
         // 数组之间的高亮样式切换
-        listClassTolego: function(key, id) {
+        listClassTolego: function (key, id) {
             //修改查询的状态
             this.currentSelector[key] = id;
 
@@ -205,30 +222,33 @@ v.pushComponent({
 
         },
         // 下拉到底的调用方法
-        scrollButtom: function() {
+        scrollButtom: function () {
             this.setCurrentSelectorAttr('page', this.currentSelector.page + 1);
         },
         // 报废设备
-        _clickScrapped: function(item) {
+        _clickScrapped: function (item) {
             this.Scrapped = item;
-            $("#confirmWindow").pshow({ title: '确定要报废此设备吗？', subtitle: '被报废的设备将不可以再编辑信息以及再被加入到工单中' })
+            $("#confirmWindow").pshow({
+                title: '确定要报废此设备吗？',
+                subtitle: '被报废的设备将不可以再编辑信息以及再被加入到工单中'
+            })
         },
         // 录入新设备
-        goInsert:function(){
-            
+        goInsert: function () {
+
             v.initPage("equipmentMngInsert")
-            this.onPage='insert';
+            this.onPage = 'insert';
         },
-        goSystemMgn:function(){
+        goSystemMgn: function () {
             v.initPage("System")
-            this.onPage='System';
+            this.onPage = 'System';
         }
     },
-    beforeMount: function() {
+    beforeMount: function () {
 
         var _that = this;
         // 查询所有的建筑列表
-        equipmentMngList.queryBuild().then(function(res) {
+        equipmentMngList.queryBuild().then(function (res) {
             var all = {
                 "obj_id": "",
                 "obj_name": "全部",
@@ -242,8 +262,11 @@ v.pushComponent({
         });
 
         // 查询专业需求
-        equipmentMngList.queryProfession().then(function(res) {
-            var all = { "code": "", "name": "全部" };
+        equipmentMngList.queryProfession().then(function (res) {
+            var all = {
+                "code": "",
+                "name": "全部"
+            };
 
             res = _.isArray(res) ? res : [];
 
@@ -253,19 +276,19 @@ v.pushComponent({
         });
 
         // 查询设备统计数量
-        equipmentMngList.queryEquipStatisticCount().then(function(res) {
+        equipmentMngList.queryEquipStatisticCount().then(function (res) {
             _that.EquipStatisticCount = res;
         });
 
         // 绑定下滑列表的滚动查询
         var isGetting = false;
-        $(".tbody").scroll(function() {
+        $(".tbody").scroll(function () {
 
             if ((this.scrollTop + this.offsetHeight) == this.scrollHeight) {
 
                 _that.currentSelector.page += 1;
 
-                equipmentMngList.queryEquipEnum(_that.onTab, _that.currentSelector).then(function(list) {
+                equipmentMngList.queryEquipEnum(_that.onTab, _that.currentSelector).then(function (list) {
                     _that[EnumType[_that.onTab]] = _that[EnumType[_that.onTab]].concat(list);
                 })
             }

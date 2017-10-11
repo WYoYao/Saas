@@ -206,9 +206,9 @@ $(function() {
 
     v.initPage('equipmentMng');
 
-    v.initPage('equipmentMngDeatil', { equip_id: 'Eq1301020001003ACCCCC00C' });
+    // v.initPage('equipmentMngDeatil', { equip_id: 'Eq1301020001003ACCCCC00C' });
 
-    v.initPage('equipmentMngInsert');
+    // v.initPage('equipmentMngInsert');
 
 
     // // 开发结束后删除

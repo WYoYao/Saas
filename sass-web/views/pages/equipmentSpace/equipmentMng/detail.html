@@ -2,8 +2,8 @@
 <div class="equipmentDetail" v-show='onPage=="detail"'>
     <div class="content ">
         <div class="headerd">
-            <span class="btn fl">
-                    <pbutton-white text="返回" click=""></pbutton-white>
+            <span class="btn fl" @click.capture ='_clickInsertBack()'>
+                    <pbutton-white text="返回"></pbutton-white>
             </span>
             <span class="btn fr bfbtn">
                     <pbutton-white text="报废设备" click=""></pbutton-white>
@@ -500,7 +500,7 @@
                                         <span class="ipt" v-show='!view.ide.nameplate'>
                                                                 <ul class="per-upload-picture-ul">
                                                                     <li class="per-upload-picture-wrap" v-for='pic in EquipInfo.nameplate'>
-                                                                        <!--<div class="per-upload-picture_x">x</div>-->
+                                                              
                                                                         <img :src="pic">
                                                                     </li>
                                                                 </ul> 

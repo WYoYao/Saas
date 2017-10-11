@@ -3,6 +3,338 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
+    'restEquipService/queryEquipPublicInfo':{
+        "type": "object",
+        "note": "未输入note",
+        "proArr": [
+            {
+                "name": "equip_id",
+                "type": "string",
+                "note": "equip_id"
+            },
+            {
+                "name": "equip_local_id",
+                "type": "string",
+                "note": "equip_local_id"
+            },
+            {
+                "name": "equip_local_name",
+                "type": "string",
+                "note": "equip_local_name"
+            },
+            {
+                "name": "BIMID",
+                "type": "string",
+                "note": "BIMID"
+            },
+            {
+                "name": "build_id",
+                "type": "string",
+                "note": "build_id"
+            },
+            {
+                "name": "position",
+                "type": "string",
+                "note": "position"
+            },
+            {
+                "name": "equip_category_name",
+                "type": "string",
+                "note": "equip_category_name"
+            },
+            {
+                "name": "system_name",
+                "type": "string",
+                "note": "system_name"
+            },
+            {
+                "name": "length",
+                "type": "string",
+                "note": "length"
+            },
+            {
+                "name": "width",
+                "type": "string",
+                "note": "width"
+            },
+            {
+                "name": "height",
+                "type": "string",
+                "note": "height"
+            },
+            {
+                "name": "mass",
+                "type": "string",
+                "note": "mass"
+            },
+            {
+                "name": "material",
+                "type": "string",
+                "note": "material"
+            },
+            {
+                "name": "dept",
+                "type": "string",
+                "note": "dept"
+            },
+            {
+                "name": "drawing",
+                "type": "array",
+                "note": "drawing",
+                "proArr": [{
+                    "name": "key",
+                    "type": "fileLink",
+                    "fileType": "1"
+                },
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "note": "name"
+                    },
+                    {
+                        "name": "type",
+                        "type": "number",
+                        "note": "type"
+                    }
+                ]
+            },
+            {
+                "name": "picture",
+                "type": "fileArray",
+                "note": "picture",
+            },
+            {
+                "name": "check_report",
+                "type": "array",
+                "note": "check_report",
+                "proArr": [{
+                    "name": "key",
+                    "type": "fileLink",
+                    "fileType": "1"
+                },
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "note": "name"
+                    },
+                    {
+                        "name": "type",
+                        "type": "number",
+                        "note": "type"
+                    }
+                ]
+            },
+            {
+                "name": "nameplate",
+                "type": "array",
+                "note": "nameplate",
+                "proArr":"fileArray"
+            },
+            {
+                "name": "archive",
+                "type": "array",
+                "note": "archive",
+                "proArr":  [{
+                    "name": "key",
+                    "type": "fileLink",
+                    "fileType": "1"
+                },
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "note": "name"
+                    },
+                    {
+                        "name": "type",
+                        "type": "number",
+                        "note": "type"
+                    }
+                ]
+            },
+            {
+                "name": "manufacturer",
+                "type": "string",
+                "note": "manufacturer"
+            },
+            {
+                "name": "brand",
+                "type": "string",
+                "note": "brand"
+            },
+            {
+                "name": "product_date",
+                "type": "string",
+                "note": "product_date"
+            },
+            {
+                "name": "serial_num",
+                "type": "string",
+                "note": "serial_num"
+            },
+            {
+                "name": "specification",
+                "type": "string",
+                "note": "specification"
+            },
+            {
+                "name": "supplier",
+                "type": "string",
+                "note": "supplier"
+            },
+            {
+                "name": "supplier_phone",
+                "type": "string",
+                "note": "supplier_phone"
+            },
+            {
+                "name": "supplier_contactor",
+                "type": "string",
+                "note": "supplier_contactor"
+            },
+            {
+                "name": "supplier_web",
+                "type": "string",
+                "note": "supplier_web"
+            },
+            {
+                "name": "supplier_fax",
+                "type": "string",
+                "note": "supplier_fax"
+            },
+            {
+                "name": "supplier_email",
+                "type": "string",
+                "note": "supplier_email"
+            },
+            {
+                "name": "contract_id",
+                "type": "string",
+                "note": "contract_id"
+            },
+            {
+                "name": "asset_id",
+                "type": "string",
+                "note": "asset_id"
+            },
+            {
+                "name": "purchase_price",
+                "type": "string",
+                "note": "purchase_price"
+            },
+            {
+                "name": "principal",
+                "type": "string",
+                "note": "principal"
+            },
+            {
+                "name": "maintain_id",
+                "type": "string",
+                "note": "maintain_id"
+            },
+            {
+                "name": "start_date",
+                "type": "string",
+                "note": "start_date"
+            },
+            {
+                "name": "maintain_deadline",
+                "type": "string",
+                "note": "maintain_deadline"
+            },
+            {
+                "name": "service_life",
+                "type": "string",
+                "note": "service_life"
+            },
+            {
+                "name": "warranty",
+                "type": "string",
+                "note": "warranty"
+            },
+            {
+                "name": "maintain_cycle",
+                "type": "string",
+                "note": "maintain_cycle"
+            },
+            {
+                "name": "maintainer",
+                "type": "string",
+                "note": "maintainer"
+            },
+            {
+                "name": "maintainer_phone",
+                "type": "string",
+                "note": "maintainer_phone"
+            },
+            {
+                "name": "maintainer_contactor",
+                "type": "string",
+                "note": "maintainer_contactor"
+            },
+            {
+                "name": "maintainer_web",
+                "type": "string",
+                "note": "maintainer_web"
+            },
+            {
+                "name": "maintainer_fax",
+                "type": "string",
+                "note": "maintainer_fax"
+            },
+            {
+                "name": "maintainer_email",
+                "type": "string",
+                "note": "maintainer_email"
+            },
+            {
+                "name": "status",
+                "type": "string",
+                "note": "status"
+            },
+            {
+                "name": "insurer",
+                "type": "string",
+                "note": "insurer"
+            },
+            {
+                "name": "insurer_num",
+                "type": "string",
+                "note": "insurer_num"
+            },
+            {
+                "name": "insurer_contactor",
+                "type": "string",
+                "note": "insurer_contactor"
+            },
+            {
+                "name": "insurer_phone",
+                "type": "string",
+                "note": "insurer_phone"
+            },
+            {
+                "name": "insurance_file",
+                "type": "array",
+                "note": "insurance_file",
+                "proArr":[
+                    {
+                        "name": "key",
+                        "type": "fileLink",
+                        "fileType": "1"
+                    },
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "note": "name"
+                    },
+                    {
+                        "name": "type",
+                        "type": "number",
+                        "note": "type"
+                    }
+                ]
+            }
+        ]
+    },
     'restEquipService/queryEquipDynamicInfoForAdd':{
         "type": "array",
         "note": "未输入note",
