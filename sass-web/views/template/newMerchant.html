@@ -1,0 +1,79 @@
+<div class="inputTempWrap">
+    <div class="inputTemp">
+        <span class="inputname"><em>*</em><b>{{tabSelName}}名称:</b></span>
+        <div class="inputwrap">
+            <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.company_name">
+                        <verify errtip="不可为空"  verifytype="space"></verify>
+                    </ptext-text>
+        </div>
+
+    </div>
+    <div class="inputTemp">
+        <span class="inputname"><b>联系人:</b></span>
+        <div class="inputwrap">
+            <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.contacts"></ptext-text>
+        </div>
+
+    </div>
+    <div class="inputTemp">
+        <span class="inputname"><b>联系电话:</b></span>
+        <div class="inputwrap">
+            <ptext-text placeholder="'请输入电话号码'" bind="true" value="selMerchantToUpdate.phone"></ptext-text>
+        </div>
+    </div>
+    <div class="inputTemp" v-show="!(tabSelIndex==3)">
+        <span class="inputname"><b>网址:</b></span>
+        <div class="inputwrap">
+            <ptext-text placeholder="'请输入网址'" bind="true" value="selMerchantToUpdate.web"></ptext-text>
+        </div>
+    </div>
+    <div class="inputTemp" v-show="!(tabSelIndex==3)">
+        <span class="inputname"><b>传真:</b></span>
+        <div class="inputwrap">
+            <ptext-text placeholder="'请输入传真'" bind="true" value="selMerchantToUpdate.fax"></ptext-text>
+        </div>
+    </div>
+    <div class="inputTemp" v-show="!(tabSelIndex==3)">
+        <span class="inputname"><b>电子邮件:</b></span>
+        <div class="inputwrap">
+            <ptext-text placeholder="'请输入电子邮件'" bind="true" value="selMerchantToUpdate.email"></ptext-text>
+        </div>
+    </div>
+
+    <div class="insurerWrapPar" v-show="tabSelIndex==3">
+        <div class="insurerWrap" v-for="(insu,oindex) in selMerchantToUpdate.insurer_info">
+            <div class="inputTemp">
+                <span class="inputname"><b>保险单号:</b></span>
+                <div class="inputwrap">
+                    <ptext-text placeholder="'请输入保险单号'" bind="true" value="insu.insurer_num"></ptext-text>
+                </div>
+            </div>
+            <div class="inputTemp">
+                <span class="inputname"><b>保险文件:</b></span>
+                <div class="inputwrap">
+                    <pupload-attachment insurefile></pupload-attachment>
+                </div>
+            </div>
+            <div class="insureraddBut">
+                <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0"></pbutton-white>
+                <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="oindex>0" v-bind:ji="oindex"></pbutton-white>
+            </div>
+        </div>
+
+    </div>
+    <div class="brandWrapPar" v-if="tabSelIndex==1">
+        <div class="insurerWrap" v-for="(brand,index) in selMerchantToUpdate.brands">
+            <div class="inputTemp">
+                <span class="inputname"><b>所含品牌:</b></span>
+                <div class="inputwrap">
+                    <ptext-text placeholder="'请输入品牌'" bind="true" value="brand.name"></ptext-text>
+                </div>
+            </div>
+            <div class="insureraddBut">
+                <pbutton-white icon="'J'" shape="ellipse" click="addBrandClick" bind="true" v-show="index==0"></pbutton-white>
+                <pbutton-white icon="'p'" shape="ellipse" click="delInsurerClick" bind="true" v-show="index!=0" v-bind:ji="index"></pbutton-white>
+            </div>
+        </div>
+
+    </div>
+</div>

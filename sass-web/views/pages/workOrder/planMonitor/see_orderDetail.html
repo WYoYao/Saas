@@ -5,12 +5,12 @@
                 <div class="see_orderDetail_page_back">
                     <pbutton-white text="返回" onclick="orderDetail_pub.orderDetail_goBack()"></pbutton-white>
                 </div>
-                <div class="see_orderDetail_page_save" v-if="!true">
+                <div class="see_orderDetail_page_save">
                     <div>
-                        <pbutton-white bind='true' text="'指派'"></pbutton-white>
+                        <pbutton-white v-if="orderDetail_data.goBackFlag =='2' || orderDetail_data.goBackFlag =='3' ||orderDetail_data.goBackFlag =='4'" bind='true' text="'指派'" onclick="orderDetail_pub.clickAssignSet()"></pbutton-white>
                     </div>
                     <div>
-                        <pbutton-white bind='true' text="'终止'"></pbutton-white>
+                        <pbutton-white v-if="orderDetail_data.goBackFlag =='2' || orderDetail_data.goBackFlag =='3' || orderDetail_data.goBackFlag =='4'" bind='true' text="'中止'" onclick="orderDetail_pub.stopOrder_con_show()"></pbutton-white>
                     </div>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                                 扳手、螺丝刀、电钻
                             </div>
                             <div>
-                                <pbutton-white bind='true' text="'+添加工具'" @click="clickToolListShow()"></pbutton-white>
+                                <pbutton-white  v-if="orderDetail_data.goBackFlag =='4'" bind='true' text="'+添加工具'" onclick="orderDetail_pub.clickToolListShow(event)"></pbutton-white>
                                 <div class="tool-select-list tool nextStepSelToolPop" id="nextStepSelToolPop" >
                                     <div class="tool-select-list-title">
                                         <span>选择工具</span>
@@ -57,7 +57,7 @@
                                             <span v-text="item.obj_name" :title="item.obj_name">工具1</span>
                                             <div>
                                                 <!--<pswitch-checkbox bind="true" id="'nextStepToolCheckbox' + toolIndex" disabled="item.selected" click="commonMethod.toggleSelTool"></pswitch-checkbox>-->
-                                                <div :id="'nextStepToolCheckbox' + toolIndex" class="pcheckbox" @click="toggleSelTool(item,event)">
+                                                <div :id="'nextStepToolCheckbox' + toolIndex" class="pcheckbox" @click="orderDetail_pub.toggleSelTool(item,event)">
                                                     <span class="pcheckbox_input" :class="item.checked ? 'pcheckbox-checked' : ''"></span>
                                                     <span class="pswitch_label"></span>
                                                 </div>
@@ -69,7 +69,7 @@
                                         <!--<pbutton-white text="自定义"></pbutton-white>-->
                                         <!--</div>-->
                                         <div>
-                                            <pbutton-blue text="确定" click="methods.choiceToolYes()"></pbutton-blue>
+                                            <pbutton-blue text="确定" click="orderDetail_pub.choiceToolYes()"></pbutton-blue>
                                         </div>
                                     </div>
                                 </div>
@@ -123,6 +123,7 @@
                                                             <em v-text="confirm_result.obj_name"></em>
                                                             <span v-for="parents in confirm_result.parents">
                                                                 (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
+                                                                <pbutton-blue  v-if="orderDetail_data.goBackFlag =='4'" bind="true" text="'选择对象实例'" @click="orderDetail_pub.choiceObjExample(confirm_result,event,parents.obj_id,parents.obj_type)"></pbutton-blue>
                                                             </span>
                                                             <div>
                                                                 <i v-for="info_points in confirm_result.info_points" v-text="info_points.name"></i>
@@ -197,6 +198,18 @@
                             <div class="see_orderDetail_grid_tab_div_sign_rig">
                                 <span>操作人:</span><i v-text="orderDetail_pub.arrToString(matter_steps.executors)"></i>
                             </div>
+                        </div>
+                    </div>
+                    <!-- 选择对象实例 -->
+                    <div class="choiceObjExampleModal" :id="'choiceObjExample'">
+                        <h4><span>设备类</span>(<i>专业-系统</i>)</h4>
+                        <ul id="choiceObjExample_tree">
+                            <li v-for="item in model.planObjExampleArr" v-text="item.obj_name" @click="replaceObjExample(item)"></li>
+                        </ul>
+                        <!-- <ptree-normal :id="'choiceObjExample_tree'" bind="true" datasource="model.planObjExampleArr">
+                                        <item itemid="obj_id" text="obj_name" child="content" issearch="false"></item>
+                                    </ptree-normal> -->
+                        <div class="choiceObjExampleModal_bottom">
                         </div>
                     </div>
                 </div>
@@ -274,7 +287,69 @@
                         </li>
                     </ul>
                 </div>
+                <pwindow-modal id="createAssignSet" templateid="createAssignSet_con" title="指派"></pwindow-modal>
+                <pwindow-modal id="stopOrder" templateid="stopOrder_con" title="终止工单"></pwindow-modal>
             </div>
         </div>
     </div>
 </div>
+<!-- 指派设置 -->
+<script type="text/html" id="createAssignSet_con">
+    <div class="createAssignSet_con">
+        <div class="createAssignSet_con_box">
+            <p class="createAssignSet_con_box_tit">
+                请选择该人员或岗位可指派的范围
+            </p>
+            <div class="createAssignSet_con_box_list">
+                <div class="createAssignSet_con_box_list_div" v-for="(items, index) in personPositionList">
+                    <div class="createAssignSet_con_box_list_div_ul" v-if="items.type == '2'">
+                        <div class="createAssignSet_con_box_list_div_posi">
+                            <span @click="personPositionShow(event)">r</span>
+                            <em v-text="items.name">岗位A</em>
+                            <div class="position_parent_checkbox" @click.stop='clickAdditem(items)'>
+                                <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
+                            </div>
+                        </div>
+                        <ul class="createAssignSet_con_box_list_div_pers choicePersonPosition_con_persion_position">
+                            <li v-for="info in items.persons">
+                                <span v-text="info.name" :id="info.person_id">人员1</span>
+                                <div @click.stop='clickAdditem(info)'>
+                                    <span class="checkboxChioce" :class="{state:info.isSelected}"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <ul class="choicePersonPosition_con_box_list_div_pers choicePersonPosition_con_choice_person" v-if="items.type == '3'">
+                            <li class="personChoice1">
+                                <span v-text="items.name"></span>
+                                <div class="persion_checkbox" @click.stop='clickAdditem(items)'>
+                                    <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="createAssignSet_con_btn">
+            <pbutton-blue bind="true" id="'createAssignSet_con_btn_yes'" text="'确定'" @click="orderDetail_pub.createAssignSetYes()"></pbutton-blue>
+            <pbutton-white id="createAssignSet_con_btn_cancle" text="取消" click="orderDetail_pub.createAssignSetHide()"></pbutton-white>
+        </button>
+    </div>
+</script>
+<!-- 保存成功失败提示 -->
+<pnotice-message id="publishNotice" text="成功"></pnotice-message>
+<!-- 中止工单 -->
+<script type="text/html" id="stopOrder_con">
+    <div class="stopWorkOrder_con">
+        <div class="stopWorkOrder_con_operat">
+            <textarea name="" id="stopWorkOrderTArea" v-model="orderDetail_data.stop_order_content" maxlength="200"></textarea>
+        </div>
+        <span class="stopWorkOrder_con_operat_span">(<i v-text="orderDetail_data.stop_order_content.length">0</i>/200)</span>
+    </div>
+    <div class="stopWorkOrder_con_btn">
+        <pbutton-blue bind="true" id="'stop_order_btn_yes'" text="'确定'" @click="orderDetail_pub.stopOrderSetYes()"></pbutton-blue>
+        <pbutton-white id="stop_order_no" text="取消" click="orderDetail_pub.stopOrderSetHide()"></pbutton-white>
+    </div>
+</script>

@@ -22,7 +22,7 @@
             <div class="planMonitor_detail_page_box">
                 <div class="planMonitor_detail_page_con">
                     <h3 class="planMonitor_detail_page_con_tit">
-                        <span>该计划已在<i  v-text="scrapPlanDetail.destroy_time"></i>被作废</span>
+                        <span>该计划已在<i  v-text="orderDetail_pub.timeFormatting(scrapPlanDetail.destroy_time)"></i>被作废</span>
                     </h3>
                     <div class="planMonitor_detail_plan_set">
                         <h4 class="planMonitor_detail_plan_set_tit"><span>计划设置</span></h4>

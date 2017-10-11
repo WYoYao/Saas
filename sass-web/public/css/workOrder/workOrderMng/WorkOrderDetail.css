@@ -627,6 +627,7 @@
 #stopWorkOrderTArea{
     width: 370px;
     height: 170px;
+    border: 1px solid #d9e2e8;
 }
 #stop_order_no{
     margin-left: 20px;

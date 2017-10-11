@@ -16,7 +16,7 @@
     min-height: 879px;
 }
 
-.i_content .verticalAxes{
+.own.verticalAxes{
     position: absolute;
     top: 0;
     bottom: 0;
@@ -24,7 +24,7 @@
     border-left: 2px solid #becede;
 }
 
-.i_content .circle{
+.i_borderTop .circle{
     box-shadow: 0px 0px 0px 2px #becede;
     width: 20px;
     height: 20px;
@@ -36,44 +36,44 @@
     background: #ffffff;
 }
 
-.i_content .verticalAxes .circle:nth-child(2) {
+.own.verticalAxes .circle:nth-child(2) {
     top: 220px;
 }
 
-.i_content .verticalAxes .circle:nth-child(3) {
+.own.verticalAxes .circle:nth-child(3) {
     top: 360px;
 }
 
-.i_content .verticalAxes .circle:nth-child(4) {
+.own.verticalAxes .circle:nth-child(4) {
     top: 500px;
 }
 
-.i_content .verticalAxes .circle:nth-child(5) {
+.own.verticalAxes .circle:nth-child(5) {
     top: 640px;
 }
 
-.i_content .circle:hover{
+.own.verticalAxes .circle:hover{
     box-shadow: 0px 0px 0px 5px #b4e9f6;
     background: #02a9d1;
     color: #02a9d1;
 }
 
-.i_content .circle:hover .name{
+.own.verticalAxes .circle:hover .name{
     color: #02a9d1;
 }
 
-.i_content .circle.sel{
+.own.verticalAxes .circle.sel{
     box-shadow: 0px 0px 0px 5px #b4e9f6;
     background: #02a9d1;
     color: #02a9d1;
 }
 
-.i_content .circle.sel .name{
+.own.verticalAxes .circle.sel .name{
     color: #02a9d1;
 }
 
 
-.i_content .circle .name{
+.own.verticalAxes .circle .name{
     color: #aaaaaa;
     font-size: 16px;
     position: absolute;
@@ -159,4 +159,29 @@
     height: 300px;
     z-index: 5;
     background: #ffffff;
+}
+
+.eqaddressFloatWrap.lyr{
+    height: auto;
+    position: absolute;
+    top: 50px;
+    bottom: 100px;
+    left: 20px;
+    right: 20px;
+    width: inherit;
+    overflow-y: auto;
+}
+
+.fW .bottmer{
+    position: absolute;
+    height: 50px;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    text-align: center;
+}
+
+.fW .iln{
+    display: inline-block;
+    margin: 10px;
 }

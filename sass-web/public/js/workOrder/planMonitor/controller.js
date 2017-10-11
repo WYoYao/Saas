@@ -17,25 +17,20 @@ var controller = {
     /*数据请求*/
     getTabList: function() { //tab相关数据请求
         $("#list_loading").pshow();
-        var userId = model.user_id;
-        var projectId = model.project_id;
         pajax.post({
-            url: 'restGeneralDictService/restWoPlanService',
-            data: {
-                user_id: userId,
-                project_id: projectId,
-            },
+            url: 'restWoPlanService/queryTabList',
+            data: {},
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = [ //临时使用
-                    { "code": "1", "name": "维保", "description": "释义***" },
-                    { "code": "2", "name": "维修", "description": "释义***" },
-                    { "code": "3", "name": "巡检", "description": "释义***" },
-                    { "code": "4", "name": "运行", "description": "释义***" }
-                ]
+                // _data = [ //临时使用
+                //     { "code": "1", "name": "维保", "description": "释义***" },
+                //     { "code": "2", "name": "维修", "description": "释义***" },
+                //     { "code": "3", "name": "巡检", "description": "释义***" },
+                //     { "code": "4", "name": "运行", "description": "释义***" }
+                // ]
                 var list = JSON.parse(JSON.stringify(_data));
                 list.forEach(function(info, index) {
-                    info["name"] = info.name + "计划";
+                    info["name"] = info.tab_name;
                     if (index == '0') {
                         info["icon"] = "z"
                     } else {
@@ -64,7 +59,7 @@ var controller = {
             data: _data,
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = d.tableListDay;
+                // _data = d.tableListDay;
                 var dataList = JSON.parse(JSON.stringify(_data));
                 var currList = JSON.parse(JSON.stringify(model.tableListDay));
                 //空白表格数据与返回数据比对,标记有状态的一天
@@ -137,7 +132,7 @@ var controller = {
             data: _data,
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = d.tableListCommon;
+                // _data = d.tableListCommon;
                 var dataList = JSON.parse(JSON.stringify(_data));
                 var currList = JSON.parse(JSON.stringify(model.tableListDay));
                 var newList = dataList.map(function(item, index1) { //返回数据列表
@@ -240,21 +235,19 @@ var controller = {
         pajax.post({
             url: 'restGeneralDictService/queryGeneralDictByKey',
             data: {
-                user_id: model.user_id,
-                project_id: model.project_id,
                 dict_type: "work_order_state"
             },
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = [
-                    { "code": "4", "name": "待开始" },
-                    { "code": "5", "name": "执行中" },
-                    { "code": "6", "name": "待审核" },
-                    { "code": "8", "name": "完成" },
-                    { "code": "9", "name": "中止" },
-                    // { "code": "C1", "name": "已分配" },
-                    // { "code": "C2", "name": "未执行" },
-                ]
+                // _data = [
+                //     { "code": "4", "name": "待开始" },
+                //     { "code": "5", "name": "执行中" },
+                //     { "code": "6", "name": "待审核" },
+                //     { "code": "8", "name": "完成" },
+                //     { "code": "9", "name": "中止" },
+                //     // { "code": "C1", "name": "已分配" },
+                //     // { "code": "C2", "name": "未执行" },
+                // ]
                 var list = JSON.parse(JSON.stringify(_data));
                 var arr1 = JSON.parse(JSON.stringify(list));
                 arr1.unshift({ "code": "", "name": "全部" });
@@ -273,22 +266,18 @@ var controller = {
         });
     },
     getOrderTypeList: function() { //查询工单类型列表
-        var userId = model.user_id;
-        var projectId = model.project_id;
         pajax.post({
             url: 'restGeneralDictService/queryGeneralDictByKey',
             data: {
-                user_id: userId,
-                project_id: projectId,
                 dict_type: "work_order_type"
             },
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = [{ "code": "1", "name": "保养", "description": "xxx" }, //临时使用
-                    { "code": "2", "name": "维修", "description": "xxx" },
-                    { "code": "3", "name": "巡检", "description": "xxx" },
-                    { "code": "4", "name": "运行", "description": "xxx" }
-                ]
+                // _data = [{ "code": "1", "name": "保养", "description": "xxx" }, //临时使用
+                //     { "code": "2", "name": "维修", "description": "xxx" },
+                //     { "code": "3", "name": "巡检", "description": "xxx" },
+                //     { "code": "4", "name": "运行", "description": "xxx" }
+                // ]
                 model.orderList = _data;
 
             },
@@ -307,19 +296,11 @@ var controller = {
         var projectId = model.project_id;
         pajax.post({
             url: 'restWoPlanService/queryDestroyedWoPlanList',
-            data: {
-                user_id: userId,
-                project_id: projectId,
-            },
+            data: {},
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = d.scrapList; //临时使用
-                setTimeout(function() {
-                    model.scrapListArr = _data;
-
-                }, 500)
-
-
+                // _data = d.scrapList; //临时使用
+                model.scrapListArr = _data;
             },
             error: function(error) {
 
@@ -334,14 +315,13 @@ var controller = {
         $("#list_loading").pshow();
         var userId = model.user_id;
         pajax.post({
-            url: 'restWoPlanService/queryDestroyedWoPlanList',
+            url: 'restWoPlanService/queryWoPlanById',
             data: {
-                user_id: userId,
                 plan_id: planId,
             },
             success: function(res) {
-                var _data = res && res.data ? res.data : [];
-                _data = d.planDetail; //临时使用
+                var _data = res ? res : {};
+                // _data = d.planDetail; //临时使用
                 model.scrapPlanDetail = _data;
                 model.curPage = model.pages[2];
 
@@ -357,13 +337,12 @@ var controller = {
     },
     getOldOrderList: function(data) { //查询作废计划列表
         $("#list_loading").pshow();
-        var userId = model.user_id;
         pajax.post({
-            url: 'restWoPlanService/queryDestroyedWoPlanList',
+            url: 'restWoPlanService/queryWoListByPlanId',
             data: data,
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = d.oldOrderList; //临时使用
+                // _data = d.oldOrderList; //临时使用
                 model.oldOrderList = _data;
                 model.curPage = model.pages[3];
 
@@ -379,19 +358,15 @@ var controller = {
     },
     getHistoryRecordList: function() { //查询历史记录
         $("#list_loading").pshow();
-        var userId = model.user_id;
-        var projectId = model.project_id;
         pajax.post({
-            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            // url: 'restWoPlanService/queryWoPlanHisList',
+            // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            url: 'restWoPlanService/queryWoPlanHisList',
             data: {
-                user_id: userId,
-                project_id: projectId,
                 plan_id: model.plan_id
             },
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = d.historyRecordList; //临时使用
+                // _data = d.historyRecordList; //临时使用
                 model.historyRecordList = _data;
                 $("#floatWindow").pshow();
             },
@@ -538,27 +513,7 @@ var controller = {
         });
         
     },
-    getToolList:function(_data){
-        pajax.post({
-            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            // url: 'saas/restObjectService/queryTempObjectList',
-            data: _data,
-            success: function(res) {
-                var _data = res && res.data ? res.data : [];
-                _data = [{obj_id:"11",obj_type:"3",obj_name:"锤子"},{obj_id:"11",obj_type:"3",obj_name:"十字镐"}];
-                model.toolList = _data;
-                console.log(_data)
-                $("#choiceObjExample").show();
-            },
-            error: function(error) {
-
-            },
-
-            complete: function() {
-                $("#list_loading").phide();
-            }
-        });
-    }
+   
 
 
 }

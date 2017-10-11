@@ -71,7 +71,7 @@ var equipmentLogic = {
     },
     /*获取公司类型 1 供应商、2 生产厂家、3 维修商、4 保险公司*/
     getMerchantType: function () {
-        return ($('#eqaddresstab').psel() + 1).toString();
+        return (equipmentAddressModal.tabSelIndex + 1).toString();
     },
     /*转换brands*/
     changeBrands: function (brandsArr) {
@@ -96,7 +96,7 @@ var equipmentLogic = {
     /*获取商家列表
     */
     getMerchantArr: function (pageIndex, call) {
-        $('#eqaddressloading').pshow();
+        $('#globalloading').pshow();
         equipmentAddressModal.merchantArr = [];
         equipmentAddressModal.selMerchantToInfo = {};
         equipmentAddressModal.selMerchantToUpdate = {};
@@ -109,13 +109,13 @@ var equipmentLogic = {
         }, function () {
             console.error('queryEquipCompanyList err');
         }, function () {
-            $('#eqaddressloading').phide();
+            $('#globalloading').phide();
             if (typeof call == 'function') call();
         });
     },
     /*根据ID获取某一个商家*/
     getMerchantById: function (call) {
-        $('#eqaddressloading').pshow();
+        $('#globalloading').pshow();
         equipmentAddressController.getMerchantById(equipmentAddressModal.selMerchantToInfo.company_id,
             function (data) {
                 data = data || {};
@@ -130,7 +130,7 @@ var equipmentLogic = {
             }, function () {
                 console.error('getMerchantById err');
             }, function () {
-                $('#eqaddressloading').phide();
+                $('#globalloading').phide();
                 if (typeof call == 'function') call();
             });
     },
@@ -144,19 +144,18 @@ var equipmentLogic = {
         if (this.getMerchantType() == 4) {
             Vue.nextTick(function () {
                 var insureArr = equipmentAddressModal.selMerchantToUpdate.insurer_info || [];
-                var uploadJqTargets = $('#eqaddressfloat [insurefile]');
+                var uploadJqTargets = $('#eqaddressfloat [insurefileedit]');
                 for (var i = 0; i < uploadJqTargets.length; i++) {
                     var currInsureFile = insureArr[i].insurance_file || {};
-                    uploadJqTargets.eq(i).pval({
+                    uploadJqTargets.eq(i).pval([{
                         url: currInsureFile.url, name: currInsureFile.name
-                    });
+                    }]);
                 }
             });
         }
     },
     /*关闭浮动层*/
     closeFloat: function () {
-        console.log($('#eqaddressfloat [insurefile]').length);
         $('#eqaddressfloat [insurefileedit]').precover();
         $('#eqaddressfloat [insurefile]').precover();
     },
@@ -169,7 +168,7 @@ var equipmentLogic = {
     *infoType 信息点对应的属性名称，用于编辑时，从保存按钮的if属性上获取
     */
     saveMerchant: function (infoType, call) {
-        $('#eqaddressloading').pshow();
+        $('#globalloading').pshow();
         //构造保险单号
         var uploadJqTargets;
         function constructorInsureInfo() {
@@ -197,7 +196,7 @@ var equipmentLogic = {
         var successCall;
 
         var obj = {};
-        var merchantType = this.getMerchantType();
+        merchantType = this.getMerchantType();
         if (equipmentAddressModal.selMerchantToUpdate.company_id) {
             uploadJqTargets = $('#eqaddressfloat [insurefileedit]');
             obj[infoType] = equipmentAddressModal.selMerchantToUpdate[infoType];
@@ -206,17 +205,7 @@ var equipmentLogic = {
             successCall = function () {
                 equipmentLogic.getMerchantById(function () {
                     if (typeof call == 'function') call();
-                    //var objVal = obj[infoType];
-                    //if (infoType == 'brands') {
-                    //    var objBrand = equipmentLogic.changeBrands(objVal);
-                    //    equipmentAddressModal.selMerchantToUpdate.brands = objBrand.brands;
-                    //    equipmentAddressModal.selMerchantToUpdate.brandStr = objBrand.brandStr;
-
-                    //    equipmentAddressModal.selMerchantToInfo.brands = objBrand.brands;
-                    //    equipmentAddressModal.selMerchantToInfo.brandStr = objBrand.brandStr;
-                    //} else
-                    //    equipmentAddressModal.selMerchantToInfo[infoType] = equipmentAddressModal.selMerchantToUpdate[infoType];
-                    $('#eqaddressnotice').pshow({ text: '保存成功', state: 'success' });
+                    $('#globalnotice').pshow({ text: '保存成功', state: 'success' });
                 });
             };
         } else {
@@ -227,7 +216,7 @@ var equipmentLogic = {
                 if (typeof call == 'function') call();
                 getCurrGridElement().psel(1, false);
                 equipmentLogic.getMerchantArr(1, function () {
-                    $('#eqaddressnotice').pshow({ text: '保存成功', state: 'success' });
+                    $('#globalnotice').pshow({ text: '保存成功', state: 'success' });
                 });
             };
         }
@@ -244,24 +233,24 @@ var equipmentLogic = {
         }
 
         equipmentAddressController[controllerFn](obj, successCall, function () {
-            $('#eqaddressloading').phide();
-            $('#eqaddressnotice').pshow({ text: '保存失败', state: 'failure' });
+            $('#globalloading').phide();
+            $('#globalnotice').pshow({ text: '保存失败', state: 'failure' });
         });
     },
     /*删除商家
     */
     removeMerchantById: function (call) {
-        $('#eqaddressloading').pshow();
+        $('#globalloading').pshow();
         equipmentAddressController.removeMerchantById(equipmentAddressModal.selMerchantToInfo.company_id,
             function () {
                 call();
                 getCurrGridElement().psel(1, false);
                 equipmentLogic.getMerchantArr(1, function () {
-                    $('#eqaddressnotice').pshow({ text: '删除成功', state: 'success' });
+                    $('#globalnotice').pshow({ text: '删除成功', state: 'success' });
                 });
             }, function () {
-                $('#eqaddressloading').phide();
-                $('#eqaddressnotice').pshow({ text: '保存失败', state: 'failure' });
+                $('#globalloading').phide();
+                $('#globalnotice').pshow({ text: '保存失败', state: 'failure' });
             });
     },
     /*添加品牌或添加保险单号*/

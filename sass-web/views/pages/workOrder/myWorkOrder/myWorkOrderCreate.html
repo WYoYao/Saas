@@ -3,7 +3,7 @@
         <div class="myWork-content-create">
             <div class="myWork-content-create-header">
                 <pbutton-white id="cancel-work-btn" text="取消" click="yn_method.listShow"></pbutton-white>
-                <pbutton-white id="save-work-btn" text="保存草稿"></pbutton-white>
+                <pbutton-white id="save-work-btn" text="保存草稿" click="publicMethod.toSaveWorkOrderDraft"></pbutton-white>
             </div>
             <div class="myWork-content-create-body">
                 <div class="myWork-create-left">
@@ -42,7 +42,7 @@
                                 </pcombobox-normal>
                             </div>
                             <div v-show="!myWorkOrderModel.timeTypeSel ">
-                                <ptime-form id="ask_start_time"><!-- startyear="myWorkOrderModel.starYear" endyear="myWorkOrderModel.endYear" -->
+                                <ptime-form id="ask_start_time" sel="yn_method.startTimeSave"><!-- startyear="myWorkOrderModel.starYear" endyear="myWorkOrderModel.endYear" -->
                                     <panel timetype="yMdhm" startyear="2017" endyear="2020"></panel>
                                 </ptime-form>
                             </div>
@@ -84,7 +84,7 @@
                             </div>
                             <div class="switch-div">
                                 <span>自由输入</span>
-                                <pswitch-slide id="switch-slide" change="yn_method.freedomOrRegular"></pswitch-slide>
+                                <pswitch-slide id="switch-slide" change="publicMethod.toggleInputMode"></pswitch-slide>
                                 <span>结构化输入</span>
                             </div>
                         </div>
@@ -96,7 +96,7 @@
                                 <div class="matter-all">
                                     <div class="matter-title">
                                         <div class="matter-title-div">
-                                            <input type="text" maxlength="100" placeholder="未命名事项-1" onkeyup="yn_method.matterNameCounter(this,this.value)"/>
+                                            <input type="text" maxlength="100" placeholder="未命名事项-1" v-model="model.matter_name" @keyup="matterNameCounter(model,event)"/>
                                             <span class="counter"><b>0</b>/100</span>
                                         </div>
                                     </div>
@@ -109,7 +109,7 @@
                                                 <pswitch-checkbox text="在到达每个对象位置时扫码"></pswitch-checkbox>
                                                 <pswitch-checkbox text="结束该事项时签字"></pswitch-checkbox>
                                             </div>
-                                            <div class="del-div" onclick="yn_method.deleteMatter(this)">
+                                            <div class="del-div" @click="deleteMatter(index0)">
                                                 <em>p</em><span>删除该事项</span>
                                             </div>
                                         </div>
@@ -145,7 +145,7 @@
                             </div>
 
 
-                            <div class="add-new-matter">
+                            <div class="add-new-matter" onclick="publicMethod.addMatter()">
                                 <em>J</em><span>添加新事项</span>
                             </div>
                         </div>

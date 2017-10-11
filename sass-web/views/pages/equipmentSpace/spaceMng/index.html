@@ -25,6 +25,7 @@
     <script type="text/javascript" src="/js/equipmentSpace/spaceMng/model.js"></script>
     <script type="text/javascript" src="/js/equipmentSpace/spaceMng/controller.js"></script>
     <script type="text/javascript" src="/js/workOrder/planMonitor/tempData.js"></script>
+    <script type="text/javascript" src="/js/equipmentSpace/spaceMng/index.js"></script>
     <script type="text/javascript" src="/js/equipmentSpace/spaceMng/event.js"></script>
     <script type="text/javascript" src="/js/public/orderDetail_pub.js"></script>
 
@@ -59,7 +60,7 @@
                 </button>
             </pwindow-confirm>
             <pwindow-modal id="saveModeSel" title="保存方式" templateid="select-save-mode"></pwindow-modal>
-             <pnotice-message id="spaceNoticeWarn"></pnotice-message>
+            <pnotice-message id="spaceNoticeWarn"></pnotice-message>
             <div class="leftContent">
                 <div class="leftHead">
                     <div class="buildCombobox">
@@ -101,8 +102,8 @@
                     <span class="title">{{floorShowTitle}}</span>
                 </div>
                 <div class="allFloor" v-show="floorShowTitle=='建筑下的全部空间'&&allSpace.length>0">
-                    <div class="floorItem" v-for="item in allSpace" v-show="!!item.floor_local_name">
-                        <div class="title">{{item.floor_local_name}}</div>
+                    <div class="floorItem" v-for="item in allSpace" v-show="!(!item.floor_local_name&&item.spaces.length==0)">
+                        <div class="title" v-show="!!item.floor_local_name">{{item.floor_local_name}}</div>
                         <div class="noSpace" v-show="item.spaces.length==0"><span>该楼层内尚无空间</span></div>
                         <div class="allSpace" v-show="item.spaces.length>0">
                             <div class="spaceItem" v-for="sitem in item.spaces" v-on:click="spaceItemClick(sitem)">
@@ -136,7 +137,7 @@
                         <div class="name">{{item.room_local_name}}</div>
                     </div>
                 </div>
-                <div class="noData" v-show="(floorShowTitle=='建筑下的全部空间'&&allSpace.length==0)||(floorShowTitle!='建筑下的全部空间'&&floorSpace.length==0)"  >
+                <div class="noData" v-show="(floorShowTitle=='建筑下的全部空间'&&allSpace.length==0)||(floorShowTitle!='建筑下的全部空间'&&floorSpace.length==0)">
                 </div>
             </div>
             <div class="removeSpace" id="removeSpace">
@@ -148,8 +149,8 @@
                 </div>
                 <div class="removeCont">
                     <div class="allFloor" v-show="desFloorSpace.length>0">
-                        <div class="floorItem" v-for="item in desFloorSpace" v-show="!!item.floor_local_name">
-                            <div class="title">{{item.floor_local_name}}</div>
+                        <div class="floorItem" v-for="item in desFloorSpace" v-show="!(!item.floor_local_name&&item.spaces.length==0)">
+                            <div class="title" v-show="!!item.floor_local_name">{{item.floor_local_name}}</div>
                             <div class="noSpace" v-show="item.spaces.length==0"><span>该楼层内尚无空间</span></div>
                             <div class="allSpace" v-show="item.spaces.length>0">
                                 <div class="spaceItem" v-for="sitem in item.spaces" v-on:click="spaceItemClick(sitem)">
@@ -260,263 +261,9 @@
                     <pbutton-blue text="保存" style="float: right;" click="saveAddSpace"></pbutton-blue>
                 </div>
                 <div class="removeCont">
-                    <div class="addSpaceCont">
-                        <div class="verticalAxes" id="spaceNavigBar">
-                            <div class="circle sel" stype="baseSection">
-                                <span class="name">基础</span>
-                            </div>
-                            <div class="circle" stype="tenantSection">
-                                <span class="name">租户</span>
-                            </div>
-                            <div class="circle" stype="personSection">
-                                <span class="name">人员</span>
-                            </div>
-                            <div class="circle" stype="physicalSection">
-                                <span class="name">水电气</span>
-                            </div>
-                            <div class="circle" stype="quotaSection">
-                                <span class="name">关键指标</span>
-                            </div>
-                        </div>
-                        <div class="moduleItem"  id="baseSection">
-                            <div class="header">基础</div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span><em>*</em>所属建筑</span></div>
-                                <div class="cont">
-                                    <pcombobox-normal bind="true" sel="spaceBuildSel" id="'spaceBuildDrop'"> 
-                                        <header placeholder="请选择建筑"></header>
-                                        <item datasource="allBuild" text="obj_name"></item>
-                                    </pcombobox-normal>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>所属楼层</span></div>
-                                <div class="cont">
-                                    <pcombobox-normal align="left" sel="spaceFloorSel" bind="true" id="'spaceFloorDrop'">
-                                        <header placeholder="请选择楼层"></header>
-                                        <item datasource="spaceFloorArr" text="floor_local_name"></item>
-                                    </pcombobox-normal>
-                                </div>
-                            </div>
-                            <div class="eachItem lineItem">
-                                <div class="name"><span><em>*</em>空间名称</span></div>
-                                <div class="cont">
-                                    <ptext-text placeholder="'最多20个字'" bind="true" value="spaceDetail.room_local_name">
-                                        <verify errtip="不能为空" verifytype="space"><verify>
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span><em>*</em>空间编码</span></div>
-                                <div class="cont">
-                                    <ptext-text placeholder="'最多20个字'" bind="true" value="spaceDetail.room_local_id">
-                                        <verify errtip="不能为空" verifytype="space"><verify>
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>BIM模型中编码</span></div>
-                                <div class="cont">
-                                    <ptext-text placeholder="'最多20个字'" bind="true" value="spaceDetail.BIMID">
-                                        <verify errtip="不能为空" verifytype="space"><verify>
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>空间功能区类型</span></div>
-                                <div class="cont">
-                                    <div class="contTreeHead"><span>{{spaceDetail.room_func_type_name?spaceDetail.room_func_type_name:'请选择类型'}}</span><em>v</em></div>
-                                    <ul class="contTreeList">
-                                        <room-point v-for="item in allSpaceCode" :finfo="item" :infoId="roomFuncType"></room-point>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>长</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.length">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>宽</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.width">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>高</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.height">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>空间面积</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'㎡'" placeholder="'请填写数字'" bind="true" value="spaceDetail.area">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>配电容量</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'A'" placeholder="'请填写数字'" bind="true" value="spaceDetail.elec_cap">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem lineItem">
-                                <div class="name"><span>备注</span></div>
-                                <div class="cont">
-                                    <ptext-textarea length="50" placeholder="'最多50个字'" bind="true" value="spaceDetail.intro">
-                                    </ptext-textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="moduleItem" id="tenantSection">
-                            <div class="header">租户</div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span><em>*</em>租赁业态类型</span></div>
-                                <div class="cont">
-                                    <div class="contTreeHead"><span>{{spaceDetail.tenant_type_name?spaceDetail.tenant_type_name:'请选择类型'}}</span><em>v</em></div>
-                                    <ul class="contTreeList">
-                                        <tenant-point v-for="item in allRentalCode" :finfo="item"></tenant-point>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>所属租户</span></div>
-                                <div class="cont">
-                                    <ptext-text placeholder="'请输入租户名称'" bind="true" value="spaceDetail.tenant">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="moduleItem" id="personSection">
-                            <div class="header">人员信息</div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>空间常驻人数</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'人'" placeholder="'请填写数字'" bind="true" value="spaceDetail.permanent_people_num">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>逐时流出人数</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'人/min'" placeholder="'请填写数字'" bind="true" value="spaceDetail.out_people_flow">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>逐时流入人数</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'人/min'" placeholder="'请填写数字'" bind="true" value="spaceDetail.in_people_flow">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>逐时空间内现有人数</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'人'" placeholder="'请填写数字'" bind="true" value="spaceDetail.exsit_people_num">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="moduleItem" id="physicalSection">
-                            <div class="header">水电气</div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>用电功率</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.elec_power">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>逐时冷量</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.cool_consum">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>逐时热量</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.heat_consum">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>空调水压力</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.ac_water_press">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>用水量</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.water_consum">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>自来水压力</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.water_press">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>热水用水量</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.hot_water_consum">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>热水压力</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.hot_water_press">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>用燃气量</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.gas_consum">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>燃气压力</span></div>
-                                <div class="cont">
-                                    <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.gas_press">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="moduleItem" id="quotaSection">
-                            <div class="header">关键指标</div>
-                            <div class="eachItem leftItem">
-                                <div class="name"><span>热舒适PMV</span></div>
-                                <div class="cont">
-                                    <ptext-text placeholder="'请填写数字'" bind="true" value="spaceDetail.PMV">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                            <div class="eachItem rightItem">
-                                <div class="name"><span>热舒适PPD</span></div>
-                                <div class="cont">
-                                    <ptext-text placeholder="'请填写数字'" bind="true" value="spaceDetail.PPD">
-                                    </ptext-text>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <% include /addSpace.html %>
                 </div>
-            </div>      
+            </div>
         </div>
         <% include ../../workOrder/planMonitor/see_orderDetail.html %>
     </div>

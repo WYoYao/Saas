@@ -3,7 +3,9 @@ $(function () {
     $(document).on("click", function () {
         $(".insuranceGridPop").hide();
     });
-
+    //$("#insuranceGridWrap .per-grid-dynamic_con .per-scrollbar_wrap").scroll(function () {
+    //    $(".insuranceGridPop").hide();
+    //});
     equipmentLogic.init();
 });
 //tab事件
@@ -20,7 +22,6 @@ function addfloatShow() {
     $(".eqaddressFloatWrap").find(".addWrap").show();
     $(".eqaddressFloatWrap").find(".selWrap").hide();
     $("#delEqaddress").hide();
-    $(document).click();
 }
 //详情float
 function selfloatShow() {
@@ -34,7 +35,7 @@ function selfloatShow() {
 function tabShow() {
     var el = getCurrGridElement();
     el.show().siblings().hide();
-    $(document).click();
+
 }
 function getCurrGridElement() {
     var index = $("#eqaddresstab").psel();

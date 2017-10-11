@@ -420,20 +420,27 @@
 }
 
 .fW {
-    margin: 0 20px;
-    height: 100%;
+    /* margin: 0 20px; */
+    /* height: 100%; */
+    position: absolute;
+    top: 50px;
+    bottom: 0;
+    left: 20px;
+    right: 20px;
 }
 
-.fW .htxt{
-    color: #0094C2;
+.htxt{
+    display: block;
+    color: #9b9b9b;
     font-size: 14px;
-    line-height: 40px;
-    text-align: left;
+    line-height: 50px;
+    text-align: center;
+    height: 50px;
 }
 
 .fW .contenter{
-    height: 600px;
-    margin-left: 20px;
+    height: 100%;
+    padding: 0 20px;
     overflow-y: auto;
 }
 

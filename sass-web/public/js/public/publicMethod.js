@@ -463,11 +463,79 @@ var publicMethod = {
         myWorkOrderMethod.toggleSameClassCriterias(myWorkOrderModel.sopCriteria.labelsArr, 'selectedLabels', false);
     },
 
+    //添加工作内容名称
+    addWorkContentName: function () {
+        var contentData = publicMethod.getContentData(commonData.types[0]);
+        var attrName1 = contentData.attrName1;
+        var attrName2 = contentData.attrName2;
+        var content = contentData.content;
+        var content_objs = contentData.content_objs;
+        var desc_work = myWorkOrderModel.desc_works[myWorkOrderModel.desc_works.length - 1] || {};
+        content[attrName1] = content[attrName1] + (desc_work.work_name || '') + ' ';
+        content.desc_works.push(desc_work);
+    },
 
+    //保存工单草稿前的数据处理
+    toSaveWorkOrderDraft: function () {
+        //判断工作内容名称是否被删除
+        for (var i = 0; i < myWorkOrderModel.allMatters.length; i++) {
+            var matter = myWorkOrderModel.allMatters[i];
+            var text = matter.description;
+            var textArr = text ? text.split(' ') : [];
+
+            var desc_worksCopy = [];
+            for (var j = 0; j < matter.desc_works.length; j++) {
+                var deleted = true;
+                for (var k = 0; k < textArr.length; k++) {
+                    if (textArr[k] == matter.desc_works[j].work_name + ' ') {
+                        deleted = false;
+                        break;
+                    }
+                }
+                if (!deleted) desc_worksCopy.push(matter.desc_works[j]);
+            }
+            matter.desc_works =  JSON.parse(JSON.stringify(desc_worksCopy));
+        }
+        myWorkOrderModel.workOrderDraft.ask_start_time = myWorkOrderModel.workOrderDraft.ask_start_time.replace(/[^0-9]/g,'') + '00';
+        myWorkOrderModel.workOrderDraft.ask_end_time = myWorkOrderModel.workOrderDraft.ask_end_time.replace(/[^0-9]/g,'') + '00';
+        myWorkOrderModel.workOrderDraft.input_mode = myWorkOrderModel.regular ? '2' : '1';
+        myWorkOrderModel.workOrderDraft.matters = JSON.parse(JSON.stringify(myWorkOrderModel.allMatters));
+        console.log(JSON.stringify(myWorkOrderModel.workOrderDraft));
+
+        //保存工单草稿请求
+        controller.saveDraftWorkOrder(myWorkOrderModel.workOrderDraft);
+    },
+
+    //添加事项
+    addMatter: function () {
+        var emptyMatter = {     //空的事项
+            "matter_name":"未命名事项-" + (myWorkOrderModel.allMatters.length + 1),
+            "description":"",
+            "desc_forepart":"",
+            "desc_aftpart":"",
+            "desc_photos": [],
+            "desc_objs": [],
+            "desc_sops": [],
+            "desc_works": []
+        };
+        myWorkOrderModel.allMatters.push(emptyMatter);
+    },
+
+    //切换输入模式
+    toggleInputMode: function () {
+        myWorkOrderModel.regular = $("#switch-slide").psel();
+        if (myWorkOrderModel.regular) {     //结构化
+
+        } else {
+
+        }
+    },
+
+    //
 }
 
 var commonData = {
-    types: ['obj', 'sop', 'content'],
+    types: ['obj', 'sop', 'workContentName', 'content'],       //事项@对象、事项#SOP、添加工作内容@对象、事项添加工作内容名称
     copyOrQuote: null,      //1复制，2引用
     curMatterIndex: 0,      //当前事项索引
 

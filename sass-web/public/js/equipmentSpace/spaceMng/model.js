@@ -34,7 +34,7 @@ spaceInfoModel.instance = function () {
                 curPage: '',
                 orderDetailData: {},
                 orderOperatList:[],
-                roomFuncType: '100'
+         
             },
             methods: {
                 upFloor: function (findex, item) {

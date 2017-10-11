@@ -8,6 +8,7 @@
     <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
     <script type="text/javascript" src="<%=host%>scripts/lib/when-3.7.8.min.js"></script>
     <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/psecret.js"></script>
     <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
     <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
     <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
@@ -20,3 +21,7 @@
     <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
 </head>
 <body>
+    <!-- loading -->
+<ploading-part id="globalloading" text="拼命加载中..."></ploading-part>
+<!-- 成功失败提示 -->
+<pnotice-message id="globalnotice"></pnotice-message>

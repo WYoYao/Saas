@@ -35,7 +35,7 @@ var cardPrintEvent = {
         $('#divCardSetTab').psel(tabIndex);
         $("#printCardList").hide();
         $("#printCardDz").show();
-
+        cardPrintLogic.initDefaultSetInfo();
     },
     //保存名片事件
     saveCardEvent: function () {
@@ -46,40 +46,34 @@ var cardPrintEvent = {
         var file = target.files[0];
         cardPrintLogic.uploadLogo(file);
         target.value = '';
+    },
+    cardShow: function () {
+        var tabIndex = $("#divCardSetTab").psel();
+        switch (tabIndex) {
+            case 0:
+                $("#roomCardW").show();
+                $("#equimentCardW").hide();
+                break;
+            case 1:
+                $("#roomCardW").hide();
+                $("#equimentCardW").show();
+                break;
+        }
+
+    },
+    customMadeCardHide: function () {
+        $("#printCardList").show();
+        $("#printCardDz").hide();
+    },
+    customMadeCardConfirm: function () {
+
+        $("#confirmCardModal").pshow();
+    },
+    confirmCardModalQd: function () {
+        cardPrintEvent.customMadeCardConfirmHide();
+        cardPrintLogic.saveCard();
+    },
+    customMadeCardConfirmHide: function () {
+        $("#confirmCardModal").phide();
     }
-};
-
-
-
-//定制名片tab切换
-cardPrintEvent.cardShow = function () {
-    var tabIndex = $("#divCardSetTab").psel();
-    switch (tabIndex) {
-        case 0:
-            $("#roomCardW").show();
-            $("#equimentCardW").hide();
-            break;
-        case 1:
-            $("#roomCardW").hide();
-            $("#equimentCardW").show();
-            break;
-    }
-
-}
-
-
-cardPrintEvent.customMadeCardHide = function () {
-    $("#printCardList").show();
-    $("#printCardDz").hide();
-};
-cardPrintEvent.customMadeCardConfirm = function () {
-
-    $("#confirmCardModal").pshow();
-};
-cardPrintEvent.confirmCardModalQd = function () {
-
-    cardPrintEvent.customMadeCardConfirmHide();
-};
-cardPrintEvent.customMadeCardConfirmHide = function () {
-    $("#confirmCardModal").phide();
 };

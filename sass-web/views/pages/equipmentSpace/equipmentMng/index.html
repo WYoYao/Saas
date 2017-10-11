@@ -30,48 +30,136 @@
 
     <% include ./layer.html %>
 
-    <!-- 设备管理列表 Start -->
-    <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/list.css">
-    <script src="/js/equipmentSpace/equipmentMng/list/controller.js"></script>
-    <script src="/js/equipmentSpace/equipmentMng/list/model.js"></script>
-    <script src="/js/equipmentSpace/equipmentMng/list/event.js"></script>
-    <!-- 设备管理列表 End -->
+        <!-- 设备管理列表 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/list.css">
+        <script src="/js/equipmentSpace/equipmentMng/list/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/list/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/list/event.js"></script>
+        <!-- 设备管理列表 End -->
 
-    <!-- 设备管理详情 Start -->
-    <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/detail.css">
-    <script src="/js/equipmentSpace/equipmentMng/detail/controller.js"></script>
-    <script src="/js/equipmentSpace/equipmentMng/detail/model.js"></script>
-    <script src="/js/equipmentSpace/equipmentMng/detail/event.js"></script>
-    <!-- 设备管理详情 End -->
+        <!-- 设备管理详情 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/detail.css">
+        <script src="/js/equipmentSpace/equipmentMng/detail/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/detail/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/detail/event.js"></script>
+        <!-- 设备管理详情 End -->
 
-    <!-- 新建设备详情 Start -->
-    <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/insert.css">
-    <script src="/js/equipmentSpace/equipmentMng/insert/controller.js"></script>
-    <script src="/js/equipmentSpace/equipmentMng/insert/model.js"></script>
-    <script src="/js/equipmentSpace/equipmentMng/insert/event.js"></script>
-    <!-- 新建设备详情 End -->
+        <!-- 新建设备详情 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/insert.css">
+        <script src="/js/equipmentSpace/equipmentMng/insert/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/insert/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/insert/event.js"></script>
+        <!-- 新建设备详情 End -->
+
+        <!-- 新建设备详情 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/addSystem.css">
+        <script src="/js/equipmentSpace/equipmentMng/addSystem/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/addSystem/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/addSystem/event.js"></script>
+        <!-- 新建设备详情 End -->
+
+        <!-- 新建设备中的弹窗需要文件 Start -->
+
+        <!-- 新建厂商 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentAddress/equiment.css">
+        <script src="/js/equipmentSpace/equipmentAddress/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentAddress/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentAddress/event.js"></script>
+        <!-- 新建厂商 End -->
+
+        <!-- 新建位置  Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/spaceMng/index.css" />
+        <script type="text/javascript" src="/js/equipmentSpace/spaceMng/controller.js"></script>
+        <script type="text/javascript" src="/js/equipmentSpace/spaceMng/event.js"></script>
+        <script type="text/javascript" src="/js/equipmentSpace/spaceMng/model.js"></script>
+        <!-- 新建位置  End -->
+
+        <!-- 新建设备中的弹窗需要文件 End -->
 
 </head>
 
 <body>
+        <% include ./../spaceMng/treeTemplate.html %>
     <div class="component" id="component">
         <div id="equipmentMng">
 
-                <layer :layer="layer"></layer>
+            <layer :layer="layer"></layer>
 
-     
-                <% include ./list.html %>
-      
+
+            <% include ./list.html %>
+
                 <% include ./detail.html %>
+
+                    <% include ./insert.html %>
+        </div>
+        <% include ./addSystem.html %>
+
+       
         
-                <% include ./insert.html %>
 
-                <% include ./insert_float.html %>
+            <pwindow-modal id="float_postion" isshade="true" title="" templateid="float_postion">
+                <button>
+                                 <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
+                            </button>
+                <animate maxpx="0" minpx="-830" orientation="right"> </animate>
+            </pwindow-modal>
+    </div>
 
-            
+
+
+    <!-- 添加位置 Start -->
+    <script type="text/html" id="float_postion">
+        <div style="width: 940px;height: 640px;">
+            <div class="htxt">添加成功后将被自动加入到生产厂家列表中</div>
+            <div class='fW'>
+                <div class="contenter">
+                    <div class="eqaddressFloatWrap lyr">
+                        <% include ../spaceMng/addSpace.html %>
+                    </div>
+
+                    <div class="bottmer">
+                        <div class='iln' @click.capture='_clickInsertLayerCancelByPostion()'>
+                            <pbutton-white text="取消"></pbutton-white>
+                        </div>
+                        <div class='iln' @click.capture='_clickInsertLayerSubmitByPostion()'>
+                            <pbutton-blue text="保存"></pbutton-blue>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </script>
+    <!-- 添加位置 End -->
+
+    <!-- 添加四个厂家 Start -->
+    <script type="text/html" id="floatTemp_factory">
+        <div style="width: 540px; height: 640px;">
+            <div class="htxt">添加成功后将被自动加入到生产厂家列表中</div>
+            <div class='fW'>
+                <div class="contenter">
+                    <div class="eqaddressFloatWrap lyr">
+                        <% include ../../../template/newMerchant.html %>
+                    </div>
+
+                    <div class="bottmer">
+                        <div class='iln' @click.capture='_clickInsertLayerCancel()'>
+                            <pbutton-white text="取消"></pbutton-white>
+                        </div>
+                        <div class='iln' @click.capture='_clickInsertLayerSubmit()'>
+                            <pbutton-blue text="保存"></pbutton-blue>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </script>
+    <!-- 添加四个厂家 End -->
+
     <!-- 报废设备 Start -->
     <pwindow-confirm id="confirmWindow">
-                <button>
+        <button>
                     <pbutton-blue text="确定" click="scrappedEquipment"></pbutton-blue>
                     <pbutton-white text="取消" click="cancelScrappedEquipment"></pbutton-white>
                 </button>
@@ -81,6 +169,9 @@
 
     <ploading-part id='equipmentMngloading'></ploading-part>
     <pnotice-message id='equipmentMngpnotice'></pnotice-message>
+
+    <ploading-part id='globalloading'></ploading-part>
+    <pnotice-message id='globalnotice'></pnotice-message>
 
 
 </body>

@@ -22,8 +22,8 @@
 					<ul @click = "openScrapDetail(item.plan_id)" v-for="item in scrapListArr">
 						<li :title="item.plan_name" v-text="item.plan_name"></li>
 						<li :title="item.matters_desc" v-text="item.matters_desc"></li>
-						<li v-text="item.plan_start_time +'-'+item.plan_end_time"></li>
-						<li v-text="item.destroy_person_named">张三</li>
+						<li v-text="orderDetail_pub.timeFormatting(item.plan_start_time)"></li>
+						<li v-text="item.destroy_person_name"></li>
 					</ul>
 				</div>
 			</div>

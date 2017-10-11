@@ -121,7 +121,9 @@
 .eqaddressFloatWrap .selBut {
     position: absolute;
     right: 20px;
-    top: 0;
+    top:4px;top: 5px;
+    height: 30px;
+    line-height: 30px;
 }
 
     .eqaddressFloatWrap .selBut .Ficon {
@@ -151,9 +153,10 @@
 
 .eqaddressFloatWrap .selTemp.selTempEdit .editInput {
     display: block;
-    /*width: 200px;*/
+    /*width: 200px;*/   
 }
-
+.eqaddressFloatWrap .selTemp.bxDiv.selTempEdit .editInput { position: relative;
+}
 .eqaddressFloatWrap .selTemp.selTempSel .selInput {
     display: block;
 }

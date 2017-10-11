@@ -45,7 +45,7 @@
                                 <div class="self-div" v-for="(custom, index2) in confirmObj.customs">
                                     <img src="../images/del.png" alt="删除图标-" onclick="yn_method.removeImage(this)">
                                     <div class="info-dot">
-                                        <span  v-text="custom.name">自定义</span>
+                                        <span v-text="custom.name">自定义</span>
                                         <img src="../images/info_close.png" alt="删除图标x"
                                              onclick="yn_method.removeImage(this)"/>
                                     </div>
@@ -56,23 +56,25 @@
                                         <span v-text="'无单位数字'" v-show="custom.type=='4'"></span>
                                         <span v-text="'有单位数字'" v-show="custom.type=='5'"></span>
                                     </div>
-                                    <span  v-show="custom.type == '2' || custom.type == '3'|| custom.type == '5'"
-                                           >选项:</span>
-                                    <span  v-show="custom.type == '5'"
-                                           >单位:</span>
+                                    <span v-show="custom.type == '2' || custom.type == '3'|| custom.type == '5'"
+                                    >选项:</span>
+                                    <span v-show="custom.type == '5'"
+                                    >单位:</span>
                                     <div class="info-dot" v-show="custom.type == '5'">
                                         <span>平方米</span>
                                         <img src="../images/info_close.png" alt="删除图标x"
                                              onclick="yn_method.removeImage(this)"/>
                                     </div>
-                                    <div class="info-dot" v-show="custom.type == '2' || custom.type == '3'" v-for="(item, index3) in custom.items">
+                                    <div class="info-dot" v-show="custom.type == '2' || custom.type == '3'"
+                                         v-for="(item, index3) in custom.items">
                                         <input type="text" :value="item"/>
                                         <img src="../images/info_close.png" alt="删除图标x"
                                              onclick="yn_method.removeImage(this)"/>
                                     </div>
                                     <div class="add-sel-div">
-                                        <div class="add-sel-btn"  @click="$root.addOption2(custom, $event, 0)"
-                                             v-show="custom.type == '2' || custom.type == '3'"><!--onclick="yn_method.addSel(this)"-->
+                                        <div class="add-sel-btn" @click="$root.addOption2(custom, $event, 0)"
+                                             v-show="custom.type == '2' || custom.type == '3'">
+                                            <!--onclick="yn_method.addSel(this)"-->
                                             <span class="sel-btn">添加选项</span>
                                         </div>
                                     </div>
@@ -81,7 +83,9 @@
                             </div>
                         </div>
                         <div class="add-info-btn">
-                            <span class="info-btn" @click="$root.addInfoPoint(confirmObj, index1, $event, 0)">添加信息点</span><!--onclick="yn_method.infoBubbleShow(this,event)"-->
+                            <span class="info-btn"
+                                  @click="$root.addInfoPoint(confirmObj, index1, $event, 0)">添加信息点</span>
+                            <!--onclick="yn_method.infoBubbleShow(this,event)"-->
                             <!--onclick="yn_method.addInfo(this)"-->
                             <div class="aite-bubble" v-show="false">
                                 <div class="aite-title">
@@ -262,7 +266,9 @@
                 <div class="aite-bubble" v-show="false">
                     <div class="aite-title">
                         <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)"/>
-                        <span>选择信息点</span>
+                        <span><em
+                                v-show="myWorkOrderModel.curObjType2 !== 'custom' && myWorkOrderModel.curObjType2 !== 'search'">选择</em><em
+                                v-text="myWorkOrderModel.popTitleText2[myWorkOrderModel.curObjType2]">分类</em></span>
                     </div>
                     <div class="list-search">
                         <div class="info-search-box">
@@ -305,8 +311,11 @@
                                             <div class="last-level-box">
                                                 <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0"
                                                      v-for="(obj,index) in myWorkOrderModel.lastLevel">
-                                                    <div :title="obj.obj_name"
-                                                         @click="controller.queryInfoPointForObject(obj)"
+                                                    <!--<div :title="obj.obj_name"-->
+                                                         <!--@click="controller.queryInfoPointForObject(obj)"-->
+                                                    <!--&gt;-->
+                                                        <div :title="obj.obj_name"
+                                                         @click="getInfoPointForObject(obj, index, $event, 0)"
                                                     >
                                                         <span v-text="obj.obj_name">建筑体</span>
                                                     </div>
@@ -322,14 +331,19 @@
                                                     <div>
                                                         <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
                                                         <!--<div class="pcheckbox" @click="yn_method.selCheck(info, index,event)">-->
-                                                        <div class="pcheckbox" @click="checkInfoPoint(info, index,0)">
-                                                            <span class="pcheckbox_input"
-                                                                  :class="info.checked ? 'pcheckbox-checked' : ''"></span>
-                                                        </div>
-                                                        <!--<div class="pcheckbox" @click="$root.checkObject(obj, index,event)">
-                                                            <span class="pcheckbox_input" :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
-                                                            <span class="pswitch_label"></span>
-                                                        </div>-->
+                                                        <!--<div :id="'noLeftLevelCheckbox' + index" class="pcheckbox"
+                                                             @click="$root.checkObject(info, index)">
+                                        <span class="pcheckbox_input"
+                                              :class="info.checked ? 'pcheckbox-checked' : ''"></span>
+                                                            <span class="pswitch_label"></span>-->
+
+                                                            <div :id="'classSelectInfoPoint' + index" class="pcheckbox"
+                                                                 @click="$root.checkInfoPoint(info, index, 0,event)">
+                                                                    <span class="pcheckbox_input"
+                                                                        :class="model.checked ? 'pcheckbox-checked' : ''"></span>
+                                                                    <span class="pswitch_label"></span>
+                                                            </div>
+                                                        <!--</div>-->
                                                     </div>
                                                 </div>
                                             </div>
@@ -338,17 +352,19 @@
                                 </div>
                                 <!--无级别 只有复选-->
                                 <div class="only-checkbox" v-show="false">
-                                    <div class="aite-list" v-for="item in myWorkOrderModel.buildList">
+                                    <div class="aite-list" v-for="(item, index) in myWorkOrderModel.buildList">
                                         <div :title="item.obj_name">
                                             <span v-text="item.obj_name"></span>
                                         </div>
                                         <div>
-                                            <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                            <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
                                             <!--<span class="pcheckbox_input"></span>-->
                                             <!--<span class="pswitch_label"></span>-->
-                                            <div class="pcheckbox" @click="checkInfoPoint(item, index,0)">
-                                                            <span class="pcheckbox_input"
-                                                                  :class="item.checked ? 'pcheckbox-checked' : ''"></span>
+                                            <div :id="'noLeftLevelCheckbox' + index" class="pcheckbox"
+                                                 @click="$root.checkObject(item)">
+                                        <span class="pcheckbox_input"
+                                              :class="item.checked ? 'pcheckbox-checked' : ''"></span>
+                                                <span class="pswitch_label"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -427,7 +443,17 @@
                     </div>
                     <div class="aite-footer">
                         <pbutton-white text="自定义" click="yn_method.customShow"></pbutton-white>
-                        <pbutton-blue text="确定" disabled="true"></pbutton-blue>
+                        <!--<pbutton-blue text="确定" disabled="true"></pbutton-blue>-->
+                        <div v-show="myWorkOrderModel.curObjType !== 'custom'" class="sureBtnDivs">
+                            <pbutton-blue text="确定"
+                                          id="sureBtn"
+                                          click="publicMethod.confirmCheckedMatterObjs"></pbutton-blue>
+                        </div>
+                        <div v-show="myWorkOrderModel.curObjType === 'custom'" class="sureBtnDivs">
+                            <pbutton-blue text="确定"
+                                          id="sureBtn"
+                                          click="publicMethod.confirmCustomizeObj"></pbutton-blue>
+                        </div>
                     </div>
                 </div>
             </div>

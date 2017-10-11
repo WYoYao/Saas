@@ -91,22 +91,36 @@ var yn_method = {
         myWorkOrderModel.fixedRadio = $("#fixed-radio").psel();
         var starttime = $("#ask_start_time").psel().startTime;
         var hours = parseInt(starttime.substr(-5, 2));
-
         $("#ask_end_time").psel({h: hours + 2}, false);
+        if (myWorkOrderModel.fixedRadio) {
+            myWorkOrderModel.workOrderDraft["ask_end_limit"] = $("#ask_end_limit").val();
+        } else {
+            myWorkOrderModel.workOrderDraft["ask_end_limit"] = "";
+            myWorkOrderModel.workOrderDraft["ask_end_time"] = "";
+
+        }
+
 
     },
     starTimeTypeSel: function (obj, event) {
         event.stopPropagation();
         if (obj.id == "1") {
             myWorkOrderModel.timeTypeSel = true;
+            myWorkOrderModel.workOrderDraft["ask_start_time"] = "";
+
         } else {
             myWorkOrderModel.timeTypeSel = false;
+            myWorkOrderModel.workOrderDraft["ask_start_time"] = $("#ask_start_time").psel().startTime;
+            // console.log($("#ask_start_time").psel().startTime)
+            // console.log(myWorkOrderModel.workOrderDraft["ask_start_time"])
         }
+        myWorkOrderModel.workOrderDraft["start_time_type"] = obj.id;
 
     },
     /*事项名称计数*/
     matterNameCounter: function (dom, value) {
         $(dom).next(".counter").find("b").text(value.length);
+        // desc_aftpart
     },
     freedomOrRegular: function () {
         myWorkOrderModel.regular = $("#switch-slide").psel();
@@ -351,18 +365,20 @@ var yn_method = {
     removeImage: function (dom) {
         $(dom).parent().remove();
     },
-    /*添加工作内容*/
-    addContent: function (open) {
-        if (open) {
-            myWorkOrderModel.addContent = true;
-            controller.queryGeneralDictByKey();
+    /*/!*添加工作内容*!/
+     addContent: function (open,model,event) {
+     if (open) {
+     myWorkOrderModel.addContent = true;
+     controller.queryGeneralDictByKey();
 
-        } else {
-            myWorkOrderModel.addContent = false;
+     } else {
+     myWorkOrderModel.addContent = false;
 
-        }
+     }
+     console.log(model);
+     myWorkOrderModel.matterSignalid=model.temp_matter_id;
 
-    },
+     },*/
     //转换成父级链字符串形式
     getParentsLinks: function (parents) {
         if (!parents.length) return '';
@@ -487,19 +503,19 @@ var yn_method = {
         // var hashtagBubble = null;
         var bubble = null;
         // var searchList = null;
-        var timely=null;
+        var timely = null;
         /*完善中*/
         if (where && who && which) {//自由方式输入时@浮窗
             // bubble = $(".matter-freedom .textarea-prop .aite-bubble");
-            timely=$(".matter-freedom .textarea-prop .aite-bubble .timely-checkbox");
-            if(timely.css("visibility")=="visible"){
-                bubble=timely;
+            timely = $(".matter-freedom .textarea-prop .aite-bubble .timely-checkbox");
+            if (timely.css("visibility") == "visible") {
+                bubble = timely;
             }
         } else if (where && who && !which) {//自由方式点击@浮窗
             // bubble = $(".matter-freedom .add-obj .aite-bubble");
-            timely=$(".matter-freedom .add-obj .aite-bubble .timely-checkbox");
-            if(timely.css("visibility")=="visible"){
-                bubble=timely;
+            timely = $(".matter-freedom .add-obj .aite-bubble .timely-checkbox");
+            if (timely.css("visibility") == "visible") {
+                bubble = timely;
             }
         } else if (where && !who && which) {//自由方式输入时#浮窗
             bubble = $(".matter-freedom .textarea-prop .hashtag-bubble")
@@ -507,15 +523,15 @@ var yn_method = {
             bubble = $(".matter-freedom .add-sop .hashtag-bubble")
         } else if (!where && who && which) {//结构化方式输入时@浮窗
             // bubble = $(".matter-regular .textarea-prop .aite-bubble");
-            timely=$(".matter-regular .textarea-prop .aite-bubble .timely-checkbox");
-            if(timely.css("visibility")=="visible"){
-                bubble=timely;
+            timely = $(".matter-regular .textarea-prop .aite-bubble .timely-checkbox");
+            if (timely.css("visibility") == "visible") {
+                bubble = timely;
             }
         } else if (!where && who && !which) {//结构化方式点击时@浮窗
             // bubble = $(".matter-regular .add-obj .hashtag-bubble");
-            timely=$(".matter-regular .add-obj .aite-bubble .timely-checkbox");
-            if(timely.css("visibility")=="visible"){
-                bubble=timely;
+            timely = $(".matter-regular .add-obj .aite-bubble .timely-checkbox");
+            if (timely.css("visibility") == "visible") {
+                bubble = timely;
             }
         } else if (!where && !who && which) {//结构化方式输入时#浮窗
             bubble = $(".matter-regular .textarea-prop .hashtag-bubble");
@@ -536,10 +552,10 @@ var yn_method = {
             // e.preventDefault();
             if (code == 40 && num == 0) {
                 // if (!myWorkOrderModel.aite) {
-                    // $(hashtagBubble).eq(0).addClass("updownmove");
-                    if (!who || who && timely) {
-                        $(bubble).find(".aite-list").eq(0).addClass("updownmove");
-                    }
+                // $(hashtagBubble).eq(0).addClass("updownmove");
+                if (!who || who && timely) {
+                    $(bubble).find(".aite-list").eq(0).addClass("updownmove");
+                }
                 // }
                 num++;
             } else {
@@ -578,23 +594,23 @@ var yn_method = {
                             break;
                         case 32://空格选中
                             // if (!myWorkOrderModel.aite) {
-                                // var id = $(".sop-list .aite-list.updownmove>div:last-of-type>div").attr("id");
-                                var id = $(bubble).find(".aite-list.updownmove>div:last-of-type>div").attr("id");
-                                $(bubble).find("#" + id).psel(true);//空格选中
-                                $(bubble).find("#able-btn").pdisable(false);
+                            // var id = $(".sop-list .aite-list.updownmove>div:last-of-type>div").attr("id");
+                            var id = $(bubble).find(".aite-list.updownmove>div:last-of-type>div").attr("id");
+                            $(bubble).find("#" + id).psel(true);//空格选中
+                            $(bubble).find("#able-btn").pdisable(false);
                             // }
                             break;
                         case 13://回车确定
                             // if (!myWorkOrderModel.aite) {
-                                var checks = $(bubble).find(".aite-list>div:last-of-type").children("div");
-                                var sop = "";
-                                checks.each(function (i, dom, arr) {
-                                    var check = $(bubble).find("#" + dom.id).psel();
-                                    if (check) {
-                                        sop += "#" + $(bubble).find(dom).parent().prev().children().text() + " ";
-                                    }
-                                });
-                                myWorkOrderModel.description += sop;
+                            var checks = $(bubble).find(".aite-list>div:last-of-type").children("div");
+                            var sop = "";
+                            checks.each(function (i, dom, arr) {
+                                var check = $(bubble).find("#" + dom.id).psel();
+                                if (check) {
+                                    sop += "#" + $(bubble).find(dom).parent().prev().children().text() + " ";
+                                }
+                            });
+                            myWorkOrderModel.description += sop;
                             // }
                             break;
                         default:
@@ -615,44 +631,44 @@ var yn_method = {
     },
     /*回车确定*/
     /*enterSop: function (e, which) {
-        var timely=$(".textarea-prop .aite-bubble .timely-checkbox");
-        // var timely=$(".add-obj .aite-bubble .timely-checkbox");
-        if(timely.css("visibility")=="visible"){
-            hashtagBubble=timely;
-        }
-        if (which) {//输入时的#浮窗
-            // hashtagBubble=$(".textarea-prop .sop-list .aite-list")
-            hashtagBubble = $(".textarea-prop .hashtag-sop")
-        } else {
-            // hashtagBubble=$(".add-sop .sop-list .aite-list")
-            hashtagBubble = $(".add-sop .hashtag-sop")
+     var timely=$(".textarea-prop .aite-bubble .timely-checkbox");
+     // var timely=$(".add-obj .aite-bubble .timely-checkbox");
+     if(timely.css("visibility")=="visible"){
+     hashtagBubble=timely;
+     }
+     if (which) {//输入时的#浮窗
+     // hashtagBubble=$(".textarea-prop .sop-list .aite-list")
+     hashtagBubble = $(".textarea-prop .hashtag-sop")
+     } else {
+     // hashtagBubble=$(".add-sop .sop-list .aite-list")
+     hashtagBubble = $(".add-sop .hashtag-sop")
 
-        }
-        if (!myWorkOrderModel.aite) {
-            // var checks = $(".sop-list .aite-list>div:last-of-type").children("div");
-            var checks = $(e.target).parents(".hashtag-bubble").find(".sop-list .aite-list>div:last-of-type").children("div");
+     }
+     if (!myWorkOrderModel.aite) {
+     // var checks = $(".sop-list .aite-list>div:last-of-type").children("div");
+     var checks = $(e.target).parents(".hashtag-bubble").find(".sop-list .aite-list>div:last-of-type").children("div");
 
-            var sop = "";
-            checks.each(function (i, dom, arr) {
-                var check = $(e.target).parents(".hashtag-bubble").find("#" + dom.id).psel();
-                if (check) {
-                    sop += "#" + $(e.target).parents(".hashtag-bubble").find("#" + dom.id).parent().prev().children().text() + " ";
-                }
-            });
-            if (which) {//输入时的#浮窗
-                sop = sop.substring(1);
-            }
-            myWorkOrderModel.description += sop;
-            // $(".matter-freedom textarea").
+     var sop = "";
+     checks.each(function (i, dom, arr) {
+     var check = $(e.target).parents(".hashtag-bubble").find("#" + dom.id).psel();
+     if (check) {
+     sop += "#" + $(e.target).parents(".hashtag-bubble").find("#" + dom.id).parent().prev().children().text() + " ";
+     }
+     });
+     if (which) {//输入时的#浮窗
+     sop = sop.substring(1);
+     }
+     myWorkOrderModel.description += sop;
+     // $(".matter-freedom textarea").
 
-        }
-    },*/
+     }
+     },*/
     /*回车确定*/
     enterSop: function (e, which) {
-        var timely=$(".textarea-prop .aite-bubble .timely-checkbox");
+        var timely = $(".textarea-prop .aite-bubble .timely-checkbox");
         // var timely=$(".add-obj .aite-bubble .timely-checkbox");
-        if(timely.css("visibility")=="visible"){
-            hashtagBubble=timely;
+        if (timely.css("visibility") == "visible") {
+            hashtagBubble = timely;
         }
         if (which) {//输入时的#浮窗
             // hashtagBubble=$(".textarea-prop .sop-list .aite-list")
@@ -703,6 +719,7 @@ var yn_method = {
                 controller.queryEquip(obj)
             }
         }
+        // console.log()
 
     },
     defaultPage: function (dom) {
@@ -744,7 +761,7 @@ var yn_method = {
         }
         $(e).children("div").show();
         //where--自由输入方式/结构输入，who--@/#，which--手动输入浮窗/点击浮窗
-        yn_method.upDownSelecting(true,false,false);
+        yn_method.upDownSelecting(true, false, false);
     },
     delObjs: function (dom) {
         $(dom).parents(".obj-div").remove();
@@ -764,6 +781,10 @@ var yn_method = {
     infoBubbleShow: function (dom, event) {
         event.stopPropagation();
         $(dom).next().show();
+        event.stopPropagation();
+        // $(".addInfoPoint").hide();
+        commonData.jqPopDataDivs2 = $(dom).next().find('.list-body').children();
+        myWorkOrderMethod.setCurPop2(0);//选择大类
         // var sel="<div class='info-dot'> <input type='text' /> <img src='../images/info_close.png' alt='删除图标x' onclick='yn_method.removeImage(this)'/> </div>"
         // $(dom).parent().siblings(".obj-info").append("")
     },
@@ -831,7 +852,13 @@ var yn_method = {
                 "border": "1px solid #cacaca"
             });
             $(".time-error-tips").hide();
+            myWorkOrderModel.workOrderDraft["ask_end_time"] = ask_end_time.startTime;
+            myWorkOrderModel.workOrderDraft["ask_end_limit"] = "";
+            // console.log(myWorkOrderModel.workOrderDraft["ask_end_time"])
+            // console.log( myWorkOrderModel.workOrderDraft)
+
         }
+
 
     },
     /*删除事项*/
@@ -861,18 +888,56 @@ var yn_method = {
         // }
         // myWorkOrderModel.workContent.work_id=new Date().getTime();
         // console.log(myWorkOrderModel.workContent.work_id);
-        myWorkOrderModel.desc_works.push(myWorkOrderModel.workContent);
-        console.log(myWorkOrderModel.desc_works);
-        myWorkOrderModel.addContent = false;
-
+        if (!myWorkOrderModel.mattersVip.desc_works) {
+            myWorkOrderModel.mattersVip["desc_works"] = [];
+            // myWorkOrderModel.mattersVip["matter_name"]=[];
+            // myWorkOrderModel.mattersVip["description"]=[];
+            // myWorkOrderModel.mattersVip["desc_forepart"]=[];
+            // myWorkOrderModel.mattersVip["desc_aftpart"]=[];
+        }
+        myWorkOrderModel.mattersVip["desc_works"].push(myWorkOrderModel.workContent);
+        myWorkOrderModel.singleMatters["desc_works"] = myWorkOrderModel.mattersVip["desc_works"];
+        console.log(myWorkOrderModel.mattersVip.desc_works);
+        myWorkOrderModel.addContentWindow = false;
+        publicMethod.addWorkContentName();
     },
-    contentAiteShow:function (dom,event) {
+    contentAiteShow: function (dom, event) {
         event.stopPropagation();
         $(dom).children(".aite-bubble").show();
         // publicMethod.setCurPop(4, 'obj');
+    },
+    /*工单类型存储*/
+    workTypeFn: function (content) {
+        myWorkOrderModel.workOrderDraft["order_type_name"] = content.name;
+        myWorkOrderModel.workOrderDraft["order_type"] = content.code;
+    },
+    /*紧急程度存储*/
+    urgencyFn: function (content) {
+        myWorkOrderModel.workOrderDraft["urgency"] = content.name;
+
+    },
+    /*开始时间存储*/
+    startTimeSave:function () {
+        var ask_start_time=$("#ask_start_time").psel().startTime;
+        myWorkOrderModel.workOrderDraft["ask_start_time"] = ask_start_time;
+
+    },
+    /*草稿存储数据*/
+    a:function () {
+        $(document).keyup(function (e) {
+            var code=e.keyCode;
+            console.log(code)
+            if(code==110){
+                console.log(myWorkOrderModel.workOrderDraft)
+            }
+
+
+        })
     }
+
 }
 yn_method.closeBubble();
+yn_method.a();
 
 
 

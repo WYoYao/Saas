@@ -1,36 +1,3 @@
-$(function () {
-    var instance = spaceInfoModel.instance();
-    spaceInfoController.init();
-    $(".contTreeHead").on('click', function (event) {
-        var $this = $(event.currentTarget);
-        var $contTreeList = $this.siblings(".contTreeList");
-        if ($contTreeList.is(":visible")) {
-            $contTreeList.slideUp();
-        } else {
-            $contTreeList.slideDown();
-        }
-    });
-    $("#editSelBox .radioButton").on('click', function (event) {
-        var $this = $(event.currentTarget);
-        var instance = spaceInfoModel.instance();
-        if ($this.hasClass('checked')) {
-            return;
-        }
-        if (instance.editMode == 'modify') {
-            instance.editMode = 'change';
-        } else {
-            instance.editMode = 'modify';
-        }
-    });
-    $("#spaceNavigBar").on('click', '.circle', function (event) {
-        var $this = $(event.currentTarget);
-        $("#spaceNavigBar .circle").removeClass("sel");
-        $this.addClass("sel");
-        var stype = $this.attr("stype");
-        document.getElementById(stype).scrollIntoView();
-    });
-
-});
 function scrollFloor() {
     var scrollHeight = document.getElementById("floorContent").scrollHeight;
     var offsetHeight = document.getElementById("floorContent").offsetHeight;
@@ -212,8 +179,13 @@ function floorTypeSel(event) {//请选择楼层性质
 function addFloorHide(event) {
     $("#addFloorDiv").hide();
 }
-function addSpaceShow(event) {
-    var instance = spaceInfoModel.instance();
+function addSpaceShow(event, instancePara) {
+    spaceInfoController.systemModelObj = instancePara || null;
+    var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
+    spaceInfoController.systemModelObj && spaceInfoController.queryBuild();//对外接口取数据
+    spaceInfoController.systemModelObj && spaceInfoController.queryAllSpaceCode();
+    spaceInfoController.systemModelObj && spaceInfoController.queryAllRentalCode();
+    instance.spaceFloorArr = [];
     $("#addSpaceDiv").show();
     instance.spaceDetail = new spaceObj();
     $("#spaceBuildDrop").precover('请选择建筑');
@@ -230,7 +202,7 @@ function buildLiSel(item) {//建筑的点击事件 首页
     instance.floorShowTitle = '建筑下的全部空间';
 }
 function spaceBuildSel(item) {//空间中的建筑选择
-    var instance = spaceInfoModel.instance();
+    var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
     spaceInfoController.queryFloorWithOrder('space', item);//根据建筑查询楼层
     instance.spaceDetail.build_id = item.obj_id;//选中的建筑id
     instance.spaceDetail.build_local_name = item.obj_name;//选中的建筑名字
@@ -247,18 +219,16 @@ function checkAllFloor(event) {//查看右侧所有楼层空间
         ele.ischeck = false;
     });
     spaceInfoController.querySpaceWithGroup();
-
 }
 function spaceFloorSel(item) {//空间中的楼层选择
-    var instance = spaceInfoModel.instance();
+    var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
     instance.spaceDetail.floor_id = item.floor_id;//选中的楼层id
     instance.spaceDetail.floor_local_name = item.floor_local_name;//选中的楼层id
 }
 
-function saveAddSpace() {
-    var instance = spaceInfoModel.instance();
+function saveAddSpace(event) {
+    var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
     var spaceDetail = instance.spaceDetail;
-
     if (!spaceDetail.build_id) {
         $("#spaceNoticeWarn").pshow({ text: "所属建筑不能为空！", state: "failure" });
         return;
@@ -279,7 +249,6 @@ function saveAddSpace() {
     spaceInfoController.verifySpaceName('add');
     spaceInfoController.verifySpaceLocalId('add');
     spaceInfoController.verifySpaceBimId('add');
-
 }
 function verifyDestroy() {//是否可以拆除
     spaceInfoController.verifyDestroySpace();
@@ -290,7 +259,24 @@ function destroySure() {//拆除空间
 function destroyCancle() {
     $("#desSpaceDialog").phide();
 }
-
+function spceBindClick() {
+    $(".contTreeHead").on('click', function (event) {
+        var $this = $(event.currentTarget);
+        var $contTreeList = $this.siblings(".contTreeList");
+        if ($contTreeList.is(":visible")) {
+            $contTreeList.slideUp();
+        } else {
+            $contTreeList.slideDown();
+        }
+    });
+    $("#spaceNavigBar").on('click', '.circle', function (event) {
+        var $this = $(event.currentTarget);
+        $("#spaceNavigBar .circle").removeClass("sel");
+        $this.addClass("sel");
+        var stype = $this.attr("stype");
+        document.getElementById(stype).scrollIntoView();
+    });
+}
 var floorTypeArr = [{ name: '普通楼层' }, { name: '中庭' }, { name: '室外' }, { name: '其他' }];
 var buildArr = [{ name: '建筑1' }, { name: '建筑2' }, { name: '建筑3' }];
 var floorArr = [{ name: '楼层1' }, { name: '楼层2' }, { name: '楼层3' }];

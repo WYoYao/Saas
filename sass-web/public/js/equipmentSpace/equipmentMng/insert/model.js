@@ -112,6 +112,28 @@
                 system_id: false,
                 equip_category: false,
             },
+            // 新建四个维修厂商需要的属性 Start
+            tabSelName: "",
+            selMerchantToUpdate: {
+                "brands": [],
+                "insurer_info": [],
+                "company_name": "",
+                "contacts": "",
+                "phone": "",
+                "web": "",
+                "fax": "",
+                "email": ""
+            },
+            tabSelIndex: 0,
+            // 新建四个维修厂商需要的属性 End
+            // 新建位置需要的属性 Start
+            allRentalCode: [],
+            spaceDetail: {},
+            allBuild: [],
+            spaceFloorArr: [],
+            allSpaceCode: [],
+            allRentalCode: [],
+            // 新建位置需要的属性 End
         },
         computed: {
 
@@ -120,9 +142,111 @@
 
         },
         methods: {
+            //隐藏四个服务厂商
+            _clickInsertLayerCancel: function () {
+                var _that = this;
+                if (_that.tabSelIndex > -1) {
+                    $("#eqaddressfloat").phide();
+                    _that.tabSelIndex = -1;
+                }
+            },
+            // 展示四个服务厂商 提交
+            _clickInsertLayerSubmit: function () {
+                var _that = this;
+                equipmentLogic.saveMerchant(null, function () {
+                    _that._clickInsertLayerCancel();
+                });
+            },
+            // 展示四个服务厂商
+            showInsertLayerByService: function (item) {
+
+                var _that = this,
+                    type = item.type;
+
+                _that.tabSelName = item.name;
+                _that.tabSelIndex = type - 1;
+                // 初始化调用
+                equipmentLogic.newMerchantEvent();
+                $("#eqaddressfloat").pshow({
+                    title: item.title
+                });
+            },
+            // 添加新建空间
+            _clickInsertLayerSubmitByPostion: function () {
+                saveAddSpace();
+
+                $("#equipmentMngpnotice").pshow({
+                    text: '添加成功',
+                    state: "success"
+                });
+
+                this._clickInsertLayerCancelByPostion();
+            },
+            // 取消添加新建空间
+            _clickInsertLayerCancelByPostion: function () {
+                $("#float_postion").phide();
+            },
+            // 展示展示新建位置
+            showInsertLayerByPostion: function (item) {
+
+                addSpaceShow(null, this);
+                $("#float_postion").pshow({
+                    title: item.title
+                });
+            },
+            // 新建位置
+            _ClickAddBlock: function (name) {
+
+                var Enum = {
+                    postion: { // 位置
+                        title: '添加新位置',
+                        type: 5,
+                    },
+                    system: { // 系统
+                        title: '添加新系统'
+                    },
+                    factory: { // 厂家
+                        title: '添加新厂家',
+                        type: 2,
+                        name: '生产厂家'
+                    },
+                    brand: { // 品牌
+                        title: '添加新品牌',
+
+                    },
+                    buy: { // 供应商
+                        title: '添加新供应商',
+                        type: 1,
+                        name: '供应商'
+                    },
+                    service: { // 维修商
+                        title: '添加新维修商',
+                        type: 3,
+                        name: '维修商'
+                    },
+                    insurance: { // 保险公司
+                        title: '添加新保险公司',
+                        type: 4,
+                        name: '保险公司'
+                    },
+                    Insurance_num: { // 保险单号
+                        title: '添加新保险单号'
+                    }
+
+                };
+
+                var item = Enum[name];
+
+                if (item.type <= 4) {
+                    this.showInsertLayerByService(item);
+                } else if (item.type == 5) {
+                    this.showInsertLayerByPostion(item);
+                }
+
+            },
             // 保存设备
             _SubmitEquip: function () {
-                var _that=this;
+                var _that = this;
 
                 var textNameArr = Object.keys(EquipTextArr);
 
@@ -183,51 +307,17 @@
                 // 附件的信息
                 console.log(uploadReq);
 
-                var request=Object.assign({},textReq,uploadReq,_that.insertModel);
+                var request = Object.assign({}, textReq, uploadReq, _that.insertModel);
 
                 console.log(request);
 
                 controllerInsert.addEquip(request)
-                    .then(function(){
+                    .then(function () {
                         $("#equipmentMngpnotice").pshow({
                             text: '添加成功',
                             state: "success"
                         });
                     });
-            },
-            // 新建位置
-            _ClickAddBlock:function(name){
-
-                var Enum={
-                    postion:{ // 位置
-                       title:'添加新位置'
-                    },
-                    system:{ // 系统
-                        title:'添加新系统'
-                    },
-                    factory:{ // 厂家
-                        title:'添加新厂家'
-                    },
-                    brand:{ // 品牌
-                        title:'添加新品牌'
-                    },
-                    buy:{ // 供应商
-                        title:'添加新供应商'
-                    },
-                    service:{ // 维修商
-                        title:'添加新维修商'
-                    },
-                    insurance:{ // 保险公司
-                        title:'添加新保险公司'
-                    },
-                    Insurance_num:{ // 保险单号
-                        title:'添加新保险单号'
-                    }
-
-                }
-
-                $("#floatWindow_"+name).pshow();
-                
             },
         },
         beforeMount: function () {
@@ -246,19 +336,19 @@
 
                     _that.SystemDomain = list;
                 });
-            
+
             // 获取所有设备
             equipmentMngDeatilController.queryAllEquipCategory()
                 .then(function (list) {
 
-                    function disable(item){
-                        var disable=arguments.callee;
+                    function disable(item) {
+                        var disable = arguments.callee;
 
-                        if(_.isArray(item.content)){
-                            item.disabled=true;
-                            item.content=item.content.map(disable);
-                        }else{
-                            item.disabled=false;
+                        if (_.isArray(item.content)) {
+                            item.disabled = true;
+                            item.content = item.content.map(disable);
+                        } else {
+                            item.disabled = false;
                         }
 
                         return item;
@@ -272,9 +362,9 @@
              */
             equipmentMngDeatilController.queryEquipCompanySel(2)
                 .then(function (list) {
-                    _that.manufacturerList = list.map(function(item){
-                        item.name=item.company_name;
-                        item.code=item.company_id;
+                    _that.manufacturerList = list.map(function (item) {
+                        item.name = item.company_name;
+                        item.code = item.company_id;
 
                         return item;
                     });
@@ -285,9 +375,9 @@
              */
             equipmentMngDeatilController.queryEquipCompanySel(1)
                 .then(function (list) {
-                    _that.supplierList = list.map(function(item){
-                        item.name=item.company_name;
-                        item.code=item.company_id;
+                    _that.supplierList = list.map(function (item) {
+                        item.name = item.company_name;
+                        item.code = item.company_id;
 
                         return item;
                     });
@@ -298,9 +388,9 @@
              */
             equipmentMngDeatilController.queryEquipCompanySel(3)
                 .then(function (list) {
-                    _that.maintainerList = list.map(function(item){
-                        item.name=item.company_name;
-                        item.code=item.company_id;
+                    _that.maintainerList = list.map(function (item) {
+                        item.name = item.company_name;
+                        item.code = item.company_id;
 
                         return item;
                     });
@@ -311,18 +401,23 @@
              */
             equipmentMngDeatilController.queryEquipCompanySel(4)
                 .then(function (list) {
-                    _that.insurerList = list.map(function(item){
-                        item.name=item.company_name;
-                        item.code=item.company_id;
+                    _that.insurerList = list.map(function (item) {
+                        item.name = item.company_name;
+                        item.code = item.company_id;
 
                         return item;
                     });
                 });
 
-                $("#insert_" + 'brand').pdisable(true);
-                $("#insert_" + 'insurer_num').pdisable(true);
+            $("#insert_" + 'brand').pdisable(true);
+            $("#insert_" + 'insurer_num').pdisable(true);
 
+            // 添加四厂需要的调用的事件
+            window.equipmentAddressModal = _that;
+            // 添加空间需要调用的事件
+            spceBindClick();
 
+            
         },
         watch: {
             insertModel: function (newValue, oldValue) {

@@ -1,10 +1,10 @@
-<div class="matter-regular" v-show="myWorkOrderModel.regular">
+<div class="matter-regular" v-show="myWorkOrderModel.regular" v-for="(model, index0) in allMatters">
     <div class="regular-text-div">
         <div class="regular-obj-text">
             <div class="textarea-div">
                 <span>我要对</span>
                 <div>
-                    <textarea v-model="myWorkOrderModel.singleMatters.desc_forepart" onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
+                    <textarea v-model="model.desc_forepart" onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
                     <div class="textareadiv"></div>
                     <div class="textarea-prop" >
                         <% include aite.html %>
@@ -22,7 +22,7 @@
             <div class="textarea-div">
                 <span>进行</span>
                 <div>
-                    <textarea v-model="myWorkOrderModel.singleMatters.desc_aftpart" onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
+                    <textarea v-model="model.desc_aftpart" onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
                     <div class="textareadiv"></div>
                     <div class="textarea-prop" >
                         <% include hashtag.html %>

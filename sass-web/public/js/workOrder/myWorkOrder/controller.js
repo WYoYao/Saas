@@ -6,6 +6,8 @@ var controller = {
             methods: myWorkOrderMethod,
         });
 
+        //publicMethod.addMatter();
+
         var workObj = {
             dataObj: {
                 user_id: myWorkOrderModel.user_id,
@@ -36,14 +38,26 @@ var controller = {
     },
 
 
-    //------------------------------------------ydx__start------------------------------------------
+    //------------------------------------------zy__start------------------------------------------
+    //新增页:保存工单草稿
+    saveDraftWorkOrder: function (obj) {
+        //$('#loading').pshow();
+        pajax.update({
+            url: 'restMyWorkOrderService/saveDraftWorkOrder',
+            data: obj,
+            success: function (result) {
+                $('#globalnotice').pshow({text: '草稿保存成功', state: 'success'});
+            },
+            error: function (err) {
+                $('#globalnotice').pshow({text: '草稿保存失败，请重试', state: 'failure'});
+            },
+            complete: function () {
+            }
+        });
+    },
 
 
-    //------------------------------------------ydx__end------------------------------------------
-    //------------------------------------------yn__start------------------------------------------
-
-    //------------------------------------------yn__end------------------------------------------
-
+    //------------------------------------------zy__end------------------------------------------
 
     //------------------------------------------yn__start------------------------------------------
     // ajax请求
@@ -334,7 +348,7 @@ var controller = {
                 var data = result && result.data ? result.data : [];
                 myWorkOrderModel.lastLevel = data;
                 $("#myWork-list-notice").pshow({text: '空间查询成功', state: "success"});
-
+                console.log(myWorkOrderModel.lastLevel)
 
             },
             error: function (err) {
@@ -389,6 +403,8 @@ var controller = {
             success: function (result) {
                 var data = result && result.data ? result.data : [];
                 myWorkOrderModel.lastLevel = data;
+                debugger;
+                console.log(myWorkOrderModel.lastLevel)
                 $("#myWork-list-notice").pshow({text: '设备查询成功', state: "success"});
             },
             error: function (err) {
@@ -566,7 +582,12 @@ var controller = {
                         if (checked) data[i].checked = true;
                     }
                 }
+                obj.info_points=data;
                 myWorkOrderModel.infoArray=data;
+                console.log(myWorkOrderModel.infoArray)
+                // createSopModel.infoPointList = data;
+                if (jqInfoPointPop) jqInfoPointPop.show();
+                myWorkOrderModel.isCustomizeBtnAble = true;
                 /*var info_points = commonData.infoPoint_obj.info_points || [];
                 if (commonData.belongChoosedObj) {
                     for (var i = 0; i < data.length; i++) {
@@ -611,7 +632,7 @@ var controller = {
             }
         });
     },
-    //2、搜索物理世界对象
+    //搜索物理世界对象
     searchObject: function (keyword, notShowPop) {
         $('#loadCover').pshow();
         pajax.post({
@@ -628,13 +649,13 @@ var controller = {
                     var value = keyword;
                     for (var i = 0; i < data.length; i++) {
                         var item = data[i];
-                        if (item.obj_name) item.obj_name_arr = commonMethod.strToMarkedArr(item.obj_name, value);
+                        if (item.obj_name) item.obj_name_arr = publicMethod.strToMarkedArr(item.obj_name, value);
                         if (item.parents) {
                             for (var j = 0; j < item.parents.length; j++) {
                                 var item1 = item.parents[j];
 
                                 item1.linked_names = item1.parent_names.join('>');
-                                if (item1.linked_names) item1.linked_names_arr = commonMethod.strToMarkedArr(item1.linked_names, value);
+                                if (item1.linked_names) item1.linked_names_arr = publicMethod.strToMarkedArr(item1.linked_names, value);
                             }
                         }
                     }
@@ -647,14 +668,15 @@ var controller = {
                     myWorkOrderModel.curObjType = 'search';
                     //commonMethod.updateObjs();
                     if (data.length) {
-                        commonMethod.setCurPop(0);
+                        publicMethod.setCurPop(0, commonData.types[0]);
                     } else {        //无匹配的结果时转换为自定义形式
-                        commonMethod.setCurPop(3);
+                        publicMethod.setCurPop(3, commonData.types[0]);
                     }
-                    commonMethod.isSelectedObj();
-                    commonMethod.locationTextareaPop(commonData.textwrap, commonData.textdiv, commonData.textareapop, commonData.text);     //定位
+                    publicMethod.isSelectedObj(null, commonData.types[0]);
+                    //publicMethod.locationPop(commonData.textwrap, commonData.textdiv, commonData.textareapop, commonData.text);     //定位
+                    publicMethod.locationPop(null, commonData.types[0]);
                 } else {
-                    commonMethod.updateObjs(0, keyword);
+                    publicMethod.updateObjs(0, keyword, commonData.types[0]);
                 }
 
             },
@@ -665,6 +687,7 @@ var controller = {
             }
         });
     },
+
     //------------------------------------------yn__end------------------------------------------
 
 }

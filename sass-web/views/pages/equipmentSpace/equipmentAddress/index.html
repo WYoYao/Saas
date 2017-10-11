@@ -18,7 +18,9 @@
     <div class="insuranceGridPop">   
         <div class="header"><span>保险单号</span><span>保险文件</span></div>
         <ul>
-            <li v-for="item in equipmentAddressModal.selInsureOrderArr"><span v-text="item.insurer_num">dfdfdf</span><span class="span2"><a  v-bind:href="item.insurance_file.url">文件在此可点击查看</a></span></li>
+            <li v-for="item in selInsureOrderArr">
+                <span v-text="item.insurer_num"></span>
+                <span class="span2"><a v-bind:href="item.insurance_file.url" v-text="item.insurance_file.name"></a></span></li>
         </ul>
 
 
@@ -127,85 +129,7 @@
     <div class="eqaddressFloatWrap">
         <!--新建 -->
         <div class="addWrap">
-            <div class="inputTempWrap">
-                <div class="inputTemp">
-                    <span class="inputname"><em>*</em><b>{{tabSelName}}名称:</b></span>
-                    <div class="inputwrap">
-                        <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.company_name">
-                        <verify errtip="不可为空"  verifytype="space"></verify>
-                    </ptext-text>
-                    </div>
-
-                </div>
-                <div class="inputTemp">
-                    <span class="inputname"><b>联系人:</b></span>
-                    <div class="inputwrap">
-                        <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.contacts"></ptext-text>
-                    </div>
-
-                </div>
-                <div class="inputTemp">
-                    <span class="inputname"><b>联系电话:</b></span>
-                    <div class="inputwrap">
-                        <ptext-text placeholder="'请输入电话号码'" bind="true" value="selMerchantToUpdate.phone"></ptext-text>
-                    </div>
-                </div>
-                <div class="inputTemp" v-show="!(tabSelIndex==3)">
-                    <span class="inputname"><b>网址:</b></span>
-                    <div class="inputwrap">
-                        <ptext-text placeholder="'请输入网址'" bind="true" value="selMerchantToUpdate.web"></ptext-text>
-                    </div>
-                </div>
-                <div class="inputTemp" v-show="!(tabSelIndex==3)">
-                    <span class="inputname"><b>传真:</b></span>
-                    <div class="inputwrap">
-                        <ptext-text placeholder="'请输入传真'" bind="true" value="selMerchantToUpdate.fax"></ptext-text>
-                    </div>
-                </div>
-                <div class="inputTemp" v-show="!(tabSelIndex==3)">
-                    <span class="inputname"><b>电子邮件:</b></span>
-                    <div class="inputwrap">
-                        <ptext-text placeholder="'请输入电子邮件'" bind="true" value="selMerchantToUpdate.email"></ptext-text>
-                    </div>
-                </div>
-
-                <div class="insurerWrapPar" v-show="tabSelIndex==3">
-                    <div class="insurerWrap" v-for="(insu,oindex) in selMerchantToUpdate.insurer_info">
-                        <div class="inputTemp">
-                            <span class="inputname"><b>保险单号:</b></span>
-                            <div class="inputwrap">
-                                <ptext-text placeholder="'请输入保险单号'" bind="true" value="insu.insurer_num"></ptext-text>
-                            </div>
-                        </div>
-                        <div class="inputTemp">
-                            <span class="inputname"><b>保险文件:</b></span>
-                            <div class="inputwrap">
-                                <pupload-attachment insurefile></pupload-attachment>
-                            </div>
-                        </div>
-                        <div class="insureraddBut">
-                            <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0"></pbutton-white>
-                            <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="oindex>0" v-bind:ji="oindex"></pbutton-white>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="brandWrapPar" v-if="tabSelIndex==1">
-                    <div class="insurerWrap" v-for="(brand,index) in selMerchantToUpdate.brands">
-                        <div class="inputTemp">
-                            <span class="inputname"><b>所含品牌:</b></span>
-                            <div class="inputwrap">
-                                <ptext-text placeholder="'请输入品牌'" bind="true" value="brand.name"></ptext-text>
-                            </div>
-                        </div>
-                        <div class="insureraddBut">
-                            <pbutton-white icon="'J'" shape="ellipse" click="addBrandClick" bind="true" v-show="index==0"></pbutton-white>
-                            <pbutton-white icon="'p'" shape="ellipse" click="delInsurerClick" bind="true" v-show="index!=0" v-bind:ji="index"></pbutton-white>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
+            <% include ../../../template/newMerchant.html %>
 
             <div class="butWrap">
                 <pbutton-blue text="保存" click="addList"></pbutton-blue>
@@ -365,30 +289,29 @@
             <!-- 保险 -->
             <div class="selTemp selTempSel bxDiv brandWrapPar" type="insurer_info" v-show="tabSelIndex==3">
                 <!-- 查看 -->
-                <div class="selInput">
+                <div class="selInput" v-for="(insurelook,oindex) in selMerchantToInfo.insurer_info">
                     <div class="tempDiv">
                         <span class="selname"><b>保险单号:</b></span>
                         <div class="selcon selInput">
-                            <span v-text="selMerchantToInfo.email">name</span>
-
+                            <span v-text="insurelook.insurer_num">name</span>
                         </div>
                     </div>
                     <div class="tempDiv">
                         <span class="selname"><b>保险文件:</b></span>
                         <div class="selInput selcon">
-                            <span v-text="selMerchantToInfo.email">name</span>
+                            <span v-text="insurelook.insurance_file.name">name</span>
                         </div>
                     </div>
-                    <div class="selBut">
+                    <div class="selBut" v-show="oindex==0">
                         <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
                     </div>
                 </div>
                 <!-- 编辑 -->
-                <div class="editInput">
+                <div class="editInput" v-for="(insurelook,oindex) in selMerchantToUpdate.insurer_info">
                     <div class="tempDiv">
                         <span class="selname"><b>保险单号:</b></span>
                         <div class="selcon ">
-                            <ptext-text value="selMerchantToUpdate.email" bind="true"></ptext-text>
+                            <ptext-text value="insurelook.insurer_num" bind="true"></ptext-text>
                         </div>
                     </div>
                     <div class="tempDiv">
@@ -397,57 +320,16 @@
                             <pupload-attachment insurefileedit></pupload-attachment>
                         </div>
                     </div>
-                    <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
+                    <div class="selBut" v-show="oindex==0">
+                        <em class="Ficon co" onclick="editConfirm(event)">Z</em>
+                        <em class="Ficon" onclick="editCancel(this)">x</em>
+                    </div>
                     <div class="insureraddBut">
-                        <pbutton-white icon="J" shape="ellipse" click="addInsurerClick"></pbutton-white>
-                        <pbutton-white icon="p" shape="ellipse" click="delInsurerClick"></pbutton-white>
+                        <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0" v-bind:xx="oindex"></pbutton-white>
+                        <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="oindex>0"></pbutton-white>
                     </div>
 
                 </div>
-                <!--<div class="bxTemp" v-for="(order,oindex) in selMerchantToInfo.insurer_info">
-                 <div class="bxEditWrap">
-                        <span class="selname"><b>保险单号:</b></span>
-                        <div class="selcon">
-                            <div class="selInput">
-                                <span v-text="order.insurer_num"></span>
-                                <div class="selBut" v-if="oindex==0">
-                                    <pbutton-blue text="编辑" isborder="false" icon="e" click="editSelClick"></pbutton-blue>
-                                </div>
-                            </div>
-                            <div class="editInput">
-                                <div>
-                                    <ptext-text></ptext-text>
-                                </div>
-                                <div class="selBut" v-if="oindex==0">
-                                    <em class="Ficon co" onclick="editConfirm(event)">Z</em>
-                                    <em class="Ficon" onclick="editCancel(this)">x</em>
-                                </div>
-                                <div class="insureraddBut">
-                                    <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0"></pbutton-white>
-                                    <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="oindex>0" v-bind:ji="oindex"></pbutton-white>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div class="bxEditWrap">
-                        <span class="selname"><b>保险文件:</b></span>
-                        <div class="selcon">
-                            <div class="selInput">
-                                <a v-text="order.insurance_file.name" v-bind:href="order.insurance_file.url"></a>
-                            </div>
-                            <div class="editInput">
-                                <div>
-                                    <pupload-attachment insurefileedit></pupload-attachment>
-                                </div>
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div>-->
-
-
             </div>
 
 
@@ -455,10 +337,6 @@
     </div>
 </script>
 
-<!-- loading -->
-<ploading-part id="eqaddressloading" text="拼命加载中..."></ploading-part>
-<!-- 成功失败提示 -->
-<pnotice-message id="eqaddressnotice"></pnotice-message>
 
 <!-- 删除二次弹窗 -->
 <pwindow-confirm id="confirmWindow">

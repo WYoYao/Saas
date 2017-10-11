@@ -27,20 +27,20 @@
 
                         </ul>
                     </div>
-                    <div class="print_Condition">
+                    <div class="print_Condition" v-bind:pdisabled="eqSelDownTypeIndex==0?true:false">
                         <em class="ulName">所属建筑：</em>
                         <ul>
                             <li v-for="item in buildArr" v-text="item.obj_name" @click="buildSel(item,event)" :class="{active:item.obj_id==selBuildForEq.obj_id}">全部</li>
                         </ul>
                     </div>
-                    <div class="print_Condition">
+                    <div class="print_Condition" v-bind:pdisabled="eqSelDownTypeIndex==0?true:false">
                         <em class="ulName">所属专业：</em>
                         <ul>
                             <li v-for="item in majorArr" v-text="item.name" @click="majorSel(item,event)" :class="{active:item.code==selMajor.code}">全部</li>
                         </ul>
                     </div>
 
-                    <div class="print_Condition">
+                    <div class="print_Condition" v-bind:pdisabled="eqSelDownTypeIndex==0?true:false">
                         <em class="ulName">所属系统：</em>
                         <em class="emCo" v-show="systemArr.length==0">请选择系统</em>
                         <ul v-show="systemArr.length>0">
@@ -59,7 +59,7 @@
                     </div>
                     <div class="gridCon" style="height: 400px;" id="gridCardPrintForEq" >
                         <pgrid-multifunction>
-                            <panel datasource="eqArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="gridTemp"></panel>
+                            <panel datasource="eqArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="gridTemp" change="cardPrintVueMethod.gridCheckboxChange"></panel>
                             <header>
                                 <column name="设备编号" source="equip_local_id" ></column>
                                 <column name="设备名称" source="equip_local_name"></column>
@@ -88,16 +88,16 @@
 
                         </ul>
                     </div>
-                    <div class="print_Condition">
+                    <div class="print_Condition" v-bind:pdisabled="spSelDownTypeIndex==0?true:false">
                         <em class="ulName">所属建筑：</em>
                         <ul>
                             <li v-for="item in buildArr" v-text="item.obj_name" @click="buildSel(item,event)" :class="{active:item.obj_id==selBuildForSp.obj_id}">全部</li>
                         </ul>
                     </div>
-                     <div class="print_Condition">
+                     <div class="print_Condition" v-bind:pdisabled="spSelDownTypeIndex==0?true:false">
                         <em class="ulName">所属楼层：</em>
-                        <!--<em class="emCo">请选择系统</em>-->
-                        <ul>
+                         <em class="emCo" v-show="floorArr.length==0">请选择楼层</em>
+                        <ul v-show="floorArr.length>0">
                             <li v-for="item in floorArr" v-text="item.floor_local_name" @click="floorSel(item,event)" :class="{active:item.floor_id==selFloor.floor_id}">全部</li>
                         </ul>
                     </div>
@@ -113,7 +113,7 @@
                     </div>
                     <div class="gridCon" style="height: 400px;" id="gridCardPrintForSp">
                         <pgrid-multifunction >
-                            <panel datasource="spArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="spGridTemp"></panel>
+                            <panel datasource="spArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="spGridTemp" change="cardPrintVueMethod.gridCheckboxChange"></panel>
                             <header>
                                 <column name="空间编号" source="space_id"  ></column>
                                 <column name="空间名称" source="room_local_name"></column>
@@ -162,8 +162,8 @@
                             <li class="printCard_li"><em>设备名称:</em></li>
                             <li class="printCard_li"><em>设备编号:</em></li>
                             <li v-for="item in eqCardTemplateArr">
-                                <pcombobox-normal bind="true" sel="cardPrintVueMethod.gridCheckboxChange">
-                                    <header  placeholder="设备型号"></header>
+                                <pcombobox-normal bind="true" sel="cardPrintVueMethod.cardSetInfoSelEvent">
+                                    <header  placeholder="请选择"></header>
                                     <item datasource="item.source" text="info_point_name" ></item>
                                 </pcombobox-normal>
                             </li>
@@ -175,22 +175,22 @@
                 <!--空间名片-->
                 <div class="printCard_temp" id="equimentCardW" style="display:none;">
                     <div class="printCard_logo">
-                        <div v-show="spCardInfoUpdate.logoUrl">点击上传项目logo；建议尺寸不超过450*40px</div>
-                        <div class="logoWrap" v-bind:style="{background:'url('+spCardInfoUpdate.logoUrl+')'}">
+                        <div v-show="spCardInfoToUpdate.logoUrl">点击上传项目logo；建议尺寸不超过450*40px</div>
+                        <div class="logoWrap" v-bind:style="{background:'url('+spCardInfoToUpdate.logoUrl+')'}">
                             <label for="logoImg"></label>
                             <input type="file" id="File1" style="display: none;" onchange="cardPrintEvent.fileChangeEvent(this)" />
                         </div>
                     </div>
                     <div class="printCard_con">
                         <div class="printCard_name">
-                            <input type="text" :value="spCardInfoUpdate.title" />
+                            <input type="text" :value="spCardInfoToUpdate.title" />
                         </div>
                         <ul class="printCard_ul" id="ulspCardInfo">
                             <li class="printCard_li"><em>空间名称:</em></li>
                             <li class="printCard_li"><em>空间编号:</em></li>
                             <li v-for="item in spCardTemplateArr">
-                                <pcombobox-normal bind="true">
-                                    <header  placeholder="设备型号"></header>
+                                <pcombobox-normal bind="true" sel="cardPrintVueMethod.cardSetInfoSelEvent">
+                                    <header  placeholder="请选择"></header>
                                     <item datasource="item.source" text="info_point_name" ></item>
                                 </pcombobox-normal>
                             </li>
@@ -217,7 +217,7 @@
     <div v-text="model.position"></div>
     <div v-text="model.supplier"></div>
     <div v-text="model.create_time"></div>
-    <div><div class="_gridPop" v-show="!model.download_flag">尚未下载</div></div>
+    <div><div class="_gridPop" v-show="model.download_flag=='0'">尚未下载</div></div>
 </script>
 <!-- 空间自定义表格 -->
 <script type="text/html" id="spGridTemp">
@@ -237,23 +237,31 @@
                 <div class="logoWrap" v-bind:style="{background:'url('+eqCardInfoToUpdate.logoUrl+')'}"> </div>
             </div>
             <div class="printCard_con">
-                <div class="printCard_name">设备名片 </div>
+                <div class="printCard_name">
+                    <em v-text="eqCardInfoToUpdate.title"></em>
+                </div>
                 <ul class="printCard_ul">
-                    <li class="printCard_li" v-for="item in selEqCardTemplateArr"><em v-text="item.info_point_name">设备名称:</em><b>ZHILENGJI09871</b></li>
-                  
-<!--<li class="printCard_li"><em>设备名称:</em><b>设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称设备名称</b></li>-->
+                    <li class="printCard_li" v-for="item in selEqCardTemplateArr">
+                        <em v-text="item.info_point_name">设备名称:</em>
+                        <b>ZHILENGJI09871</b>
+                    </li>
                 </ul>
                 <div class="printCard_code"></div>
             </div>
         </div>
         <div class="printCard_temp _floatpgae">
             <div class="printCard_logo">
-                <div class="logoWrap" v-bind:style="{background:'url('+spCardInfoUpdate.logoUrl+')'}"> </div>
+                <div class="logoWrap" v-bind:style="{background:'url('+spCardInfoToUpdate.logoUrl+')'}"> </div>
             </div>
             <div class="printCard_con">
-                <div class="printCard_name">空间名片 </div>
+                <div class="printCard_name">
+                    <em v-text="spCardInfoToUpdate.title"></em>
+                </div>
                 <ul class="printCard_ul">
-                    <li class="printCard_li" v-for="item in selSpCardTemplateArr"><em v-text="item.info_point_name">设备名称:</em><b>ZHILENGJI09871</b></li>
+                    <li class="printCard_li" v-for="item in selSpCardTemplateArr">
+                        <em v-text="item.info_point_name">设备名称:</em>
+                        <b>ZHILENGJI09871</b>
+                    </li>
                 </ul>
                 <div class="printCard_code"></div>
             </div>

@@ -17,7 +17,7 @@
 
                         <!--<pswitch-checkbox bind="true" id="model.sop_id" click="publicMethod.checkSop"></pswitch-checkbox>-->
                         <div :id="model.sop_id" class="pcheckbox"
-                             @click="$root.checkObject(model, index, 'sop')">
+                             @click="$root.checkObject(model, index, 'sop', $event)">
                                         <span class="pcheckbox_input"
                                               :class="model.checked ? 'pcheckbox-checked' : ''"></span>
                             <span class="pswitch_label"></span>

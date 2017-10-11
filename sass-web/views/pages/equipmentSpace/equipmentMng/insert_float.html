@@ -1,13 +1,16 @@
-<pwindow-float id="floatWindow_postion" isshade="true" title="这是标题" templateid="floatTemp_postion">
+<pwindow-modal id="eqaddressfloats" isshade="true" title="这是标题" templateid="floatTemp_postion">
     <button>
              <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
         </button>
     <animate maxpx="0" minpx="-830" orientation="right"> </animate>
-</pwindow-float>
+</pwindow-modal>
 <script type="text/html" id="floatTemp_postion">
-    <div style="width: 640px; height: 640px;">
+    <!-- <div class="eqaddressFloatWrap" style="width: 640px; height: 640px;">
+            <% include ../../../template/newMerchant.html %>
+    </div> -->
+    <!-- <div style="width: 640px; height: 640px;">
+        <div class="htxt">此空间添加成功后将被自动加入到空间列表中</div>
         <div class='fW'>
-            <div class="htxt">此空间添加成功后将被自动加入到空间列表中</div>
             <div class="contenter">
                 <div class="moduleItem">
                     <div class="header">
@@ -313,19 +316,19 @@
             </div>
         </div>
 
-    </div>
+    </div> -->
 </script>
 
-<pwindow-float id="floatWindow_system" isshade="true" title="这是标题" templateid="floatTemp_system">
+<pwindow-modal id="floatWindow_system" isshade="true" title="这是标题" templateid="floatTemp_system">
     <button>
              <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
         </button>
     <animate maxpx="0" minpx="-830" orientation="right"> </animate>
-</pwindow-float>
+</pwindow-modal>
 <script type="text/html" id="floatTemp_system">
     <div style="width: 360px; height: 640px;">
+        <div class="htxt">添加成功后将被自动加入到系统列表中</div>
         <div class='fW'>
-            <div class="htxt">添加成功后将被自动加入到系统列表中</div>
             <div class="contenter">
                 <div class="moduleItem">
                     <div class="header">
@@ -402,105 +405,17 @@
     </div>
 </script>
 
-<pwindow-float id="floatWindow_factory" isshade="true" title="这是标题" templateid="floatTemp_factory">
+
+<pwindow-modal id="floatWindow_brand" isshade="true" title="这是标题" templateid="floatTemp_brand">
     <button>
              <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
         </button>
     <animate maxpx="0" minpx="-830" orientation="right"> </animate>
-</pwindow-float>
-<script type="text/html" id="floatTemp_factory">
-    <div style="width: 360px; height: 640px;">
-        <div class='fW'>
-            <div class="htxt">添加成功后将被自动加入到生产厂家列表中</div>
-            <div class="contenter">
-                <div class="moduleItem">
-                    <div class="eachItem leftItem">
-                        <div class="name"><span><em>*</em>生产厂家名称</span></div>
-                        <div class="cont">
-                            <pcombobox-normal id="'insert_status'" bind='true'>
-                                <header placeholder="请选择投产状态"></header>
-                                <item datasource="[{name:'leo'}]" text="name"></item>
-                            </pcombobox-normal>
-                        </div>
-                    </div>
-                    <div class="eachItem leftItem">
-                        <div class="name"><span>联系人</span></div>
-                        <div class="cont">
-                            <pcombobox-normal id="'insert_status'" bind='true'>
-                                <header placeholder="请选择投产状态"></header>
-                                <item datasource="[{name:'leo'}]" text="name"></item>
-                            </pcombobox-normal>
-                        </div>
-                    </div>
-                    <div class="eachItem leftItem">
-                        <div class="name"><span>电话</span></div>
-                        <div class="cont">
-                            <pcombobox-normal id="'insert_status'" bind='true'>
-                                <header placeholder="请选择投产状态"></header>
-                                <item datasource="[{name:'leo'}]" text="name"></item>
-                            </pcombobox-normal>
-                        </div>
-                    </div>
-                    <div class="eachItem leftItem">
-                        <div class="name"><span>网址</span></div>
-                        <div class="cont">
-                            <pcombobox-normal id="'insert_status'" bind='true'>
-                                <header placeholder="请选择投产状态"></header>
-                                <item datasource="[{name:'leo'}]" text="name"></item>
-                            </pcombobox-normal>
-                        </div>
-                    </div>
-                    <div class="eachItem leftItem">
-                        <div class="name"><span>传真</span></div>
-                        <div class="cont">
-                            <pcombobox-normal id="'insert_status'" bind='true'>
-                                <header placeholder="请选择投产状态"></header>
-                                <item datasource="[{name:'leo'}]" text="name"></item>
-                            </pcombobox-normal>
-                        </div>
-                    </div>
-                    <div class="eachItem leftItem">
-                        <div class="name"><span>电子邮件</span></div>
-                        <div class="cont">
-                            <pcombobox-normal id="'insert_status'" bind='true'>
-                                <header placeholder="请选择投产状态"></header>
-                                <item datasource="[{name:'leo'}]" text="name"></item>
-                            </pcombobox-normal>
-                        </div>
-                    </div>
-                    <div class="eachItem leftItem">
-                        <div class="name"><span>所含品牌</span></div>
-                        <div class="cont">
-                            <pcombobox-normal id="'insert_status'" bind='true'>
-                                <header placeholder="请选择投产状态"></header>
-                                <item datasource="[{name:'leo'}]" text="name"></item>
-                            </pcombobox-normal>
-                        </div>
-                    </div>
-
-                    <div class="moduleItem">
-                        <div class="header txtct">
-                            <pbutton-white text="取消"></pbutton-white>
-                            <pbutton-blue text="保存"></pbutton-blue>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-</script>
-
-<pwindow-float id="floatWindow_brand" isshade="true" title="这是标题" templateid="floatTemp_brand">
-    <button>
-             <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
-        </button>
-    <animate maxpx="0" minpx="-830" orientation="right"> </animate>
-</pwindow-float>
+</pwindow-modal>
 <script type="text/html" id="floatTemp_brand">
     <div style="width: 600px; height: 640px;">
+        <div class="htxt">添加成功后将被自动加入到xxxx生产厂家所含的品牌列表中</div>
         <div class='fW'>
-            <div class="htxt">添加成功后将被自动加入到xxxx生产厂家所含的品牌列表中</div>
             <div class="contenter">
                 <div class="moduleItem">
                     <div class="eachItem leftItem">
@@ -525,16 +440,16 @@
     </div>
 </script>
 
-<pwindow-float id="floatWindow_buy" isshade="true" title="这是标题" templateid="floatTemp_buy">
+<pwindow-modal id="floatWindow_buy" isshade="true" title="这是标题" templateid="floatTemp_buy">
     <button>
              <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
         </button>
     <animate maxpx="0" minpx="-830" orientation="right"> </animate>
-</pwindow-float>
+</pwindow-modal>
 <script type="text/html" id="floatTemp_buy">
     <div style="width: 600px; height: 640px;">
+        <div class="htxt">添加成功后将被自动加入到供应商列表中</div>
         <div class='fW'>
-            <div class="htxt">添加成功后将被自动加入到供应商列表中</div>
             <div class="contenter">
                 <div class="moduleItem">
                     <div class="eachItem leftItem">
@@ -598,16 +513,16 @@
     </div>
 </script>
 
-<pwindow-float id="floatWindow_service" isshade="true" title="这是标题" templateid="floatTemp_service">
+<pwindow-modal id="floatWindow_service" isshade="true" title="这是标题" templateid="floatTemp_service">
     <button>
              <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
         </button>
     <animate maxpx="0" minpx="-830" orientation="right"> </animate>
-</pwindow-float>
+</pwindow-modal>
 <script type="text/html" id="floatTemp_service">
     <div style="width: 600px; height: 640px;">
+        <div class="htxt">添加成功后将被自动加入到维修商列表中</div>
         <div class='fW'>
-            <div class="htxt">添加成功后将被自动加入到维修商列表中</div>
             <div class="contenter">
                 <div class="moduleItem">
                     <div class="eachItem leftItem">
@@ -671,16 +586,16 @@
     </div>
 </script>
 
-<pwindow-float id="floatWindow_insurance" isshade="true" title="这是标题" templateid="floatTemp_insurance">
+<pwindow-modal id="floatWindow_insurance" isshade="true" title="这是标题" templateid="floatTemp_insurance">
     <button>
              <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
         </button>
     <animate maxpx="0" minpx="-830" orientation="right"> </animate>
-</pwindow-float>
+</pwindow-modal>
 <script type="text/html" id="floatTemp_insurance">
     <div style="width: 600px; height: 640px;">
+        <div class="htxt">添加成功后将被自动加入到保险公司列表中</div>
         <div class='fW'>
-            <div class="htxt">添加成功后将被自动加入到保险公司列表中</div>
             <div class="contenter">
                 <div class="moduleItem">
                     <div class="eachItem leftItem">
@@ -736,16 +651,16 @@
     </div>
 </script>
 
-<pwindow-float id="floatWindow_Insurance_num" isshade="true" title="这是标题" templateid="floatTemp_Insurance_num">
+<pwindow-modal id="floatWindow_Insurance_num" isshade="true" title="这是标题" templateid="floatTemp_Insurance_num">
     <button>
              <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
         </button>
     <animate maxpx="0" minpx="-830" orientation="right"> </animate>
-</pwindow-float>
+</pwindow-modal>
 <script type="text/html" id="floatTemp_Insurance_num">
     <div style="width: 600px; height: 640px;">
+        <div class="htxt">添加成功后将被自动加入到xxxx保险公司所含的保险单号列表中</div>
         <div class='fW'>
-            <div class="htxt">添加成功后将被自动加入到xxxx保险公司所含的保险单号列表中</div>
             <div class="contenter">
                 <div class="moduleItem">
                     <div class="eachItem leftItem">

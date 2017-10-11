@@ -1,0 +1,118 @@
+.addSystemCont {
+    overflow: hidden;
+    border: 1px solid #d9e2e8;
+    box-sizing: border-box;
+}
+
+    .addSystemCont .leftCont {
+        width: 60%;
+        height: 100%;
+        border-right: 1px solid #d9e2e8;
+        box-sizing: border-box;
+        float: left;
+    }
+
+        .addSystemCont .leftCont .leftHead {
+            height: 50px;
+            border-bottom: 1px solid #d9e2e8;
+            padding-right: 20px;
+        }
+
+            .addSystemCont .leftCont .leftHead .dropItem {
+                float: right;
+                margin-left: 30px;
+            }
+
+            .addSystemCont .leftCont .leftHead .dropTitle {
+                float: left;
+                height: 30px;
+                line-height: 30px;
+                margin-right: 10px;
+                margin-top: 10px;
+            }
+
+            .addSystemCont .leftCont .leftHead .dropBox {
+                float: left;
+                width: 180px;
+                margin-top: 10px;
+            }
+
+        .addSystemCont .leftCont .treeList {
+            height: -moz-calc(100% - 51px);
+            height: -webkit-calc(100% - 51px);
+            height: calc(100% - 51px);
+            overflow: auto;
+        }
+
+            .addSystemCont .leftCont .treeList .buildItem {
+                cursor: default;
+                border-bottom: 1px solid #d9e2e8;
+            }
+
+        .addSystemCont .leftCont .buildItem .buildTitle {
+            height: 50px;
+            padding-left: 50px;
+            line-height: 50px;
+            font-weight: 600;
+            position: relative;
+        }
+
+            .addSystemCont .leftCont .buildItem .buildTitle .arrow {
+                font-family: 'perficon';
+                width: 24px;
+                height: 24px;
+                line-height: 24px;
+                position: absolute;
+                top: 11px;
+                margin-left: -34px;
+                color: #7a94ad;
+                text-align: center;
+                cursor: pointer;
+                border-radius: 100%;
+                box-sizing: border-box;
+                border: 1px solid transparent;
+            }
+
+                .addSystemCont .leftCont .buildItem .buildTitle .arrow:hover {
+                    border: 1px solid #cacaca;
+                }
+
+        .addSystemCont .leftCont .buildItem .systemList li {
+            height: 50px;
+            line-height: 50px;
+            padding-left: 72px;
+            cursor: pointer;
+        }
+
+            .addSystemCont .leftCont .buildItem .systemList li:hover {
+                background: #f8f8f8;
+            }
+
+            .addSystemCont .leftCont .buildItem .systemList li.sel {
+                background: #02a9d1;
+                color: #ffffff;
+            }
+
+    .addSystemCont .rightCont {
+        width: 40%;
+        height: 100%;
+        float: right;
+        padding-left: 20px;
+        box-sizing: border-box;
+    }
+
+        .addSystemCont .rightCont .detailHead {
+            font-size: 18px;
+            font-weight: 600;
+            padding-top: 18px;
+            padding-bottom: 26px;
+        }
+
+        .addSystemCont .rightCont .detailItem {
+            margin-bottom: 24px;
+        }
+
+            .addSystemCont .rightCont .detailItem .title {
+                color: #777777;
+                margin-right: 12px;
+            }

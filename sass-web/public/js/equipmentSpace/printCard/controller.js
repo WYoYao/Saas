@@ -75,6 +75,6 @@ var cardPrintController = {
     },
     /*保存名片*/
     saveCard: function (object, successCall, errCall, completeCall) {
-        this.sendUpdate('restCardService/saveEquipCardStyle', object, successCall, errCall, completeCall);
+        this.sendUpdate('restCardService/saveCardStyle', object, successCall, errCall, completeCall);
     }
 };

@@ -1,7 +1,18 @@
 var myWorkOrderModel = {//工单管理模块数据模型
     //------------------------------------------zy__start------------------------------------------
     curObjType: "",
-    allMatters: [{}],       //所有的事项
+    allMatters: [
+        {
+            "matter_name":"未命名事项-1",
+            "description":"",
+            "desc_forepart":"",
+            "desc_aftpart":"",
+            "desc_photos": [],
+            "desc_objs": [],
+            "desc_sops": [],
+            "desc_works": []
+        }
+    ],       //所有的事项
     curMatterIndex: 0,      //当前操作的事项索引
     curMatterPopType: 4,       //当前事项弹框类型，0-4为选择或搜索对象弹框，0搜索，1选择大类结果无级别，2选择大类结果有左侧级别，3自定义，4选择大类
     curContent: {},     //当前工作内容
@@ -43,7 +54,7 @@ var myWorkOrderModel = {//工单管理模块数据模型
             name: "高"
         }
     ],
-    fixedRadio: true,
+    fixedRadio: true,//要求固定时间完成
     starTimeType: [//要求开始时间执行类型
         {
             id: "1",
@@ -158,7 +169,7 @@ var myWorkOrderModel = {//工单管理模块数据模型
     leftLevel: [],//楼层通用设备
     sopList: [],//sop列表
     sopCriteria: {},//筛选条件
-    addContent: false,//添加工作内容
+    addContentWindow: false,//添加工作内容
     detailSopShow: false,//sop详细内容展现
     detailSopData: {},//sop详细内容
     curLevelList: [],       //当前有级别列表
@@ -172,7 +183,18 @@ var myWorkOrderModel = {//工单管理模块数据模型
     workContent: {},//工作内容
     infoArray: [],//信息点list
     seltype: null,
-    desc_forepart: ""
+    desc_forepart: "",
+
+
+    popTitleText2: {
+        init: '分类',
+        search: '请选择',
+        custom: '自定义',
+
+        infoPoint: '信息点'
+    },
+    matterSignalid:"",//事项标识
+    mattersVip:null,//打开的事项
     //------------------------------------------yn__end------------------------------------------
 }
 myWorkOrderModel.singleMatters = {
@@ -181,6 +203,8 @@ myWorkOrderModel.singleMatters = {
     desc_forepart: "",       //描述内容前段,结构化时用
     desc_aftpart: "",        //描述内容后段,结构化时用
     desc_photos: [],         //描述中的图片
+    desc_sops:[],            //描述中涉及的sop
+    desc_works:[],            //描述中涉及的工作内容
 };
 myWorkOrderModel.workContent = {
     work_id: "",        //工作内容id
@@ -211,7 +235,7 @@ myWorkOrderModel.workContent = {
                  {"name": "确认信息4", "type": "4"},
                  {"name": "确认信息5", "type": "5", "unit": "吨"}
             ]
-        },
+        }
     ],
     domain: "",                //专业code
     domain_name: "",            //专业名称
@@ -346,7 +370,9 @@ var myWorkOrderMethod = {//工单管理模块方法
     },
 
     //复选框选择或取消选择对象
-    checkObject: function (model, index, type) {
+    checkObject: function (model, index, type, event) {
+        if (event) event.stopPropagation();
+        debugger;
         type = type ? type : 'obj'
         model.checked = !model.checked;
         myWorkOrderModel.curLevelList = JSON.parse(JSON.stringify(myWorkOrderModel.curLevelList));
@@ -396,6 +422,10 @@ var myWorkOrderMethod = {//工单管理模块方法
             }
         }
         return isLengthErr;
+    },
+
+    deleteMatter: function (index) {
+        myWorkOrderModel.allMatters.splice(index, 1);
     },
 
     //设置当前弹窗位置
@@ -734,31 +764,53 @@ var myWorkOrderMethod = {//工单管理模块方法
         event.stopPropagation();
         commonData.contentIndex = contentIndex;
         commonData.infoPoint_obj = obj;      //此处可能为新添加的对象、也可能为已选的对象
-        //createSopModel.selectedObj = obj;
-        //var content = commonMethod.getCurContent();
+        myWorkOrderModel.selectedObj = obj;
+        var content = publicMethod.getCurContent();
+        // var content = publicMethod.getCurMatter();
+        console.log(content)
         var belongChoosedObj = false;
-        for (var i = 0; i < content.confirm_result.length; i++) {
-            if (obj.obj_id == content.confirm_result[i].obj_id) {
-                commonData.infoPoint_obj = JSON.parse(JSON.stringify(content.confirm_result[i]));
-                commonData.confirmResultIndex = i;
-                belongChoosedObj = true;
-                break;
+        if(content.confirm_result){
+            for (var i = 0; i < content.confirm_result.length; i++) {
+                if (obj.obj_id == content.confirm_result[i].obj_id) {
+                    commonData.infoPoint_obj = JSON.parse(JSON.stringify(content.confirm_result[i]));
+                    commonData.confirmResultIndex = i;
+                    belongChoosedObj = true;
+                    break;
+                }
+            }
+            if (!belongChoosedObj) {
+                commonData.infoPoint_obj = JSON.parse(JSON.stringify(obj));
+                commonData.confirmResultIndex = content.confirm_result.length;
             }
         }
-        if (!belongChoosedObj) {
-            commonData.infoPoint_obj = JSON.parse(JSON.stringify(obj));
-            commonData.confirmResultIndex = content.confirm_result.length;
-        }
+
         commonData.belongChoosedObj = belongChoosedObj;
         controller.queryInfoPointForObject(obj, null);
     },
 
     //选择信息点-复选框选择或取消选择信息点
-    checkInfoPoint: function (model, index, contentIndex) {
-        commonData.contentIndex = contentIndex;
-        model.checked = !model.checked;
-        myWorkOrderModel.infoArray = JSON.parse(JSON.stringify(myWorkOrderModel.infoArray));
+    checkInfoPoint: function (model, index, contentIndex,event) {
+        // commonData.contentIndex = contentIndex;
+        // model.checked = !model.checked;
+        // myWorkOrderModel.infoArray = JSON.parse(JSON.stringify(myWorkOrderModel.infoArray));
         //var info_points = commonMethod.getCurContent().confirm_result[commonData.confirmResultIndex].info_points;
+        // var state = event.pEventAttr.state;
+        model.checked = !model.checked;
+        if (!commonData.infoPoint_obj.info_points) commonData.infoPoint_obj.info_points = [];
+        var info_points = commonData.infoPoint_obj.info_points;
+        commonData.info_pointsCopy = JSON.parse(JSON.stringify(info_points));
+        if (state) {
+            commonData.info_pointsCopy.push(model);
+        } else {
+            for (var i = 0; i < commonData.info_pointsCopy.length; i++) {
+                if (commonData.info_pointsCopy[i].obj_id == model.obj_id) {
+                    commonData.info_pointsCopy.splice(i, 1);
+                    break;
+                }
+            }
+        }
+
+
     },
     //编辑的工作内容某项keydown事件
     keydownContent: function (index, content, event, contentIndex) {
@@ -1037,5 +1089,72 @@ var myWorkOrderMethod = {//工单管理模块方法
             }
         }
     },
+    //自定义信息点 列表状态-添加选项
+    addOption2: function (custom, event, contentIndex) {
+        event.stopPropagation();
+        commonData.contentIndex = contentIndex;
+        custom.items.push('');
+        // createSopModel.curStep = JSON.parse(JSON.stringify(createSopModel.curStep));
+    },
+    //添加信息点  /*接口有问题今天看不了，10.11日继续*/
+    addInfoPoint: function (confirmObj, index1, event, contentIndex) {
+        // console.log(confirmObj,index1,event,contentIndex)
+        event.stopPropagation();
+        commonData.contentIndex = contentIndex;
+        // $(".addObjectAndInfoPoint").hide();
+        commonData.infoPoint_obj = JSON.parse(JSON.stringify(confirmObj));
+        commonData.confirmResultIndex = index1;
+        var jqInfoPointPop = $(event.currentTarget).next();
+        commonData.jqInfoPointPop = jqInfoPointPop;
+        commonData.belongChoosedObj = true;
+        controller.queryInfoPointForObject(confirmObj,jqInfoPointPop);
+    },
+    //信息点-设置当前弹框显示对应的内容  /*修改进行中*/
+    setCurPop2: function (index, notInitData) {
+        if (!notInitData) {
+            myWorkOrderModel.curLevelList = [];
+            myWorkOrderModel.infoPointList = [];
+        }
+        if (index == 1) {       //此处注意与setCurPop(4)作区分
+            myWorkOrderModel.curObjType2 = 'init';
+        } else if (index == 0) {
+            myWorkOrderModel.curObjType2 = 'search';
+        } else if (index == 3) {
+            //恢复自定义信息点弹窗默认设置
+            $($(commonData.jqPopDataDivs2[3]).find('.list-body').children()[0]).find('input').val('');
+            $('#selControlCombobox').precover();
+            myWorkOrderModel.customItem = {"name": "", "type": "", "items": []};
+
+            myWorkOrderModel.curObjType2 = 'custom';
+        } else {
+            myWorkOrderModel.curObjType2 = 'infoPoint';
+        }
+        var jqPopDataDivs = commonData.jqPopDataDivs2;
+        var curJqPopDataDiv = $(jqPopDataDivs[index]);
+        curJqPopDataDiv.show();
+        curJqPopDataDiv.siblings().hide();
+        // jqPopDataDivs.removeClass('showDiv').hide();
+        // curJqPopDataDiv.parents('.tool-select-list').show();
+        // curJqPopDataDiv.addClass('showDiv').show();
+    },
+    /*添加工作内容*/
+    addContent: function (model,open,event) {
+        if (open) {
+            myWorkOrderModel.addContentWindow = true;
+            controller.queryGeneralDictByKey();
+
+        } else {
+            myWorkOrderModel.addContentWindow = false;
+
+        }
+        myWorkOrderModel.mattersVip=model ||{};
+
+    },
+    /*事项名称计数*/
+    matterNameCounter: function (model, event) {
+        console.log(model,event)
+        $(event.target).next(".counter").find("b").text(model.length);
+        // desc_aftpart
+    }
     //------------------------------------------yn__end------------------------------------------
 }

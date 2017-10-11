@@ -329,6 +329,13 @@
         window['ptime_' + key] = createPtimeSelFn(key);
     });
 
+    function createCancelAddBlock(key){
+
+        return function(key){
+            $("#floatWindow_"+key).phide();
+        }
+    }
+
 
 
 

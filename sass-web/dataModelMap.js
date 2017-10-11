@@ -257,16 +257,6 @@ var dataModelMap = {
         "note": "设备管理首页-查询项目下设备列表",
         "proArrBy": 'equipList'
     },
-    'restCardService/queryEquipList': {
-        "type": "array",
-        "note": "设备名片页-已下载的设备列表",
-        "proArrBy": 'equipList'
-    },
-    'restCardService/queryNotDownloadEquipList': {
-        "type": "array",
-        "note": "设备名片页-未下载的设备列表",
-        "proArrBy": 'equipList'
-    },
     'restSchedulingConfigService/saveOrUpdateSchedulingConfig': {
         "type": "object",
         "note": "未输入note",
@@ -2715,6 +2705,10 @@ var dataModelMap = {
             "note": "计划结束时间",
             "name": "plan_end_time",
             "type": "string"
+        },{
+            "note": "最大频次数",
+            "name": "max_freq_num",
+            "type": "string"
         }, {
             "note": "计划频率-周期",
             "name": "freq_cycle",
@@ -2731,26 +2725,37 @@ var dataModelMap = {
             "note": "时间段内生成工单数组",
             "name": "work_order_date",
             "type": "array",
-            "proArr": [{
-                "note": "工单id",
-                "name": "order_id",
-                "type": "string"
-            }, {
-                "note": "工单生成的频次序号",
-                "name": "freq_seq",
-                "type": "number"
-            }, {
-                "note": "工单要求开始时间-yyyyMMddhhmmss",
-                "name": "ask_start_time",
-                "type": "string"
-            }, {
-                "note": "工单要求结束时间",
-                "name": "ask_end_time",
-                "type": "string"
-            }, {
-                "note": "工单状态编码",
-                "name": "order_state",
-                "type": "string"
+            "proArr":[
+            {
+                "note":"日期",
+                "name":"date",
+                "type":"string"
+            },{
+                "note":"work_orders",
+                "name":"work_orders",
+                "type":"array",
+                "proArr": [
+                {
+                    "note": "工单id",
+                    "name": "order_id",
+                    "type": "string"
+                }, {
+                    "note": "工单生成的频次序号",
+                    "name": "freq_seq",
+                    "type": "number"
+                }, {
+                    "note": "工单要求开始时间-yyyyMMddhhmmss",
+                    "name": "ask_start_time",
+                    "type": "string"
+                }, {
+                    "note": "工单要求结束时间",
+                    "name": "ask_end_time",
+                    "type": "string"
+                }, {
+                    "note": "工单状态编码",
+                    "name": "order_state",
+                    "type": "string"
+                }]
             }]
         }]
     },
@@ -3021,7 +3026,7 @@ var dataModelMap = {
             "type": "string"
         }, {
             "note": "报废人name",
-            "name": "destroy_person_named",
+            "name": "destroy_person_name",
             "type": "string"
         }]
     },
@@ -3982,248 +3987,6 @@ var dataModelMap = {
     },
     'restMyWorkOrderService/updateDraftWorkOrder': {
         "note": "编辑工单草稿",
-        "type": "object",
-        "proArr": [{
-            "note": "用户id",
-            "name": "user_id",
-            "type": "string"
-        }, {
-            "note": "工单id",
-            "name": "order_id",
-            "type": "string"
-        }, {
-            "note": "项目id",
-            "name": "project_id",
-            "type": "string"
-        }, {
-            "note": "工单类型",
-            "name": "order_type",
-            "type": "string"
-        }, {
-            "note": "工单类型名称",
-            "name": "order_type_name",
-            "type": "string"
-        }, {
-            "note": "紧急程度",
-            "name": "urgency",
-            "type": "string"
-        }, {
-            "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
-            "name": "start_time_type",
-            "type": "string"
-        }, {
-            "note": "要求开始时间",
-            "name": "ask_start_time",
-            "type": "string"
-        }, {
-            "note": "要求固定时间内完成",
-            "name": "ask_end_limit",
-            "type": "string"
-        }, {
-            "note": "要求结束时间",
-            "name": "ask_end_time",
-            "type": "string"
-        }, {
-            "note": "输入方式,1-自由输入，2-结构化输入",
-            "name": "input_mode",
-            "type": "string"
-        }, {
-            "note": "工单来源id",
-            "name": "order_from_id",
-            "type": "string"
-        }, {
-            "note": "步骤信息",
-            "name": "matters",
-            "type": "array",
-            "proArr": [{
-                "note": "事项名称",
-                "name": "matters_name",
-                "type": "string"
-            }, {
-                "note": "事项描述",
-                "name": "description",
-                "type": "string"
-            }, {
-                "note": "描述内容前段",
-                "name": "desc_forepart",
-                "type": "string"
-            }, {
-                "note": "描述内容后段",
-                "name": "desc_aftpart",
-                "type": "string"
-            }, {
-                "note": "描述中的图片",
-                "name": "desc_photos",
-                "type": "fileLink"
-            }, {
-                "note": "描述中涉及的对象",
-                "name": "desc_objs",
-                "type": "array",
-                "proArr": [{
-
-                    "note": "对象id",
-                    "name": "obj_id",
-                    "type": "string"
-                }, {
-
-                    "note": "对象名称",
-                    "name": "obj_name",
-                    "type": "string"
-                }, ]
-            }, {
-                "note": "描述中涉及的sop",
-                "name": "desc_sops",
-                "type": "array",
-                "proArr": [{
-
-                    "note": "sop的id",
-                    "name": "sop_id",
-                    "type": "string"
-                }, {
-
-                    "note": "sop名称",
-                    "name": "sop_name",
-                    "type": "string"
-                }, {
-
-                    "note": "sop版本",
-                    "name": "version",
-                    "type": "string"
-                }]
-            }, {
-                "note": "描述中涉及的工作内容",
-                "name": "desc_works",
-                "type": "array",
-                "proArr": [{
-
-                    "note": "工作内容的id",
-                    "name": "work_id",
-                    "type": "string"
-                }, {
-
-                    "note": "工作内容名称",
-                    "name": "work_name",
-                    "type": "string"
-                }, {
-
-                    "note": "强制确认",
-                    "name": "pre_conform",
-                    "type": "string"
-                }, {
-
-                    "note": "操作内容",
-                    "name": "content",
-                    "type": "string"
-                }, {
-
-                    "note": "操作内容中涉及的对象",
-                    "name": "content_objs",
-                    "type": "array",
-                    "proArr": [{
-                        "note": "对象id",
-                        "name": "obj_id",
-                        "type": "string"
-                    }, {
-                        "note": "对象名称",
-                        "name": "obj_name",
-                        "type": "string"
-                    }, {
-                        "note": "对象类型",
-                        "name": "obj_type",
-                        "type": "string"
-                    }, ]
-                }, {
-
-                    "note": "注意事项",
-                    "name": "notice",
-                    "type": "string"
-                }, {
-
-                    "note": "需确认的操作结果",
-                    "name": "confirm_result",
-                    "type": "array",
-                    "proArr": [{
-                        "note": "对象id",
-                        "name": "obj_id",
-                        "type": "string"
-                    }, {
-                        "note": "对象名称",
-                        "name": "obj_name",
-                        "type": "string"
-                    }, {
-                        "note": "对象类型",
-                        "name": "obj_type",
-                        "type": "string"
-                    }, {
-                        "note": "对象信息",
-                        "name": "parents",
-                        "type": "array",
-                        "proArr": [{
-                            "note": "对象ids",
-                            "name": "parents_ids",
-                            "type": "array"
-                        }, {
-                            "note": "对象路径",
-                            "name": "parents_names",
-                            "type": "array"
-                        }]
-                    }, {
-                        "note": "信息点array",
-                        "name": "info_points",
-                        "type": "array",
-                        "proArr": [{
-                            "note": "id",
-                            "name": "id",
-                            "type": "string"
-                        }, {
-                            "note": "编码",
-                            "name": "code",
-                            "type": "string"
-                        }, {
-                            "note": "名称",
-                            "name": "name",
-                            "type": "string"
-                        }]
-                    }, {
-                        "note": "自定义项,1-文本，2-单选，3-多选，4-无单位的数字，5-有单位的数字",
-                        "name": "customs",
-                        "type": "array",
-                        "proArr": [{
-                            "note": "自定义名称",
-                            "name": "name",
-                            "type": "string"
-                        }, {
-                            "note": "类型",
-                            "name": "type",
-                            "type": "string"
-                        }, {
-                            "note": "选项",
-                            "name": "items",
-                            "type": "array"
-                        }, {
-                            "note": "单位",
-                            "name": "unit",
-                            "type": "string"
-                        }]
-                    }]
-                }, {
-                    "note": "专业code",
-                    "name": "domain",
-                    "type": "string"
-                }, {
-                    "note": "专业名称",
-                    "name": "domain_name",
-                    "type": "string"
-                }]
-            }, {
-                "note": "需要控制",
-                "name": "required_control",
-                "type": "array"
-            }]
-        }]
-    },
-    'restMyWorkOrderService/saveDraftWorkOrder': {
-        "note": "保存工单草稿",
         "type": "object",
         "proArr": [{
             "note": "用户id",
@@ -5472,6 +5235,7 @@ var dataModelMap = {
             "name": "floor_local_name",
             "mapName": "",
             "type": "string",
+            "isToSpecial": false
         }, {
             "note": "空间",
             "name": "spaces",
@@ -5935,8 +5699,18 @@ var dataModelMap = {
         "type": "object",
         "proArrBy": 'merchantInfo'
     },
+    'restCardService/queryEquipList': {
+        "type": "array",
+        "note": "设备名片页-已下载的设备列表",
+        "proArrBy": 'equipList'
+    },
+    'restCardService/queryNotDownloadEquipList': {
+        "type": "array",
+        "note": "设备名片页-未下载的设备列表",
+        "proArrBy": 'equipList'
+    },
     'restCardService/queryCardInfo': {
-        "note": "上一次设置的设备名片或空间名片",
+        "note": "设备名片页-上一次设置的设备名片或空间名片",
         "type": "object",
         "proArr": [{
             "note": "项目id",
@@ -5975,7 +5749,7 @@ var dataModelMap = {
         }]
     },
     'restCardService/queryEquipOptions': {
-        "note": "设备选择项",
+        "note": "设备名片页-设备选择项",
         "type": "array",
         "proArr": [{
             "note": "信息点编码",
@@ -5988,7 +5762,7 @@ var dataModelMap = {
         }]
     },
     'restCardService/querySpaceOptions': {
-        "note": "空间选择项",
+        "note": "设备名片页-空间选择项",
         "type": "array",
         "proArr": [{
             "note": "信息点编码",
@@ -5997,6 +5771,55 @@ var dataModelMap = {
         }, {
             "note": "信息点名称",
             "name": "info_point_name",
+            "type": "string"
+        }]
+    },
+    'spaceInfo': [{
+        "note": "空间id",
+        "name": "space_id",
+        "type": "string"
+    }, {
+        "note": "空间本地名称",
+        "name": "room_local_name",
+        "type": "string"
+    }, {
+        "note": "空间功能类型名称",
+        "name": "room_func_type_name",
+        "type": "string"
+    }, {
+        "note": "备注",
+        "name": "intro",
+        "type": "string"
+    }, {
+        "note": "是否下载的标记 0 未下载   1 已下载",
+        "name": "download_flag",
+        "type": "string"
+    }, {
+        "note": "创建时间",
+        "name": "create_time",
+        "type": "date",
+        "format": "y.M.d h:m"
+    }],
+    'restCardService/querySpaceList': {
+        "type": "array",
+        "note": "设备名片页-已下载的空间列表",
+        "proArrBy": 'spaceInfo'
+    },
+    'restCardService/queryNotDownloadSpaceList': {
+        "type": "array",
+        "note": "设备名片页-未下载的空间列表",
+        "proArrBy": 'spaceInfo'
+    },
+    'restFloorService/queryFloorList': {
+        "type": "array",
+        "note": "设备名片页-获取某建筑下的楼层",
+        "proArr": [{
+            "note": "楼层ID",
+            "name": "floor_id",
+            "type": "string"
+        }, {
+            "note": "楼层名称",
+            "name": "floor_local_name",
             "type": "string"
         }]
     }

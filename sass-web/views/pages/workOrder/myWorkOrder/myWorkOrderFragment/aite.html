@@ -20,14 +20,14 @@
         </div>
         <!--无级别 只有复选-->
         <div class="only-checkbox">
-            <div class="aite-list" v-for="(model, index) in myWorkOrderModel.curLevelList">
+            <div class="aite-list" v-for="(model, index1) in myWorkOrderModel.curLevelList">
                 <div :title="model.obj_name">
                     <span v-text="model.obj_name"></span>
                 </div>
                 <div>
                     <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
-                    <div :id="'noLeftLevelCheckbox' + index" class="pcheckbox"
-                         @click="$root.checkObject(model, index)">
+                    <div class="pcheckbox"
+                         @click="checkObject(model, index1, 'obj', $event)">
                                         <span class="pcheckbox_input"
                                               :class="model.checked ? 'pcheckbox-checked' : ''"></span>
                         <span class="pswitch_label"></span>
@@ -79,7 +79,7 @@
                         </ptree-normal>
                     </div>
                     <div class="last-level-box">
-                        <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="(obj,index) in myWorkOrderModel.lastLevel">
+                        <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="(obj,index1) in myWorkOrderModel.lastLevel">
                             <div :title="obj.obj_name">
                                 <span v-text="obj.obj_name">建筑体</span>
                             </div>
@@ -89,8 +89,8 @@
                                     <span class="pcheckbox_input" :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
                                     <span class="pswitch_label"></span>
                                 </div>-->
-                                <div :id="'noLeftLevelCheckbox' + index" class="pcheckbox"
-                                     @click="$root.checkObject(obj, index)">
+                                <div :id="'noLeftLevelCheckbox'" class="pcheckbox"
+                                     @click="checkObject(obj, index1, 'obj')">
                                         <span class="pcheckbox_input"
                                               :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
                                     <span class="pswitch_label"></span>
@@ -157,12 +157,12 @@
     </div>
     <div class="aite-footer">
         <pbutton-white text="自定义" click="publicMethod.setCurPop(3, 'obj')"></pbutton-white>
-        <div v-show="myWorkOrderModel.curObjType !== 'custom'">
+        <div v-show="myWorkOrderModel.curObjType !== 'custom'" class="sureBtnDivs">
             <pbutton-blue text="确定"
                           id="sureBtn"
                           click="publicMethod.confirmCheckedMatterObjs"></pbutton-blue>
         </div>
-        <div v-show="myWorkOrderModel.curObjType === 'custom'">
+        <div v-show="myWorkOrderModel.curObjType === 'custom'" class="sureBtnDivs">
             <pbutton-blue text="确定"
                           id="sureBtn"
                           click="publicMethod.confirmCustomizeObj"></pbutton-blue>

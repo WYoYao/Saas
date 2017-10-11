@@ -39,7 +39,7 @@ var cardPrintModal = {
     spCardInfo: {                               //空间名片信息
         title: '', logoUrl: ''
     },
-    spCardInfoUpdate: {                               //空间名片信息
+    spCardInfoToUpdate: {                               //空间名片信息
         title: '', logoUrl: '', isNewFile: false
     },
     selSpCardTemplateArr: [{
@@ -79,10 +79,8 @@ var cardPrintVueMethod = {
                 break;
             case 1:
                 cardPrintModal.selBuildForSp = model;
-                var oldFloorArr = cardPrintModal.floorArr;
-                oldFloorArr.splice(1);
-                cardPrintModal.floorArr = oldFloorArr;
-                cardPrintModal.selFloor = cardPrintModal.floorArr[0];
+                cardPrintModal.floorArr = [];
+                cardPrintModal.selFloor = {};
                 if (model.obj_id)
                     cardPrintLogic.getFloorByBuild();
                 break;
@@ -125,7 +123,7 @@ var cardPrintVueMethod = {
         else {
             var proName = tabIndex == 0 ? 'equip_id' : 'space_id';
             for (var i = 0; i < oldSelArr.length; i++) {
-                if (oldSelArr[proName] == model[proName]) {
+                if (oldSelArr[i][proName] == model[proName]) {
                     oldSelArr.splice(i, 1);
                     break;
                 }
@@ -149,26 +147,34 @@ var cardPrintVueMethod = {
         cardPrintLogic.getCardList();
     },
     /*名片设置，下拉列表选择事件*/
-    gridCheckboxChange: function (model, event) {
-        var tabIndex = $("#divCardPrintTab").psel();
+    cardSetInfoSelEvent: function (model, event) {
+        var tabIndex = model.tabIndex;
         var proName = tabIndex == 0 ? 'selEqCardTemplateArr' : 'selSpCardTemplateArr';
         var templateItemIndex = model.index;
-        cardPrintModal[proName][templateItemIndex] = model;
+        var oldObj = cardPrintModal[proName][templateItemIndex];
+        oldObj.info_point_code = model.info_point_code;
+        oldObj.info_point_name = model.info_point_name;
     },
     /*设置页面tab选项卡选择事件*/
     setTabSel: function () {
         var tabIndex = $("#divCardSetTab").psel();
         cardPrintEvent.cardShow();
-        var info = cardPrintModal[tabIndex == 0 ? 'eqCardInfo' : 'spCardInfo'];
-        var obj = JSON.parse(JSON.stringify(info));
-        obj.isNewFile = false;
-        cardPrintModal[tabIndex == 0 ? 'eqCardInfoUpdate' : 'spCardInfoUpdate'] = obj;
     }
 };
 
 
 var cardPrintLogic = {
     init: function () {
+        function initSelCardTemplateArr(proName) {
+            for (var i = 0; i < 3; i++) {
+                cardPrintModal[proName].push({
+                    info_point_code: '', info_point_name: ''
+                });
+            }
+        };
+        initSelCardTemplateArr('selEqCardTemplateArr');
+        initSelCardTemplateArr('selSpCardTemplateArr');
+
         new Vue({
             el: '#cardPrintWrap',
             data: cardPrintModal,
@@ -228,8 +234,8 @@ var cardPrintLogic = {
                 cardPrintModal.selBuildForSp = cardPrintModal.buildArr[0];
                 var oldFloorArr = cardPrintModal.floorArr;
                 oldFloorArr.splice(1);
-                cardPrintModal.floorArr = oldFloorArr;
-                cardPrintModal.selFloor = cardPrintModal.floorArr[0];
+                cardPrintModal.floorArr = [];
+                cardPrintModal.selFloor = {};
                 break;
         };
         cardPrintEvent.getGridTarget().precover();
@@ -243,6 +249,7 @@ var cardPrintLogic = {
         var tabIndex = $("#divCardPrintTab").psel();
         var typeIndex = tabIndex == 0 ? cardPrintModal.eqSelDownTypeIndex : cardPrintModal.spSelDownTypeIndex;
         var modalProNameForGrid = tabIndex == 0 ? 'eqArr' : 'spArr';
+        var sortProName = tabIndex == 0 ? 'eqOrderByState' : 'spOrderByState';
         cardPrintModal[modalProNameForGrid] = [];
 
         var gridJqTarget = cardPrintEvent.getGridTarget();
@@ -251,7 +258,8 @@ var cardPrintLogic = {
         var fn;
         var paramObj = {
             page: pageIndex,
-            page_size: cardPrintModal.pageEachNumber
+            page_size: cardPrintModal.pageEachNumber,
+            orderby: cardPrintModal[sortProName]
         };
         switch (tabIndex) {
             case 0:
@@ -336,6 +344,7 @@ var cardPrintLogic = {
     },
     /*获取某专业下的系统*/
     getSystemByMajor: function (majorCode) {
+        var majorCode = cardPrintModal.selMajor.code;
         globalController.getSystemByMajorCode(majorCode, function (data) {
             var dataObj = data || {};
             var arr = dataObj.data || [];
@@ -348,7 +357,7 @@ var cardPrintLogic = {
     /*下载名片*/
     downCard: function () {
         var tabIndex = $("#divCardPrintTab").psel();
-        var arrProName = tabIndex == 0 ? 'eqArr' : 'spArr';
+        var arrProName = tabIndex == 0 ? 'selEqArr' : 'selSpArr';
         var idProName = tabIndex == 0 ? 'equip_id' : 'space_id';
         var idArr = [];
         var list = cardPrintModal[arrProName];
@@ -367,6 +376,7 @@ var cardPrintLogic = {
                 var newSourceArr = JSON.parse(JSON.stringify(source));
                 for (var j = 0; j < newSourceArr.length; j++) {
                     newSourceArr[j].index = i + 2;
+                    newSourceArr[j].tabIndex = 0;
                 }
                 tarr.push({
                     source: newSourceArr
@@ -390,6 +400,7 @@ var cardPrintLogic = {
                 var newSourceArr = JSON.parse(JSON.stringify(source));
                 for (var j = 0; j < newSourceArr.length; j++) {
                     newSourceArr[j].index = i + 2;
+                    newSourceArr[j].tabIndex = 1;
                 }
                 tarr.push({
                     source: newSourceArr
@@ -409,7 +420,6 @@ var cardPrintLogic = {
         cardPrintController.getOldCardSet(type, function (data) {
             data = data || {};
             var proName1 = type == 'space' ? 'spCardInfo' : 'eqCardInfo';
-            var proName2 = type == 'space' ? 'spCardInfoUpdate' : 'eqCardInfoToUpdate';
 
             cardPrintModal[proName1].title = (data.card_title || {}).title || '';
             cardPrintModal[proName1].logoUrl = (data.card_title || {}).logo || '';
@@ -425,37 +435,56 @@ var cardPrintLogic = {
     },
     /*保存名片设置*/
     saveCard: function () {
-        var tabIndex = $("#divCardSetTab").psel();
-        var proName = tabIndex == 0 ? 'selEqCardTemplateArr' : 'selSpCardTemplateArr';
-        var infoProName = tabIndex == 0 ? 'eqCardInfo' : 'spCardInfo';
-        var updateInfo = cardPrintModal[tabIndex == 0 ? 'eqCardInfoUpdate' : 'spCardInfoUpdate'];
+        $('#divCardPrintLoading').pshow();
 
-        var card_info = cardPrintModal[proName];
-        var obj_type = tabIndex == 0 ? 'equip' : 'space';
-        var paramObj = {
-            card_info: card_info,
-            obj_type: obj_type,
-            card_title: {
-                title: updateInfo.title,
-                attachments: {
-                    path: updateInfo.logoUrl,
-                    toPro: 'logo',
-                    multiFile: false,
-                    isNewFile: updateInfo.isNewFile,
-                    fileType: 1
-                }
-            }
-        };
-        cardPrintController.saveCard(paramObj, function () {
+        var promiseArr = [save(0), save(1)];
+        when.all(promiseArr).then(function (result) {
+            $('#divCardPrintLoading').phide();
             $('#divCardPrintNotice').pshow({ text: '保存成功', state: 'success' });
-            cardPrintModal[infoProName] = {
-                title: updateInfo.title, logoUrl: updateInfo.logoUrl
-            };
-        }, function () {
-            $('#divCardPrintNotice').pshow({ text: '保存失败', state: 'failure' });
         }, function () {
             $('#divCardPrintLoading').phide();
+            $('#divCardPrintNotice').pshow({ text: '保存失败', state: 'failure' });
         });
+
+
+
+        function save(tabIndex) {
+            var deferred = when.defer();
+            var proName = tabIndex == 0 ? 'selEqCardTemplateArr' : 'selSpCardTemplateArr';
+            var infoProName = tabIndex == 0 ? 'eqCardInfo' : 'spCardInfo';
+            var infoToUpdateProName = tabIndex == 0 ? 'eqCardInfoToUpdate' : 'spCardInfoToUpdate';
+            var updateInfo = cardPrintModal[infoToUpdateProName];
+
+            var card_info = cardPrintModal[proName];
+            var obj_type = tabIndex == 0 ? 'equip' : 'space';
+            var paramObj = {
+                card_info: card_info,
+                obj_type: obj_type,
+                card_title: {
+                    title: updateInfo.title,
+                    attachments: {
+                        path: updateInfo.logoUrl,
+                        toPro: 'logo',
+                        multiFile: false,
+                        isNewFile: updateInfo.isNewFile,
+                        fileType: 1
+                    }
+                }
+            };
+            cardPrintController.saveCard(paramObj, function () {
+                deferred.resolve();
+                cardPrintModal[infoProName] = {
+                    title: updateInfo.title, logoUrl: updateInfo.logoUrl
+                };
+                cardPrintModal[infoToUpdateProName] = {
+                    title: updateInfo.title, logoUrl: updateInfo.logoUrl, isNewFile: false
+                };
+            }, function () {
+                deferred.reject();
+            }, function () {
+            });
+            return deferred.promise;
+        };
     },
     /*上传Logo图片*/
     uploadLogo: function (file) {
@@ -465,7 +494,7 @@ var cardPrintLogic = {
             success: function (obj) {
                 if (obj.result == 1) {
                     var tabIndex = $("#divCardSetTab").psel();
-                    var updateInfo = cardPrintModal[tabIndex == 0 ? 'eqCardInfoUpdate' : 'spCardInfoUpdate'];
+                    var updateInfo = cardPrintModal[tabIndex == 0 ? 'eqCardInfoToUpdate' : 'spCardInfoToUpdate'];
                     updateInfo.logoUrl = obj.showUrl;
                     updateInfo.isNewFile = true;
                 } else
@@ -478,5 +507,17 @@ var cardPrintLogic = {
                 $('#divCardPrintLoading').phide();
             }
         });
+    },
+    /*打开设置页面时，初始化设置页面的默认信息*/
+    initDefaultSetInfo: function () {
+        var info1 = cardPrintModal.eqCardInfo;
+        var obj1 = JSON.parse(JSON.stringify(info1));
+        obj1.isNewFile = false;
+        cardPrintModal.eqCardInfoToUpdate = obj1;
+
+        var info2 = cardPrintModal.spCardInfo;
+        var obj2 = JSON.parse(JSON.stringify(info2));
+        obj2.isNewFile = false;
+        cardPrintModal.spCardInfoToUpdate = obj2;
     }
 };

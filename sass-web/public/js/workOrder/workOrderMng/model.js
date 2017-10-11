@@ -9,6 +9,10 @@ var workOrderMngModel = { //工单管理模块数据模型
     order_id:'',//工单id
     orderDetailObj:{},//工单详情传入对象，包括type,fn
     stop_order_content:'',//终止工单输入内容
+
+    //工单详情调用需model中新建以下属性
+    orderDetailData:{},//工单详情数据
+    orderOperatList:[],//操作列表
     //------------------------------------------ydx__end------------------------------------------
 
     //------------------------------------------yn__start------------------------------------------
@@ -44,14 +48,11 @@ var workOrderMngMethod = { //工单管理模块方法
         }
         return str;
     },
-    openOrderDetail: function(order_id,type,fn) { //打开工单详情
-        controller.getOrderDetail(order_id, model);
+    openOrderDetail: function(order_id) { //打开工单详情
+        // controller.getOrderDetail(order_id, model);
         workOrderMngModel.order_id = order_id;
-        workOrderMngModel.orderDetailObj = {
-            type:type,
-            fn:fn,
-        };
-        workOrderMngModel.curPage = workOrderMngModel.pages[1];
+        orderDetail_pub.getOrderDetail(workOrderMngModel, order_id, "3");
+        // workOrderMngModel.curPage = workOrderMngModel.pages[1];
     },
     goBackOrderList: function() { //返回工单列表
         workOrderMngModel.orderDetailData = [];

@@ -252,7 +252,7 @@
                     <div class="contTreeHead"><span>{{spaceDetail.room_func_type_name?spaceDetail.room_func_type_name:'请选择类型'}}</span><em>v</em>
                     </div>
                     <ul class="contTreeList">
-                        <room-point v-for="item in allSpaceCode" :finfo="item" :infoId="roomFuncType"></room-point>
+                        <room-point v-for="item in allSpaceCode" :finfo="item"></room-point>
                     </ul>
                 </div>
                 <span class="cancel" onclick="cancelEdit(event)">x</span>
