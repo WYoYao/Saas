@@ -56,43 +56,50 @@
             <div class="rightCont">
                 <div class="detailFloat">
                     <div class="detailHead">系统详情</div>
-                    <div class="detailItem">
-                        <div class="contShow canEdit">
-                            <span class="name">系统名称：</span><span class="cont">dsd</span><span
-                                class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
-                        </div>
-                        <div class="editShow">
-                            <span class="name">系统名称：</span>
-                            <div class="editInput">
-                                <ptext-text placeholder="最多10个字">
-                                        <verify errtip="不能为空" verifytype="space">
-                                        <verify>
-                                    </ptext-text>
+
+                    <div v-for='item in totalPoints'>
+                        <div class="detailItem" v-for='info in item.info_Points'>
+                            <div class="contShow canEdit">
+                                <span class="name">{{item.info_name}}：</span><span class="cont">{{item.str_value}}</span>
+                                <span
+                                    class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
                             </div>
-                            <span class="cancel" onclick="cancelEdit(event)">x</span>
-                            <span class="sure">Z</span>
+                            <div class="editShow">
+                                <span class="name">{{item.info_name}}：</span>
+
+                                <div class="editInput" v-if='info.type==0'>
+                                    <ptext-text placeholder="最多10个字" value='info.str_value'>
+                                        <verify errtip="不能为空" verifytype="space">
+                                            <verify>
+                                    </ptext-text>
+                                </div>
+                                <div class="editInput" v-if='info.type==1'>
+                                    <pcombobox-normal id="'cbx_Points_id_'+info.info_code" bind='true'>
+                                        <header placeholder="请选择保险单号"></header>
+                                        <item datasource="insurer_infos" text="name"></item>
+                                    </pcombobox-normal>
+                                </div>
+                                <div class="editInput" v-if='info.type==2'>
+                                    <div class="per-switch-checkbox" v-for='check in info.cmpt_data' @click='check.isChecked=!check.isChecked'>
+                                        <span class="per-checkbox_input" :class="{'per-checkbox-checked':check.isChecked}"></span>
+                                        <span class="per-switch_label" v-text='check.name'></span>
+                                    </div>
+                                </div>
+                                <div class="editInput" v-if='info.type==3'>
+                                    <pupload-attachment id="'cbx_Points_id_'+info.info_code" number="4" bind='true'></pupload-attachment>
+                                </div>
+                                <div class="editInput" v-if='info.type==4'>
+                                    <ptext-text value='info.str_value' bind='true' text="info.unit">
+                                    </ptext-text>
+                                </div>
+
+                                <span class="cancel" onclick="_clickSystemWillSubmit($event,info)">x</span>
+                                <span class="sure" onclick="_clickSystemWillCancel($event,info)">Z</span>
+                            </div>
                         </div>
                     </div>
-                    <div class="detailItem">
-                        <div class="contShow canEdit">
-                            <span class="name">系统编码：</span><span class="cont">dsd</span>
-                        </div>
-                    </div>
-                    <div class="detailItem">
-                        <div class="contShow canEdit">
-                            <span class="name">所属建筑：</span><span class="cont">dsd</span>
-                        </div>
-                    </div>
-                    <div class="detailItem">
-                        <div class="contShow canEdit">
-                            <span class="name">所属专业：</span><span class="cont">dsd</span>
-                        </div>
-                    </div>
-                    <div class="detailItem">
-                        <div class="contShow canEdit">
-                            <span class="name">所属系统类：</span><span class="cont">dsd</span>
-                        </div>
-                    </div>
+
+
                 </div>
                 <div class="noData"></div>
             </div>
@@ -119,17 +126,37 @@
                         </div>
                     </div>
                 </div>
-                <div class="moduleItem" id="baseSection">
-                    <div class="header">基础</div>
-                    <div class="eachItem lineItem">
-                        <div class="name"><span><em>*</em>系统名称</span></div>
-                        <div class="cont">
-                            <ptext-text placeholder="最多10个字">
-                                        <verify errtip="不能为空" verifytype="space"><verify>
-                                    </ptext-text>
+                <div class="moduleItem" id="baseSection" v-for='item in totalPoints'>
+                    <div class="header" v-text='item.tag'></div>
+                    <div class="eachItem lineItem" v-for='info in item.info_Points'>
+                        <div class="name"><span v-text='info.info_name'></span></div>
+                        <div class="cont" v-if='info.type==0'>
+                            <ptext-text placeholder="最多10个字" value='info.str_value'>
+                                <verify errtip="不能为空" verifytype="space">
+                                    <verify>
+                            </ptext-text>
+                        </div>
+                        <div class="cont" v-if='info.type==1'>
+                            <pcombobox-normal id="'cbx_Points_id_'+info.info_code" bind='true'>
+                                <header placeholder="请选择保险单号"></header>
+                                <item datasource="insurer_infos" text="name"></item>
+                            </pcombobox-normal>
+                        </div>
+                        <div class="cont" v-if='info.type==2'>
+                            <div class="per-switch-checkbox" v-for='check in info.cmpt_data' @click='check.isChecked=!check.isChecked'>
+                                <span class="per-checkbox_input" :class="{'per-checkbox-checked':check.isChecked}"></span>
+                                <span class="per-switch_label" v-text='check.name'></span>
+                            </div>
+                        </div>
+                        <div class="cont" v-if='info.type==3'>
+                            <pupload-attachment id="'cbx_Points_id_'+info.info_code" number="4" bind='true'></pupload-attachment>
+                        </div>
+                        <div class="cont" v-if='info.type==4'>
+                            <ptext-text value='info.str_value' bind='true' text="info.unit">
+                            </ptext-text>
                         </div>
                     </div>
-                    <div class="eachItem lineItem">
+                    <!--<div class="eachItem lineItem">
                         <div class="name"><span><em>*</em>系统编码</span></div>
                         <div class="cont">
                             <ptext-text placeholder="最多50个字">
@@ -163,9 +190,9 @@
                                         <item datasource="spaceFloorArr" text="floor_local_name"></item>
                                     </pcombobox-normal>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
-                <div class="moduleItem" id="technoSection">
+                <!--<div class="moduleItem" id="technoSection">
                     <div class="header">技术参数</div>
                     <div class="eachItem lineItem">
                         <div class="name"><span><em>*</em>名称</span></div>
@@ -177,11 +204,8 @@
                     </div>
 
 
-                </div>
+                </div>-->
             </div>
         </div>
     </div>
 </div>
-
-
-

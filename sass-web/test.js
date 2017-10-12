@@ -1,39 +1,37 @@
-var a={
-    insurer: 1,
-    insurer_num: 0,
-    supplier: 1,
-    contract_id: 0,
-    asset_id: 0,
-    purchase_price: 0,
-    manufacturer: 1,
-    brand: 0,
-    product_date:0,
-    serial_num: 0,
-    specification: 0,
-    principal: 0,
-    maintain_id: 0,
-    start_date: 0,
-    maintain_deadline: 0,
-    service_life: 0,
-    warranty: 0,
-    maintain_cycle: 0,
-    maintainer: 1,
-    status: 1,
-    equip_local_name: 0,
-    equip_local_id: 0,
-    BIMID: 0,
-    position: 1,
-    system_id: 1,
-    equip_category_name: 1,
-    length: 0,
-    width: 0,
-    height: 0,
-    mass: 0,
-    material: 0,
-    dept: 0,
-    drawing: 0,
-    picture: 2,
-    check_report: 0,
-    nameplate: 2,
-    archive: 0,
-};
+var arr = ["system_id", "system_local_id", "system_local_name", "BIMID", "build_local_name", "domain_name", "system_category_name"];
+
+
+
+console.log(arr.map(key => {
+    return {
+        info_code: key,
+        info_name: ''
+    }
+}));
+
+[
+    {
+        info_code: 'system_local_name',
+        info_name: '系统名称'
+    },
+    {
+        info_code: 'system_local_id',
+        info_name: '系统编码'
+    },
+    {
+        info_code: 'BIMID',
+        info_name: 'BIMID编码'
+    },
+    {
+        info_code: 'build_local_name',
+        info_name: '所属建筑'
+    },
+    {
+        info_code: 'domain_name',
+        info_name: '所属专业'
+    },
+    {
+        info_code: 'system_category_name',
+        info_name: '所属系统类'
+    }
+]

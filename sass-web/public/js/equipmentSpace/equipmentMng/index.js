@@ -209,7 +209,7 @@ $(function() {
     // v.initPage('equipmentMngDeatil', { equip_id: 'Eq1301020001003ACCCCC00C' });
 
     // v.initPage('equipmentMngInsert');
-
+    v.initPage('systemMng');
 
     // // 开发结束后删除
     // // 创建新建的页面内容

@@ -1,46 +1,83 @@
 var controllerAddSystem = {
-    querySystemPublicInfo:function(system_id){
+    updateSystemInfo:function(argu,type){
 
+        return new Promise(function (resolve, rejcet) {
 
-        pajax.post({
-            url: 'restSystemService/querySystemPublicInfo',
-            data: {
-                //user_id: 'RY1505218031651', //用户id
-                //project_id: 'Pj1301020001', //项目id
-            },
-            success: function (res) {
-    
-                var data = res.data || [];
-                v.instance.majorTypeArr = v.instance.majorTypeArr.concat(data);//专业列表
-    
-            },
-            error: function (errObj) {
-                console.error('queryAllEquipCategory err');
-            },
-            complete: function () {
-            }
-        });
+            pajax[type ? 'updateBeforeWithFile' : 'post']({
+                url: 'restSystemService/updateSystemInfo',
+                data: argu,
+                success: function (res) {
+                    resolve(res);
+                },
+                error: function (errObj) {
+                    rejcet(errObj)
+                },
+                complete: function () {}
+            });
+        })
     },
-    querySystemDynamicInfo:function(system_id){
-        pajax.post({
-            url: 'restSystemService/querySystemDynamicInfo',
-            data: {
-                //user_id: 'RY1505218031651', //用户id
-                //project_id: 'Pj1301020001', //项目id
-            },
-            success: function (res) {
-    
-                var data = res.data || [];
-                v.instance.majorTypeArr = v.instance.majorTypeArr.concat(data);//专业列表
-    
-            },
-            error: function (errObj) {
-                console.error('queryAllEquipCategory err');
-            },
-            complete: function () {
-            }
-        });
-    }
+    querySystemInfoPointHis:function(system_id,info_point_code){
+
+        return new Promise(function (resolve, rejcet) {
+
+            pajax.post({
+                url: 'restSystemService/querySystemInfoPointHis',
+                data: {
+                    system_id:system_id,
+                    info_point_code:info_point_code,
+                },
+                success: function (res) {
+                    resolve(res.data);
+                },
+                error: function (errObj) {
+                    rejcet(errObj)
+                },
+                complete: function () {}
+            });
+        })
+    },
+    querySystemPublicInfo: function (system_id, cb) {
+
+        return new Promise(function (resolve, rejcet) {
+
+            pajax.post({
+                url: 'restSystemService/querySystemPublicInfo',
+                data: {
+                    //user_id: 'RY1505218031651', //用户id
+                    //project_id: 'Pj1301020001', //项目id
+                },
+                success: function (res) {
+                    resolve(res.data);
+                },
+                error: function (errObj) {
+                    rejcet(errObj)
+                },
+                complete: function () {}
+            });
+        })
+    },
+    querySystemDynamicInfo: function (system_id) {
+
+        return new Promise(function (resolve, reject) {
+
+            pajax.post({
+                url: 'restSystemService/querySystemDynamicInfo',
+                data: {
+                    //user_id: 'RY1505218031651', //用户id
+                    //project_id: 'Pj1301020001', //项目id
+                },
+                success: function (res) {
+                    
+                    resolve(res.data);
+                },
+                error: function (errObj) {
+
+                    reject(errObj);
+                },
+                complete: function () {}
+            });
+        })
+    },
 }
 controllerAddSystem.init = function () {
     v.initPage("systemMng");
@@ -49,7 +86,7 @@ controllerAddSystem.init = function () {
 controllerAddSystem.queryAllEquipCategory = function (cb) { //查询专业-系统类型-设备类型
 
 
-    setTimeout(function() {
+    setTimeout(function () {
 
         cb({
             "data": [{
@@ -1214,30 +1251,29 @@ controllerAddSystem.queryAllEquipCategory = function (cb) { //查询专业-系�
         success: function (res) {
 
             var data = res.data || [];
-            v.instance.majorTypeArr = v.instance.majorTypeArr.concat(data);//专业列表
+            v.instance.majorTypeArr = v.instance.majorTypeArr.concat(data); //专业列表
 
         },
         error: function (errObj) {
             console.error('queryAllEquipCategory err');
         },
-        complete: function () {
-        }
+        complete: function () {}
     });
 };
-controllerAddSystem.queryBuildSystemTree = function (argu,cb) { //查询建筑-系统列表树
+controllerAddSystem.queryBuildSystemTree = function (argu, cb) { //查询建筑-系统列表树
 
 
-    setTimeout(function() {
-        cb(_.range(10).map((item,index)=>{
+    setTimeout(function () {
+        cb(_.range(10).map((item, index) => {
 
             return {
-                build_id:`build_id${index}`,
-                build_name:`build_name${index}`,
-                system:_.range(5).map((item,index)=>{
+                build_id: `build_id${index}`,
+                build_name: `build_name${index}`,
+                system: _.range(5).map((item, index) => {
                     return {
-                        system_id:`system_id${index}`,
-                        system_local_id:`system_local_id${index}`,
-                        system_local_name:`system_local_name${index}`,
+                        system_id: `system_id${index}`,
+                        system_local_id: `system_local_id${index}`,
+                        system_local_name: `system_local_name${index}`,
                     }
                 })
             }
@@ -1255,8 +1291,6 @@ controllerAddSystem.queryBuildSystemTree = function (argu,cb) { //查询建筑-�
         error: function (errObj) {
             console.error('queryBuildSystemTree err');
         },
-        complete: function () {
-        }
+        complete: function () {}
     });
 };
-
