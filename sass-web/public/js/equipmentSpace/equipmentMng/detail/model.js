@@ -147,6 +147,51 @@ var CardInfo = function () {
 
     }
 
+    // 通过key 值获取对应的编辑数据   0 直接获取value  1 需要加 id 进行操作 2 需要获取附件
+    function queryDataStuctTypeByKey(key) {
+
+        var DataStuctType = {
+            insurer: 1,
+            insurer_num: 0,
+            supplier: 1,
+            contract_id: 0,
+            asset_id: 0,
+            purchase_price: 0,
+            manufacturer: 1,
+            brand: 0,
+            product_date: 0,
+            serial_num: 0,
+            specification: 0,
+            principal: 0,
+            maintain_id: 0,
+            start_date: 0,
+            maintain_deadline: 0,
+            service_life: 0,
+            warranty: 0,
+            maintain_cycle: 0,
+            maintainer: 1,
+            status: 1,
+            equip_local_name: 0,
+            equip_local_id: 0,
+            BIMID: 0,
+            position: 1,
+            system_id: 1,
+            equip_category_name: 1,
+            length: 0,
+            width: 0,
+            height: 0,
+            mass: 0,
+            material: 0,
+            dept: 0,
+            drawing: 3,
+            picture: 2,
+            check_report: 3,
+            nameplate: 2,
+            archive: 3,
+        };
+
+        return DataStuctType[key];
+    }
 
 
     function querySearchNameByKey(key) {
@@ -233,6 +278,7 @@ var CardInfo = function () {
             }), // 全局共用弹窗
             equip_id: '', // 设备ID
             EquipInfo: new EquipPublicInfo(),
+            EquipInfoBak: new EquipPublicInfo(),
             CardInfo: new CardInfo(),
             EquipDynamicInfo: [], // 通用信息点
             WorkOrderState: [], // 工单状态集合
@@ -623,7 +669,6 @@ var CardInfo = function () {
             submitTip: function (event, submitCb, getPoints) {
 
                 this.layer.submit(event.clientX, event.clientY, submitCb, getPoints);
-
             },
             cancelTip: function (event, cancelCb) {
                 this.layer.cancel(event.clientX, event.clientY, cancelCb);
@@ -638,100 +683,116 @@ var CardInfo = function () {
                 return "";
             },
             //技术信息点下对号按钮点击事件
-            _clickIfmsSubmit: function () {
+            _clickIfmsSubmit: function (event, info) {
+                var _that = this,
+                    submitCb, getPoints;
+
+                // 获取信息节点的方法
+                getPoints = equipmentMngDeatilController.queryEquipInfoPointHis.bind(null, _that.equip_id, key);
+
+                var type = info.type;
+
+                var req = {
+                    "equip_id": _that.equip_id,
+                    "info_point_code": info.info_code, //修改的信息点编码，必须
+                    "info_point_value": "", //修改的信息点的值，必须
+                    "valid_time": isNewValue,
+                };
+
+                var info_point_code = info.info_code;
+                var info_point_value;
+
+                // 文本信息获取
+                if (type == 0 || type == 4) {
+
+                    info_point_value = info.str_value;
+                } else if (type == 1) {
+
+                    info_point_value = getEquipDynamicInfoBykey("#PI", info.info_code, 1, info);
+                } else if (type == 2) {
+
+                    info_point_value = info.cmpt_data
+                        .filter(function (x) {
+                            return x.isChecked;
+                        }).map(function (x) {
+                            return x.code;
+                        });
+                } else if (info.type == 3) {
+
+                    var attachments = getEquipDynamicInfoBykey("#PI", info.info_code, 4, info);
+                    req.attachments = attachments;
+                }
+
+                // 成功回调
+                submitCb = function (isNewValue) {
+                    req.isNewValue = isNewValue;
+
+                    equipmentMngDeatilController.updateEquipInfo(req, (type == 3))
+                        .then(function () {
+
+                            // 技术点信息
+                            _that.requeryEquipDynamicInfo();
+                        })
+                }
+
+                // 显示提交弹窗
+                _that.submitTip(event, submitCb, getPoints);
 
             },
             //技术信息点下叉号按钮点击事件
-            _clickIfmsCancel: function () {
+            _clickIfmsCancel: function (event, info) {
 
+                var _that = this;
+
+                var cancelCb = function () {
+
+                    _that.EquipDynamicInfoBak = JSON.parse(JSON.stringify(_that.EquipDynamicInfo));
+                };
+
+                // 显示取消弹窗
+                _that.cancelTip(event, cancelCb);
             },
             // 编辑状态下的对号按钮点击事件
             _clickSubmit: function (event, key) {
                 var _that = this,
-                    submitCb, getPoints, arr;
+                    submitCb, getPoints;
 
                 // 获取信息节点的方法
                 getPoints = equipmentMngDeatilController.queryEquipInfoPointHis.bind(null, _that.equip_id, key);
 
                 // 选择提交时候的需要的调用的回调方法
                 // 如果的是下拉菜单需要查询对应的集合
-                var type = querycontroTypeByKey(key);
-                if (type == 1) {
-                    arr = _that.getSettByKey(key);
-                } else {
-                    arr = [{
-                        key: key
-                    }];
-                }
+                var type = queryDataStuctTypeByKey(key);
 
                 submitCb = function (isNewValue) {
-                    arr.map(function (item) {
-                            item.idetype = 1;
-                            return item;
+
+                    var req = {
+                        "equip_id": _that.equip_id,
+                        "info_point_code": key, //修改的信息点编码，必须
+                        "info_point_value": "", //修改的信息点的值，必须
+                        "valid_time": isNewValue,
+                    };
+
+                    if (type == 0 || type == 3) {
+
+                        // 直接获取值
+                        req.info_point_value = _that.EquipInfoBak[key];
+                    } else if (type == 1) {
+
+                        req.info_point_code = key + '_id';
+                        req.info_point_value = _that.EquipInfoBak[key + '_id'];
+                    } else if (type == 2) {
+
+                        req.attachments = _that.attachments.filter(function (item) {
+                            return item.toPro == key;
                         })
-                        //执行发送
-                        .map(_that.getReqByKey)
-                        .forEach(function (req) {
+                    };
 
-                            // 文件上传的参数需要根据数据格式做处理
-                            if (type == '2' || type == '3') {
-                                var pl = _that.EquipInfo[key];
-                                // 文件上传格式为Obj 类型的数组
-                                var objArr = ['drawing', 'check_report', 'archive', 'insurance_file']
+                    equipmentMngDeatilController.updateEquipInfo(req, (type == 2 || type == 3))
+                        .then(function () {
 
-                                var strArr = ['picture', 'nameplate'];
-                                if (objArr.indexOf(key) != -1) {
-                                    reqs = req.attachments.map(function (info) {
-                                        // 不是新图片
-                                        if (!info.isNewFile) {
-                                            return _that.filterItemByKeyValue(_that.EquipInfo[key], 'key', info.path)
-                                        } else {
-                                            info.toPro = "key";
-                                            return {
-                                                "type": "2",
-                                                "name": info.fileName,
-                                                "key": info.path,
-                                                "attachments": info,
-                                            }
-                                        }
-                                    })
-
-                                    // 将对应的图片集合转换成为修改方法的参数
-                                    req = {
-                                        info_point_code: key,
-                                        info_point_value: reqs,
-                                        equip_id: _that.equip_id,
-                                    }
-
-                                } else if (strArr.indexOf(key) != -1) {
-
-                                    reqs = req.attachments.map(function (x) {
-                                        x.toPro = 'info_point_value';
-                                        return x;
-                                    });
-
-                                    req = {
-                                        info_point_code: key,
-                                        info_point_value: '',
-                                        equip_id: _that.equip_id,
-                                        attachments: reqs,
-                                    }
-                                }
-
-                            }
-
-
-                            req.valid_time = isNewValue.isNewValue ? isNewValue.isNewValue : "";
-
-
-                            equipmentMngDeatilController.updateEquipInfo(req, (type == 2 || type == 3))
-                                .then(function () {
-
-                                    _that.EquipInfo[key] = req.info_point_value;
-                                    _that.view.ide[key] = !_that.view.ide[key];
-                                    _that._clickStartChange(key);
-                                })
-
+                            // 更新设备信息
+                            _that.requeryEquipPublicInfo();
                         })
 
 
@@ -747,14 +808,11 @@ var CardInfo = function () {
                 var _that = this;
 
                 var cancelCb = function () {
-                    _that.view.ide[key] = !_that.view.ide[key];
-                    _that._clickStartChange(key);
-                }
+                    _that.EquipInfoBak = JSON.parse(JSON.stringify(_that.EquipInfo));
+                };
 
                 // 显示取消弹窗
                 _that.cancelTip(event, cancelCb);
-
-
             },
             // 点击编辑按钮控件赋值
             _clickStartChange: function (key) {
@@ -767,7 +825,7 @@ var CardInfo = function () {
 
                 if (type == 0) {
                     // 点击编辑文本赋值
-                    el.pval(value);
+                    // el.pval(value);
                 } else if (type == 1) {
 
                     // 点击编辑下拉菜单赋值
@@ -809,11 +867,8 @@ var CardInfo = function () {
                     });
 
                 } else if (type == 5) {
-
+                    // 树形菜单暂时不使用
                 }
-
-
-
             },
             // 技术信息编辑
             _clickPointChange: function (id, list, value) {
@@ -951,7 +1006,7 @@ var CardInfo = function () {
                 var req = {};
 
                 req = this.getReqByKey(item);
-                type=item.idetype;
+                type = item.idetype;
 
                 if (!req.info_point_value && req.attachments && !req.attachments.lenght) {
                     return function () {
@@ -1186,7 +1241,7 @@ var CardInfo = function () {
 
                     var value = obj[keys[index]];
 
-                    if (_.isString(value) && value.length && value!="--") {
+                    if (_.isString(value) && value.length && value != "--") {
 
                         return false;
                         break;
@@ -1289,9 +1344,54 @@ var CardInfo = function () {
 
                         return item;
                     });
-                }else{
+                } else {
                     return [];
                 }
+            },
+            // 创建技术点对应的下拉框方法
+            createPointsFn: function (EquipDynamicInfoBak) {
+
+                if (_.isArray(EquipDynamicInfoBak)) {
+
+                    EquipDynamicInfoBak.forEach(function (item, index) {
+
+                        item.forEach(function (info, i) {
+
+                            // 将对应的函数绑定 window 对象上面
+                            window['insertPoints_' + index + '_' + i] = createComboxSelFnPoint(info, 'EquipDynamicInfoBak');
+                        })
+                    })
+                }
+            },
+            requeryEquipDynamicInfo: function () {
+
+                var _that = this;
+                // 技术参数赋值 **需要对后台的返回参数的进行转换**
+                equipmentMngDeatilController.queryEquipDynamicInfo(_that.equip_id)
+                    .then(function (list) {
+                        _that.EquipDynamicInfo = _that.EquipDynamicInfoCovert(list);
+
+                        // 备份技术参数
+                        _that.EquipDynamicInfoBak = JSON.parse(JSON.stringify(_that.EquipDynamicInfo));
+
+                        // _that.createPointsFn(_that.EquipDynamicInfoBak);
+                    })
+            },
+            requeryEquipPublicInfo: function () {
+
+                var _that = this;
+
+                var PromsQueryEquipPublicInfo = equipmentMngDeatilController.queryEquipPublicInfo(_that.equip_id);
+
+                PromsQueryEquipPublicInfo.then(function (info) {
+
+                    info.system = info.system_name;
+
+                    // 附加通用信息
+                    _that.EquipInfo = info;
+                    // 复制一份做编辑处理
+                    _that.EquipInfoBak = JSON.parse(JSON.stringify(info));
+                })
             }
         },
         beforeMount: function () {
@@ -1314,6 +1414,9 @@ var CardInfo = function () {
             var PromsQueryEquipPublicInfo = equipmentMngDeatilController.queryEquipPublicInfo(_that.equip_id);
 
             PromsQueryEquipPublicInfo.then(function (info) {
+
+                info.system = info.system_name;
+
                 // 附加通用信息
                 _that.EquipInfo = info;
                 // 复制一份做编辑处理
@@ -1360,23 +1463,23 @@ var CardInfo = function () {
 
             // 获取所有设备
             equipmentMngDeatilController.queryAllEquipCategory()
-            .then(function (list) {
-                
-                                    function disable(item) {
-                                        var disable = arguments.callee;
-                
-                                        if (_.isArray(item.content)) {
-                                            item.disabled = true;
-                                            item.content = item.content.map(disable);
-                                        } else {
-                                            item.disabled = false;
-                                        }
-                
-                                        return item;
-                                    }
-                
-                _that.AllEquipCategory = list.map(disable);
-            })
+                .then(function (list) {
+
+                    function disable(item) {
+                        var disable = arguments.callee;
+
+                        if (_.isArray(item.content)) {
+                            item.disabled = true;
+                            item.content = item.content.map(disable);
+                        } else {
+                            item.disabled = false;
+                        }
+
+                        return item;
+                    }
+
+                    _that.AllEquipCategory = list.map(disable);
+                })
             /**
              * 生产厂家下拉列表
              */
@@ -1442,14 +1545,23 @@ var CardInfo = function () {
             })
 
             // 技术参数赋值 **需要对后台的返回参数的进行转换**
-            equipmentMngDeatilController.queryEquipDynamicInfo(_that.equip_id)
-                .then(function (list) {
-                    _that.EquipDynamicInfo = _that.EquipDynamicInfoCovert(list);
-                })
+            _that.requeryEquipDynamicInfo();
+            // equipmentMngDeatilController.queryEquipDynamicInfo(_that.equip_id)
+            //     .then(function (list) {
+            //         _that.EquipDynamicInfo = _that.EquipDynamicInfoCovert(list);
+
+            //         // 备份技术参数
+            //         _that.EquipDynamicInfoBak = JSON.parse(JSON.stringify(_that.EquipDynamicInfo));
+
+            //         // _that.createPointsFn(_that.EquipDynamicInfoBak);
+            //     })
 
 
-            
-                // 选择选项卡
+
+
+
+
+            // 选择选项卡
             $("#baseTab").psel(_that.baseTab);
 
 

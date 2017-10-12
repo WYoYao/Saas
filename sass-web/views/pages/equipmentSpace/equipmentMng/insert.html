@@ -382,7 +382,7 @@
                 <div class="moduleItem" :id="'SrcollInsert_tag'+ index" v-for='(item,index) in EquipDynamicInfoList'>
                     <div class="header" v-text='item.tag'></div>
 
-                    <div class="eachItem" :class='{leftItem:index%2==0,rightItem:index%2==1}' v-for='(info,index) in item.info_Points'>
+                    <div class="eachItem" :class='{leftItem:index%2==0,rightItem:index%2==1}' v-for='(info,i) in item.info_Points'>
                         <div class="name"><span v-text='info.info_name'></span></div>
 
                         <!-- 文本开始 Start -->
@@ -394,7 +394,7 @@
 
                         <!-- 普通下拉选择框 Start -->
                         <div class="cont" v-if='info.type==1'>
-                            <pcombobox-normal id="'EDI'+info.info_code" bind='true'>
+                            <pcombobox-normal id="'insertPoints_'+index+'_'+i" bind='true'>
                                 <item datasource="info.cmpt_data" text="name"></item>
                             </pcombobox-normal>
                         </div>

@@ -136,57 +136,57 @@
             allRentalCode: [],
             // 新建位置需要的属性 End
 
-            ScrollBase:[{
-                title:"基础",
-                id:'base',
-                isSelected:true,
-                top:60,
-            },{
-                title:"厂家",
-                id:'service',
-                isSelected:false,
-                top:180,
-            },{
-                title:"供应&购买",
-                id:'buy',
-                isSelected:false,
-                top:300,
-            },{
-                title:"运行&维保",
-                id:'run',
-                isSelected:false,
-                top:420,
-            },{
-                title:"保险",
-                id:'bao',
-                isSelected:false,
-                top:540,
+            ScrollBase: [{
+                title: "基础",
+                id: 'base',
+                isSelected: true,
+                top: 60,
+            }, {
+                title: "厂家",
+                id: 'service',
+                isSelected: false,
+                top: 180,
+            }, {
+                title: "供应&购买",
+                id: 'buy',
+                isSelected: false,
+                top: 300,
+            }, {
+                title: "运行&维保",
+                id: 'run',
+                isSelected: false,
+                top: 420,
+            }, {
+                title: "保险",
+                id: 'bao',
+                isSelected: false,
+                top: 540,
             }],
-            ScrollList:[{
-                title:"基础",
-                id:'base',
-                isSelected:true,
-                top:60,
-            },{
-                title:"厂家",
-                id:'service',
-                isSelected:false,
-                top:180,
-            },{
-                title:"供应&购买",
-                id:'buy',
-                isSelected:false,
-                top:300,
-            },{
-                title:"运行&维保",
-                id:'run',
-                isSelected:false,
-                top:420,
-            },{
-                title:"保险",
-                id:'bao',
-                isSelected:false,
-                top:540,
+            ScrollList: [{
+                title: "基础",
+                id: 'base',
+                isSelected: true,
+                top: 60,
+            }, {
+                title: "厂家",
+                id: 'service',
+                isSelected: false,
+                top: 180,
+            }, {
+                title: "供应&购买",
+                id: 'buy',
+                isSelected: false,
+                top: 300,
+            }, {
+                title: "运行&维保",
+                id: 'run',
+                isSelected: false,
+                top: 420,
+            }, {
+                title: "保险",
+                id: 'bao',
+                isSelected: false,
+                top: 540,
             }],
         },
         computed: {
@@ -208,22 +208,22 @@
         },
         methods: {
             // 切换进度轴
-            toggleSel:function(item){
-                var _that=this;
+            toggleSel: function (item) {
+                var _that = this;
                 console.log(item.id);
                 console.log(document.getElementById(item.id));
 
                 // 滚动内容
-                document.getElementById("SrcollInsert_"+item.id).scrollIntoView();
+                document.getElementById("SrcollInsert_" + item.id).scrollIntoView();
 
                 // 改变高亮
-                _that.ScrollList=_that.ScrollList.map(function(info){
+                _that.ScrollList = _that.ScrollList.map(function (info) {
 
-                    info.isSelected=info.id==item.id;
+                    info.isSelected = info.id == item.id;
 
                     return info;
                 });
-                
+
             },
             //隐藏四个服务厂商
             _clickInsertLayerCancel: function () {
@@ -333,53 +333,53 @@
                 controllerInsert.queryEquipDynamicInfoForAdd(equip_category)
                     .then(function (list) {
 
-                        _that.EquipDynamicInfoList =  _that.EquipDynamicInfoCovert(list);
+                        _that.EquipDynamicInfoList = _that.EquipDynamicInfoCovert(list);
                     })
             },
             // 查询技术信息
-            getEquipDynamicInfo:function(){
+            getEquipDynamicInfo: function () {
 
-                var _that=this;
-                    res={},
-                    list=_that.EquipDynamicInfoList;
+                var _that = this;
+                res = {},
+                    list = _that.EquipDynamicInfoList;
                 // tag 循环
-                return list.reduce(function(con,item){
+                return list.reduce(function (con, item) {
                     // points 循环
-                    return item.info_Points.reduce(function(con,info){
+                    return item.info_Points.reduce(function (con, info) {
 
-                        
-                        if((info.type==0 || info.type==4) && info.str_value.length){
 
-                            con[info.info_code]=info.str_value;
+                        if ((info.type == 0 || info.type == 4) && info.str_value.length) {
 
-                        }else if(info.type==1){
+                            con[info.info_code] = info.str_value;
 
-                            var text=getEquipDynamicInfoBykey(info.info_code,1,info);
-                            if(text)con[info.info_code]=text;
+                        } else if (info.type == 1) {
 
-                        }else if(info.type==2){
+                            var text = getEquipDynamicInfoBykey("#EDI",info.info_code, 1, info);
+                            if (text) con[info.info_code] = text;
 
-                            var arr=info.cmpt_data
-                                .filter(function(x){
+                        } else if (info.type == 2) {
+
+                            var arr = info.cmpt_data
+                                .filter(function (x) {
                                     return x.isChecked;
-                                }).map(function(x){
+                                }).map(function (x) {
                                     return x.code;
                                 });
-                            
-                            if(arr.length)con[info.info_code]=arr;
 
-                        }else if(info.type==3){
+                            if (arr.length) con[info.info_code] = arr;
 
-                            var attachments=getEquipDynamicInfoBykey(info.info_code,4,info);
+                        } else if (info.type == 3) {
 
-                            con.attachments=con.attachments || [];
-                            con.attachments=con.attachments.concat(attachments);
+                            var attachments = getEquipDynamicInfoBykey("#EDI",info.info_code, 4, info);
+
+                            con.attachments = con.attachments || [];
+                            con.attachments = con.attachments.concat(attachments);
                         }
 
                         return con;
 
-                    },con)
-                },{});
+                    }, con)
+                }, {});
 
             },
             // 保存设备
@@ -445,14 +445,14 @@
                 var EquipDynamicInfo = _that.getEquipDynamicInfo();
 
                 // 合并技术参数和基本参数的上传附件
-                if(EquipDynamicInfo.attachments && EquipDynamicInfo.attachments.length){
-                    request.attachments=request.attachments || [];
+                if (EquipDynamicInfo.attachments && EquipDynamicInfo.attachments.length) {
+                    request.attachments = request.attachments || [];
 
-                    request.attachments=request.attachments.concat(EquipDynamicInfo.attachments);
+                    request.attachments = request.attachments.concat(EquipDynamicInfo.attachments);
 
                 };
 
-                request=Object.assign({},EquipDynamicInfo,request);
+                request = Object.assign({}, EquipDynamicInfo, request);
 
                 controllerInsert.addEquip(request)
                     .then(function () {
@@ -563,14 +563,14 @@
 
         },
         watch: {
-            EquipDynamicInfoList:function(newValue){
-                var _that=this;
-                _that.ScrollList=_that.ScrollBase.concat(newValue.map(function(item,index){
+            EquipDynamicInfoList: function (newValue) {
+                var _that = this;
+                _that.ScrollList = _that.ScrollBase.concat(newValue.map(function (item, index) {
                     return {
-                        title:item.tag,
-                        id:"tag"+index,
-                        isSelected:false,
-                        top:(_that.ScrollBase.length*120-60)+((index+1)*120),
+                        title: item.tag,
+                        id: "tag" + index,
+                        isSelected: false,
+                        top: (_that.ScrollBase.length * 120 - 60) + ((index + 1) * 120),
                     }
                 }));
             },
@@ -582,7 +582,19 @@
                     // 当 build_id 修改的之后修改的对应的 系统属性的选择的下拉数据源
                     controllerInsert.querySystemForBuild(newValue.build_id)
                         .then(function (list) {
+                            _that.SystemForBuild = list;
+                        })
+                };
 
+            },
+            EquipInfoBak: function (newValue, oldValue) {
+
+                var _that = this;
+
+                if (newValue.build_id != oldValue.build_id) {
+                    // 当 build_id 修改的之后修改的对应的 系统属性的选择的下拉数据源
+                    controllerInsert.querySystemForBuild(newValue.build_id)
+                        .then(function (list) {
                             _that.SystemForBuild = list;
                         })
                 };
