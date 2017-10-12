@@ -6,10 +6,10 @@
             <p>若在此添加需确认的操作结果，工人在执行工单时需要反馈此处设置的内容</p>
         </div>
         <div class="edit-clear-div">
-            <div class="edit-div" v-show="myWorkOrderModel.editBtn">
+            <div class="edit-div" v-show="commonData.publicModel.editBtn">
                 <pbutton-white text="编辑" icon="e" isborder="false" click="yn_method.editable"></pbutton-white>
             </div>
-            <div class="clear-div" v-show="!myWorkOrderModel.editBtn">
+            <div class="clear-div" v-show="!commonData.publicModel.editBtn">
                 <img src="../images/clear_03.png" alt="清空图标"/>
                 <pbutton-white text="清空" isborder="false" click="yn_method.delBubbleShow"></pbutton-white>
             </div>
@@ -25,7 +25,7 @@
     <div class="prev-body">
         <div class="slide-div result">
             <div class="objs">
-                <div class="obj-div" v-for="(confirmObj, index1) in myWorkOrderModel.workContent.confirm_result">
+                <div class="obj-div" v-show="commonData.publicModel.workContent.confirm_result.length!=0" v-for="(confirmObj, index1) in commonData.publicModel.workContent.confirm_result">
                     <div class="obj-name">
                         <span v-text="confirmObj.obj_name">对象名称1</span>
                         <em v-text="yn_method.getParentsLinks(confirmObj.parents)">(建筑-楼层-空间名称/专业-系统/)</em>
@@ -41,7 +41,7 @@
                         </div>
                         <!--自定义的信息点列表-->
                         <div class="obj-self">
-                            <div class="single-self">
+                            <div class="single-self" id="aaa">
                                 <div class="self-div" v-for="(custom, index2) in confirmObj.customs">
                                     <img src="../images/del.png" alt="删除图标-" onclick="yn_method.removeImage(this)">
                                     <div class="info-dot">
@@ -61,7 +61,7 @@
                                     <span v-show="custom.type == '5'"
                                     >单位:</span>
                                     <div class="info-dot" v-show="custom.type == '5'">
-                                        <span>平方米</span>
+                                        <span v-text="custom.unit">平方米</span>
                                         <img src="../images/info_close.png" alt="删除图标x"
                                              onclick="yn_method.removeImage(this)"/>
                                     </div>
@@ -72,7 +72,7 @@
                                              onclick="yn_method.removeImage(this)"/>
                                     </div>
                                     <div class="add-sel-div">
-                                        <div class="add-sel-btn" @click="$root.addOption2(custom, $event, 0)"
+                                        <div class="add-sel-btn" @click="publicMethod.addOption2(custom, $event, 0)"
                                              v-show="custom.type == '2' || custom.type == '3'">
                                             <!--onclick="yn_method.addSel(this)"-->
                                             <span class="sel-btn">添加选项</span>
@@ -84,7 +84,7 @@
                         </div>
                         <div class="add-info-btn">
                             <span class="info-btn"
-                                  @click="$root.addInfoPoint(confirmObj, index1, $event, 0)">添加信息点</span>
+                                  @click="publicMethod.addInfoPoint(confirmObj, index1, $event, 0)">添加信息点</span>
                             <!--onclick="yn_method.infoBubbleShow(this,event)"-->
                             <!--onclick="yn_method.addInfo(this)"-->
                             <div class="aite-bubble" v-show="false">
@@ -109,14 +109,14 @@
                                     <div>
                                         <div class="list-body">
                                             <!--无复选、搜索-->
-                                            <div class="none-both" v-show="true">
-                                                <div class="aite-list" onclick="controller.querySystem(this,true)">
+                                            <div class="none-both" v-show="false">
+                                                <div class="aite-list" onclick="myWorkOrderController.querySystem(this,true)">
                                                     <div>
                                                         <span>系统</span>
                                                     </div>
                                                 </div>
                                                 <div class="aite-list"
-                                                     onclick="controller.queryBuildFloorSpaceTree(this)">
+                                                     onclick="myWorkOrderController.queryBuildFloorSpaceTree(this)">
                                                     <div>
                                                         <span>设备</span>
                                                     </div>
@@ -128,7 +128,7 @@
                                                     <div class="tree-body">
                                                         <div class="tree-box">
                                                             <ptree-normal bind="true"
-                                                                          datasource="myWorkOrderModel.leftLevel"
+                                                                          datasource="commonData.publicModel.leftLevel"
                                                                           sel="yn_method.clickLeftItem">
                                                                 <item text="obj_name" issearch="false"
                                                                       child="content"></item>
@@ -136,10 +136,10 @@
                                                         </div>
                                                         <div class="last-level-box">
                                                             <div class="aite-list"
-                                                                 v-show="myWorkOrderModel.lastLevel.length!=0"
-                                                                 v-for="(obj,index) in myWorkOrderModel.lastLevel">
+                                                                 v-show="commonData.publicModel.lastLevel.length!=0"
+                                                                 v-for="(obj,index) in commonData.publicModel.lastLevel">
                                                                 <div :title="obj.obj_name"
-                                                                     @click="controller.queryInfoPointForObject(obj)">
+                                                                     @click="myWorkOrderController.queryInfoPointForObject(obj)">
                                                                     <span v-text="obj.obj_name">建筑体</span>
                                                                 </div>
                                                                 <div></div>
@@ -147,7 +147,7 @@
                                                         </div>
                                                         <div class="info-level-box">
                                                             <div class="aite-list"
-                                                                 v-for="(info,index) in myWorkOrderModel.infoArray">
+                                                                 v-for="(info,index) in commonData.publicModel.infoArray">
                                                                 <div :title="info.name">
                                                                     <span v-text="info.name">建筑体</span>
                                                                 </div>
@@ -164,20 +164,26 @@
                                                 </div>
                                             </div>
                                             <!--无级别 只有复选-->
-                                            <div class="only-checkbox" v-show="false">
-                                                <div class="aite-list" v-for="item in myWorkOrderModel.buildList">
-                                                    <div :title="item.obj_name">
-                                                        <span v-text="item.obj_name"></span>
+                                            <div class="only-checkbox" v-show="true">
+                                                <div class="aite-list" v-for="(info,index) in commonData.publicModel.infoArray">
+                                                    <div :title="info.name">
+                                                        <span v-text="info.name"></span>
                                                     </div>
                                                     <div>
-                                                        <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                                        <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
                                                         <!--<span class="pcheckbox_input"></span>-->
                                                         <!--<span class="pswitch_label"></span>-->
+                                                        <div :id="'classSelectInfoPoint' + index" class="pcheckbox"
+                                                             @click="publicMethod.checkInfoPoint(info, index, 0)">
+                                                                    <span class="pcheckbox_input"
+                                                                          :class="info.checked ? 'pcheckbox-checked' : ''"></span>
+                                                            <span class="pswitch_label"></span>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <!--及时搜索，只有复选-->
-                                            <div class="timely-checkbox" v-show="false">
+                                            <!--<div class="timely-checkbox" v-show="false">
                                                 <div class="aite-list">
                                                     <div>
                                                         <p><span>空间1</span></p>
@@ -185,11 +191,11 @@
                                                     </div>
                                                     <div>
                                                         <pswitch-checkbox bind="true"></pswitch-checkbox>
-                                                        <!--<span class="pcheckbox_input"></span>-->
-                                                        <!--<span class="pswitch_label"></span>-->
+                                                        &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                                        &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div>-->
                                             <!--自定义-->
                                             <div class="customize" v-show="false">
                                                 <div>
@@ -206,16 +212,16 @@
                                                             <header
                                                                     placeholder="请选择"></header>
                                                             <item
-                                                                    datasource="myWorkOrderModel.controlsList"
+                                                                    datasource="commonData.publicModel.controlsList"
 
                                                                     text="name"></item>
                                                         </pcombobox-normal>
                                                     </div>
                                                 </div>
-                                                <div v-show="myWorkOrderModel.myseltype!=1 && myWorkOrderModel.seltype!=4">
+                                                <div v-show="commonData.publicModel.myseltype!=1 && commonData.publicModel.seltype!=4">
                                                     <div class="single-select-input">
                                                         <div class="selection-input"
-                                                             v-show="myWorkOrderModel.seltype==5">
+                                                             v-show="commonData.publicModel.seltype==5">
                                                             <p><span>单位</span><em></em></p>
                                                             <div class="unit-div">
                                                                 <ptext-text bind="true"
@@ -225,7 +231,7 @@
                                                             </div>
                                                         </div>
                                                         <div class="selection-input"
-                                                             v-show="myWorkOrderModel.seltype==2 || myWorkOrderModel.seltype==3">
+                                                             v-show="commonData.publicModel.seltype==2 || commonData.publicModel.seltype==3">
                                                             <p><span>选项</span><em>1</em></p>
                                                             <div>
                                                                 <ptext-text bind="true"></ptext-text>
@@ -236,8 +242,8 @@
                                                         </div>
                                                     </div>
                                                     <div class="self-add-select"
-                                                         v-show="myWorkOrderModel.seltype==2 || myWorkOrderModel.seltype==3">
-                                                        <div class="self-add-btn">
+                                                         v-show="commonData.publicModel.seltype==2 || commonData.publicModel.seltype==3">
+                                                        <div class="self-add-btn" @click="publicMethod.addOption($event, 0)">
                                                             <!-- @click="$root.addOption($event, index0)"-->
                                                             <i>J</i>添加选项
                                                         </div>
@@ -252,8 +258,18 @@
                                     </div>
                                 </div>
                                 <div class="aite-footer">
-                                    <pbutton-white text="自定义" click="yn_method.customShow"></pbutton-white>
-                                    <pbutton-blue text="确定" disabled="true"></pbutton-blue>
+                                    <pbutton-white text="自定义" click="publicMethod.customizeInfoPoint"></pbutton-white>
+                                    <!--<pbutton-blue text="确定" disabled="false" click="publicMethod.confirmCheckedInfoPoints2"></pbutton-blue>-->
+                                    <div v-show="commonData.publicModel.curObjType !== 'custom'" class="sureBtnDivs">
+                                        <pbutton-blue text="确定"
+                                                      id="sureBtn"
+                                                      click="publicMethod.confirmCheckedInfoPoints2"></pbutton-blue>
+                                    </div>
+                                    <div v-show="commonData.publicModel.curObjType === 'custom'" class="sureBtnDivs">
+                                        <pbutton-blue text="确定"
+                                                      id="sureBtn"
+                                                      click="publicMethod.confirmCustomizeInfoPoint"></pbutton-blue>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -267,8 +283,8 @@
                     <div class="aite-title">
                         <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)"/>
                         <span><em
-                                v-show="myWorkOrderModel.curObjType2 !== 'custom' && myWorkOrderModel.curObjType2 !== 'search'">选择</em><em
-                                v-text="myWorkOrderModel.popTitleText2[myWorkOrderModel.curObjType2]">分类</em></span>
+                                v-show="commonData.publicModel.curObjType2 !== 'custom' && commonData.publicModel.curObjType2 !== 'search'">选择</em><em
+                                v-text="commonData.publicModel.popTitleText2[commonData.publicModel.curObjType2]">分类</em></span>
                     </div>
                     <div class="list-search">
                         <div class="info-search-box">
@@ -287,12 +303,12 @@
                             <div class="list-body">
                                 <!--无复选、搜索-->
                                 <div class="none-both" v-show="true">
-                                    <div class="aite-list" onclick="controller.querySystem(this,true)">
+                                    <div class="aite-list" onclick="myWorkOrderController.querySystem(this,true)">
                                         <div>
                                             <span>系统</span>
                                         </div>
                                     </div>
-                                    <div class="aite-list" onclick="controller.queryBuildFloorSpaceTree(this)">
+                                    <div class="aite-list" onclick="myWorkOrderController.queryBuildFloorSpaceTree(this)">
                                         <div>
                                             <span>设备</span>
                                         </div>
@@ -303,19 +319,19 @@
                                     <div class="tree-body">
                                         <div class="tree-body">
                                             <div class="tree-box">
-                                                <ptree-normal bind="true" datasource="myWorkOrderModel.leftLevel"
+                                                <ptree-normal bind="true" datasource="commonData.publicModel.leftLevel"
                                                               sel="yn_method.clickLeftItem">
                                                     <item text="obj_name" issearch="false" child="content"></item>
                                                 </ptree-normal>
                                             </div>
                                             <div class="last-level-box">
-                                                <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0"
-                                                     v-for="(obj,index) in myWorkOrderModel.lastLevel">
+                                                <div class="aite-list" v-show="commonData.publicModel.lastLevel.length!=0"
+                                                     v-for="(obj,index) in commonData.publicModel.lastLevel">
                                                     <!--<div :title="obj.obj_name"-->
-                                                         <!--@click="controller.queryInfoPointForObject(obj)"-->
+                                                         <!--@click="myWorkOrderController.queryInfoPointForObject(obj)"-->
                                                     <!--&gt;-->
                                                         <div :title="obj.obj_name"
-                                                         @click="getInfoPointForObject(obj, index, $event, 0)"
+                                                         @click="publicMethod.getInfoPointForObject(obj, index, $event, 0)"
                                                     >
                                                         <span v-text="obj.obj_name">建筑体</span>
                                                     </div>
@@ -324,7 +340,7 @@
                                             </div>
                                             <div class="info-level-box">
                                                 <div class="aite-list"
-                                                     v-for="(info,index) in myWorkOrderModel.infoArray">
+                                                     v-for="(info,index) in commonData.publicModel.infoArray">
                                                     <div :title="info.name">
                                                         <span v-text="info.name">建筑体</span>
                                                     </div>
@@ -338,9 +354,9 @@
                                                             <span class="pswitch_label"></span>-->
 
                                                             <div :id="'classSelectInfoPoint' + index" class="pcheckbox"
-                                                                 @click="$root.checkInfoPoint(info, index, 0,event)">
+                                                                 @click="publicMethod.checkInfoPoint(info, index, 0)">
                                                                     <span class="pcheckbox_input"
-                                                                        :class="model.checked ? 'pcheckbox-checked' : ''"></span>
+                                                                        :class="info.checked ? 'pcheckbox-checked' : ''"></span>
                                                                     <span class="pswitch_label"></span>
                                                             </div>
                                                         <!--</div>-->
@@ -352,14 +368,15 @@
                                 </div>
                                 <!--无级别 只有复选-->
                                 <div class="only-checkbox" v-show="false">
-                                    <div class="aite-list" v-for="(item, index) in myWorkOrderModel.buildList">
+<!--
+                                    <div class="aite-list" v-for="(item, index) in commonData.publicModel.buildList">
                                         <div :title="item.obj_name">
                                             <span v-text="item.obj_name"></span>
                                         </div>
                                         <div>
-                                            <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
-                                            <!--<span class="pcheckbox_input"></span>-->
-                                            <!--<span class="pswitch_label"></span>-->
+                                            &lt;!&ndash;<pswitch-checkbox bind="true"></pswitch-checkbox>&ndash;&gt;
+                                            &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                            &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
                                             <div :id="'noLeftLevelCheckbox' + index" class="pcheckbox"
                                                  @click="$root.checkObject(item)">
                                         <span class="pcheckbox_input"
@@ -368,6 +385,7 @@
                                             </div>
                                         </div>
                                     </div>
+-->
                                 </div>
                                 <!--及时搜索，只有复选-->
                                 <div class="timely-checkbox" v-show="false">
@@ -395,19 +413,19 @@
                                     <div>
                                         <p>使用控件</p>
                                         <div>
-                                            <pcombobox-normal bind="true" sel="yn_method.selContent">
+                                            <pcombobox-normal bind="true" sel="yn_method.selContent" id="'controlSel'">
                                                 <header
-                                                        placeholder="请选择"></header>
+                                                        placeholder="'请选择'"></header>
                                                 <item
-                                                        datasource="myWorkOrderModel.controlsList"
+                                                        datasource="commonData.publicModel.controlsList"
 
                                                         text="name"></item>
                                             </pcombobox-normal>
                                         </div>
                                     </div>
-                                    <div v-show="myWorkOrderModel.myseltype!=1 && myWorkOrderModel.seltype!=4">
+                                    <div v-show="commonData.publicModel.myseltype!=1 && commonData.publicModel.seltype!=4">
                                         <div class="single-select-input">
-                                            <div class="selection-input" v-show="myWorkOrderModel.seltype==5">
+                                            <div class="selection-input" v-show="commonData.publicModel.seltype==5">
                                                 <p><span>单位</span><em></em></p>
                                                 <div class="unit-div">
                                                     <ptext-text bind="true" placeholder="'请输入要采集数据的单位'"></ptext-text>
@@ -415,11 +433,11 @@
                                                     <!--@click="$root.deleteOption(model, index, $event, index0)"-->
                                                 </div>
                                             </div>
-                                            <div class="selection-input"
-                                                 v-show="myWorkOrderModel.seltype==2 || myWorkOrderModel.seltype==3">
-                                                <p><span>选项</span><em>1</em></p>
+                                            <div class="selection-input" v-show="commonData.publicModel.customItem.items && commonData.publicModel.customItem.items.length"
+                                                 v-for="(model, index) in commonData.publicModel.customItem.items"><!-- v-show="commonData.publicModel.seltype==2 || commonData.publicModel.seltype==3"-->
+                                                <p><span>选项</span><em v-text="index + 1">1</em></p>
                                                 <div>
-                                                    <ptext-text bind="true"></ptext-text>
+                                                    <ptext-text bind="true" value="model.name"></ptext-text>
                                                     <!--<input type="text" v-model="model.name" />-->
                                                     <i>p</i>
                                                     <!--@click="$root.deleteOption(model, index, $event, index0)"-->
@@ -427,8 +445,8 @@
                                             </div>
                                         </div>
                                         <div class="self-add-select"
-                                             v-show="myWorkOrderModel.seltype==2 || myWorkOrderModel.seltype==3">
-                                            <div class="self-add-btn"><!-- @click="$root.addOption($event, index0)"-->
+                                             v-show="commonData.publicModel.seltype==2 || commonData.publicModel.seltype==3">
+                                            <div class="self-add-btn" @click="publicMethod.addOption($event, 0)"><!-- @click="$root.addOption($event, index0)"-->
                                                 <i>J</i>添加选项
                                             </div>
                                         </div>
@@ -442,17 +460,17 @@
                         </div>
                     </div>
                     <div class="aite-footer">
-                        <pbutton-white text="自定义" click="yn_method.customShow"></pbutton-white>
+                        <pbutton-white text="自定义" click="publicMethod.customizeInfoPoint"></pbutton-white><!--yn_method.customShow-->
                         <!--<pbutton-blue text="确定" disabled="true"></pbutton-blue>-->
-                        <div v-show="myWorkOrderModel.curObjType !== 'custom'" class="sureBtnDivs">
+                        <div v-show="commonData.publicModel.curObjType !== 'custom'" class="sureBtnDivs">
                             <pbutton-blue text="确定"
                                           id="sureBtn"
-                                          click="publicMethod.confirmCheckedMatterObjs"></pbutton-blue>
+                                          click="publicMethod.confirmCheckedInfoPoints2"></pbutton-blue>
                         </div>
-                        <div v-show="myWorkOrderModel.curObjType === 'custom'" class="sureBtnDivs">
+                        <div v-show="commonData.publicModel.curObjType === 'custom'" class="sureBtnDivs">
                             <pbutton-blue text="确定"
                                           id="sureBtn"
-                                          click="publicMethod.confirmCustomizeObj"></pbutton-blue>
+                                          click="publicMethod.confirmCustomizeInfoPoint"></pbutton-blue>
                         </div>
                     </div>
                 </div>

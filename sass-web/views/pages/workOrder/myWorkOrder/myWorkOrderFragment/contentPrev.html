@@ -23,7 +23,7 @@
     </div>
     <div class="prev-body">
         <div class="slide-div">
-            <textarea maxlength="100"  v-model="workContent.pre_conform" @input="counterNum" @blur="blurContentItem"></textarea>
+            <textarea maxlength="100"  v-model="workContent.pre_conform" @input="yn_method.counterNum($event)" @blur="publicMethod.blurContentItem"></textarea>
             <span class="counter"><b class="counterNum">0</b>/100</span>
         </div>
     </div>

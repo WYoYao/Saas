@@ -1,4 +1,4 @@
-<div class="hashtag-bubble" :class="{'click-aite':myWorkOrderModel.clickHashShow}">
+<div class="hashtag-bubble" :class="{'click-aite':commonData.publicModel.clickHashShow}">
     <div class="hashtag-sop">
         <div class="sop-header">
             <span>选择SOP</span>
@@ -8,16 +8,16 @@
             </div>
         </div>
         <div class="sop-body">
-            <div class="sop-list" v-show="myWorkOrderModel.sopList.length">
-                <div class="aite-list" v-for="(model, index) in myWorkOrderModel.curLevelList" :index="index" :title="model.sop_name">
+            <div class="sop-list" v-show="commonData.publicModel.sopList.length">
+                <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList" :index="index" :title="model.sop_name">
                     <div>
-                        <span v-text="model.sop_name" @click="detailSop(model, $event)"></span>
+                        <span v-text="model.sop_name" @click="publicMethod.detailSop(model, $event)"></span>
                     </div>
                     <div>
 
                         <!--<pswitch-checkbox bind="true" id="model.sop_id" click="publicMethod.checkSop"></pswitch-checkbox>-->
                         <div :id="model.sop_id" class="pcheckbox"
-                             @click="$root.checkObject(model, index, 'sop', $event)">
+                             @click="publicMethod.checkObject(model, index, 'sop', $event)">
                                         <span class="pcheckbox_input"
                                               :class="model.checked ? 'pcheckbox-checked' : ''"></span>
                             <span class="pswitch_label"></span>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
             </div>
-            <div class="sop-nodata" v-show="!myWorkOrderModel.sopList.length">
+            <div class="sop-nodata" v-show="!commonData.publicModel.sopList.length">
                 <div class="image-div">
                     <img src="../images/nodata.png" alt="暂无内容"/>
                     <p>哎呀，什么都没找到！</p>
@@ -47,7 +47,7 @@
         </div>
         <div class="filter-body">
             <div class="filter-box">
-                <div class="filter-div" v-show="myWorkOrderModel.sopCriteria.brands && myWorkOrderModel.sopCriteria.brands.length">
+                <div class="filter-div" v-show="commonData.publicModel.sopCriteria.brands && commonData.publicModel.sopCriteria.brands.length">
                     <div class="filter-type">
                         <span>品牌:</span>
                     </div>
@@ -56,12 +56,12 @@
                             <span class="sel-all" id="all_brands">全部</span>
                         </div>
                         <div class="filter-other">
-                            <span v-for="item in myWorkOrderModel.sopCriteria.brandsArr" v-text="item.name"  @click="selBrand(item, $event)" :class="item.selected ? 'sel-span' : ''">品牌1</span>
+                            <span v-for="item in commonData.publicModel.sopCriteria.brandsArr" v-text="item.name"  @click="publicMethod.selBrand(item, $event)" :class="item.selected ? 'sel-span' : ''">品牌1</span>
                         </div>
 
                     </div>
                 </div>
-                <div class="filter-div" v-show="myWorkOrderModel.sopCriteria.order_type && myWorkOrderModel.sopCriteria.order_type.length">
+                <div class="filter-div" v-show="commonData.publicModel.sopCriteria.order_type && commonData.publicModel.sopCriteria.order_type.length">
                     <div class="filter-type">
                         <span>工单类型:</span>
                     </div>
@@ -70,12 +70,12 @@
                             <span class="sel-all" id="all_order_type">全部</span>
                         </div>
                         <div class="filter-other">
-                            <span v-for="item in myWorkOrderModel.sopCriteria.order_type" v-text="item.name" @click="selOrderType(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
+                            <span v-for="item in commonData.publicModel.sopCriteria.order_type" v-text="item.name" @click="publicMethod.selOrderType(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
                         </div>
 
                     </div>
                 </div>
-                <div class="filter-div" v-show="myWorkOrderModel.sopCriteria.fit_objs && myWorkOrderModel.sopCriteria.fit_objs.length">
+                <div class="filter-div" v-show="commonData.publicModel.sopCriteria.fit_objs && commonData.publicModel.sopCriteria.fit_objs.length">
                     <div class="filter-type">
                         <span>适用对象:</span>
                     </div>
@@ -84,12 +84,12 @@
                             <span class="sel-all" id="all_fit_objs">全部</span>
                         </div>
                         <div class="filter-other">
-                            <span v-for="item in myWorkOrderModel.sopCriteria.fit_objs" v-text="item.obj_name" @click="selFitObj(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
+                            <span v-for="item in commonData.publicModel.sopCriteria.fit_objs" v-text="item.obj_name" @click="publicMethod.selFitObj(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
                         </div>
 
                     </div>
                 </div>
-                <div class="filter-div" v-show="myWorkOrderModel.sopCriteria.labels && myWorkOrderModel.sopCriteria.labels.length">
+                <div class="filter-div" v-show="commonData.publicModel.sopCriteria.labels && commonData.publicModel.sopCriteria.labels.length">
                     <div class="filter-type">
                         <span>自定义:</span>
                     </div>
@@ -98,7 +98,7 @@
                             <span class="sel-all" id="all_labels">全部</span>
                         </div>
                         <div class="filter-other">
-                            <span v-for="item in myWorkOrderModel.sopCriteria.labelsArr" v-text="item.name" @click="selLabel(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
+                            <span v-for="item in commonData.publicModel.sopCriteria.labelsArr" v-text="item.name" @click="publicMethod.selLabel(item, $event)" :class="item.selected ? 'sel-span' : ''"></span>
                         </div>
 
                     </div>

@@ -52,6 +52,23 @@ spaceInfoController.queryFloorWithOrder = function (sign, buildItem) { //查询�
             data = res.data || [];
             if (sign == 'floor') {
                 instance.allFloorInfo = data;
+                var hasNull = false;
+                var lastSequence = 0;
+                for (var i = 0; i < instance.allFloorInfo.length; i++) {//顺序码可能是null的情况
+                    var thisFloor = instance.allFloorInfo[i];
+                    if (thisFloor.floor_sequence_id === 0 || !!thisFloor.floor_sequence_id) {
+                        lastSequence = thisFloor.floor_sequence_id;
+                        return;
+                    }
+                    hasNull = true;
+                    thisFloor.floor_sequence_id = lastSequence - 1;
+                    lastSequence = lastSequence - 1;
+                }
+                if (hasNull) {
+                    spaceInfoController.updateFloorOrder();
+                }
+                $("#spaceLoading").phide();
+
                 setTimeout(function () {
                     scrollFloor();
                 }, 0);
@@ -61,9 +78,9 @@ spaceInfoController.queryFloorWithOrder = function (sign, buildItem) { //查询�
         },
         error: function (errObj) {
             console.error('queryFloorWithOrder err');
+            $("#spaceLoading").phide();
         },
         complete: function () {
-            $("#spaceLoading").phide();
         }
     });
 }

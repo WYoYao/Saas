@@ -92,6 +92,13 @@
 .see_planDetail_grid_top_tit_con2 >div:nth-child(1){
     width: 330px;
 }
+.see_planDetail_grid_top_tit_con3 >h4{
+    white-space: nowrap;
+}
+.see_planDetail_grid_top_tit_con3 >div{
+    display: flex;
+    flex-flow: row wrap;
+}
 .see_planDetail_grid_top_tit_con3 >div >span{
     margin-right: 8px;
 }

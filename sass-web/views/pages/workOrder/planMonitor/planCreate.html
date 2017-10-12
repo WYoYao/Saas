@@ -17,7 +17,9 @@
                     <div class="planCreate_page_con_left_name">
                         <h4><span>*</span><i>计划名称</i></h4>
                         <div id="plan_name">
-                            <ptext-text bind="true" v-model="model.newPlanObj.plan_name"></ptext-text>
+                            <ptext-text bind="true" v-model="model.newPlanObj.plan_name">
+                                <verify errtip="计划名称不能为空" verifytype="space"></verify>
+                            </ptext-text>
                         </div>
                     </div>
                     <div class="planCreate_page_con_left_orderType">
@@ -27,7 +29,7 @@
                         <h4><span>*</span><i>工单紧急程度</i></h4>
                         <div id="orderUrgency">
                             <pcombobox-normal bind="true" sel="">
-                                <header placeholder="请选择"></header>
+                                <header placeholder="低"></header>
                                 <item datasource="model.orderLevelList" text="name"></item>
                             </pcombobox-normal>
                         </div>
@@ -36,7 +38,11 @@
                         <h4><span>*</span><i>工单提前发送时间：</i></h4>
                         <div id="aheadCreateTime">
                             <!-- <span>提前：</span> -->
-                            <ptext-text text="提前：" placeholder="请在此输入时间" align="left"></ptext-text>
+                            <ptext-text text="提前：" placeholder="请在此输入时间" align="left">
+                                 <verify errtip="时间不能为空" verifytype="space"></verify>
+                                 <verify errtip="请输入数字" verifytype="number"></verify>
+
+                            </ptext-text>
                         </div>
                     </div>
                     <div class="planCreate_page_con_left_planRate">
@@ -50,9 +56,13 @@
                             <pcombobox-normal :id="'planRateRig'" bind="true" sel="methods.set_RateNum(model,event)">
                                 <header placeholder="请选择"></header>
                                 <item datasource="model.planRateRig" text="name"></item>
+                                <!-- <verify errtip="'请选择计划频率'" verifytype="number"></verify> -->
                             </pcombobox-normal>
                             <p>次</p>
                         </div>
+                        <span id="planRace_error" class="per-input-basic">
+                            <div err="" class="error-tip" style="display: block;"><i>！</i><em errtext="">请选择计划频率</em></div>
+                        </span>
                         <!-- 年 -->
                         <ul v-if="rateYear" class="planCreate_page_con_left_planRateList planCreate_page_con_left_planRateList_year">
                             <li v-for="(item,index) in rateYear">
@@ -154,9 +164,13 @@
                                 <panel startyear="2013" endyear="2022" timeType="yMdhm"></panel>
                             </ptime-form>
                         </span>
+                        <section id="choicePlanTime_error" class="per-input-basic">
+                             <div err="" class="error-tip" style="display: block;"><i>！</i><em errtext="">计划结束时间需大于开始时间</em></div>
+                        </section>
                     </div>
                 </div>
                 <div class="planCreate_page_con_rig">
+                    <% include ../myWorkOrder/workMatter.html %>
                 </div>
             </div>
         </div>

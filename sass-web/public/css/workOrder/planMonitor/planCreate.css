@@ -228,7 +228,14 @@
 .planCreate_page_con_left_planRateList_day{
 	
 }
-
+#planRace_error{
+	display: none;
+	margin-bottom: 20px;
+}
+#choicePlanTime_error{
+	display: none;
+	margin-top: -20px;
+}
 /* 生效时间 */
 .planCreate_page_con_left_effectTime{
 	display: flex;

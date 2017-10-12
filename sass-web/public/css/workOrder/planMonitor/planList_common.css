@@ -366,6 +366,12 @@
     background: #f7f9fb;
     cursor: pointer;
 }
+.searchList_table_list1_name .planName{
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+    text-overflow: ellipsis;
+}
 .searchList_table_list1_cycle{
 	width: 8%;
 	/* height: 60px; */
@@ -413,6 +419,7 @@
 	align-items: center;
 	min-height: 50px;
 	width: 100%;
+	border-bottom: 1px solid #d9e2e8;
 }
 .searchList_table_list2_box:not(:last-child){
 	border-bottom: 1px solid #d9e2e8;
@@ -429,6 +436,12 @@
     white-space: nowrap;
     background: #f7f9fb;
     cursor: pointer;
+}
+.searchList_table_list2_name .planName{
+	width: 100%;
+	overflow: hidden;
+	white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .searchList_table_list2_cycle{
 	width: 8%;

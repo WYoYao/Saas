@@ -152,6 +152,9 @@ v.pushComponent({
             this.MaintenanceList = []; // 维保中列表
             this.ScrappedList = []; //报废列表
 
+            // 切换Tab 默认查询全部
+            this.setCurrentSelectorAttr("build_id","");
+
             // 清空搜索按钮
             $("#searchBtn").precover();
 
@@ -294,6 +297,13 @@ v.pushComponent({
             }
 
         });
+
+
+        _that.switchOnTab("equip_total");
+
+        // setTimeout(function() {
+        //     _that.setCurrentSelectorAttr("build_id","");
+        // }, 300);
 
         // 默认查询
         // setTimeout(function() {

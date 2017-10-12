@@ -1,57 +1,48 @@
-<!DOCTYPE html>
-<html>
+<% include ../../../template/pageHead.html %>
 
-<head>
-    <meta charset="utf-8" />
-    <title>Saas平台运营平台</title>
-    <meta name="renderer" content="webkit|ie-comp|ie-stand">
-    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
-    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
-    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
-    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/see_planDetail.css"/>
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/see_orderDetail.css"/>
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/planMonitor_scrapList.css" />
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/planMonitor_scrapDetail.css" />
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/planMonitor_oldOrderRecord.css" />
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/planList_common.css" />
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/planCreate.css" />
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/planCreate_next.css" />
-    <link rel="stylesheet" href="/css/workOrder/planMonitor/search_box.css" />
+<script type="text/javascript" src="../js/public/orderDetail_pub.js"></script>
+<script type="text/javascript" src="../js/public/globalController.js"></script>
+<script type="text/javascript" src="../js/public/publicMethod.js"></script>
+<script src="../js/workOrder/myWorkOrder/controller.js"></script>
 
-    <script src="/js/workOrder/planMonitor/model.js"></script>
-    <script src="/js/workOrder/planMonitor/controller.js"></script>
-    <script src="/js/workOrder/planMonitor/event.js"></script>
-    <script src="/js/workOrder/planMonitor/tempData.js"></script>
-    <script src="/js/public/orderDetail_pub.js"></script>
+<link rel="stylesheet" href="../css/workOrder/myWorkOrder/myWorkOrderCreate.css" />
+<link rel="stylesheet" href="/css/workOrder/planMonitor/see_planDetail.css"/>
+<link rel="stylesheet" href="/css/workOrder/planMonitor/see_orderDetail.css"/>
+<link rel="stylesheet" href="/css/workOrder/planMonitor/planMonitor_scrapList.css"/>
+<link rel="stylesheet" href="/css/workOrder/planMonitor/planMonitor_scrapDetail.css"/>
+<link rel="stylesheet" href="/css/workOrder/planMonitor/planMonitor_oldOrderRecord.css"/>
+<link rel="stylesheet" href="/css/workOrder/planMonitor/planList_common.css"/>
+<link rel="stylesheet" href="/css/workOrder/planMonitor/planCreate.css"/>
+<link rel="stylesheet" href="/css/workOrder/planMonitor/planCreate_next.css"/>
+<link rel="stylesheet" href="/css/workOrder/planMonitor/search_box.css"/>
+
+<script type="text/javascript" src="../js/workOrder/myWorkOrder/model.js"></script>
+
+<script src="/js/workOrder/planMonitor/model.js"></script>
+<script src="/js/workOrder/planMonitor/controller.js"></script>
+<script src="../js/workOrder/planMonitor/logger.js"></script>
+<script src="/js/workOrder/planMonitor/event.js"></script>
+<script src="/js/workOrder/planMonitor/tempData.js"></script>
+
+
+
 </head>
 
 <body style="height:100%">
-    <div id="planMonitor">
-        <%include planList_common.html%>
-        <%include planMonitor_scrapList.html%>
-        <%include planMonitor_scrapDetail.html%>
-        <%include planMonitor_oldOrderRecord.html%>
-        <%include see_planDetail.html%>
-        <%include see_orderDetail.html%>
-        <%include planCreate.html%>
-        <%include planCreate_next.html%>
+<div id="planMonitor">
+    <%include planList_common.html%>
+    <%include planMonitor_scrapList.html%>
+    <%include planMonitor_scrapDetail.html%>
+    <%include planMonitor_oldOrderRecord.html%>
+    <%include see_planDetail.html%>
+    <%include see_orderDetail.html%>
+    <%include planCreate.html%>
+    <%include planCreate_next.html%>
 
 
-        <ploading-part id="list_loading" text="加载中..."></ploading-part>
-        <pnotice-message id="publishNotice" text="成功"></pnotice-message>
-        
-    </div>
-    
-</body>
+    <ploading-part id="list_loading" text="加载中..."></ploading-part>
+    <pnotice-message id="publishNotice" text="成功"></pnotice-message>
 
-</html>
+</div>
+
+<% include ../../../template/pageFoot.html %>

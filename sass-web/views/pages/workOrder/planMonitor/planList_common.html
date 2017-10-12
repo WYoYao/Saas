@@ -13,7 +13,7 @@
                 <ul class="search_bar_ul">
                     <li class="search_bar_box active">
                         <div class="search_bar_div">
-                            <psearch-delay bind="true" id="'sop_name_search1'" placeholder="'输入计划名称和计划编号查找'" change=""></psearch-delay>
+                            <psearch-delay bind="true" id="'sop_name_search1'" placeholder="'输入计划名称和计划编号查找'" change=" methods.getListMonthDate()"></psearch-delay>
                         </div>
                     </li>
                 </ul>
@@ -49,7 +49,7 @@
                         <li v-for="items in orderStateList_img">
                             <span v-if="items.code">
                                 <img :src="'../../../../../images/orderState/' + items.code +'.png'" alt="">
-                                <i v-text="items.name">下次待发出公单</i>
+                                <i v-text="items.name">下次待发出工单</i>
                             </span>
                         </li>
                         <!-- <li>
@@ -91,10 +91,10 @@
             </div>
             <div class="searchList_table_list1" id="searchList_table_day">
                 <div class="searchList_table_list1_box" v-for="renders in renderTableListDay">
-                    <div :style="{height:renders.max_freq_num*50 +'px'}" class="searchList_table_list1_name" @click="seePlanDetailShow(renders.plan_id)">
-                        <div v-text="renders.plan_name"></div>
+                    <div :style="{height:renders.max_freq_num*50 +10+'px'}" class="searchList_table_list1_name" @click="seePlanDetailShow(renders.plan_id)">
+                        <div class="planName" :title="renders.plan_name" v-text="renders.plan_name"></div>
                     </div>
-                    <div :style="{height:renders.max_freq_num*50 +'px'}" class="searchList_table_list1_cycle">
+                    <div :style="{height:renders.max_freq_num*50 +10+'px'}" class="searchList_table_list1_cycle">
                         <div>
                             每<span><i v-text="renders.freq_cycle == 'd'?'周':''"></i><i v-text="renders.freq_num"></i>次</span>
                         </div>
@@ -106,7 +106,7 @@
                     <div class="searchList_table_list1_date">
                         <div>
                             <ul v-for="items in renders.renderListDay">
-                                <li  v-for="(data,index) in items" @click="clickSeeOrderDetail(data.order_id)">
+                                <li v-for="(data,index) in items" @click="clickSeeOrderDetail(data.order_id)">
                                     <span v-if="data.order_id" :code = data.markDay>
                                         <img v-if="data.order_state" :src="'../../../../../images/orderState/' + data.order_state +'.png'" alt="">    
                                     </span>
@@ -125,7 +125,7 @@
                 <!-- <div v-text="renders.row_count"></div> -->
                 
                     <div :style="{height:renders.row_count*50 +'px'}" class="searchList_table_list2_name" @click="seePlanDetailShow(1)" >
-                        <div v-text="renders.plan_name"></div>
+                        <div class="planName" :title ="renders.plan_name" v-text="renders.plan_name"></div>
                     </div>
                     <div :style="{height:renders.row_count*50 +'px'}" class="searchList_table_list2_cycle">
                         <div>

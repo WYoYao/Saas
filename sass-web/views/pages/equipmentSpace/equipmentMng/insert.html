@@ -12,14 +12,10 @@
             <div class="i_content">
                 <!-- 进度轴 Start -->
                 <div class="own verticalAxes">
-                    <div class="circle"><span class="name">基础</span></div>
-                    <div class="circle sel"><span class="name">租户</span></div>
-                    <div class="circle"><span class="name">人员</span></div>
-                    <div class="circle"><span class="name">水电气</span></div>
-                    <div class="circle"><span class="name">关键指标</span></div>
+                    <div class="circle" :class='{sel:item.isSelected}' :style="{top:item.top+'px'}" v-for='item in ScrollList' @click='toggleSel(item)'><span class="name" v-text='item.title'></span></div>
                 </div>
                 <!-- 进度轴 End -->
-                <div class="moduleItem">
+                <div class="moduleItem" id='SrcollInsert_base'>
                     <div class="header">基础</div>
                     <div class="eachItem lineItem">
                         <div class="name"><span><em>*</em>设备名称</span></div>
@@ -188,7 +184,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="moduleItem">
+                <div class="moduleItem" id='SrcollInsert_service'>
                     <div class="header">厂家</div>
 
                     <div class="eachItem leftItem">
@@ -238,7 +234,7 @@
                     </div>
 
                 </div>
-                <div class="moduleItem">
+                <div class="moduleItem" id='SrcollInsert_buy'>
                     <div class="header">供应&购买</div>
 
                     <div class="eachItem leftItem">
@@ -275,7 +271,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="moduleItem">
+                <div class="moduleItem" id='SrcollInsert_run'>
                     <div class="header">运行&维保</div>
 
                     <div class="eachItem leftItem">
@@ -359,7 +355,7 @@
 
 
                 </div>
-                <div class="moduleItem">
+                <div class="moduleItem" id='SrcollInsert_bao'>
                     <div class="header">保险</div>
 
                     <div class="eachItem leftItem">
@@ -383,7 +379,7 @@
                 </div>
 
                 <!-- 技术参数 Start -->
-                <div class="moduleItem" v-for='item in EquipDynamicInfoList'>
+                <div class="moduleItem" :id="'SrcollInsert_tag'+ index" v-for='(item,index) in EquipDynamicInfoList'>
                     <div class="header" v-text='item.tag'></div>
 
                     <div class="eachItem" :class='{leftItem:index%2==0,rightItem:index%2==1}' v-for='(info,index) in item.info_Points'>

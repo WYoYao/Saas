@@ -77,6 +77,17 @@
                     border: 1px solid #cacaca;
                 }
 
+        .addSystemCont .leftCont .buildItem .systemCont {
+            display: none;
+        }
+
+        .addSystemCont .leftCont .buildItem .noData {
+            height: 50px;
+            line-height: 50px;
+            color: #bbbbbb;
+            padding-left: 72px;
+        }
+
         .addSystemCont .leftCont .buildItem .systemList li {
             height: 50px;
             line-height: 50px;
@@ -97,22 +108,131 @@
         width: 40%;
         height: 100%;
         float: right;
-        padding-left: 20px;
         box-sizing: border-box;
+        position: relative;
+        overflow: hidden;
+        overflow-y: auto;
     }
 
         .addSystemCont .rightCont .detailHead {
             font-size: 18px;
             font-weight: 600;
             padding-top: 18px;
-            padding-bottom: 26px;
+            padding-bottom: 16px;
+            padding-left: 26px;
         }
 
-        .addSystemCont .rightCont .detailItem {
-            margin-bottom: 24px;
+        .addSystemCont .rightCont .noData {
+            height: 100%;
+            background: url(/images/sysNodata.png) no-repeat center;
+            display: none;
         }
 
-            .addSystemCont .rightCont .detailItem .title {
-                color: #777777;
-                margin-right: 12px;
+.equipmentDetail .sys_i_content {
+    width: 570px;
+}
+
+.addSystemCont .rightCont .detailFloat .detailItem {
+    padding-left: 26px;
+    padding-right: 20px;
+}
+
+    .addSystemCont .rightCont .detailFloat .detailItem:hover {
+        background: #f5f5f5;
+    }
+
+    .addSystemCont .rightCont .detailFloat .detailItem .contShow {
+        height: 44px;
+        line-height: 44px;
+    }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .contShow .name {
+            margin-right: 8px;
+            color: #777777;
+        }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .contShow .unit {
+            margin-left: 6px;
+        }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .contShow .edit {
+            float: right;
+            color: #637e99;
+            height: 16px;
+            cursor: pointer;
+            line-height: 16px;
+            margin-top: 14px;
+            display: none;
+            cursor: pointer;
+        }
+
+            .addSystemCont .rightCont .detailFloat .detailItem .contShow .edit em {
+                font-family: 'perficon';
+                font-size: 16px;
+                margin-right: 4px;
             }
+
+    .addSystemCont .rightCont .detailFloat .detailItem .canEdit:hover .edit {
+        display: block;
+    }
+
+    .addSystemCont .rightCont .detailFloat .detailItem .editShow {
+        min-height: 58px;
+        display: none;
+    }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .editShow:after {
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;
+        }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .editShow .editInput {
+            width: 200px;
+            float: left;
+            margin-top: 7px;
+            position: relative;
+        }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .editShow .editDown {
+            width: 226px;
+            float: left;
+            margin-top: 7px;
+            position: relative;
+        }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .editShow .editText {
+            height: 122px;
+            width: 200px;
+            float: left;
+            margin-top: 7px;
+        }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .editShow .name {
+            margin-right: 8px;
+            color: #777777;
+            float: left;
+            height: 44px;
+            line-height: 44px;
+        }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .editShow .sure {
+            float: right;
+            font-family: 'perficon';
+            font-size: 16px;
+            color: #68c5b3;
+            margin-right: 12px;
+            margin-top: 14px;
+            cursor: pointer;
+        }
+
+        .addSystemCont .rightCont .detailFloat .detailItem .editShow .cancel {
+            float: right;
+            font-family: 'perficon';
+            font-size: 16px;
+            color: #7a94ad;
+            margin-top: 14px;
+            cursor: pointer;
+        }

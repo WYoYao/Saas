@@ -245,7 +245,7 @@ var cardPrintLogic = {
     },
     /*获取设备名片列表或空间名片列表*/
     getCardList: function () {
-        $('#divCardPrintLoading').pshow();
+        $('#globalloading').pshow();
         var tabIndex = $("#divCardPrintTab").psel();
         var typeIndex = tabIndex == 0 ? cardPrintModal.eqSelDownTypeIndex : cardPrintModal.spSelDownTypeIndex;
         var modalProNameForGrid = tabIndex == 0 ? 'eqArr' : 'spArr';
@@ -302,7 +302,7 @@ var cardPrintLogic = {
         }, function () {
             console.error('getCardList err');
         }, function () {
-            $('#divCardPrintLoading').phide();
+            $('#globalloading').phide();
         });
     },
     /*获取建筑*/
@@ -435,15 +435,15 @@ var cardPrintLogic = {
     },
     /*保存名片设置*/
     saveCard: function () {
-        $('#divCardPrintLoading').pshow();
+        $('#globalloading').pshow();
 
         var promiseArr = [save(0), save(1)];
         when.all(promiseArr).then(function (result) {
-            $('#divCardPrintLoading').phide();
-            $('#divCardPrintNotice').pshow({ text: '保存成功', state: 'success' });
+            $('#globalloading').phide();
+            $('#globalnotice').pshow({ text: '保存成功', state: 'success' });
         }, function () {
-            $('#divCardPrintLoading').phide();
-            $('#divCardPrintNotice').pshow({ text: '保存失败', state: 'failure' });
+            $('#globalloading').phide();
+            $('#globalnotice').pshow({ text: '保存失败', state: 'failure' });
         });
 
 
@@ -488,7 +488,7 @@ var cardPrintLogic = {
     },
     /*上传Logo图片*/
     uploadLogo: function (file) {
-        $('#divCardPrintLoading').pshow();
+        $('#globalloading').pshow();
         pajax.upload({
             file: file,
             success: function (obj) {
@@ -498,13 +498,13 @@ var cardPrintLogic = {
                     updateInfo.logoUrl = obj.showUrl;
                     updateInfo.isNewFile = true;
                 } else
-                    $('#divCardPrintNotice').pshow({ text: 'Logo上传失败', state: 'failure' });
+                    $('#globalnotice').pshow({ text: 'Logo上传失败', state: 'failure' });
             },
             error: function () {
-                $('#divCardPrintNotice').pshow({ text: 'Logo上传失败', state: 'failure' });
+                $('#globalnotice').pshow({ text: 'Logo上传失败', state: 'failure' });
             },
             complete: function () {
-                $('#divCardPrintLoading').phide();
+                $('#globalloading').phide();
             }
         });
     },

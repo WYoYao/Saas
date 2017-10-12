@@ -4,10 +4,10 @@
             <span>注意事项</span>
         </div>
         <div class="edit-clear-div">
-            <div class="edit-div" v-show="myWorkOrderModel.editBtn">
+            <div class="edit-div" v-show="commonData.publicModel.editBtn">
                 <pbutton-white text="编辑" icon="e" isborder="false" click="yn_method.editable"></pbutton-white>
             </div>
-            <div class="clear-div" v-show="!myWorkOrderModel.editBtn">
+            <div class="clear-div" v-show="!commonData.publicModel.editBtn">
                 <img src="../images/clear_03.png" alt="清空图标"/>
                 <pbutton-white text="清空"  isborder="false" click="yn_method.delBubbleShow"></pbutton-white>
             </div>
@@ -22,7 +22,7 @@
     </div>
     <div class="prev-body">
         <div class="slide-div">
-            <textarea v-model="workContent.notice" @blur="blurContentItem"></textarea>
+            <textarea v-model="workContent.notice" @blur="publicMethod.blurContentItem"></textarea>
         </div>
     </div>
 </div>

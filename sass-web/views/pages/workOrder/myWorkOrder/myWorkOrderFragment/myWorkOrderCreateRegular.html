@@ -1,4 +1,4 @@
-<div class="matter-regular" v-show="myWorkOrderModel.regular" v-for="(model, index0) in allMatters">
+<div class="matter-regular" v-show="commonData.publicModel.regular">
     <div class="regular-text-div">
         <div class="regular-obj-text">
             <div class="textarea-div">
@@ -34,7 +34,7 @@
                     <span>#添加SOP</span>
                     <% include hashtag.html %>
                 </div>
-                <div class="add-content" onclick="yn_method.addContent(true)">
+                <div class="add-content" onclick="publicMethod.addContent(true)">
                     <span>添加工作内容</span>
                 </div>
             </div>

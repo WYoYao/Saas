@@ -1,4 +1,4 @@
-<div class="myWork-table" v-show="myWorkOrderModel.workList.length!=0 && myWorkOrderModel.workAlreadyID != 0">
+<div class="myWork-table" v-show="commonData.publicModel.workList.length!=0 && commonData.publicModel.workAlreadyID != 0">
     <div class="myWork-table-header">
         <div class="table-header-id"><span>工单ID</span></div>
         <div class="table-header-type"><span>类型</span></div>
@@ -7,7 +7,7 @@
         <div class="table-header-state"><span>工单状态</span></div>
     </div>
     <div class="myWork-table-body">
-        <div class="tr" v-for="item in myWorkOrderModel.workList">
+        <div class="tr" v-for="item in commonData.publicModel.workList">
             <div class="table-header-id"><span v-text="item.order_id"></span></div>
             <div class="table-header-type"><span v-text="item.order_type_name"></span></div>
             <div class="table-header-summary"><span v-text="item.summary"></span></div>

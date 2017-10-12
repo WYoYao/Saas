@@ -1,19 +1,4 @@
 var controller = {
-    init: function() {
-        new Vue({
-            el: '#planMonitor',
-            data: model,
-            methods: methods,
-            mounted: function() {
-                $("#navBar").psel(0, false);
-                controller.getTabList(); //获取table导航数据
-                controller.getOrderStateList(); //获取工单状态列表
-                // this.getListMonthDate(); //获取当前月和上下月天数
-                // this.getListMonth(null, null); //获取当前月和上下月份
-            },
-        });
-
-    },
     /*数据请求*/
     getTabList: function() { //tab相关数据请求
         $("#list_loading").pshow();
@@ -220,7 +205,7 @@ var controller = {
                     }
                 });
                 model.renderTableListCommon = transList_Y;
-                console.log(JSON.stringify(model.renderTableListCommon));
+                // console.log(JSON.stringify(model.renderTableListCommon));
             },
             error: function(error) {
 
@@ -252,7 +237,7 @@ var controller = {
                 var arr1 = JSON.parse(JSON.stringify(list));
                 arr1.unshift({ "code": "", "name": "全部" });
                 var arr2 = JSON.parse(JSON.stringify(list));
-                arr2.unshift({ "code": "next", "name": "下次待发出公单" });
+                arr2.unshift({ "code": "next", "name": "下次待发出工单" });
                 model.orderStateList = arr1;
                 model.orderStateList_img = arr2;
             },
@@ -381,17 +366,16 @@ var controller = {
     },
     getPlanDetailById: function(planId) { //根据id查看计划详情
         $("#list_loading").pshow();
-        var userId = model.user_id;
         pajax.post({
-            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            // url: 'restWoPlanService/queryWoPlanById',
+            // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            url: 'restWoPlanService/queryWoPlanById',
             data: {
-                user_id: userId,
                 plan_id: planId
             },
             success: function(res) {
-                var _data = res && res.data ? res.data : [];
-                _data = d.planDetailData; //临时使用
+                var _data = res ? res : {};
+                // _data = d.planDetailData; //临时使用
+                model.plan_id = planId;
                 model.planDetailData = _data;
                 // $("#floatWindow").pshow();
 
@@ -406,11 +390,9 @@ var controller = {
         });
     },
     getScrapOperat: function() { //确定作废操作
-        var userId = model.user_id;
         pajax.post({
             url: 'restWoPlanService/destroyWoPlanById',
             data: {
-                user_id: userId,
                 plan_id: model.planId
             },
             success: function(res) {
@@ -429,12 +411,12 @@ var controller = {
     
     getPlanCreateNext:function(_data){//创建计划预览
         pajax.post({
-            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            // url: 'restWoPlanService/getWoMattersPreview',
+            // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            url: 'restWoPlanService/getWoMattersPreview',
             data: _data,
             success: function(res) {
-                var _data = res && res.data ? res.data : [];
-                _data = d.planCreateData; //临时使用
+                var _data = res && res.published_matters ? res.published_matters : {};
+                // _data = d.planCreateData; //临时使用
                 model.planCreateDetail = _data;
                 model.curPage = model.pages[7];
             },
@@ -456,7 +438,7 @@ var controller = {
                 var _data = res && res.data ? res.data : [];
                 _data = d.objExample; //临时使用
                 model.planObjExampleArr = _data;
-                console.log(_data)
+                // console.log(_data)
                 $("#choiceObjExample").show();
             },
             error: function(error) {
@@ -474,17 +456,11 @@ var controller = {
             url: 'restWoPlanService/addWoPlan',
             data: _data,
             success: function(res) {
-
-                console.log("success")
                 $("#publishNotice").pshow({ text: '发布成功', state: "success" });
-
-               
             },
             error: function(error) {
                  $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });
-
             },
-
             complete: function() {
                 $("#list_loading").phide();
             }
@@ -496,17 +472,11 @@ var controller = {
             url: 'restWoPlanService/updateWoPlan',
             data: _data,
             success: function(res) {
-
-                console.log("success")
                 $("#publishNotice").pshow({ text: '发布成功', state: "success" });
-
-               
             },
             error: function(error) {
                  $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });
-
             },
-
             complete: function() {
                 $("#list_loading").phide();
             }

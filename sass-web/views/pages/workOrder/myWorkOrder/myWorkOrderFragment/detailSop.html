@@ -1,4 +1,4 @@
-<div class="detail-alert" v-show="myWorkOrderModel.detailSopShow">
+<div class="detail-alert" v-show="commonData.publicModel.detailSopShow">
     <div class="alert-all">
         <div class="alert-shade">
             <div class="alert-box">
@@ -6,7 +6,7 @@
                     <div class="alert-container">
                         <div class="alert-header">
                             <div class="alert-title">
-                                <h3><img src="../images/return.png"><span v-text="myWorkOrderModel.detailSopData.sop_name">地泵热源日常维保</span><em v-text="myWorkOrderModel.detailSopData.version">V2.0</em></h3>
+                                <h3><img src="../images/return.png"><span v-text="commonData.publicModel.detailSopData.sop_name">地泵热源日常维保</span><em v-text="commonData.publicModel.detailSopData.version">V2.0</em></h3>
                             </div>
                         </div>
                         <div class="alert-body">
@@ -15,43 +15,43 @@
                                     <table cellspacing="0">
                                         <tr>
                                             <td>编号</td>
-                                            <td v-text="myWorkOrderModel.detailSopData.sop_id"><span>AC001</span></td>
+                                            <td v-text="commonData.publicModel.detailSopData.sop_id"><span>AC001</span></td>
                                         </tr>
                                         <tr>
                                             <td>专业要求</td>
-                                            <td><span  v-for="(major,index) in myWorkOrderModel.detailSopData.domains" v-text="index == myWorkOrderModel.detailSopData.domains.length-1 ? major : major + '、'">强电</span></td>
+                                            <td><span  v-for="(major,index) in commonData.publicModel.detailSopData.domains" v-text="index == commonData.publicModel.detailSopData.domains.length-1 ? major : major + '、'">强电</span></td>
                                         </tr>
                                         <tr>
                                             <td>所需工具</td>
-                                            <td><span  v-for="(toolx,index) in myWorkOrderModel.detailSopData.tools" v-text="index == myWorkOrderModel.detailSopData.tools.length-1 ? toolx.tool : toolx.tool + '、'">钳子</span></td>
+                                            <td><span  v-for="(toolx,index) in commonData.publicModel.detailSopData.tools" v-text="index == commonData.publicModel.detailSopData.tools.length-1 ? toolx.tool : toolx.tool + '、'">钳子</span></td>
                                         </tr>
                                         <tr>
                                             <td>适用工单类型</td>
-                                            <td><span v-for="(orderType,index) in myWorkOrderModel.detailSopData.order_type" v-text="index == myWorkOrderModel.detailSopData.order_type.length-1 ? orderType : orderType + '、'">维保</span></td>
+                                            <td><span v-for="(orderType,index) in commonData.publicModel.detailSopData.order_type" v-text="index == commonData.publicModel.detailSopData.order_type.length-1 ? orderType : orderType + '、'">维保</span></td>
                                         </tr>
                                         <tr>
                                             <td>适用对象</td>
-                                            <td><span v-for="(obj,index) in myWorkOrderModel.detailSopData.fit_objs" v-text="index == myWorkOrderModel.detailSopData.fit_objs.length-1 ? obj.obj_name : obj.obj_name + '、'">空间1</span></td>
+                                            <td><span v-for="(obj,index) in commonData.publicModel.detailSopData.fit_objs" v-text="index == commonData.publicModel.detailSopData.fit_objs.length-1 ? obj.obj_name : obj.obj_name + '、'">空间1</span></td>
                                         </tr>
                                         <tr>
                                             <td>品牌</td>
-                                            <td><span v-for="(brand,index) in myWorkOrderModel.detailSopData.brands" v-text="index == myWorkOrderModel.detailSopData.brands.length-1 ? brand : brand + '、'">品牌1</span></td>
+                                            <td><span v-for="(brand,index) in commonData.publicModel.detailSopData.brands" v-text="index == commonData.publicModel.detailSopData.brands.length-1 ? brand : brand + '、'">品牌1</span></td>
                                         </tr>
                                         <tr>
                                             <td>自定义</td>
-                                            <td><span v-for="(label,index) in myWorkOrderModel.detailSopData.labels" v-text="index == myWorkOrderModel.detailSopData.labels.length-1 ? label : label + '、'">品牌1</span></td>
+                                            <td><span v-for="(label,index) in commonData.publicModel.detailSopData.labels" v-text="index == commonData.publicModel.detailSopData.labels.length-1 ? label : label + '、'">品牌1</span></td>
                                         </tr>
                                         <tr>
                                             <td>相关资料</td>
                                             <td>
-                                                <a :href="linked.url.substr(0,7).toLowerCase() =='http://' ? linked.url : 'http://' + linked.url" target="_blank"  v-for="(linked,index) in myWorkOrderModel.detailSopData.related_data" v-text="linked.name">视频资料</a>
+                                                <a :href="linked.url.substr(0,7).toLowerCase() =='http://' ? linked.url : 'http://' + linked.url" target="_blank"  v-for="(linked,index) in commonData.publicModel.detailSopData.related_data" v-text="linked.name">视频资料</a>
                                             </td>
                                         </tr>
                                     </table>
                                 </div>
                             </div>
                             <div class="detail-step">
-                                <div class="single-step" v-for="(step,index) in myWorkOrderModel.detailSopData.steps">
+                                <div class="single-step" v-for="(step,index) in commonData.publicModel.detailSopData.steps">
                                     <h4>步骤<span v-text="index+1"></span></h4>
                                     <div class="step-content-sop" v-for="(stepContent,index) in step.step_content">
                                         <div class="step-content-div"  v-if="!stepContent.from_sop">
@@ -141,7 +141,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="alert-close" @click="closeDetailSop">
+                <div class="alert-close" @click="publicMethod.closeDetailSop">
                     <img src="../images/alert_close_btn.png"/>
                 </div>
             </div>

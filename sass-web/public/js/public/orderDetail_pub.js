@@ -1,16 +1,28 @@
 var orderDetail_pub = {
-    getOrderDetail: function(pub_model, order_id, flag) { //查看工单详情
+    getOrderDetail: function (pub_model, order_id, flag) {
+        if (flag == '4') {
+            orderDetail_data.goBackFlag = flag;
+            orderDetail_data.pub_model = pub_model;
+            orderDetail_data.pub_model.curPage = 'see_orderDetail';
+            orderDetail_pub.getUserInfo();//获取人员信息
+        } else {
+            orderDetail_pub.getPublishedOrderDetail(pub_model, order_id, flag);
+        }
+    },
+
+    getPublishedOrderDetail: function(pub_model, order_id, flag) { //查看工单详情
         var userId = model.user_id;
+        $("#list_loading").pshow();
         pajax.post({
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
             url: 'restMyWorkOrderService/queryWorkOrderById',
             data: {
-                user_id: userId,
                 order_id: order_id
             },
             success: function(res) {
-                var _data = res && res.data ? res.data : [];
-                _data = d.orderDetailData; //临时使用
+                var _obj = res  ? res : {};
+                var _data = _obj.work_order.wo_body;
+                // _data = d.orderDetailData; //临时使用
                 orderDetail_data.goBackFlag = flag;
                 orderDetail_data.pub_model = pub_model;
                 if (flag == '1') {//空间内展示
@@ -27,11 +39,6 @@ var orderDetail_pub = {
                     orderDetail_data.pub_model.curPage = 'see_orderDetail';
                     orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, userId, order_id); //查询工单操作列表
                     orderDetail_pub.getUserInfo();//获取人员信息
-                }else if(flag == '4'){//创建工单
-                    pub_model.orderDetailData = _data;
-                    orderDetail_data.pub_model.curPage = 'see_orderDetail';
-                    orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, userId, order_id); //查询工单操作列表
-                    orderDetail_pub.getUserInfo();//获取人员信息
                 }
             },
             error: function(error) {
@@ -43,7 +50,7 @@ var orderDetail_pub = {
             }
         });
     },
-    getWorkOrderServiceList: function(pub_model, userId, orderId) { //获取工单操作时间列表
+    getWorkOrderServiceList: function(pub_model, userId, orderId, flag) { //获取工单操作时间列表
         pajax.post({
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
             url: 'restMyWorkOrderService/queryOperateRecord',
@@ -58,6 +65,7 @@ var orderDetail_pub = {
                     orderDetail_data.pub_model.orderOperatList = _data;
                 } else {
                     model.orderOperatList = _data;
+                    if (flag == '4') orderDetail_data.pub_model.LorC = 0;
                 }
             },
             error: function(error) {
@@ -172,7 +180,7 @@ var orderDetail_pub = {
             console.log(orderDetail_data.pub_model)
             orderDetail_data.pub_model.curPage = orderDetail_data.pub_model.pages[0];
         } else if(orderDetail_data.goBackFlag == '4'){//工单创建
-
+            orderDetail_data.pub_model.LorC = false;
         }
     },
     arrToString: function(arr) { //普通数组转字符串方法
@@ -373,6 +381,5 @@ var orderDetail_data = {
     userInfo: {}, //用户信息存储
     personPositionList:[],//人员岗位列表
     stop_order_content:'',//中止工单内容
-
 
 }

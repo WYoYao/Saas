@@ -269,13 +269,6 @@ function spceBindClick() {
             $contTreeList.slideDown();
         }
     });
-    $("#spaceNavigBar").on('click', '.circle', function (event) {
-        var $this = $(event.currentTarget);
-        $("#spaceNavigBar .circle").removeClass("sel");
-        $this.addClass("sel");
-        var stype = $this.attr("stype");
-        document.getElementById(stype).scrollIntoView();
-    });
 }
 var floorTypeArr = [{ name: '普通楼层' }, { name: '中庭' }, { name: '室外' }, { name: '其他' }];
 var buildArr = [{ name: '建筑1' }, { name: '建筑2' }, { name: '建筑3' }];

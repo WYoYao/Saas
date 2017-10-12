@@ -801,10 +801,10 @@
             left: -10px;
             background: #ffffff;
             margin-bottom: 120px;
+            color: #aaaaaa;
         }
 
             .addSpaceCont .verticalAxes .circle .name {
-                color: #aaaaaa;
                 font-size: 16px;
                 position: absolute;
                 right: 38px;

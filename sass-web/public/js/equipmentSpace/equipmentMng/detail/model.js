@@ -456,13 +456,13 @@ var CardInfo = function () {
                 return this.fev(this.EquipInfo, keys);
             },
             // 返回状态显示对应的状态名称
-            stateCovert: function () {
+            // stateCovert: function () {
 
-                var _that = this;
-                return this.statusList.filter(function (item) {
-                    return item.code == _that.EquipInfo.status;
-                })[0].name;
-            },
+            //     var _that = this;
+            //     return this.statusList.filter(function (item) {
+            //         return item.code == _that.EquipInfo.status;
+            //     })[0].name;
+            // },
             // 计算左边滚动轴
             scrollLeft: function () {
                 var _that = this;
@@ -942,7 +942,7 @@ var CardInfo = function () {
                     });
                 } else if (type == 5) {
 
-                    console.log('当前位置暂不确定')
+
                 }
 
                 return req;
@@ -951,6 +951,7 @@ var CardInfo = function () {
                 var req = {};
 
                 req = this.getReqByKey(item);
+                type=item.idetype;
 
                 if (!req.info_point_value && req.attachments && !req.attachments.lenght) {
                     return function () {
@@ -1039,7 +1040,7 @@ var CardInfo = function () {
             // 添加保险信息
             _clickAddinsurance: function () {
 
-                var insuranceArr = getSettByKey['insurer', 'insurer_num'];
+                var insuranceArr = this.getSettByKey['insurer', 'insurer_num'];
 
                 this.someSend(insuranceArr);
             },
@@ -1055,7 +1056,7 @@ var CardInfo = function () {
                     {
                         key: 'purchase_price'
                     }
-                ].concat(getSettByKey('supplier'));
+                ].concat(this.getSettByKey('supplier'));
 
                 this.someSend(buyArr);
             },
@@ -1071,7 +1072,7 @@ var CardInfo = function () {
                     {
                         key: 'specification'
                     }
-                ].concat(getSettByKey(['manufacturer', 'brand']));
+                ].concat(this.getSettByKey(['manufacturer', 'brand']));
 
                 this.someSend(factoryArr);
             },
@@ -1099,7 +1100,7 @@ var CardInfo = function () {
                     {
                         key: 'maintain_cycle'
                     }
-                ].concat(getSettByKey(['maintainer', 'status']));
+                ].concat(this.getSettByKey(['maintainer', 'status']));
 
                 this.someSend(maintenanceArr);
             },
@@ -1185,7 +1186,7 @@ var CardInfo = function () {
 
                     var value = obj[keys[index]];
 
-                    if (_.isString(value) && value.length) {
+                    if (_.isString(value) && value.length && value!="--") {
 
                         return false;
                         break;
@@ -1194,10 +1195,9 @@ var CardInfo = function () {
                         return false;
                         break;
                     }
-
-                    return true;
-
                 }
+
+                return true;
             },
             // 数组的获取对应高度
             covertHeight: function (arr, minh, maxh, sh) {
@@ -1316,6 +1316,8 @@ var CardInfo = function () {
             PromsQueryEquipPublicInfo.then(function (info) {
                 // 附加通用信息
                 _that.EquipInfo = info;
+                // 复制一份做编辑处理
+                _that.EquipInfoBak = JSON.parse(JSON.stringify(info));
             })
 
 
@@ -1329,21 +1331,7 @@ var CardInfo = function () {
 
             }).then(function (list) {
 
-                //BuildFloorSpaceTree
-
-                // 转换为可选择的Tree
-                var f = function (item) {
-                    var z = arguments.callee;
-                    item.issel = true;
-                    item.name = item.obj_name;
-                    if (_.isArray(item.content)) {
-                        item.content = item.content.map(z);
-                    }
-
-                    return item;
-                };
-
-                _that.BuildFloorSpaceTree = list.map(f);
+                _that.BuildFloorSpaceTree = list;
             })
 
             /**
@@ -1365,17 +1353,30 @@ var CardInfo = function () {
             proQueryAllEquipCategory.then(function (list) {
 
                 // 绑定所属系统的下拉菜单 (**需要转换第二级**)
-                _that.SystemDomain = list.reduce(function (con, item) {
-
-                    return con.concat(item.content.map(function (info) {
-
-                        return info;
-                    }));
-                }, []);
+                _that.SystemDomain = list;
 
                 $("#addid_equip_category_name").pdisable(true);
             });
 
+            // 获取所有设备
+            equipmentMngDeatilController.queryAllEquipCategory()
+            .then(function (list) {
+                
+                                    function disable(item) {
+                                        var disable = arguments.callee;
+                
+                                        if (_.isArray(item.content)) {
+                                            item.disabled = true;
+                                            item.content = item.content.map(disable);
+                                        } else {
+                                            item.disabled = false;
+                                        }
+                
+                                        return item;
+                                    }
+                
+                _that.AllEquipCategory = list.map(disable);
+            })
             /**
              * 生产厂家下拉列表
              */
@@ -1447,7 +1448,8 @@ var CardInfo = function () {
                 })
 
 
-            // 选择选项卡
+            
+                // 选择选项卡
             $("#baseTab").psel(_that.baseTab);
 
 
@@ -1460,7 +1462,6 @@ var CardInfo = function () {
                 if (newVal != oldVal) {
 
                     equipmentMngDeatilController.queryEquipRelWorkOrder({
-
                         order_type: newVal,
                         equip_id: _that.equip_id,
                     }).then(function (list) {

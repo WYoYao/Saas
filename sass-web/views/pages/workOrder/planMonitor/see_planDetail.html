@@ -6,7 +6,7 @@
                     <pbutton-white  bind='true' text="'返回'" @click="goBackPlanList()"></pbutton-white>
                 </div>
                 <div class="see_detail_page_title">
-                    <span>计划详情名称</span>
+                    <span v-text="planDetailData.plan_name">计划详情名称</span>
                 </div>
                 <div class="see_detail_page_save">
                     <ul>
@@ -33,7 +33,7 @@
                         <h4 class="see_detail_plan_set_tit"><span>计划设置</span></h4>
                     </div>
                     <div class="see_detail_plan_name">
-                        <div>计划名称：</div><span v-text="planDetailData.plan_name">消防水泵</span>
+                        <div>计划名称：</div><span v-text="planDetailData.plan_name"></span>
                     </div>
                     <div class="see_detail_plan_name">
                         <div>工单类型：</div><span v-text="planDetailData.order_type_name">维保</span>

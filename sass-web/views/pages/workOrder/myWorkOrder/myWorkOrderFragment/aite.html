@@ -1,4 +1,4 @@
-<div class="aite-bubble" :class="{'click-aite':myWorkOrderModel.clickAiteShow}">
+<div class="aite-bubble" :class="{'click-aite':commonData.publicModel.clickAiteShow}">
     <div class="aite-title" >
         <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)"/>
         <span>请选择</span>
@@ -20,14 +20,14 @@
         </div>
         <!--无级别 只有复选-->
         <div class="only-checkbox">
-            <div class="aite-list" v-for="(model, index1) in myWorkOrderModel.curLevelList">
+            <div class="aite-list" v-for="(model, index1) in commonData.publicModel.curLevelList">
                 <div :title="model.obj_name">
                     <span v-text="model.obj_name"></span>
                 </div>
                 <div>
                     <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
                     <div class="pcheckbox"
-                         @click="checkObject(model, index1, 'obj', $event)">
+                         @click="publicMethod.checkObject(model, index1, 'obj', $event)">
                                         <span class="pcheckbox_input"
                                               :class="model.checked ? 'pcheckbox-checked' : ''"></span>
                         <span class="pswitch_label"></span>
@@ -40,18 +40,18 @@
         </div>
         <!--树1-3级，专业、系统搜索、复选-->
         <div class="both-all">
-            <div class="system-major" v-show="myWorkOrderModel.curObjType=='equip'">
+            <div class="system-major" v-show="commonData.publicModel.curObjType=='equip'">
                 <div>
                     <span>添加筛选条件:</span>
                 </div>
-                <pcombobox-normal isborder="false" id="'major-need'" bind="true" sel="controller.querySystemForSystemDomain">
+                <pcombobox-normal isborder="false" id="'major-need'" bind="true" sel="myWorkOrderController.querySystemForSystemDomain">
                     <header placeholder="专业"></header>
-                    <item datasource="myWorkOrderModel.domainList" text="name"></item>
+                    <item datasource="commonData.publicModel.domainList" text="name"></item>
                 </pcombobox-normal>
                 <div>+</div>
                 <pcombobox-normal isborder="false" id="'system'" bind="true">
                     <header placeholder="系统"></header>
-                    <item datasource="myWorkOrderModel.systemList" text="system_name"></item>
+                    <item datasource="commonData.publicModel.systemList" text="system_name"></item>
                 </pcombobox-normal>
             </div>
             <div class="tree-body">
@@ -72,14 +72,14 @@
                         </div>
                     </div>
                 </div>-->
-                <div class="tree-body" :class="{'equip-trees':myWorkOrderModel.curObjType=='equip'}">
+                <div class="tree-body" :class="{'equip-trees':commonData.publicModel.curObjType=='equip'}">
                     <div class="tree-box">
-                        <ptree-normal bind="true" datasource="myWorkOrderModel.leftLevel" sel="yn_method.clickLeftItem">
+                        <ptree-normal bind="true" datasource="commonData.publicModel.leftLevel" sel="yn_method.clickLeftItem">
                             <item  text="obj_name" issearch="false"  child="content"></item>
                         </ptree-normal>
                     </div>
                     <div class="last-level-box">
-                        <div class="aite-list" v-show="myWorkOrderModel.lastLevel.length!=0" v-for="(obj,index1) in myWorkOrderModel.lastLevel">
+                        <div class="aite-list" v-show="commonData.publicModel.lastLevel.length!=0" v-for="(obj,index1) in commonData.publicModel.lastLevel">
                             <div :title="obj.obj_name">
                                 <span v-text="obj.obj_name">建筑体</span>
                             </div>
@@ -90,7 +90,7 @@
                                     <span class="pswitch_label"></span>
                                 </div>-->
                                 <div :id="'noLeftLevelCheckbox'" class="pcheckbox"
-                                     @click="checkObject(obj, index1, 'obj')">
+                                     @click="publicMethod.checkObject(obj, index1, 'obj')">
                                         <span class="pcheckbox_input"
                                               :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
                                     <span class="pswitch_label"></span>
@@ -111,16 +111,20 @@
                     <h4>所属类别</h4>
                 </div>
                 <div class="belong-category">
-                    <div class="category">
+                    <div class="category" onclick="yn_method.selObjType('1')"
+                         :class="commonData.publicModel.selectedObjType == '1' ? 'selectDiv' : ''">
                         <span>对象</span>
                     </div>
-                    <div class="category">
+                    <div class="category" onclick="yn_method.selObjType('2')"
+                         :class="commonData.publicModel.selectedObjType == '2' ? 'selectDiv' : ''">
                         <span>部件</span>
                     </div>
-                    <div class="category">
+                    <div class="category" onclick="yn_method.selObjType('3')"
+                         :class="commonData.publicModel.selectedObjType == '3' ? 'selectDiv' : ''">
                         <span>工具</span>
                     </div>
-                    <div class="category">
+                    <div class="category" onclick="yn_method.selObjType('4')"
+                         :class="commonData.publicModel.selectedObjType == '4' ? 'selectDiv' : ''">
                         <span>其他</span>
                     </div>
                 </div>
@@ -128,27 +132,27 @@
         </div>
         <!--选择大类-->
         <div class="none-both">
-            <div class="aite-list"  onclick="controller.queryBuild(this)">
+            <div class="aite-list"  onclick="myWorkOrderController.queryBuild(this)">
                 <div>
                     <span>建筑体</span>
                 </div>
             </div>
-            <div class="aite-list" onclick="controller.queryFloor(this,true)">
+            <div class="aite-list" onclick="myWorkOrderController.queryFloor(this,true)">
                 <div>
                     <span>楼层</span>
                 </div>
             </div>
-            <div class="aite-list" onclick="controller.queryFloor(this,false)">
+            <div class="aite-list" onclick="myWorkOrderController.queryFloor(this,false)">
                 <div>
                     <span>空间</span>
                 </div>
             </div>
-            <div class="aite-list" onclick="controller.querySystem(this,true)">
+            <div class="aite-list" onclick="myWorkOrderController.querySystem(this,true)">
                 <div>
                     <span>系统</span>
                 </div>
             </div>
-            <div class="aite-list" onclick="controller.queryBuildFloorSpaceTree(this)">
+            <div class="aite-list" onclick="myWorkOrderController.queryBuildFloorSpaceTree(this)">
                 <div>
                     <span>设备</span>
                 </div>
@@ -157,12 +161,12 @@
     </div>
     <div class="aite-footer">
         <pbutton-white text="自定义" click="publicMethod.setCurPop(3, 'obj')"></pbutton-white>
-        <div v-show="myWorkOrderModel.curObjType !== 'custom'" class="sureBtnDivs">
+        <div v-show="commonData.publicModel.curObjType !== 'custom'" class="sureBtnDivs">
             <pbutton-blue text="确定"
                           id="sureBtn"
                           click="publicMethod.confirmCheckedMatterObjs"></pbutton-blue>
         </div>
-        <div v-show="myWorkOrderModel.curObjType === 'custom'" class="sureBtnDivs">
+        <div v-show="commonData.publicModel.curObjType === 'custom'" class="sureBtnDivs">
             <pbutton-blue text="确定"
                           id="sureBtn"
                           click="publicMethod.confirmCustomizeObj"></pbutton-blue>

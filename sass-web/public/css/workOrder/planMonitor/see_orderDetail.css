@@ -60,7 +60,7 @@
     margin: 0 20px;
     /* min-height: 500px; */
     border: 1px solid #d9e2e8;
-    height: 850px;
+    height: 800px;
     overflow: auto;
     position: relative;
 }
@@ -184,7 +184,7 @@
 }
 .see_orderDetail_grid_tab_rig{
     width: 25%;
-    /* border-bottom: 1px solid #d9e2e8; */
+    border-bottom: 1px solid #d9e2e8;
     padding-bottom: 25px;
 }
 

@@ -501,6 +501,10 @@
     overflow-y: auto;
 
 }
+.selectionOn{
+    background-color: #02a9d1;
+    color: white;
+}
 .timely-checkbox .aite-list{
     height: 60px;
 }
@@ -559,6 +563,9 @@
     margin-right: 10px;
     text-align: center;
     cursor: pointer;
+}
+.belong-category .category.selectDiv{
+    border: 1px solid #02a9d1;
 }
 .updownmove{
     background-color: #a0c5e8;
@@ -1153,6 +1160,7 @@
     vertical-align: text-bottom;
     margin-left: 15px;
     cursor: pointer;
+    margin-top: 18px;
 }
 .title-tip-div p{
     width: 400px;

@@ -8,6 +8,7 @@
     border-radius: 5px;
     background: #ffffff;
     box-sizing: border-box;
+    z-index:3;
 }
 
 .equipmentDetail .content {
@@ -515,4 +516,13 @@
 
 .fW .txtct{
     text-align: center;
+}
+
+.hvshow .controCtr{
+    position: absolute;
+    top: 30px;
+    height: 300px;
+    z-index: 5;
+    background: #ffffff;
+    width: 280px;
 }

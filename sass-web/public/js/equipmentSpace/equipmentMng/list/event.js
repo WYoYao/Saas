@@ -1,8 +1,6 @@
 // 报废设备
 var scrappedEquipment = function() {
 
-    console.log(v.instance.Scrapped);
-
     equipmentMngList.verifyDestroyEquip(v.instance.Scrapped.equip_id)
         .then(function(res) {
 

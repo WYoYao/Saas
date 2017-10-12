@@ -410,7 +410,7 @@ var equipmentMngList = {
 
             pajax.post({
                 url: 'restEquipService/verifyDestroyEquip',
-                data: argu,
+                data: {equip_id:equip_id},
                 success: function(data) {
                     resolve(data);
                 },
@@ -426,19 +426,11 @@ var equipmentMngList = {
     //设备管理-首页:报废设备
     destroyEquip: function(equip_id) {
 
-        // return new Promise(function(resolve, reject) {
-
-        //     setTimeout(() => {
-        //         resolve()
-        //     })
-
-        // })
-
         return new Promise(function(resolve, reject) {
 
             pajax.post({
                 url: 'restEquipService/destroyEquip',
-                data: argu,
+                data:  {equip_id:equip_id},
                 success: function(data) {
                     if (!Object.keys(data).length) {
                         resolve(data);

@@ -4,10 +4,10 @@
             <span>专业要求</span>
         </div>
         <div class="edit-clear-div">
-            <div class="edit-div" v-show="myWorkOrderModel.editBtn">
+            <div class="edit-div" v-show="commonData.publicModel.editBtn">
                 <pbutton-white text="编辑" icon="e" isborder="false" click="yn_method.editable"></pbutton-white>
             </div>
-            <div class="clear-div" v-show="!myWorkOrderModel.editBtn">
+            <div class="clear-div" v-show="!commonData.publicModel.editBtn">
                 <img src="../images/clear_03.png" alt="清空图标"/>
                 <pbutton-white text="清空"  isborder="false" click="yn_method.delBubbleShow"></pbutton-white>
             </div>
@@ -25,7 +25,7 @@
             <div class="major-sel">
                 <pcombobox-normal bind="true" id="'add-major'" sel="yn_method.addMajor">
                     <header placeholder="选择专业"></header>
-                    <item datasource="myWorkOrderModel.domainList"
+                    <item datasource="commonData.publicModel.domainList"
                           text="name"></item>
                 </pcombobox-normal>
             </div>

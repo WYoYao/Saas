@@ -92,7 +92,7 @@
                             <span class="eq-item" v-text='item.specification'></span>
                             <span class="eq-item" v-text='item.position'></span>
                             <span class="eq-item" v-text='item.supplier'></span>
-                            <span class="eq-item">{{item.create_time | yyyyMMddhhmmss2date | date2yyyyMMddhhmm}} 
+                            <span class="eq-item">{{ item.create_time?(item.create_time | yyyyMMddhhmmss2date | date2yyyyMMddhhmm):''}} 
                                         <i class="overicon" v-show='item.destroy_remind_type==2'><span class="tiptext" v-text='item.destroy_remind'></span></i>
                             <i class="willovericon" v-show='item.destroy_remind_type==1'><span class="tiptext" v-text='item.destroy_remind'></span></i>
                             </span>

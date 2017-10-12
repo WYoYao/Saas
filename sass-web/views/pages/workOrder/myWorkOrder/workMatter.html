@@ -1,0 +1,75 @@
+<div class="myWork-create-right">
+    <div class="right-content">
+        <div class="title-switch">
+            <div class="title-div">
+                <h3>工作事项</h3>
+            </div>
+            <div class="switch-div">
+                <span>自由输入</span>
+                <pswitch-slide id="switch-slide" change="publicMethod.toggleInputMode"></pswitch-slide>
+                <span>结构化输入</span>
+            </div>
+        </div>
+        <div class="matter-body">
+            <!--<div class="matter-kind"></div>-->
+
+
+            <div class="matter-kind" v-for="(model, index0) in allMatters">
+                <div class="matter-all">
+                    <div class="matter-title">
+                        <div class="matter-title-div">
+                            <input type="text" maxlength="100" placeholder="未命名事项-1" v-model="model.matter_name" @keyup="publicMethod.matterNameCounter(model,event)"/>
+                            <span class="counter"><b>0</b>/100</span>
+                        </div>
+                    </div>
+                    <div class="matter-content">
+                        <%include myWorkOrderFragment/myWorkOrderCreateFreedom.html %>
+                        <%include myWorkOrderFragment/myWorkOrderCreateRegular.html %>
+                        <div class="checkbox-del-div">
+                            <div class="checkbox-div">
+                                <pswitch-checkbox id="aaa" text="在到达每个对象位置时拍照"></pswitch-checkbox>
+                                <pswitch-checkbox text="在到达每个对象位置时扫码"></pswitch-checkbox>
+                                <pswitch-checkbox text="结束该事项时签字"></pswitch-checkbox>
+                            </div>
+                            <div class="del-div" @click="publicMethod.deleteMatter(index0)">
+                                <em>p</em><span>删除该事项</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="matter-error" style="display: none">
+                        <div class="error error-test">
+                            <div>
+                                <em>!</em><span>该事项名称已被使用，请换一个</span>
+                            </div>
+                            <div class="ignore" onclick="yn_method.ignoreError(this)">
+                                <span>忽略</span>
+                            </div>
+                        </div>
+                        <div class="error error-match">
+                            <div>
+                                <em>!</em><span>消防水泵控制箱A-1</span>与 <span>季度检修</span>的适用对象不匹配，请检查
+                            </div>
+                            <div class="ignore" onclick="yn_method.ignoreError(this)">
+                                <span>忽略</span>
+                            </div>
+                        </div>
+                        <div class="error error-invalid">
+                            <div>
+                                <em>!</em><span>季度检修</span>无效，请重新选择
+                            </div>
+                            <div class="ignore" onclick="yn_method.ignoreError(this)">
+                                <span>忽略</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="add-new-matter" onclick="publicMethod.addMatter()">
+                <em>J</em><span>添加新事项</span>
+            </div>
+        </div>
+    </div>
+</div>

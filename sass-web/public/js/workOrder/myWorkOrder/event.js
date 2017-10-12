@@ -1,5 +1,5 @@
 $(function () {
-    controller.init();//controller.js初始化
+    myWorkOrderLogger.init();//controller.js初始化
     //------------------------------------------ydx__start------------------------------------------
 
 
@@ -27,7 +27,7 @@ $(function () {
     yn_method.getDateTime();
     //------------------------------------------yn__end------------------------------------------
 });
-var yn_method = {
+/*var yn_method = {
     delConfirm: function (index, content, event) {
         event.stopPropagation();
         myWorkOrderModel.del_plan_id = content;
@@ -71,14 +71,14 @@ var yn_method = {
 
         });
     },
-    /*创建页面*/
+    /!*创建页面*!/
     createShow: function () {
         myWorkOrderModel.LorC = false;
         $("#work-urgency").psel(0);
         $("#time-combobox").psel(0);
         yn_method.getDateTime();
     },
-    /*回到列表页*/
+    /!*回到列表页*!/
     listShow: function () {
         myWorkOrderModel.LorC = true;
     },
@@ -111,13 +111,11 @@ var yn_method = {
         } else {
             myWorkOrderModel.timeTypeSel = false;
             myWorkOrderModel.workOrderDraft["ask_start_time"] = $("#ask_start_time").psel().startTime;
-            // console.log($("#ask_start_time").psel().startTime)
-            // console.log(myWorkOrderModel.workOrderDraft["ask_start_time"])
         }
         myWorkOrderModel.workOrderDraft["start_time_type"] = obj.id;
 
     },
-    /*事项名称计数*/
+    /!*事项名称计数*!/
     matterNameCounter: function (dom, value) {
         $(dom).next(".counter").find("b").text(value.length);
         // desc_aftpart
@@ -152,7 +150,7 @@ var yn_method = {
             myWorkOrderModel.description = reObjs + reSops;
         }
     },
-    /*结构输入两者相加计数*/
+    /!*结构输入两者相加计数*!/
     bothCountNum: function (dom, value) {
         var totalNum = 0;
         var bothP = $(dom).parents(".regular-text-div")
@@ -168,10 +166,10 @@ var yn_method = {
             textareas[0].maxLength = max1;
             textareas[1].maxLength = max2;
         }
-        /*else if(totalNum<1000){
+        /!*else if(totalNum<1000){
          textareas[0].setAttribute("maxlength","1000");
          textareas[1].setAttribute("maxlength","1000");
-         }*/
+         }*!/
 
 
         var textwrap = $(event.srcElement);
@@ -214,8 +212,8 @@ var yn_method = {
 
 
     },
-    /*添加工作内容界面*/
-    /*编辑框出现并聚焦*/
+    /!*添加工作内容界面*!/
+    /!*编辑框出现并聚焦*!/
     editable: function (event) {
         event.stopPropagation();
         $(event.currentTarget).parent().hide().next().show();
@@ -223,7 +221,7 @@ var yn_method = {
         $(slideDiv).slideDown();
         $(slideDiv).find("textarea").focus()
     },
-    /*清空bubble出现*/
+    /!*清空bubble出现*!/
     delBubbleShow: function (event) {
         event.stopPropagation();
         var bubbleDiv = $(event.currentTarget).parent(".clear-div").next();
@@ -236,7 +234,7 @@ var yn_method = {
             "z-index": "5"
         });
     },
-    /*清空bubble消失*/
+    /!*清空bubble消失*!/
     delBubbleHide: function (event) {
         event.stopPropagation();
         var bubbleDiv = $(event.currentTarget.offsetParent.offsetParent);
@@ -244,7 +242,7 @@ var yn_method = {
 
 
     },
-    /*清空内容框*/
+    /!*清空内容框*!/
     clearAll: function (event) {
         event.stopPropagation();
         var textDiv = $(event.currentTarget).parents(".prev-title").next();
@@ -272,7 +270,7 @@ var yn_method = {
 
 
     },
-    /*计数textarea*/
+    /!*计数textarea*!/
     counterNum: function (event) {
         var num = $(event).val().length;
         if (num > 100) {
@@ -351,7 +349,7 @@ var yn_method = {
 
         $(textareapop).css({left: left + 'px', top: top + 'px'});
     },
-    /*#筛选条件展开折叠*/
+    /!*#筛选条件展开折叠*!/
     unfold: function (dom, unfold) {
         if (unfold) {
             $(dom).hide().next().show();
@@ -361,24 +359,11 @@ var yn_method = {
             $(dom).parents(".hashtag-sop").next().hide();
         }
     },
-    /*删除照片*/
+    /!*删除照片*!/
     removeImage: function (dom) {
         $(dom).parent().remove();
     },
-    /*/!*添加工作内容*!/
-     addContent: function (open,model,event) {
-     if (open) {
-     myWorkOrderModel.addContent = true;
-     controller.queryGeneralDictByKey();
-
-     } else {
-     myWorkOrderModel.addContent = false;
-
-     }
-     console.log(model);
-     myWorkOrderModel.matterSignalid=model.temp_matter_id;
-
-     },*/
+    
     //转换成父级链字符串形式
     getParentsLinks: function (parents) {
         if (!parents.length) return '';
@@ -395,11 +380,11 @@ var yn_method = {
         str = num == 1 ? "文本" : num == 2 ? "单选" : num == 3 ? "多选" : num == 4 ? "无单位的数字" : "有单位的数字"
         return str;
     },
-    /*#浮窗中上下键选择*/
+    /!*#浮窗中上下键选择*!/
     upDownSelect: function (where, who, which) {//where--自由输入方式/结构输入，who--@/#，which--手动输入浮窗/点击浮窗
         var num = 0;
         var hashtagBubble = null;
-        /*  完善中
+        /!*  完善中
          *   var bubble=null;
          *   if(where && who && which){//自由方式输入时@浮窗
          *   bubble=$(".matter-freedom .textarea-prop .aite-bubble");
@@ -412,7 +397,7 @@ var yn_method = {
          *   }else if(!where && who && which){//结构化方式输入时@浮窗
          *   bubble=$(".matter-regular .textarea-prop .aite-bubble");
          *   }
-         * */
+         * *!/
 
 
         if (which) {//输入时的#浮窗
@@ -497,14 +482,14 @@ var yn_method = {
             }
         })
     },
-    /*#浮窗中上下键选择*/
+    /!*#浮窗中上下键选择*!/
     upDownSelecting: function (where, who, which) {//where--自由输入方式/结构输入，who--@/#，which--手动输入浮窗/点击浮窗
         var num = 0;
         // var hashtagBubble = null;
         var bubble = null;
         // var searchList = null;
         var timely = null;
-        /*完善中*/
+        /!*完善中*!/
         if (where && who && which) {//自由方式输入时@浮窗
             // bubble = $(".matter-freedom .textarea-prop .aite-bubble");
             timely = $(".matter-freedom .textarea-prop .aite-bubble .timely-checkbox");
@@ -540,13 +525,13 @@ var yn_method = {
         }
 
 
-        /*if (which) {//输入时的#浮窗
+        /!*if (which) {//输入时的#浮窗
          hashtagBubble = $(".matter-freedom .textarea-prop .hashtag-sop")
          } else {
          // hashtagBubble=$(".add-sop .sop-list .aite-list")
          hashtagBubble = $(".matter-freedom .add-sop .hashtag-sop")
 
-         }*/
+         }*!/
         $(document).keyup(function (e) {
             var code = e.keyCode;
             // e.preventDefault();
@@ -621,7 +606,7 @@ var yn_method = {
             }
         })
     },
-    /*sop选中chedckbox*/
+    /!*sop选中chedckbox*!/
     checkSop: function () {
         // event.stopPropagation();
         if (!myWorkOrderModel.aite) {
@@ -629,8 +614,8 @@ var yn_method = {
             // $("#able-btn").pdisable(false);
         }
     },
-    /*回车确定*/
-    /*enterSop: function (e, which) {
+    /!*回车确定*!/
+    /!*enterSop: function (e, which) {
      var timely=$(".textarea-prop .aite-bubble .timely-checkbox");
      // var timely=$(".add-obj .aite-bubble .timely-checkbox");
      if(timely.css("visibility")=="visible"){
@@ -662,8 +647,8 @@ var yn_method = {
      // $(".matter-freedom textarea").
 
      }
-     },*/
-    /*回车确定*/
+     },*!/
+    /!*回车确定*!/
     enterSop: function (e, which) {
         var timely = $(".textarea-prop .aite-bubble .timely-checkbox");
         // var timely=$(".add-obj .aite-bubble .timely-checkbox");
@@ -719,7 +704,6 @@ var yn_method = {
                 controller.queryEquip(obj)
             }
         }
-        // console.log()
 
     },
     defaultPage: function (dom) {
@@ -766,18 +750,18 @@ var yn_method = {
     delObjs: function (dom) {
         $(dom).parents(".obj-div").remove();
     },
-    /*添加工作内容中的专业*/
+    /!*添加工作内容中的专业*!/
     addMajor: function (majors) {
         myWorkOrderModel.workContent.domain = majors.code;
         myWorkOrderModel.workContent.domain_name = majors.name;
 
     },
-    /*添加工作内容中，需确认的操作结果添加选项*/
+    /!*添加工作内容中，需确认的操作结果添加选项*!/
     addSel: function (dom) {
         var sel = "<div class='info-dot'> <input type='text' /> <img src='../images/info_close.png' alt='删除图标x' onclick='yn_method.removeImage(this)'/> </div>"
         $(dom).parent().before(sel)
     },
-    /*添加工作内容中，需确认的操作结果添加信息点*/
+    /!*添加工作内容中，需确认的操作结果添加信息点*!/
     infoBubbleShow: function (dom, event) {
         event.stopPropagation();
         $(dom).next().show();
@@ -788,7 +772,7 @@ var yn_method = {
         // var sel="<div class='info-dot'> <input type='text' /> <img src='../images/info_close.png' alt='删除图标x' onclick='yn_method.removeImage(this)'/> </div>"
         // $(dom).parent().siblings(".obj-info").append("")
     },
-    /*添加工作内容中，需确认的操作结果添加信息点中的关键字*/
+    /!*添加工作内容中，需确认的操作结果添加信息点中的关键字*!/
     addKey: function (e) {
         var str = $(e).parent().prev().val();
         if (str) {
@@ -819,24 +803,26 @@ var yn_method = {
     },
     selContent: function (content) {
         myWorkOrderModel.seltype = content.type;
+        myWorkOrderModel.customItem.type = content.type;
+        commonData.controlName = content.name;
     },
-    /*自定义页面*/
+    /!*自定义页面*!/
     customShow: function (e) {
         e.stopPropagation();
         $(e.target).parents(".aite-footer").prev().find(".customize").show().siblings().hide();
     },
-    /*忽略报错*/
+    /!*忽略报错*!/
     ignoreError: function (dom) {
         $(dom).parent().hide();
     },
-    /*转换时间*/
+    /!*转换时间*!/
     transferTime: function (time) {
         time = time.substring(0, 16);
         time = time.replace(/-/g, '/');
         var timestamp = new Date(time).getTime();
         return timestamp;
     },
-    /*验证时间*/
+    /!*验证时间*!/
     verifyTime: function () {
         var ask_start_time = $("#ask_start_time").psel();
         var ask_end_time = $("#ask_end_time").psel();
@@ -854,20 +840,17 @@ var yn_method = {
             $(".time-error-tips").hide();
             myWorkOrderModel.workOrderDraft["ask_end_time"] = ask_end_time.startTime;
             myWorkOrderModel.workOrderDraft["ask_end_limit"] = "";
-            // console.log(myWorkOrderModel.workOrderDraft["ask_end_time"])
-            // console.log( myWorkOrderModel.workOrderDraft)
 
         }
 
 
     },
-    /*删除事项*/
+    /!*删除事项*!/
     deleteMatter: function (dom) {
         $(dom).parents(".matter-all").remove();
     },
-    /* /!*选中checkbox*!/
+    /!* /!*选中checkbox*!/
      selCheck:function (content,index,event) {
-     console.log(content,index,event)
      var state = event.pEventAttr.state;
      var info_points = commonData.infoPoint_obj.info_points;
      commonData.info_pointsCopy = JSON.parse(JSON.stringify(info_points));
@@ -881,52 +864,47 @@ var yn_method = {
      }
      }
      }
-     }*/
-    workContent: function () {
+     }*!/
+    addWorkContent: function () {
         // if(myWorkOrderModel.workContent.work_name==""){
         //     myWorkOrderModel.workContent.work_name="未命名工作内容"
         // }
         // myWorkOrderModel.workContent.work_id=new Date().getTime();
-        // console.log(myWorkOrderModel.workContent.work_id);
         if (!myWorkOrderModel.mattersVip.desc_works) {
             myWorkOrderModel.mattersVip["desc_works"] = [];
-            // myWorkOrderModel.mattersVip["matter_name"]=[];
-            // myWorkOrderModel.mattersVip["description"]=[];
-            // myWorkOrderModel.mattersVip["desc_forepart"]=[];
-            // myWorkOrderModel.mattersVip["desc_aftpart"]=[];
         }
         myWorkOrderModel.mattersVip["desc_works"].push(myWorkOrderModel.workContent);
+        // myWorkOrderModel.workContent["desc_works"].push(myWorkOrderModel.workContent);
         myWorkOrderModel.singleMatters["desc_works"] = myWorkOrderModel.mattersVip["desc_works"];
-        console.log(myWorkOrderModel.mattersVip.desc_works);
         myWorkOrderModel.addContentWindow = false;
         publicMethod.addWorkContentName();
+        console.log(myWorkOrderModel.workContent)
     },
     contentAiteShow: function (dom, event) {
         event.stopPropagation();
         $(dom).children(".aite-bubble").show();
         // publicMethod.setCurPop(4, 'obj');
     },
-    /*工单类型存储*/
+    /!*工单类型存储*!/
     workTypeFn: function (content) {
         myWorkOrderModel.workOrderDraft["order_type_name"] = content.name;
         myWorkOrderModel.workOrderDraft["order_type"] = content.code;
     },
-    /*紧急程度存储*/
+    /!*紧急程度存储*!/
     urgencyFn: function (content) {
         myWorkOrderModel.workOrderDraft["urgency"] = content.name;
 
     },
-    /*开始时间存储*/
+    /!*开始时间存储*!/
     startTimeSave:function () {
         var ask_start_time=$("#ask_start_time").psel().startTime;
         myWorkOrderModel.workOrderDraft["ask_start_time"] = ask_start_time;
 
     },
-    /*草稿存储数据*/
+    /!*草稿存储数据*!/
     a:function () {
         $(document).keyup(function (e) {
             var code=e.keyCode;
-            console.log(code)
             if(code==110){
                 console.log(myWorkOrderModel.workOrderDraft)
             }
@@ -935,7 +913,7 @@ var yn_method = {
         })
     }
 
-}
+}*/
 yn_method.closeBubble();
 yn_method.a();
 

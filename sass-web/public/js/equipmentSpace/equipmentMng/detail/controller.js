@@ -832,7 +832,7 @@ var equipmentMngDeatilController = {
                     equip_id: equip_id
                 },
                 success: function(data) {
-                    if (!Object.keys(data).length) {
+                    if (Object.keys(data).length) {
                         resolve(data);
                     } else {
                         reject(data);
@@ -2851,12 +2851,12 @@ var equipmentMngDeatilController = {
                 data: argu,
                 success: function(data) {
                     if (!Object.keys(data).length) {
+                        $("#globalnotice").pshow({text:"编辑成功",state:"success"});
                         resolve(argu);
-                    } else {
-                        reject(data);
                     }
                 },
                 error: function() {
+                    $("#globalnotice").pshow({text:"编辑失败",state:"failure"});
                     reject();
                 },
                 complete: function() {

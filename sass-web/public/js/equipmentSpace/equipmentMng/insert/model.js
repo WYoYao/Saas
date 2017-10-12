@@ -14,7 +14,7 @@
             "message": "设备编码不可为空,最多20个字"
         },
         "BIMID": {
-            "isShould": true,
+            "isShould": false,
             "name": "BIM模型中编码",
             "message": "BIM模型中编码不可为空,最多20个字"
         },
@@ -135,14 +135,96 @@
             allSpaceCode: [],
             allRentalCode: [],
             // 新建位置需要的属性 End
+
+            ScrollBase:[{
+                title:"基础",
+                id:'base',
+                isSelected:true,
+                top:60,
+            },{
+                title:"厂家",
+                id:'service',
+                isSelected:false,
+                top:180,
+            },{
+                title:"供应&购买",
+                id:'buy',
+                isSelected:false,
+                top:300,
+            },{
+                title:"运行&维保",
+                id:'run',
+                isSelected:false,
+                top:420,
+            },{
+                title:"保险",
+                id:'bao',
+                isSelected:false,
+                top:540,
+            }],
+            ScrollList:[{
+                title:"基础",
+                id:'base',
+                isSelected:true,
+                top:60,
+            },{
+                title:"厂家",
+                id:'service',
+                isSelected:false,
+                top:180,
+            },{
+                title:"供应&购买",
+                id:'buy',
+                isSelected:false,
+                top:300,
+            },{
+                title:"运行&维保",
+                id:'run',
+                isSelected:false,
+                top:420,
+            },{
+                title:"保险",
+                id:'bao',
+                isSelected:false,
+                top:540,
+            }],
         },
         computed: {
+            // ScrollList:function(){
+            //     var _that=this;
 
+            //     return _that.ScrollBase.concat(_that.EquipDynamicInfoList.map(function(item,index){
+            //         return {
+            //             title:item.tag,
+            //             id:"tag"+index,
+            //             isSelected:false,
+            //             top:(_that.ScrollBase.length*120-60)+((index+1)*120),
+            //         }
+            //     }));
+            // }
         },
         filters: {
 
         },
         methods: {
+            // 切换进度轴
+            toggleSel:function(item){
+                var _that=this;
+                console.log(item.id);
+                console.log(document.getElementById(item.id));
+
+                // 滚动内容
+                document.getElementById("SrcollInsert_"+item.id).scrollIntoView();
+
+                // 改变高亮
+                _that.ScrollList=_that.ScrollList.map(function(info){
+
+                    info.isSelected=info.id==item.id;
+
+                    return info;
+                });
+                
+            },
             //隐藏四个服务厂商
             _clickInsertLayerCancel: function () {
                 var _that = this;
@@ -347,8 +429,6 @@
 
                     return con;
                 }, {});
-                // 文本信息值
-                console.log(textReq);
 
 
                 var uploadReq = Object.keys(_that.attachments)
@@ -360,12 +440,7 @@
                     attachments: uploadReq
                 };
 
-                // 附件的信息
-                console.log(uploadReq);
-
                 var request = Object.assign({}, textReq, uploadReq, _that.insertModel);
-
-                console.log(request);
 
                 var EquipDynamicInfo = _that.getEquipDynamicInfo();
 
@@ -378,8 +453,6 @@
                 };
 
                 request=Object.assign({},EquipDynamicInfo,request);
-
-                console.log(request);
 
                 controllerInsert.addEquip(request)
                     .then(function () {
@@ -490,6 +563,17 @@
 
         },
         watch: {
+            EquipDynamicInfoList:function(newValue){
+                var _that=this;
+                _that.ScrollList=_that.ScrollBase.concat(newValue.map(function(item,index){
+                    return {
+                        title:item.tag,
+                        id:"tag"+index,
+                        isSelected:false,
+                        top:(_that.ScrollBase.length*120-60)+((index+1)*120),
+                    }
+                }));
+            },
             insertModel: function (newValue, oldValue) {
 
                 var _that = this;
