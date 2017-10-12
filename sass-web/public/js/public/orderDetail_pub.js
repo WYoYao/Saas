@@ -15,7 +15,7 @@ var orderDetail_pub = {
         $("#list_loading").pshow();
         pajax.post({
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            url: 'restMyWorkOrderService/queryWorkOrderById',
+            url: 'restWoMonitorService/queryWorkOrderById',
             data: {
                 order_id: order_id
             },

@@ -19,6 +19,7 @@
     bottom: 18px;
     /* border: 1px solid #d9e2e8; */
     background: #ffffff;
+    z-index:3;
 }
 
 .equipmentDetail .headerd {
@@ -43,7 +44,6 @@
 
 .equipmentDetail .headerd .btn {
     margin-top: 10px;
-    width: 90px;
     height: 30px;
     line-height: 30px;
 }

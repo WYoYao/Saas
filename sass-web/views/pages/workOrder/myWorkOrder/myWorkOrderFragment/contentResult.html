@@ -29,25 +29,28 @@
                     <div class="obj-name">
                         <span v-text="confirmObj.obj_name">对象名称1</span>
                         <em v-text="yn_method.getParentsLinks(confirmObj.parents)">(建筑-楼层-空间名称/专业-系统/)</em>
-                        <a href="javascript:void (0)" onclick="yn_method.delObjs(this)"><i>p</i>删除对象</a>
+                        <!--<a href="javascript:void (0)" onclick="yn_method.delObjs(this)"><i>p</i>删除对象</a>-->
+                        <a href="javascript:void (0)" @click="$root.deleteObj(confirmObj, index1, 0)"><i>p</i>删除对象</a>
                     </div>
                     <div class="obj-info-self">
                         <!--选择的信息点列表-->
                         <div class="obj-info">
                             <div class="info-dot" v-for="(info_point, index2) in confirmObj.info_points">
                                 <span v-text="info_point.name">信息点1</span>
-                                <img src="../images/info_close.png" alt="删除图标x" onclick="yn_method.removeImage(this)"/>
+                                <!--<img src="../images/info_close.png" alt="删除图标x" onclick="yn_method.removeImage(this)"/>-->
+                                <img src="../images/info_close.png" alt="删除图标x" @click="$root.deleteInfoPoint(info_point, index2, index1, 0)"/>
                             </div>
                         </div>
                         <!--自定义的信息点列表-->
                         <div class="obj-self">
                             <div class="single-self" id="aaa">
                                 <div class="self-div" v-for="(custom, index2) in confirmObj.customs">
-                                    <img src="../images/del.png" alt="删除图标-" onclick="yn_method.removeImage(this)">
+                                    <!--<img src="../images/del.png" alt="删除图标-" onclick="yn_method.removeImage(this)">-->
+                                    <img src="../images/del.png" alt="删除图标-" @click="deleteCustomizedInfoPoint(custom, index2, index1, 0)">
                                     <div class="info-dot">
                                         <span v-text="custom.name">自定义</span>
-                                        <img src="../images/info_close.png" alt="删除图标x"
-                                             onclick="yn_method.removeImage(this)"/>
+                                        <!--<img src="../images/info_close.png" alt="删除图标x"-->
+                                             <!--onclick="yn_method.removeImage(this)"/>-->
                                     </div>
                                     <div class="info-dot">
                                         <span v-text="'文本'" v-show="custom.type=='1'"></span>
@@ -68,8 +71,10 @@
                                     <div class="info-dot" v-show="custom.type == '2' || custom.type == '3'"
                                          v-for="(item, index3) in custom.items">
                                         <input type="text" :value="item"/>
+                                        <!--<img src="../images/info_close.png" alt="删除图标x"
+                                             onclick="yn_method.removeImage(this)"/>-->
                                         <img src="../images/info_close.png" alt="删除图标x"
-                                             onclick="yn_method.removeImage(this)"/>
+                                             @click="$root.deleteOption2(custom, index3, $event, 0)"/>
                                     </div>
                                     <div class="add-sel-div">
                                         <div class="add-sel-btn" @click="publicMethod.addOption2(custom, $event, 0)"

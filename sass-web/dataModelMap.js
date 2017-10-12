@@ -3,7 +3,51 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
-    'restEquipService/queryGoingDestroyEquipList':{
+    'restSystemService/querySystemDynamicInfo':{
+
+    },
+    'restSystemService/querySystemPublicInfo':{
+        "type": "object",
+        "note": "未输入note",
+        "proArr": [
+            {
+                "name": "system_id",
+                "type": "string",
+                "note": "system_id"
+            },
+            {
+                "name": "system_local_id",
+                "type": "string",
+                "note": "system_local_id"
+            },
+            {
+                "name": "system_local_name",
+                "type": "string",
+                "note": "system_local_name"
+            },
+            {
+                "name": "BIMID",
+                "type": "string",
+                "note": "BIMID"
+            },
+            {
+                "name": "build_local_name",
+                "type": "string",
+                "note": "build_local_name"
+            },
+            {
+                "name": "domain_name",
+                "type": "string",
+                "note": "domain_name"
+            },
+            {
+                "name": "system_category_name",
+                "type": "string",
+                "note": "system_category_name"
+            }
+        ]
+    },
+    'restEquipService/queryGoingDestroyEquipList': {
         "type": "array",
         "note": "未输入note",
         "proArr": [
@@ -59,7 +103,7 @@ var dataModelMap = {
             }
         ]
     },
-    'restEquipService/queryRepairEquipList':{
+    'restEquipService/queryRepairEquipList': {
         "type": "array",
         "note": "未输入note",
         "proArr": [
@@ -112,7 +156,7 @@ var dataModelMap = {
             }
         ]
     },
-    'restEquipService/queryEquipPublicInfo':{
+    'restEquipService/queryEquipPublicInfo': {
         "type": "object",
         "note": "未输入note",
         "proArr": [
@@ -237,13 +281,13 @@ var dataModelMap = {
                 "name": "nameplate",
                 "type": "array",
                 "note": "nameplate",
-                "proArr":"fileArray"
+                "proArr": "fileArray"
             },
             {
                 "name": "archive",
                 "type": "array",
                 "note": "archive",
-                "proArr":  [{
+                "proArr": [{
                     "name": "key",
                     "type": "fileLink",
                     "fileType": "1"
@@ -424,7 +468,7 @@ var dataModelMap = {
                 "name": "insurance_file",
                 "type": "array",
                 "note": "insurance_file",
-                "proArr":[
+                "proArr": [
                     {
                         "name": "key",
                         "type": "fileLink",
@@ -444,7 +488,7 @@ var dataModelMap = {
             }
         ]
     },
-    'restEquipService/queryEquipDynamicInfoForAdd':{
+    'restEquipService/queryEquipDynamicInfoForAdd': {
         "type": "array",
         "note": "未输入note",
     },
@@ -3130,7 +3174,7 @@ var dataModelMap = {
                 "name": "order_state",
                 "type": "string"
 
-            },{
+            }, {
                 "note": "是否为下次待发出工单",
                 "name": "is_next_order",
                 "type": "boolean"
@@ -4364,429 +4408,247 @@ var dataModelMap = {
 
     },
 
-    'restMyWorkOrderService/queryWorkOrderById': {
+    'restMyWorkOrderService/queryDraftWorkOrderById': {
+        "note": "我的工单-编辑页:根据id查询工单详细信息-草稿的",
+        "type": "object",
+        "proArr": [
+            {
+                "note": "工单id",
+                "name": "order_id",
+                "type": "string"
+            }, {
+                "note": "项目id",
+                "name": "project_id",
+                "type": "string"
+            }, {
+                "note": "工单类型",
+                "name": "order_type",
+                "type": "string"
+            }, {
+                "note": "工单类型名称",
+                "name": "order_type_name",
+                "type": "string"
+            }, {
+                "note": "紧急程度，高、中、低",
+                "name": "urgency",
+                "type": "string"
+            }, {
+                "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
+                "name": "start_time_type",
+                "type": "string"
+            }, {
+                "note": "要求开始时间",
+                "name": "ask_start_time",
+                "type": "string"
+            }, {
+                "note": "要求固定时间内完成,单位小时",
+                "name": "ask_end_limit",
+                "type": "string"
+            }, {
+                "note": "输入方式",
+                "name": "input_mode",
+                "type": "string"
+            }, {
+                "note": "要求结束时间",
+                "name": "ask_end_time",
+                "type": "string"
+            }, {
+                "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
+                "name": "order_from_type",
+                "type": "string"
+            }, {
+                "note": "工单来源id，报修转工单时，这里是报修单id",
+                "name": "order_from_id",
+                "type": "string"
+            }, {
+                "note": "工单事项",
+                "name": "matters",
+                "type": "array",
+                "proArrBy": "order_matters"
+            }]
+    },
+    'restWoMonitorService/queryWorkOrderById': {
         "note": "根据id查询工单详细信息-发布后的",
         "type": "object",
-        "proArr":[
-        {
-            "note":"work_order",
-            "name":"work_order",
-            "type":"object",
-            "proArr":[
+        "proArr": [
             {
-                "note":"工单id",
-                "name":"order_id",
-                "type":"string"
-            },{
-                "note":"wo_body",
-                "name":"wo_body",
-                "type":"object",
+                "note": "work_order",
+                "name": "work_order",
+                "type": "object",
                 "proArr": [
-                {
-                    "note": "工单id",
-                    "name": "order_id",
-                    "type": "string"
-                }, {
-                    "note": "项目id",
-                    "name": "project_id",
-                    "type": "string"
-                }, {
-                    "note": "工单类型",
-                    "name": "order_type",
-                    "type": "string"
-                }, {
-                    "note": "工单类型名称",
-                    "name": "order_type_name",
-                    "type": "string"
-                }, {
-                    "note": "工单执行类型编码,数据字典查名称",
-                    "name": "execute_type",
-                    "type": "string"
-                }, {
-                    "note": "紧急程度，高、中、低",
-                    "name": "urgency",
-                    "type": "string"
-                }, {
-                    "note": "工单执行方式编码,数据字典查名称",
-                    "name": "executie_mode",
-                    "type": "string"
-                }, {
-                    "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
-                    "name": "start_time_type",
-                    "type": "string"
-                }, {
-                    "note": "要求开始时间",
-                    "name": "ask_start_time",
-                    "type": "string"
-                }, {
-                    "note": "要求固定时间内完成,单位小时",
-                    "name": "ask_end_limit",
-                    "type": "string"
-                }, {
-                    "note": "要求结束时间",
-                    "name": "ask_end_time",
-                    "type": "string"
-                }, {
-                    "note": "所需工具",
-                    "name": "required_tools",
-                    "type": "array"
-                }, {
-                    "note": "工单状态编码",
-                    "name": "order_state",
-                    "type": "string"
-                }, {
-                    "note": "工单状态名称",
-                    "name": "order_state_name",
-                    "type": "string"
-                }, {
-                    "note": "工单自定义状态编码",
-                    "name": "custom_state",
-                    "type": "string"
-                }, {
-                    "note": "工单自定义状态名称",
-                    "name": "custom_state_name",
-                    "type": "string"
-                }, {
-                    "note": "工单概述,事项名称的串连",
-                    "name": "summary",
-                    "type": "string"
-                }, {
-                    "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
-                    "name": "order_from_type",
-                    "type": "string"
-                }, {
-                    "note": "工单来源id，报修转工单时，这里是报修单id",
-                    "name": "order_from_id",
-                    "type": "string"
-                }, {
-                    "note": "创建人id",
-                    "name": "creator_id",
-                    "type": "string"
-                }, {
-                    "note": "创建人名字",
-                    "name": "creator_name",
-                    "type": "string"
-                }, {
-                    "note": "工单中专业列表",
-                    "name": "domain_list",
-                    "type": "array"
-                }, {
-                    "note": "专业限制",
-                    "name": "limit_domain",
-                    "type": "string"
-                }, {
-                    "note": "工单事项",
-                    "name": "matters",
-                    "type": "array",
-                    "proArrBy": "order_matters"
-                }, {
-                    "note": "执行控制信息",
-                    "name": "wo_exec_controls",
-                    "type": "array",
-                    "proArr": [{
-                        "note": "引擎需要的id",
-                        "name": "$ID",
+                    {
+                        "note": "工单id",
+                        "name": "order_id",
                         "type": "string"
                     }, {
-                        "note": "exec_control_id",
-                        "name": "exec_control_id",
-                        "type": "string"
-                    }, {
-                        "note": "控制模板编码,名称查询数据字典",
-                        "name": "control_code",
-                        "type": "string"
-                    }, {
-                        "note": "操作人名字",
-                        "name": "operator_name",
-                        "type": "string"
-                    }, {
-                        "note": "操作开始时间",
-                        "name": "operate_start_time",
-                        "type": "string"
-                    }, {
-                        "note": "操作结束时间",
-                        "name": "operate_end_time",
-                        "type": "string"
-                    }, {
-                        "note": "申请类型，finish-正常结束，stop-中止",
-                        "name": "apply_type",
-                        "type": "string"
-                    }, {
-                        "note": "审核结果,1-通过，0-不通过",
-                        "name": "audit_result",
-                        "type": "string"
-                    }, {
-                        "note": "意见",
-                        "name": "opinion",
-                        "type": "string"
-                    }, {
-                        "note": "下级路由",
-                        "name": "next_route",
-                        "type": "array"
-                    },
-                        {
-                            "note": "操作时间",
-                            "name": "create_time",
-                            "type": "string"
-                        }
-                    ]
-                }, {
-                    "note": "发布时间",
-                    "name": "publish_time",
-                    "type": "string"
-                }, {
-                    "note": "创建时间",
-                    "name": "create_time",
-                    "type": "string"
-                }, {
-                    "note": "有效状态 true：有效，false：失效",
-                    "name": "valid",
-                    "type": "boolean"
-                }]
-            }]
-        }]
-        
-    },
-    'restMyWorkOrderService/updateDraftWorkOrder': {
-        "note": "编辑工单草稿",
-        "type": "object",
-        "proArr": [{
-            "note": "用户id",
-            "name": "user_id",
-            "type": "string"
-        }, {
-            "note": "工单id",
-            "name": "order_id",
-            "type": "string"
-        }, {
-            "note": "项目id",
-            "name": "project_id",
-            "type": "string"
-        }, {
-            "note": "工单类型",
-            "name": "order_type",
-            "type": "string"
-        }, {
-            "note": "工单类型名称",
-            "name": "order_type_name",
-            "type": "string"
-        }, {
-            "note": "紧急程度",
-            "name": "urgency",
-            "type": "string"
-        }, {
-            "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
-            "name": "start_time_type",
-            "type": "string"
-        }, {
-            "note": "要求开始时间",
-            "name": "ask_start_time",
-            "type": "string"
-        }, {
-            "note": "要求固定时间内完成",
-            "name": "ask_end_limit",
-            "type": "string"
-        }, {
-            "note": "要求结束时间",
-            "name": "ask_end_time",
-            "type": "string"
-        }, {
-            "note": "输入方式,1-自由输入，2-结构化输入",
-            "name": "input_mode",
-            "type": "string"
-        }, {
-            "note": "工单来源id",
-            "name": "order_from_id",
-            "type": "string"
-        }, {
-            "note": "步骤信息",
-            "name": "matters",
-            "type": "array",
-            "proArr": [{
-                "note": "事项名称",
-                "name": "matters_name",
-                "type": "string"
-            }, {
-                "note": "事项描述",
-                "name": "description",
-                "type": "string"
-            }, {
-                "note": "描述内容前段",
-                "name": "desc_forepart",
-                "type": "string"
-            }, {
-                "note": "描述内容后段",
-                "name": "desc_aftpart",
-                "type": "string"
-            }, {
-                "note": "描述中的图片",
-                "name": "desc_photos",
-                "type": "fileLink"
-            }, {
-                "note": "描述中涉及的对象",
-                "name": "desc_objs",
-                "type": "array",
-                "proArr": [{
-
-                    "note": "对象id",
-                    "name": "obj_id",
-                    "type": "string"
-                }, {
-
-                    "note": "对象名称",
-                    "name": "obj_name",
-                    "type": "string"
-                },]
-            }, {
-                "note": "描述中涉及的sop",
-                "name": "desc_sops",
-                "type": "array",
-                "proArr": [{
-
-                    "note": "sop的id",
-                    "name": "sop_id",
-                    "type": "string"
-                }, {
-
-                    "note": "sop名称",
-                    "name": "sop_name",
-                    "type": "string"
-                }, {
-
-                    "note": "sop版本",
-                    "name": "version",
-                    "type": "string"
-                }]
-            }, {
-                "note": "描述中涉及的工作内容",
-                "name": "desc_works",
-                "type": "array",
-                "proArr": [{
-                    "note": "工作内容的id",
-                    "name": "work_id",
-                    "type": "string"
-                }, {
-
-                    "note": "工作内容名称",
-                    "name": "work_name",
-                    "type": "string"
-                }, {
-
-                    "note": "强制确认",
-                    "name": "pre_conform",
-                    "type": "string"
-                }, {
-
-                    "note": "操作内容",
-                    "name": "content",
-                    "type": "string"
-                }, {
-
-                    "note": "操作内容中涉及的对象",
-                    "name": "content_objs",
-                    "type": "array",
-                    "proArr": [{
-                        "note": "对象id",
-                        "name": "obj_id",
-                        "type": "string"
-                    }, {
-                        "note": "对象名称",
-                        "name": "obj_name",
-                        "type": "string"
-                    }, {
-                        "note": "对象类型",
-                        "name": "obj_type",
-                        "type": "string"
-                    },]
-                }, {
-
-                    "note": "注意事项",
-                    "name": "notice",
-                    "type": "string"
-                }, {
-
-                    "note": "需确认的操作结果",
-                    "name": "confirm_result",
-                    "type": "array",
-                    "proArr": [{
-                        "note": "对象id",
-                        "name": "obj_id",
-                        "type": "string"
-                    }, {
-                        "note": "对象名称",
-                        "name": "obj_name",
-                        "type": "string"
-                    }, {
-                        "note": "对象类型",
-                        "name": "obj_type",
-                        "type": "string"
-                    }, {
-                        "note": "对象信息",
-                        "name": "parents",
-                        "type": "array",
-                        "proArr": [{
-                            "note": "对象ids",
-                            "name": "parents_ids",
-                            "type": "array"
-                        }, {
-                            "note": "对象路径",
-                            "name": "parents_names",
-                            "type": "array"
-                        }]
-                    }, {
-                        "note": "信息点array",
-                        "name": "info_points",
-                        "type": "array",
-                        "proArr": [{
-                            "note": "id",
-                            "name": "id",
-                            "type": "string"
-                        }, {
-                            "note": "编码",
-                            "name": "code",
-                            "type": "string"
-                        }, {
-                            "note": "名称",
-                            "name": "name",
-                            "type": "string"
-                        }]
-                    }, {
-                        "note": "自定义项,1-文本，2-单选，3-多选，4-无单位的数字，5-有单位的数字",
-                        "name": "customs",
-                        "type": "array",
-                        "proArr": [{
-                            "note": "自定义名称",
-                            "name": "name",
-                            "type": "string"
-                        }, {
-                            "note": "类型",
-                            "name": "type",
-                            "type": "string"
-                        }, {
-                            "note": "选项",
-                            "name": "items",
-                            "type": "array"
-                        }, {
-                            "note": "单位",
-                            "name": "unit",
-                            "type": "string"
-                        }]
+                        "note": "wo_body",
+                        "name": "wo_body",
+                        "type": "object",
+                        "proArr": [
+                            {
+                                "note": "工单id",
+                                "name": "order_id",
+                                "type": "string"
+                            }, {
+                                "note": "项目id",
+                                "name": "project_id",
+                                "type": "string"
+                            }, {
+                                "note": "工单类型",
+                                "name": "order_type",
+                                "type": "string"
+                            }, {
+                                "note": "工单类型名称",
+                                "name": "order_type_name",
+                                "type": "string"
+                            }, {
+                                "note": "工单执行类型编码,数据字典查名称",
+                                "name": "execute_type",
+                                "type": "string"
+                            }, {
+                                "note": "紧急程度，高、中、低",
+                                "name": "urgency",
+                                "type": "string"
+                            }, {
+                                "note": "工单执行方式编码,数据字典查名称",
+                                "name": "executie_mode",
+                                "type": "string"
+                            }, {
+                                "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
+                                "name": "start_time_type",
+                                "type": "string"
+                            }, {
+                                "note": "要求开始时间",
+                                "name": "ask_start_time",
+                                "type": "string"
+                            }, {
+                                "note": "要求固定时间内完成,单位小时",
+                                "name": "ask_end_limit",
+                                "type": "string"
+                            }, {
+                                "note": "要求结束时间",
+                                "name": "ask_end_time",
+                                "type": "string"
+                            }, {
+                                "note": "所需工具",
+                                "name": "required_tools",
+                                "type": "array"
+                            }, {
+                                "note": "工单状态编码",
+                                "name": "order_state",
+                                "type": "string"
+                            }, {
+                                "note": "工单状态名称",
+                                "name": "order_state_name",
+                                "type": "string"
+                            }, {
+                                "note": "工单自定义状态编码",
+                                "name": "custom_state",
+                                "type": "string"
+                            }, {
+                                "note": "工单自定义状态名称",
+                                "name": "custom_state_name",
+                                "type": "string"
+                            }, {
+                                "note": "工单概述,事项名称的串连",
+                                "name": "summary",
+                                "type": "string"
+                            }, {
+                                "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
+                                "name": "order_from_type",
+                                "type": "string"
+                            }, {
+                                "note": "工单来源id，报修转工单时，这里是报修单id",
+                                "name": "order_from_id",
+                                "type": "string"
+                            }, {
+                                "note": "创建人id",
+                                "name": "creator_id",
+                                "type": "string"
+                            }, {
+                                "note": "创建人名字",
+                                "name": "creator_name",
+                                "type": "string"
+                            }, {
+                                "note": "工单中专业列表",
+                                "name": "domain_list",
+                                "type": "array"
+                            }, {
+                                "note": "专业限制",
+                                "name": "limit_domain",
+                                "type": "string"
+                            }, {
+                                "note": "工单事项",
+                                "name": "matters",
+                                "type": "array",
+                                "proArrBy": "order_matters"
+                            }, {
+                                "note": "执行控制信息",
+                                "name": "wo_exec_controls",
+                                "type": "array",
+                                "proArr": [{
+                                    "note": "引擎需要的id",
+                                    "name": "$ID",
+                                    "type": "string"
+                                }, {
+                                    "note": "exec_control_id",
+                                    "name": "exec_control_id",
+                                    "type": "string"
+                                }, {
+                                    "note": "控制模板编码,名称查询数据字典",
+                                    "name": "control_code",
+                                    "type": "string"
+                                }, {
+                                    "note": "操作人名字",
+                                    "name": "operator_name",
+                                    "type": "string"
+                                }, {
+                                    "note": "操作开始时间",
+                                    "name": "operate_start_time",
+                                    "type": "string"
+                                }, {
+                                    "note": "操作结束时间",
+                                    "name": "operate_end_time",
+                                    "type": "string"
+                                }, {
+                                    "note": "申请类型，finish-正常结束，stop-中止",
+                                    "name": "apply_type",
+                                    "type": "string"
+                                }, {
+                                    "note": "审核结果,1-通过，0-不通过",
+                                    "name": "audit_result",
+                                    "type": "string"
+                                }, {
+                                    "note": "意见",
+                                    "name": "opinion",
+                                    "type": "string"
+                                }, {
+                                    "note": "下级路由",
+                                    "name": "next_route",
+                                    "type": "array"
+                                },
+                                    {
+                                        "note": "操作时间",
+                                        "name": "create_time",
+                                        "type": "string"
+                                    }
+                                ]
+                            }, {
+                                "note": "发布时间",
+                                "name": "publish_time",
+                                "type": "string"
+                            }, {
+                                "note": "创建时间",
+                                "name": "create_time",
+                                "type": "string"
+                            }, {
+                                "note": "有效状态 true：有效，false：失效",
+                                "name": "valid",
+                                "type": "boolean"
+                            }]
                     }]
-                }, {
-                    "note": "专业code",
-                    "name": "domain",
-                    "type": "string"
-                }, {
-                    "note": "专业名称",
-                    "name": "domain_name",
-                    "type": "string"
-                }]
-            }, {
-                "note": "需要控制",
-                "name": "required_control",
-                "type": "array"
             }]
-        }]
+
     },
     'restUserService/queryUserWoInputMode': {
         "note": "新增页:查询用户使用的工单输入方式",

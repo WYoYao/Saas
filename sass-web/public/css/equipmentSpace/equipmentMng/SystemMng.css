@@ -55,6 +55,7 @@
             line-height: 50px;
             font-weight: 600;
             position: relative;
+            overflow:hidden;
         }
 
             .addSystemCont .leftCont .buildItem .buildTitle .arrow {
@@ -93,6 +94,7 @@
             line-height: 50px;
             padding-left: 72px;
             cursor: pointer;
+            overflow:hidden;
         }
 
             .addSystemCont .leftCont .buildItem .systemList li:hover {

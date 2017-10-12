@@ -459,13 +459,15 @@
     vertical-align: middle;
     box-sizing: border-box;
     line-height: normal;
+    width: auto!important;
+    max-width: 120px;
 }
 .system-major>div:first-of-type{
     color: #888;
 }
-.system-major>div:last-of-type{
-    width: 155px;
-}
+/*.system-major>div:last-of-type{*/
+    /*width: 155px;*/
+/*}*/
 .tree-body{
     width: 100%;
     height: 100%;

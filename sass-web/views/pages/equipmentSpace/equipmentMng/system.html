@@ -1,5 +1,5 @@
-<div class="equipmentDetail">
-    <div class="content ">
+<div class="equipmentDetail" id="addSystem">
+    <div class="content">
         <div class="headerd">
             <span class="btn fl">
                 <pbutton-white text="取消" click=""></pbutton-white>
@@ -15,7 +15,7 @@
                         <span class="dropTitle">系统类型：
                         </span>
                         <div class="dropBox">
-                            <pcombobox-normal>
+                            <pcombobox-normal bind="true" id="'cbx_id_system'" sel="cbx_sel_system">
                                 <header placeholder="请选择系统"></header>
                                 <item datasource="systemTypeArr" text="name"></item>
                             </pcombobox-normal>
@@ -25,7 +25,7 @@
                         <span class="dropTitle">专业：
                         </span>
                         <div class="dropBox">
-                            <pcombobox-normal>
+                            <pcombobox-normal bind="true" id="'cbx_id_domin'" sel="cbx_sel_domin">
                                 <header placeholder="请选择专业"></header>
                                 <item datasource="majorTypeArr" text="name"></item>
                             </pcombobox-normal>
@@ -34,19 +34,16 @@
 
                 </div>
                 <div class="treeList">
-                    <div class="buildItem">
-                        <div class="buildTitle" stype="close"><span class="arrow" onclick="showSystList(event)">r</span><span>建筑名称a</span></div>
+                    <div class="buildItem" v-for="item in buildSystemTree">
+                        <div class="buildTitle" stype="close"><span class="arrow" onclick="showSystList(event)">r</span><span>{{item.build_name}}</span></div>
                         <div class="systemCont">
-                            <div class="noData" style="display: none">该建筑在当前筛选项下尚无系统</div>
-                            <ul class="systemList">
-                                <li>制冷机1</li>
-                                <li class="sel">冷冻机2</li>
-                                <li>制冷机1</li>
-                                <li>冷冻机2</li>
+                            <div class="noData" v-show="item.system.length==0">该建筑在当前筛选项下尚无系统</div>
+                            <ul class="systemList" v-show="item.system.length>0">
+                                <li v-for="sitem in item.system" @click='_clickQuerySystem(sitem)'>{{sitem.system_local_name}}</li>
                             </ul>
                         </div>
                     </div>
-                    <div class="buildItem">
+                    <div class="buildItem" v-show='!buildSystemTree.length'>
                         <div class="buildTitle" stype="close"><span class="arrow" onclick="showSystList(event)">r</span><span>建筑名称a</span></div>
                         <div class="systemCont">
                             <div class="noData">该建筑在当前筛选项下尚无系统</div>
@@ -101,9 +98,7 @@
             </div>
         </div>
     </div>
-</div>
-<div class="equipmentDetail" style="display: none;" id="addSystemDiv">
-    <div class="content ">
+    <div class="content" id="addSystemDiv" style="display: none;">
         <div class="headerd">
             <span class="btn fl">
                 <pbutton-white text="取消" click="hideAddSystem"></pbutton-white>
@@ -187,5 +182,6 @@
         </div>
     </div>
 </div>
-</div>
+
+
 

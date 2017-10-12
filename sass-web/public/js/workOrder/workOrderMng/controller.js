@@ -52,7 +52,7 @@ var controller = {
         var userId = workOrderMngModel.user_id;
         pajax.post({
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            url: 'restMyWorkOrderService/queryWorkOrderById',
+            url: 'restWoMonitorService/queryWorkOrderById',
             data: {
                 user_id: userId,
                 order_id: order_id

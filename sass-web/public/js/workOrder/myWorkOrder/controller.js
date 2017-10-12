@@ -4,6 +4,7 @@ var myWorkOrderController = {
     //新增页:保存工单草稿
     saveDraftWorkOrder: function (obj) {
         $('#globalloading').pshow();
+        commonData.publicModel =
         pajax.post({
             url: 'restMyWorkOrderService/saveDraftWorkOrder',
             data: obj,
@@ -40,6 +41,47 @@ var myWorkOrderController = {
             }
         });
     },
+
+    //我的工单-新增页:发布工单
+    publishWorkOrder: function () {
+        pajax.update({
+            url: 'restMyWorkOrderService/publishWorkOrder',
+            data: {},
+            success: function (result) {
+                $('#globalnotice').pshow({text: '发布成功', state: 'success'});
+                //跳转至“我发布的工单”列表
+            },
+            error: function (err) {
+                $('#globalnotice').pshow({text: '发布失败，请重试', state: 'failure'});
+            },
+            complete: function () {
+                $('#globalloading').phide();
+            }
+        });
+    },
+
+    //根据id查询工单详细信息-发布后的     //To Use
+    queryWorkOrderById: function (order_id) {
+        $('#globalloading').pshow();
+        pajax.post({
+            url: 'restWoMonitorService/queryWorkOrderById',
+            data: {
+                order_id: order_id
+            },
+            success: function (result) {
+                var data = result ? result : {};
+
+            },
+            error: function (err) {
+            },
+            complete: function () {
+                $('#globalloading').phide();
+            }
+        });
+    },
+
+    //我的工单-编辑页:编辑工单草稿
+
 
     //------------------------------------------zy__end------------------------------------------
 
@@ -185,23 +227,24 @@ var myWorkOrderController = {
         };
         if (order_id) {
             editDraftObj[order_id] = order_id;
-
         }
-        // $('#loadCover').pshow();
-        // pajax.post({
-        //     url: 'restMyWorkOrderService/updateDraftWorkOrder',
-        //     data: editDraftObj,
-        //     success: function (result) {
-        //
-        //         // $("#myWork-list-notice").pshow({text: '获取工单列表成功', state: "success"});
-        //     },
-        //     error: function (err) {
-        //         // $("#myWork-list-notice").pshow({text: '获取工单列表失败', state: "failure"});
-        //     },
-        //     complete: function () {
-        //         $('#loadCover').phide();
-        //     }
-        // });
+
+        $('#globalloading').pshow();
+        pajax.post({
+            url: 'restMyWorkOrderService/queryDraftWorkOrderById',      ////根据id查询工单详细信息-草稿的
+            data: {
+                order_id: order_id
+            },
+            success: function (result) {
+                var data = result ? result : {};
+                commonData.publicModel.workOrderDraft = result;
+            },
+            error: function (err) {
+            },
+            complete: function () {
+                $('#globalloading').phide();
+            }
+        });
 
     },
     /*查询建筑体*/

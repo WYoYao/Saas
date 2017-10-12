@@ -204,7 +204,7 @@ $(function() {
 
     v.createVue();
 
-    v.initPage('equipmentMng');
+    // v.initPage('equipmentMng');
 
     // v.initPage('equipmentMngDeatil', { equip_id: 'Eq1301020001003ACCCCC00C' });
 

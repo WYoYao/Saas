@@ -562,18 +562,21 @@ var publicMethod = {
     },
 
     /*添加工作内容*/
-    addContent: function (model, open, event) {
+    addContent: function (model, open, event,index0) {
+        debugger
         if (open) {
             commonData.publicModel.addContentWindow = true;
+            commonData.publicModel.curMatterIndex = index0;
             myWorkOrderController.queryGeneralDictByKey();
             commonData.publicModel.work_c=true;
+
 
         } else {
             commonData.publicModel.addContentWindow = false;
             commonData.publicModel.work_c = false;
-
         }
         commonData.publicModel.mattersVip = model || {};
+
 
     },
 
@@ -1160,6 +1163,7 @@ var publicMethod = {
 
     //添加工作内容名称
     addWorkContentName: function () {
+        debugger;
         var contentData = publicMethod.getContentData(commonData.types[0]);
         var attrName1 = contentData.attrName1;
         var attrName2 = contentData.attrName2;
@@ -1193,11 +1197,11 @@ var publicMethod = {
         }
     },
 
-    //处理工单参数
+    //处理工单参数addContent
     dealWorkOrderParam: function () {
         publicMethod.dealMattersParam();
         commonData.publicModel.workOrderDraft.ask_start_time = commonData.publicModel.workOrderDraft.ask_start_time.replace(/[^0-9]/g, '') + '00';
-        commonData.publicModel.workOrderDraft.ask_end_time = commonData.publicModel.workOrderDraft.ask_end_time.replace(/[^0-9]/g, '') + '00';
+        commonData.publicModel.workOrderDraft.ask_end_time = commonData.publicModel.workOrderDraft.ask_end_time ? commonData.publicModel.workOrderDraft.ask_end_time.replace(/[^0-9]/g, '') + '00' : '';
         commonData.publicModel.workOrderDraft.input_mode = commonData.publicModel.regular ? '2' : '1';
         commonData.publicModel.workOrderDraft.matters = JSON.parse(JSON.stringify(commonData.publicModel.allMatters));
     },
@@ -1232,12 +1236,46 @@ var publicMethod = {
 
     //切换输入模式
     toggleInputMode: function () {
-        commonData.publicModel.regular = $("#switch-slide").psel();
+        commonData.publicModel.regular = !commonData.publicModel.regular;
+        publicMethod.dealMattersParam();
+        var allMatters = commonData.publicModel.allMatters;
         if (commonData.publicModel.regular) {     //结构化
+            for (var i = 0; i < allMatters.length; i++) {
+                var matter = allMatters[i];
+                var desc_aftpart = matter.description;
+                var symbol = '@';
+                var contentData = publicMethod.getContentData(commonData.types[0]);
+                var attrName1 = contentData.attrName1;
+                var content = contentData.content;
 
+                //获取当前文本框中的对象
+                var text = content[attrName1];
+                var textArr = text ? text.split(symbol) : [];
+                var objArr = [];
+                var i = !text || text.length && text[0] == symbol ? 0 : 1;      //第一项可能为非@的情况
+                for (i; i < textArr.length; i++) {
+                    if (textArr[i]) {
+                        var obj_name = symbol + textArr[i].slice(0, textArr[i].indexOf(' '));
+                        objArr.push(obj_name);
+                    }
+                }
+                console.log(JSON.stringify(objArr));
+
+                var desc_forepart = '';
+                for (var i = 0; i < objArr.length; i++) {
+                    desc_forepart += objArr[i] + ' ';
+                    desc_aftpart = desc_aftpart.replace(objArr[i], '');
+                }
+                matter.desc_forepart = desc_forepart;
+                matter.desc_aftpart = desc_aftpart;
+            }
         } else {
-
+            for (var i = 0; i < allMatters.length; i++) {
+                var matter = allMatters[i];
+                matter.description = matter.desc_forepart + matter.desc_aftpart;
+            }
         }
+        commonData.publicModel.allMatters = JSON.parse(JSON.stringify(commonData.publicModel.allMatters));
     },
 
     //获取当前弹窗中工作内容中
@@ -1248,7 +1286,32 @@ var publicMethod = {
     hideCurPop2: function () {
         $(commonData.jqPopDataDivs2).parents('.aite-bubble').hide();
     },
-
+    //删除对象
+    deleteObj: function (obj, index, contentIndex) {
+        commonData.contentIndex = contentIndex;
+        var content = commonData.publicModel.workContent[commonData.contentIndex];
+        content.confirm_result.splice(index, 1);
+        // createSopModel.allSteps[createSopModel.curStepIndex].step_content[commonData.contentIndex].confirm_result.splice(index, 1);
+    },
+    //自定义信息点 列表状态-删除选项
+    deleteOption2: function (custom, itemIndex, event, contentIndex) {
+        event.stopPropagation();
+        commonData.contentIndex = contentIndex;
+        custom.items.splice(itemIndex, 1);
+    },
+    //删除信息点
+    deleteInfoPoint: function (infoPoint, infoPointIndex, objIndex, contentIndex) {
+        commonData.contentIndex = contentIndex;
+        var content = commonData.publicModel.workContent[commonData.contentIndex];
+        content.confirm_result[objIndex].info_points.splice(infoPointIndex, 1);
+        // createSopModel.allSteps[createSopModel.curStepIndex].step_content[commonData.contentIndex].confirm_result[objIndex].info_points.splice(infoPointIndex, 1);
+    },
+    //删除自定义的信息点
+    deleteCustomizedInfoPoint: function (custom, customIndex, objIndex, contentIndex) {
+        commonData.contentIndex = contentIndex;
+        var content = commonData.publicModel.workContent[commonData.contentIndex];
+        content.confirm_result[objIndex].customs.splice(customIndex, 1);
+    },
 
 }
 
@@ -2033,6 +2096,7 @@ var yn_method = {
             $(".textarea-prop").hide();
             $(".add-obj .aite-bubble").hide();
             $(".obj-fragment-div .aite-bubble").hide();
+            $(".obj-info-btn .aite-bubble").hide();
             $(".add-sop .hashtag-bubble").hide();
             commonData.publicModel.clickAiteShow = false;
             commonData.publicModel.clickHashShow = false;
@@ -2185,22 +2249,23 @@ var yn_method = {
      }
      }*/
     addWorkContent: function () {
-        // if(commonData.publicModel.workContent.work_name==""){
-        //     commonData.publicModel.workContent.work_name="未命名工作内容"
+        // if (!commonData.publicModel.mattersVip.desc_works) {
+        //     commonData.publicModel.mattersVip["desc_works"] = [];
         // }
-        // commonData.publicModel.workContent.work_id=new Date().getTime();
-        if (!commonData.publicModel.mattersVip.desc_works) {
-            commonData.publicModel.mattersVip["desc_works"] = [];
-        }
-        commonData.publicModel.mattersVip["desc_works"].push(commonData.publicModel.workContent);
+        // commonData.publicModel.mattersVip["desc_works"].push(commonData.publicModel.workContent);
         // commonData.publicModel.workContent["desc_works"].push(commonData.publicModel.workContent);
-        commonData.publicModel.singleMatters["desc_works"] = commonData.publicModel.mattersVip["desc_works"];
-        debugger;
+        // commonData.publicModel.singleMatters["desc_works"] = commonData.publicModel.mattersVip["desc_works"];
+        // debugger;
         commonData.publicModel.addContentWindow = false;
-        publicMethod.addWorkContentName();
-        console.log(commonData.publicModel.workContent)
-        console.log(commonData.publicModel.mattersVip)
-        console.log(commonData.publicModel.singleMatters)
+        // publicMethod.addWorkContentName();
+        // console.log(publicMethod.addWorkContentName());
+        commonData.publicModel.allMatters[commonData.publicModel.curMatterIndex].desc_works.push(commonData.publicModel.workContent)
+
+
+        // console.log(commonData.publicModel.workContent)
+        // console.log(commonData.publicModel.mattersVip)
+        console.log(commonData.publicModel.allMatters[commonData.publicModel.curMatterIndex])
+
     },
     contentAiteShow: function (dom, event) {
         event.stopPropagation();
@@ -2226,7 +2291,6 @@ var yn_method = {
     },
     //选择对象所属类别
     selObjType: function (obj_type) {
-        debugger;
         commonData.publicModel.selectedObjType = obj_type;
     },
     /*草稿存储数据*/
