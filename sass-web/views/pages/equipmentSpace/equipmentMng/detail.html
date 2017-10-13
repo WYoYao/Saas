@@ -5,7 +5,7 @@
             <span class="btn fl" @click.capture='_clickInsertBack()'>
                     <pbutton-white text="返回"></pbutton-white>
             </span>
-            <span class="btn fr bfbtn">
+            <span class="btn fr bfbtn" @click.capture='_clickScrapped({equip_id:equip_id})'>
                     <pbutton-white text="报废设备" click=""></pbutton-white>
             </span>
         </div>
@@ -24,8 +24,8 @@
                         </p>
                     </div>
 
-                    <div class="picture">
-                        <img class="img" :src="CardInfo.equip_qr_code" alt="点我付钱">
+                    <div class="picture" v-if='CardInfo.equip_qr_code'>
+                        <img class="img" :src="CardInfo.equip_qr_code">
                         <a :href='CardInfo.equip_qr_code' class="dowload">下载设备名片</a>
                     </div>
                 </div>
@@ -894,14 +894,14 @@
                             </pcombobox-normal>
                         </div>
                     </li>
-                    <li>
+                    <!-- <li>
                         <span class="a-label">投产状态:</span>
                         <div class="a-box">
                             <pcombobox-normal id="'addid_status'" bind='true'>
                                 <item datasource="statusList" text="name"></item>
                             </pcombobox-normal>
                         </div>
-                    </li>
+                    </li> -->
                 </ul>
                 <!-- 新建面板 End -->
 

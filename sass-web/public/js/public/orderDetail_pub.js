@@ -1,17 +1,17 @@
 var orderDetail_pub = {
-    getOrderDetail: function (pub_model, order_id, flag) {
+    getOrderDetail: function (pub_model, order_id, flag ,fn) {
         if (flag == '4') {
             orderDetail_data.goBackFlag = flag;
             orderDetail_data.pub_model = pub_model;
             orderDetail_data.pub_model.curPage = 'see_orderDetail';
             orderDetail_pub.getUserInfo();//获取人员信息
         } else {
-            orderDetail_pub.getPublishedOrderDetail(pub_model, order_id, flag);
+            orderDetail_pub.getPublishedOrderDetail(pub_model, order_id, flag ,fn);
         }
     },
 
-    getPublishedOrderDetail: function(pub_model, order_id, flag) { //查看工单详情
-        var userId = model.user_id;
+    getPublishedOrderDetail: function(pub_model, order_id, flag ,fn) { //查看工单详情
+        orderDetail_data.order_id = order_id;
         $("#list_loading").pshow();
         pajax.post({
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
@@ -28,16 +28,19 @@ var orderDetail_pub = {
                 if (flag == '1') {//空间内展示
                     pub_model.orderDetailData = _data;
                     orderDetail_data.pub_model.curPage = 'see_orderDetail';
-                    orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, userId, order_id); //查询工单操作列表
+                    orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, null, order_id); //查询工单操作列表
+                    if(typeof fn == "function"){
+                        orderDetail_data.fun = fn;
+                    }
                 } else if(flag == '2') {//计划监控
                     pub_model.orderDetailData = _data = _data;
                     orderDetail_data.pub_model.curPage = 'see_orderDetail';
-                    orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, userId, order_id); //查询工单操作列表
+                    orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, null, order_id); //查询工单操作列表
                     orderDetail_pub.getUserInfo();//获取人员信息
                 }else if(flag == '3'){//工单管理
                     pub_model.orderDetailData = _data;
                     orderDetail_data.pub_model.curPage = 'see_orderDetail';
-                    orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, userId, order_id); //查询工单操作列表
+                    orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, null, order_id); //查询工单操作列表
                     orderDetail_pub.getUserInfo();//获取人员信息
                 }
             },
@@ -55,12 +58,11 @@ var orderDetail_pub = {
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
             url: 'restMyWorkOrderService/queryOperateRecord',
             data: {
-                user_id: userId,
                 order_id: orderId
             },
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = d.orderOperatList; //临时使用
+
                 if (orderDetail_data.goBackFlag == '1') {
                     orderDetail_data.pub_model.orderOperatList = _data;
                 } else {
@@ -80,13 +82,13 @@ var orderDetail_pub = {
     getToolList: function(_data) { //选择工具
         pajax.post({
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            url: 'saas/restObjectService/queryTempObjectList',
+            url: 'restObjectService/queryTempObjectList',
             data: _data,
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
                 //_data = [{ obj_id: "11", obj_type: "3", obj_name: "锤子" }, { obj_id: "11", obj_type: "3", obj_name: "十字镐" }];
-                model.toolList = _data;
-                console.log(_data)
+                commonData.publicModel.toolList = _data;
+                // console.log(_data)
                 // $("#choiceObjExample").show();
             },
             error: function(error) {
@@ -104,6 +106,7 @@ var orderDetail_pub = {
             data: _data,
             success: function(res) {
                 $("#publishNotice").pshow({ text: '中止成功', state: "success" });
+                model.curPage = model.pages[0];
                 $("#stopOrder").phide();
             },
             error: function(error) {
@@ -121,6 +124,7 @@ var orderDetail_pub = {
             data: _data,
             success: function(res) {
                 $("#publishNotice").pshow({ text: '指派成功', state: "success" });
+                model.curPage = model.pages[0];
             },
             error: function(error) {
                 $("#publishNotice").pshow({ text: '指派失败,请重试', state: "failure" });
@@ -173,6 +177,9 @@ var orderDetail_pub = {
     orderDetail_goBack: function() { //工单详情返回
         if (orderDetail_data.goBackFlag == '1') {//空间返回
             orderDetail_data.pub_model.curPage = '';
+            if(orderDetail_data.fun){
+                orderDetail_data.fun();
+            }            
         } else if (orderDetail_data.goBackFlag == '2') {//计划监控
             model.curPage = model.pages[0];
             model.scrapListArr = [];
@@ -210,29 +217,29 @@ var orderDetail_pub = {
     },
     toggleSelTool: function(p_model, event) { //选中工具
         p_model.checked = !p_model.checked;
-        model.toolList = JSON.parse(JSON.stringify(model.toolList));
+        commonData.publicModel.toolList = JSON.parse(JSON.stringify(commonData.publicModel.toolList));
         if (p_model.checked) {
-            model.selectedTool.push(p_model)
+            commonData.publicModel.selectedTool.push(p_model)
         } else {
-            for (var i = 0; i < model.selectedTool.length; i++) {
-                if (model.selectedTool[i].obj_id == p_model.obj_id) {
-                    model.selectedTool.splice(i, 1);
+            for (var i = 0; i < commonData.publicModel.selectedTool.length; i++) {
+                if (commonData.publicModel.selectedTool[i].obj_id == p_model.obj_id) {
+                    commonData.publicModel.selectedTool.splice(i, 1);
                     break;
                 }
             };
         }
 
 
-        console.log(JSON.stringify(model.selectedTool))
+        // console.log(JSON.stringify(model.selectedTool))
 
 
     },
     choiceToolYes: function() { //确定选择工具
         var arr = [];
-        for (var i = 0; i < model.selectedTool.length; i++) {
-            arr.push(model.selectedTool[i].obj_name)
+        for (var i = 0; i < commonData.publicModel.selectedTool.length; i++) {
+            arr.push(commonData.publicModel.selectedTool[i].obj_name)
         }
-        model.orderDetailData.required_tools = arr;
+        commonData.publicModel.orderDetailData.required_tools = arr;
         $("#nextStepSelToolPop").hide();
     },
     clickAssignSet: function() { //指派设置
@@ -333,9 +340,9 @@ var orderDetail_pub = {
             "order_id": orderDetail_data.order_id,
             "operator_id": operatorId,
             "operator_name": operatorName,
-            "opinion": orderDetail_data.stop_order_content
+            "opinion": model.stop_order_content
         };
-        controller.stopOrderSet(_data);
+        orderDetail_pub.stopOrderSet(_data);
     },
     getUserInfo: function() {//获取用户信息
         $.ajax({
@@ -358,13 +365,10 @@ var orderDetail_pub = {
     },
     choiceObjExample: function(_obj, event, objId, objType) { //选择对象实例
         var _data = {
-            user_id: model.userId,
-            project_id: model.projectId,
             obj_id: objId,
             obj_type: objType
         };
-        pub_model.obj_example = _obj;
-        console.log(pub_model.obj_example);
+        orderDetail_data.pub_model.obj_example = _obj;
         var _scrollTop = $(".see_orderDetail_page_grid").scrollTop();
         var _left = $(event.target).offset().left + 120 + 'px';
         var _top = $(event.target).offset().top - '240' + _scrollTop + 'px';
@@ -372,6 +376,10 @@ var orderDetail_pub = {
         $(".choiceObjExampleModal").css("left", _left);
         $(".choiceObjExampleModal").css("top", _top);
         controller.getObjExample(_data); //获取对象实例请求
+    },
+    orderNewCreatePublish:function(){//发布工单
+        var _data = orderDetail_data.pub_model.orderDetailData;
+        myWorkOrderController.publishWorkOrder(_data);
     },
 }
 
@@ -383,3 +391,15 @@ var orderDetail_data = {
     stop_order_content:'',//中止工单内容
 
 }
+$(function(){
+    $(document).click(function (event) {
+        var tg = event.target;
+        if (!$(tg).hasClass('choiceObjExampleModal') &&!$(tg).parents('.choiceObjExampleModal').length && $(".choiceObjExampleModal").length && $(".choiceObjExampleModal").is(':visible')) {
+            $(".choiceObjExampleModal").hide();
+        }
+        if (!$(tg).hasClass('nextStepSelToolPop') &&!$(tg).parents('.nextStepSelToolPop').length && $(".nextStepSelToolPop").length && $(".nextStepSelToolPop").is(':visible')) {
+            $(".nextStepSelToolPop").hide();
+        }
+       
+    }); 
+})

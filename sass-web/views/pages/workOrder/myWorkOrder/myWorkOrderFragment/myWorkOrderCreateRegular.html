@@ -4,7 +4,9 @@
             <div class="textarea-div">
                 <span>我要对</span>
                 <div>
-                    <textarea v-model="model.desc_forepart" onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
+                    <textarea v-model="model.desc_forepart"
+                              @keydown="publicMethod.keydownMatterContent(model, index0, $event, 2)"
+                              @keyup="publicMethod.keyupMatterContent(model, index0, $event, null, null, null, 2)"></textarea>
                     <div class="textareadiv"></div>
                     <div class="textarea-prop" >
                         <% include aite.html %>
@@ -22,7 +24,9 @@
             <div class="textarea-div">
                 <span>进行</span>
                 <div>
-                    <textarea v-model="model.desc_aftpart" onkeyup="yn_method.bothCountNum(this,this.value)"></textarea>
+                    <textarea v-model="model.desc_aftpart"
+                              @keydown="publicMethod.keydownMatterContent(model, index0, $event, 3)"
+                              @keyup="publicMethod.keyupMatterContent(model, index0, $event, null, null, null, 3)"></textarea>
                     <div class="textareadiv"></div>
                     <div class="textarea-prop" >
                         <% include hashtag.html %>

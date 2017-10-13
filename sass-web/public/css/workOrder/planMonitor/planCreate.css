@@ -255,12 +255,26 @@
 .planCreate_page_con_left_effectTime >div >div{
 	width: 250px;
 }
-
+#plan_startTime{
+	height: 60px;
+}
+#plan_startTime >div{
+	min-height: 30px!important;
+}
+#plan_endTime{
+	height: 60px;
+}
+#plan_endTime >div{
+	min-height: 30px!important;
+}
 
 .planCreate_page_con_rig{
-	/* width: calc(100% - 320px); */
+	width: calc(100% - 320px);
 	height: 100%;
 	border-left: 1px solid #d9e2e8;
+}
+.planCreate_page_con_rig  > div{
+	width: 100%;
 }
 .plan_Time_choice{
 	display: none;

@@ -11,8 +11,6 @@ var myWorkOrderLogger = {
 
         var workObj = {
             dataObj: {
-                user_id: myWorkOrderModel.user_id,
-                project_id: myWorkOrderModel.project_id,
                 dict_type: "work_order_type"      //工单类型，必须
             },
             noticeSuccessObj: {text: '获取工单类型成功', state: "success"},
@@ -28,8 +26,6 @@ var myWorkOrderLogger = {
             page_size: 50                        //每页返回数量，必须
         };
         var obj = {
-            user_id: myWorkOrderModel.user_id,
-            project_id: myWorkOrderModel.project_id,
             need_return_criteria: true	      //返回结果是否需要带筛选条
         };
         myWorkOrderController.queryWorkOrderType(workObj);//查询工单类型

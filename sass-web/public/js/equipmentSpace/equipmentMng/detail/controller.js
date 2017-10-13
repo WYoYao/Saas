@@ -2846,13 +2846,15 @@ var equipmentMngDeatilController = {
          */
         return new Promise(function(resolve, reject) {
 
-            pajax[type ? 'updateBeforeWithFile' : 'post']({
+            pajax[type ? 'updateWithFile' : 'post']({
                 url: 'restEquipService/updateEquipInfo',
                 data: argu,
                 success: function(data) {
                     if (!Object.keys(data).length) {
                         $("#globalnotice").pshow({text:"编辑成功",state:"success"});
                         resolve(argu);
+                    }else{
+                        reject();
                     }
                 },
                 error: function() {

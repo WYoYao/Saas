@@ -1,0 +1,151 @@
+<div class="contentd i_borderTop">
+    <div class="i_content sys_i_content">
+        <div class="own verticalAxes" id="spaceNavigBar">
+            <div class="circleDiv">
+                <div class="circle" :class='{sel:item.isSelected}' :style="{top:item.top+'px'}" v-for='item in SystemScrollList' @click='toggleSel(item,"SystemScrollList","SystemScroll_")'><span class="name" v-text='item.title'></span></div>
+            </div>
+        </div>
+
+        <div class="moduleItem" id="SystemScroll_base">
+            <div class="header">基础</div>
+            <div class="eachItem lineItem">
+                <div class="name"><span>系统名称</span></div>
+                <div class="cont">
+                    <ptext-text placeholder="'最多10个字'" bind='true' value='InsertSystemModel.system_local_name'>
+                        <verify errtip="不能为空" verifytype="space">
+                            <verify>
+                    </ptext-text>
+                </div>
+            </div>
+            <div class="eachItem lineItem">
+                <div class="name"><span>系统编码</span></div>
+                <div class="cont">
+                    <ptext-text placeholder="'最多10个字'" bind='true' value='InsertSystemModel.system_local_id'>
+                        <verify errtip="不能为空" verifytype="space">
+                            <verify>
+                    </ptext-text>
+                </div>
+            </div>
+            <div class="eachItem lineItem">
+                <div class="name"><span>BIM模型中编码</span></div>
+                <div class="cont">
+                    <ptext-text placeholder="'最多10个字'" bind='true' value='InsertSystemModel.BIMID'>
+                        <verify errtip="不能为空" verifytype="space">
+                            <verify>
+                    </ptext-text>
+                </div>
+            </div>
+            <div class="eachItem lineItem">
+                <div class="name"><span>所属建筑</span></div>
+                <div class="cont">
+                    <pcombobox-normal align="left" sel="istm_sel_build_id" bind='true' id="'istm_id_build_id'">
+                        <header placeholder="请选择建筑"></header>
+                        <item datasource="InsertSystemBuildArray" text="obj_name"></item>
+                    </pcombobox-normal>
+                </div>
+            </div>
+            <div class="eachItem lineItem">
+                <div class="name"><span>所属专业</span></div>
+                <div class="cont">
+                    <pcombobox-normal align="left" sel="istm_sel_domin" bind='true' id="'istm_id_build_id'">
+                        <header placeholder="请选择建筑"></header>
+                        <item datasource="InsertSystemAllEquipCategory" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+            </div>
+            <div class="eachItem lineItem">
+                <div class="name"><span>所属系统类型</span></div>
+                <div class="cont">
+                    <pcombobox-normal align="left" sel="istm_sel_system_category" bind='true' id="'istm_id_build_id'">
+                        <header placeholder="请选择建筑"></header>
+                        <item datasource="InsertSystemModel.EList" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+            </div>
+        </div>
+
+        <div class="moduleItem" id="SystemScroll_tag0">
+                <div class="moduleItem" id="baseSection" v-for='item in SystemPoints'>
+            <div class="header" v-text='item.tag'></div>
+            <div class="eachItem lineItem" v-for='info in item.info_Points'>
+                <div class="name"><span v-text='info.info_name'></span></div>
+                <div class="cont" v-if='info.type==0'>
+                    <ptext-text placeholder="最多10个字" value='info.str_value'>
+                        <verify errtip="不能为空" verifytype="space">
+                            <verify>
+                    </ptext-text>
+                </div>
+                <div class="cont" v-if='info.type==1'>
+                    <pcombobox-normal id="'cbx_Points_id_'+info.info_code" bind='true'>
+                        <header placeholder=""></header>
+                        <item datasource="info.cmpt_data" text="name"></item>
+                    </pcombobox-normal>
+                </div>
+                <div class="cont" v-if='info.type==2'>
+                    <div class="per-switch-checkbox" v-for='check in info.cmpt_data' @click='check.isChecked=!check.isChecked'>
+                        <span class="per-checkbox_input" :class="{'per-checkbox-checked':check.isChecked}"></span>
+                        <span class="per-switch_label" v-text='check.name'></span>
+                    </div>
+                </div>
+                <div class="cont" v-if='info.type==3'>
+                    <pupload-attachment id="'cbx_Points_id_'+info.info_code" number="4" bind='true'></pupload-attachment>
+                </div>
+                <div class="cont" v-if='info.type==4'>
+                    <ptext-text value='info.str_value' bind='true' text="info.unit">
+                    </ptext-text>
+                </div>
+            </div>
+            <!--<div class="eachItem lineItem">
+                <div class="name"><span><em>*</em>系统编码</span></div>
+                <div class="cont">
+                    <ptext-text placeholder="最多50个字">
+                                <verify errtip="不能为空" verifytype="space"><verify>
+                            </ptext-text>
+                </div>
+            </div>
+            <div class="eachItem lineItem">
+                <div class="name"><span><em>*</em>所属建筑</span></div>
+                <div class="cont">
+                    <pcombobox-normal align="left" sel="" id="'spaceFloorDrop'">
+                                <header placeholder="请选择建筑"></header>
+                                <item datasource="spaceFloorArr" text="floor_local_name"></item>
+                            </pcombobox-normal>
+                </div>
+            </div>
+            <div class="eachItem lineItem">
+                <div class="name"><span><em>*</em>所属专业</span></div>
+                <div class="cont">
+                    <pcombobox-normal align="left" sel="">
+                                <header placeholder="请选择专业"></header>
+                                <item datasource="spaceFloorArr" text="floor_local_name"></item>
+                            </pcombobox-normal>
+                </div>
+            </div>
+            <div class="eachItem lineItem">
+                <div class="name"><span><em>*</em>所属系统类型</span></div>
+                <div class="cont">
+                    <pcombobox-normal align="left" sel="">
+                                <header placeholder="请选择系统类型"></header>
+                                <item datasource="spaceFloorArr" text="floor_local_name"></item>
+                            </pcombobox-normal>
+                </div>
+            </div>-->
+        </div>
+
+
+
+        <!--<div class="moduleItem" id="technoSection">
+            <div class="header">技术参数</div>
+            <div class="eachItem lineItem">
+                <div class="name"><span><em>*</em>名称</span></div>
+                <div class="cont">
+                    <ptext-text placeholder="最多10个字">
+                                <verify errtip="不能为空" verifytype="space"><verify>
+                            </ptext-text>
+                </div>
+            </div>
+
+
+        </div>-->
+    </div>
+</div>

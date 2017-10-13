@@ -1325,8 +1325,8 @@ var d = {
                 },
                 {
                     "order_id": "141",
-                    "ask_start_time": "20171015180300",
-                    "ask_end_time": "20171018180300",
+                    "ask_start_time": "20171012201500",
+                    "ask_end_time": "20171015090500",
                     "order_state": "8"
                 },
                 {
@@ -1340,6 +1340,19 @@ var d = {
                     "is_next_order": true
                 }
             ]
+            // "work_orders": [
+            //     {
+            //         "ask_end_time": "20171012201500",
+            //         "ask_start_time": "20171015090500",
+            //         "freq_seq": 6,
+            //         "is_next_order": true
+            //     },
+            //     {
+            //         "ask_start_time": "20171018180300",
+            //         "ask_end_time": "20171020180300",
+            //         "is_next_order": true
+            //     },
+            // ]
         },
         // {
         //     "plan_id": "333", //计划id

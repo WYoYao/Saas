@@ -250,10 +250,12 @@
                     _that.insertModel[key] = fileList.map(function (info) {
 
                         info.toPro = "key";
+                        info.multiFile=false;
                         return {
                             "type": "2",
                             "name": info.fileName,
-                            "key": info.path,
+                            // "key": info.path,
+                            "key": "",
                             "attachments": info,
                         }
                     })

@@ -21,8 +21,6 @@ $(function () {
 });
 var yn_method={
     scrollLoad: function () {
-        var userId= workOrderMngModel.user_id;
-        var proId=  workOrderMngModel.project_id;
         if($("#time-type").psel()){
             var time=workOrderMngModel.timeType[$("#time-type").psel().index].code;
         }
@@ -49,8 +47,6 @@ var yn_method={
                 // alert("到底部了")
                 workOrderMngModel.pageNum +=1;
                 var conditionSelObj={
-                    user_id: userId,                        //员工id-当前操作人id，必须
-                    project_id: proId,                     //项目id，必须
                     time_type:time,                       //时间类型，temp-临时，plan计划
                     order_type:orderType,                      //工单类型编码
                     order_state:orderState,                     //工单状态编码

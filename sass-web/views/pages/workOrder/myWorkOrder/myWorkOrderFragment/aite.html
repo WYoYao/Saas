@@ -6,10 +6,37 @@
     <div class="aite-body free-aite-pops">
         <!--即时搜索，只有复选-->
         <div class="timely-checkbox">
-            <div class="aite-list">
+
+<!--
+            <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList">
                 <div>
-                    <p><span>空间1</span></p>
-                    <p><em>建筑1 > 2层空调 > 空调供暖系统001</em></p>
+                    <p><span
+                        v-for="charObj in model.obj_name_arr"
+                        v-text="charObj.char"
+                        :class="charObj.mark ? 'redMark' : ''">空</span></p>
+                    <p v-for="parent in model.parents">
+                        <em v-for="charObj in parent.linked_names_arr"
+                           v-text="charObj.char"
+                           :class="charObj.mark ? 'redMark' : ''">建</em></p>
+                </div>
+                <div>
+                    &lt;!&ndash;<pswitch-checkbox bind="true"></pswitch-checkbox>&ndash;&gt;
+                    &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                    &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                    <div :id="'searchCheckbox' + index" class="pcheckbox"
+                         @click="publicMethod.checkObject(model, index)">
+                                        <span class="pcheckbox_input"
+                                              :class="model.checked ? 'pcheckbox-checked' : ''"></span>
+                        <span class="pswitch_label"></span>
+                    </div>
+                </div>
+            </div>
+-->
+
+            <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList">
+                <div>
+                    <p><span v-text="model.obj_name">空间1</span></p>
+                    <p v-for="parent in model.parents"><em v-text="parent.linked_names">建筑1 > 2层空调 > 空调供暖系统001</em></p>
                 </div>
                 <div>
                     <pswitch-checkbox bind="true"></pswitch-checkbox>
@@ -103,10 +130,22 @@
         </div>
         <!--自定义-->
         <div class="customize">
+<!--
             <div class="customize-tips">
                 <span>未找到相关内容，您输入的内容将被添加为自定义</span>
             </div>
+-->
             <div class="belong">
+                <div class="customText">
+                    <p>自定义</p>
+                    <ptext-text
+                        id="selfText"
+                        placeholder="请输入自定义内容">
+                        <verify
+                            errtip="请输入自定义内容"
+                            length="40"></verify>
+                    </ptext-text>
+                </div>
                 <div class="belong-title">
                     <h4>所属类别</h4>
                 </div>

@@ -11,6 +11,7 @@ $(function () {
 });
 
 function showAddSystem() {
+    v.initPage("addSystem");
     $("#addSystemDiv").show();
 }
 
@@ -168,5 +169,86 @@ Object.keys(ComboxEnum).forEach(function (key) {
     // 将对应的函数绑定 window 对象上面
     window['cbx_sel_' + key] = createComboxSelFn(key, 'systemMngCurrentSelector', '#cbx_id_');
 });
+
+
+
+
+var relationshipIstmComboxEnum = {
+    domin: {
+        system_category: {},
+    }
+}
+
+// 选择赋值
+var IstmComboxEnum = {
+    build_id: {
+        build_id: 'obj_id',
+    },
+    domin: {
+        EList:'content',
+    },
+    system_category: {
+        system_category: 'code',
+    }
+}
+
+// 创建新建页面下拉菜单事件
+function createIstmComboxSelFn(key, vkey, elid) {
+
+    return function (item) {
+
+        // 循环对应的值赋值
+        for (k in IstmComboxEnum[key]) {
+
+            if (IstmComboxEnum[key].hasOwnProperty(k)) {
+
+                var obj = {};
+                obj[k] = item[IstmComboxEnum[key][k]];
+                // 附加对应的值
+                v.instance[vkey] = Object.assign({}, v.instance[vkey], obj)
+            }
+        }
+
+        // 判断的当前关联信息 如果父级被修改,子级需要重置
+        deep(relationshipIstmComboxEnum, function (keyname, element) {
+
+            // 找到其对应的依赖关系
+            if (keyname == key) {
+
+                deep(element, function (keyname) {
+
+                    // 清空对应树结构菜单
+                    $(elid + keyname).pdisable(false);
+                    $(elid + keyname).precover();
+
+                    // 循环清空依赖的值
+                    for (k in ComboxEnum[keyname]) {
+
+                        if (ComboxEnum[keyname].hasOwnProperty(k)) {
+
+                            var obj = {};
+                            obj[k] = "";
+                            // 附加对应的值
+                            v.instance[vkey] = Object.assign({}, v.instance[vkey], obj)
+
+                        }
+                    }
+
+                })
+            }
+        });
+    }
+
+}
+
+Object.keys(IstmComboxEnum).forEach(function (key) {
+    
+        if (window['istm_sel_' + key]) {
+            console.error('当前声明' + 'istm_sel_' + key + '与现有方法发生冲突');
+        }
+    
+        // 将对应的函数绑定 window 对象上面
+        window['istm_sel_' + key] = createIstmComboxSelFn(key, 'InsertSystemModel', '#istm_id_');
+    });
 
 //=============================================下拉菜单模块 End  ===========================================

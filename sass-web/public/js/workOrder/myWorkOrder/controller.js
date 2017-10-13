@@ -3,8 +3,9 @@ var myWorkOrderController = {
     //------------------------------------------zy__start------------------------------------------
     //新增页:保存工单草稿
     saveDraftWorkOrder: function (obj) {
+        console.log("保存的数据是：")
+        console.log(obj)
         $('#globalloading').pshow();
-        commonData.publicModel =
         pajax.post({
             url: 'restMyWorkOrderService/saveDraftWorkOrder',
             data: obj,
@@ -43,13 +44,19 @@ var myWorkOrderController = {
     },
 
     //我的工单-新增页:发布工单
-    publishWorkOrder: function () {
+    publishWorkOrder: function (obj) {
         pajax.update({
             url: 'restMyWorkOrderService/publishWorkOrder',
-            data: {},
+            data: {
+                order_id: commonData.publicModel.workOrderDraft.order_id,
+                wo_body: obj
+            },
             success: function (result) {
                 $('#globalnotice').pshow({text: '发布成功', state: 'success'});
-                //跳转至“我发布的工单”列表
+                commonData.publicModel.LorC = true;
+                setTimeout(function () {
+                    $("#work-already").psel(0, true);
+                }, 0);
             },
             error: function (err) {
                 $('#globalnotice').pshow({text: '发布失败，请重试', state: 'failure'});
@@ -137,7 +144,6 @@ var myWorkOrderController = {
         });
     },
     selAlreadyEvent: function () {
-        var userId = commonData.publicModel.user_id;
         var proId = commonData.publicModel.project_id;
         if ($("#work-already").psel()) {
             commonData.publicModel.workAlreadyID = commonData.publicModel.workAlready[$("#work-already").psel().index].id;
@@ -158,8 +164,6 @@ var myWorkOrderController = {
             };
         } else {
             conditionObj = {
-                user_id: userId,                        //员工id-当前操作人id，必须
-                project_id: proId,                     //项目id，必须
                 order_type: null,                      //工单类型编码
                 page: commonData.publicModel.pageNum,                       //当前页号，必须
                 page_size: 50                        //每页返回数量，必须
@@ -176,7 +180,6 @@ var myWorkOrderController = {
         pajax.post({
             url: 'restMyWorkOrderService/deleteDraftWorkOrderById',
             data: {
-                user_id: commonData.publicModel.user_id,
                 order_id: commonData.publicModel.del_plan_id
             },
             success: function (result) {
@@ -204,11 +207,10 @@ var myWorkOrderController = {
         commonData.publicModel.workList = [];
         pajax.post({
             url: 'restUserService/queryUserWoInputMode',
-            data: {
-            },
+            data: {},
             success: function (result) {
                 var input_mode = result && result.input_mode ? result.input_mode : "";//工单输入方式，0-未记录过，1-自由输入，2-结构化输入
-                commonData.publicModel.regular=input_mode==0?false:input_mode==1?false:true;
+                commonData.publicModel.regular = input_mode == 0 ? false : input_mode == 1 ? false : true;
                 $("#switch-slide").psel(commonData.publicModel.regular);
             },
             error: function (err) {
@@ -223,7 +225,6 @@ var myWorkOrderController = {
     editDraft: function (index, order_id, event) {
         event.stopPropagation();
         var editDraftObj = {
-            user_id: commonData.publicModel.user_id,                        //员工id-当前操作人id，必须
         };
         if (order_id) {
             editDraftObj[order_id] = order_id;
@@ -238,6 +239,12 @@ var myWorkOrderController = {
             success: function (result) {
                 var data = result ? result : {};
                 commonData.publicModel.workOrderDraft = result;
+
+                commonData.publicModel.allMatters = result.matters;
+                console.log("查询到的详细工单内容是:")
+                console.log(commonData.publicModel.workOrderDraft)
+                publicMethod.setEditDraft()
+
             },
             error: function (err) {
             },
@@ -249,25 +256,22 @@ var myWorkOrderController = {
     },
     /*查询建筑体*/
     queryBuild: function (dom, param2, isPop3) {
-        debugger;
         commonData.publicModel.buildList = [];
         $('#loadCover').pshow();
         pajax.post({
             url: 'restObjectService/queryBuild',
-            data: {
-                user_id: commonData.publicModel.user_id,                        //员工id-当前操作人id，必须
-                project_id: commonData.publicModel.project_id,                     //项目id，必须
-            },
+            data: {},
             success: function (result) {
                 var data = result && result.data ? result.data : [];
                 commonData.publicModel.curObjType = 'build';
 
                 commonData.publicModel.buildList = data;
                 commonData.publicModel.curLevelList = JSON.parse(JSON.stringify(data));
-                /*isPop3 ? publicMethod.isSelectedObj1() : */publicMethod.isSelectedObj(null, commonData.types[0]);
-                if(commonData.publicModel.work_c){
+                /*isPop3 ? publicMethod.isSelectedObj1() : */
+                publicMethod.isSelectedObj(null, commonData.types[0]);
+                if (commonData.publicModel.work_c) {
                     publicMethod.setCurPop(1, commonData.types[3]);
-                }else{
+                } else {
                     publicMethod.setCurPop(1, commonData.types[0]);
                 }
                 /*isPop3 ? publicMethod.setCurPop3(1) : */
@@ -289,8 +293,6 @@ var myWorkOrderController = {
         pajax.post({
             url: 'restObjectService/queryFloor',        //未返回对象类型
             data: {
-                user_id: commonData.publicModel.user_id,
-                project_id: commonData.publicModel.project_id,
                 need_back_parents: deleteFloorLevel
             },
             success: function (result) {
@@ -326,13 +328,11 @@ var myWorkOrderController = {
     querySystem: function (dom, deleteFloorLevel) {
         commonData.publicModel.leftLevel = [];
         commonData.publicModel.lastLevel = [];
-        commonData.publicModel.infoArray=[];
+        commonData.publicModel.infoArray = [];
         $('#loadCover').pshow();
         pajax.post({
             url: 'restObjectService/querySystem',        //未返回对象类型
             data: {
-                user_id: commonData.publicModel.user_id,
-                project_id: commonData.publicModel.project_id,
                 need_back_parents: deleteFloorLevel
             },
             success: function (result) {
@@ -348,10 +348,11 @@ var myWorkOrderController = {
                     commonData.publicModel.curObjType = 'system';
                     $(dom).parent(".none-both").hide().siblings(".both-all").show();
 
-                } /*else {
-                    commonData.publicModel.leftLevel = data;
-                    commonData.publicModel.curObjType = 'space';
-                }*/
+                }
+                /*else {
+                 commonData.publicModel.leftLevel = data;
+                 commonData.publicModel.curObjType = 'space';
+                 }*/
 
             },
             error: function (err) {
@@ -370,8 +371,6 @@ var myWorkOrderController = {
         pajax.post({
             url: 'restObjectService/querySpace',        //未返回对象类型
             data: {
-                user_id: commonData.publicModel.user_id,
-                project_id: commonData.publicModel.project_id,
                 need_back_parents: deleteFloorLevel,
                 obj_id: obj_id,            //对象id,建筑或者楼层的id,必须
                 obj_type: obj_type,	     //对象类型，build、floor,必须
@@ -398,14 +397,11 @@ var myWorkOrderController = {
         commonData.publicModel.curSelectedSystem = {};
         commonData.publicModel.leftLevel = [];
         commonData.publicModel.lastLevel = [];
-        commonData.publicModel.infoArray=[];
+        commonData.publicModel.infoArray = [];
         $('#loadCover').pshow();
         pajax.post({
             url: 'restObjectService/queryBuildFloorSpaceTree',        //未返回对象类型
-            data: {
-                user_id: commonData.publicModel.user_id,
-                project_id: commonData.publicModel.project_id
-            },
+            data: {},
             success: function (result) {
                 var data = result && result.data ? result.data : [];
                 commonData.publicModel.curObjType = 'equip';
@@ -425,7 +421,7 @@ var myWorkOrderController = {
         });
     },
     /*查询设备实例*/
-    queryEquip:function (obj) {
+    queryEquip: function (obj) {
         commonData.publicModel.lastLevel = [];
         $('#loadCover').pshow();
         pajax.post({
@@ -446,14 +442,12 @@ var myWorkOrderController = {
         });
     },
     /*查询设备实例--专业*/
-    queryGeneralDictByKey:function(){
+    queryGeneralDictByKey: function () {
         commonData.publicModel.domainList = [];
         $('#loadCover').pshow();
         pajax.post({
             url: 'restGeneralDictService/queryGeneralDictByKey',        //未返回对象类型
             data: {
-                user_id: commonData.publicModel.user_id,
-                project_id: commonData.publicModel.project_id,
                 dict_type: "domain_require"
             },
             success: function (result) {
@@ -471,14 +465,12 @@ var myWorkOrderController = {
         });
     },
     /*查询设备实例系统专业下的系统*/
-    querySystemForSystemDomain:function(content){
+    querySystemForSystemDomain: function (content) {
         commonData.publicModel.systemList = [];
         $('#loadCover').pshow();
         pajax.post({
             url: 'restObjectService/querySystemForSystemDomain',        //未返回对象类型
             data: {
-                user_id: commonData.publicModel.user_id,
-                project_id: commonData.publicModel.project_id,
                 system_domain: content.code
             },
             success: function (result) {
@@ -515,11 +507,20 @@ var myWorkOrderController = {
                 publicMethod.setCriteriaStatus('labels', 'selectedLabels', false);
 
                 commonData.publicModel.curLevelList = JSON.parse(JSON.stringify(commonData.publicModel.sopList));
+
+                var value = obj.sop_name;
+                for (var i = 0; i < sop.length; i++) {
+                    var item = sop[i];
+                    if (item.sop_name) item.sop_name_arr = publicMethod.strToMarkedArr(item.sop_name, value);
+                }
+
                 if (commonData.firstSetMore) {
                     publicMethod.initSopModal();
                 }
-                /*isPop3 ? publicMethod.isSelectedObj1() : */publicMethod.isSelectedObj(null, commonData.types[1]);
-                /*isPop3 ? publicMethod.setCurPop3(1) : */publicMethod.setCurPop(null, commonData.types[1]);
+                /*isPop3 ? publicMethod.isSelectedObj1() : */
+                publicMethod.isSelectedObj(null, commonData.types[1]);
+                /*isPop3 ? publicMethod.setCurPop3(1) : */
+                publicMethod.setCurPop(null, commonData.types[1]);
             },
             error: function (err) {
             },
@@ -548,45 +549,44 @@ var myWorkOrderController = {
     },
     //13、查询对象下信息点
     /*queryInfoPointForObject: function (jqInfoPointPop) {
+     $('#loadCover').pshow();
+     pajax.post({
+     url: 'restObjectService/queryInfoPointForObject',
+     data: {
+     user_id: commonData.user_id,
+     obj_id: commonData.infoPoint_obj.obj_id,
+     obj_type: commonData.infoPoint_obj.obj_type || createSopModel.curObjType
+     },
+     success: function (result) {
+     var data = result && result.data ? result.data : [];
+     //data = JSON.parse(JSON.stringify(infoPointList));
+     var info_points = commonData.infoPoint_obj.info_points || [];
+     if (commonData.belongChoosedObj) {
+     for (var i = 0; i < data.length; i++) {
+     var checked = false;
+     for (var j = 0; j < info_points.length; j++) {
+     if (data[i].id === info_points[j].id) {
+     checked = true;
+     break;
+     }
+     }
+     if (checked) data[i].checked = true;
+     }
+     }
+     createSopModel.infoPointList = data;
+     if (jqInfoPointPop) jqInfoPointPop.show();
+     createSopModel.isCustomizeBtnAble = true;
+     },
+     error: function (err) {
+     },
+     complete: function () {
+     $('#loadCover').phide();
+     }
+     });
+     },*/
+    queryInfoPointForObject: function (obj, jqInfoPointPop) {
+        commonData.publicModel.infoArray = [];
         $('#loadCover').pshow();
-        pajax.post({
-            url: 'restObjectService/queryInfoPointForObject',
-            data: {
-                user_id: commonData.user_id,
-                obj_id: commonData.infoPoint_obj.obj_id,
-                obj_type: commonData.infoPoint_obj.obj_type || createSopModel.curObjType
-            },
-            success: function (result) {
-                var data = result && result.data ? result.data : [];
-                //data = JSON.parse(JSON.stringify(infoPointList));
-                var info_points = commonData.infoPoint_obj.info_points || [];
-                if (commonData.belongChoosedObj) {
-                    for (var i = 0; i < data.length; i++) {
-                        var checked = false;
-                        for (var j = 0; j < info_points.length; j++) {
-                            if (data[i].id === info_points[j].id) {
-                                checked = true;
-                                break;
-                            }
-                        }
-                        if (checked) data[i].checked = true;
-                    }
-                }
-                createSopModel.infoPointList = data;
-                if (jqInfoPointPop) jqInfoPointPop.show();
-                createSopModel.isCustomizeBtnAble = true;
-            },
-            error: function (err) {
-            },
-            complete: function () {
-                $('#loadCover').phide();
-            }
-        });
-    },*/
-    queryInfoPointForObject: function (obj,jqInfoPointPop) {
-        commonData.publicModel.infoArray=[];
-        $('#loadCover').pshow();
-        debugger;
         commonData.publicModel.selectedObj = obj;
         // obj.checked = !obj.checked;
         pajax.post({
@@ -594,7 +594,7 @@ var myWorkOrderController = {
             data: {
                 // user_id: commonData.publicModel.user_id,
                 obj_id: obj.obj_id,
-                obj_type: obj.obj_type ||  commonData.publicModel.curObjType
+                obj_type: obj.obj_type || commonData.publicModel.curObjType
             },
             success: function (result) {
                 var data = result && result.data ? result.data : [];
@@ -612,7 +612,7 @@ var myWorkOrderController = {
                         if (checked) data[i].checked = true;
                     }
                 }
-                commonData.publicModel.infoArray=data;
+                commonData.publicModel.infoArray = data;
                 if (jqInfoPointPop) jqInfoPointPop.show();
                 commonData.publicModel.isCustomizeBtnAble = true;
             },
@@ -624,22 +624,16 @@ var myWorkOrderController = {
         });
     },
     //12、添加自定义对象
-    addTempObjectWithType: function (obj, isConfirmCustomizeObj, isShowPop, isNextPage) {
-        //$('#loading').pshow();
+    addTempObjectWithType: function (obj, isConfirmCustomizeObj, isShowPop) {
         pajax.update({
             url: 'restObjectService/addTempObjectWithType',
             data: obj,
             success: function (result) {
-                if (!isNextPage) {
-                    commonMethod.addedTempObjectWithType(obj, isConfirmCustomizeObj, isShowPop);
-                } else {
-                    commonMethod.addedTempObjectWithType1(obj, isConfirmCustomizeObj, isShowPop);
-                }
+                publicMethod.addedTempObjectWithType(obj, isConfirmCustomizeObj, isShowPop);
             },
             error: function (err) {
             },
             complete: function () {
-                //$('#loading').phide();
             }
         });
     },
@@ -649,13 +643,10 @@ var myWorkOrderController = {
         pajax.post({
             url: 'restObjectService/searchObject',
             data: {
-                user_id: commonData.publicModel.user_id,
-                project_id: commonData.publicModel.project_id,
                 keyword: keyword
             },
             success: function (result) {
                 var data = result && result.data ? result.data : [];
-                //data = JSON.parse(JSON.stringify(searchedObjects.data));       //To Delete
                 if (!notShowPop) {
                     var value = keyword;
                     for (var i = 0; i < data.length; i++) {

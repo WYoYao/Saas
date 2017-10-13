@@ -38,7 +38,7 @@
                         <pbutton-white text="录入新设备" icon="e"></pbutton-white>
                     </span>
                 <span class="systemMgn" @click.capture="goSystemMgn()">
-                        <pbutton-white text="系统管理" icon="e" click="buttonClick"></pbutton-white>
+                        <pbutton-white text="系统管理" icon="e"></pbutton-white>
                     </span>
             </div>
             <div class="queryblock">
@@ -124,7 +124,7 @@
                             <span class="eq-item" v-text='item.maintainer'></span>
                             <span class="eq-item" v-if='item.work_orders.length==1'>
                                     <p class="stateicon" v-text='item.work_orders[0].order_state_desc'></p>
-                                    <span class="statetext"><a class="link" href="">{{item.work_orders[0].summary}}</a></span>
+                                    <span class="statetext" @click="_clickGoWork(item.work_orders[0])"><a class="link">{{item.work_orders[0].summary}}</a></span>
                             </span>
                             <span class="eq-item" v-if='item.work_orders.length>1'>
                                     <a class="link" href="">{{item.work_orders.length}}条工单</a>
@@ -132,7 +132,7 @@
                                         <ul>
                                             <li class="work_orders" v-for='info in item.work_orders'>
                                                     <p class="stateicon" v-text='info.order_state_desc'></p>
-                                                    <span class="statetext"><a class="link" href="">{{info.summary}}</a></span>
+                                                    <span class="statetext"><a class="link" @click="_clickGoWork(info)">{{info.summary}}</a></span>
                         </li>
                     </ul>
                 </div>
@@ -163,15 +163,15 @@
                         <span class="eq-item eq-fitem" v-text='item.position'></span>
                         <span class="eq-item eq-fitem" v-if='item.work_orders.length==1'>
                                                 <p class="stateicon" v-text='item.work_orders[0].order_state_desc'></p>
-                                                <span class="statetext"><a class="link" href="">{{item.work_orders[0].summary}}</a></span>
+                                                <span class="statetext"><a class="link" @click="_clickGoWork(item.work_orders[0])">{{item.work_orders[0].summary}}</a></span>
                         </span>
                         <span class="eq-item" v-if='item.work_orders.length>1'>
-                                                <a class="link" href="">{{item.work_orders.length}}条工单</a>
+                                                <a class="link">{{item.work_orders.length}}条工单</a>
                                                 <div class="hgd">
                                                     <ul>
                                                         <li class="work_orders" v-for='info in item.work_orders'>
                                                                 <p class="stateicon" v-text='info.order_state_desc'></p>
-                                                                <span class="statetext"><a class="link" href="">{{info.summary}}</a></span>
+                                                                <span class="statetext"><a class="link" @click="_clickGoWork(info)">{{info.summary}}</a></span>
                     </li>
                 </ul>
             </div>

@@ -55,7 +55,7 @@
                     </div>
                 </div>
                 <!-- 内容区域 -->
-                <div class="see_planDetail_grid_tab_ul" v-for="(matters,index1) in planCreateDetail.matters">
+                <div class="see_planDetail_grid_tab_ul" v-for="(matters,index1) in planCreateDetail">
                     <div class="see_planDetail_grid_tab_tit">
                         <div class="see_planDetail_grid_name" v-text="matters.matter_name">
                         </div>
@@ -97,7 +97,7 @@
                                                             <em v-text="confirm_result.obj_name"></em>
                                                             <span v-for="(parents,pIndex) in confirm_result.parents">
                                                                 (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
-                                                                <pbutton-blue bind="true" text="'选择对象实例'" @click="choiceObjExample(confirm_result,event,parents.obj_id,parents.obj_type)"></pbutton-blue>
+                                                                <pbutton-blue bind="true" text="'选择对象实例'" @click="choiceObjExample(confirm_result,event,confirm_result.obj_id,confirm_result.obj_type)"></pbutton-blue>
                                                                 
                                                                 
                                                             </span>

@@ -433,9 +433,14 @@ var equipmentMngList = {
                 data:  {equip_id:equip_id},
                 success: function(data) {
                     if (!Object.keys(data).length) {
+                        v.instance._clickInsertBack();
+                        $("#globalnotice").pshow({text:"编辑成功",state:"success"});
                         resolve(data);
                     } else {
+
+                        $("#globalnotice").pshow({text:"编辑失败",state:"failure"});
                         reject(data);
+
                     }
                 },
                 error: function() {

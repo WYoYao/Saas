@@ -59,6 +59,13 @@ v.pushComponent({
         onPage: 'list', // list 列表 detail // 详情 // 新建 insert    //系统管理 System
         listHeight: {}, // 行号的类型
         Scrapped: {}, // 准备报废的设备
+         // 工单详情Start
+         orderDetailData:{},
+         orderOperatList:[],
+         pages:[],
+         curPage:'',
+         personPositionList:[],
+         // 工单详情End
     },
     computed: {
         // listHeight: function() {
@@ -69,7 +76,7 @@ v.pushComponent({
         //         postion: 'absolute',
         //         top: height + 'px',
         //         bottom: 0,
-        //     };
+        //     }; 
         // }
     },
     filters: {
@@ -96,6 +103,14 @@ v.pushComponent({
         }
     },
     methods: {
+        // 前往工单详情
+        _clickGoWork:function(item){
+            var _that=this;
+            _that.onPage="wordorder";
+            orderDetail_pub.getOrderDetail(v.instance, item.order_id, "1",function(){
+                _that.onPage="list";
+            });
+        },
         // 返回
         _clickInsertBack: function () {
             var _that = this;
@@ -223,6 +238,9 @@ v.pushComponent({
             // 所属建筑 和 专业修改后做额外处理
             this.rmCurrentSelectorAttr(key, id);
 
+            // 查询对应的内容
+            this.setCurrentSelectorAttr(key,id);
+
         },
         // 下拉到底的调用方法
         scrollButtom: function () {
@@ -243,7 +261,7 @@ v.pushComponent({
             this.onPage = 'insert';
         },
         goSystemMgn: function () {
-            v.initPage("System")
+            v.initPage("systemMng")
             this.onPage = 'System';
         }
     },
@@ -281,6 +299,8 @@ v.pushComponent({
         // 查询设备统计数量
         equipmentMngList.queryEquipStatisticCount().then(function (res) {
             _that.EquipStatisticCount = res;
+
+            $("#globalloading").phide();
         });
 
         // 绑定下滑列表的滚动查询
@@ -300,6 +320,7 @@ v.pushComponent({
 
 
         _that.switchOnTab("equip_total");
+
 
         // setTimeout(function() {
         //     _that.setCurrentSelectorAttr("build_id","");

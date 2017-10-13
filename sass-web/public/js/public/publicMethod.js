@@ -1,19 +1,102 @@
 var publicMethod = {
+    clickAdditem: function(item) { //弹出框添加选中
+
+        var id = item.id;
+
+        var personPositionList = JSON.parse(JSON.stringify( orderDetail_data.pub_model.personPositionList));
+
+        personPositionList.forEach(function(item) {
+
+            if (item.id == id) {
+
+                item.isSelected = !item.isSelected;
+
+                // 当父级被选中的时候子级跟随变化
+                if (item.type == 2) {
+                    item.persons.map(function(t) {
+
+                        t.isSelected = item.isSelected;
+                        return t;
+                    })
+                }
+            } else if (item.type == 2) {
+                item.isSelected = item.persons.reduce(function(con, info) {
+                    info.isSelected = info.id == id ? !info.isSelected : info.isSelected;
+                    if (!con) return con;
+                    return info.isSelected;
+                }, true);
+            }
+        })
+
+        orderDetail_data.pub_model.personPositionList = personPositionList;
+
+        // Vue.set(this, 'personPositionList', personPositionList);
+
+    },
+     createAssignSetYes: function() { //指派设置确定
+        var valArr = [];
+        var arr = JSON.parse(JSON.stringify(orderDetail_data.pub_model.personPositionList));
+        arr.forEach(function(ele) {
+            if (ele.isSelected) {
+                if (ele.type == 2) {
+                    valArr.push({ "name": ele.name, "type": ele.type })
+                } else if (ele.type == 3) {
+                    valArr.push({ "name": ele.name, "type": ele.type, "person_id": ele.person_id })
+
+                }
+            }
+            if (ele.type == "2" && !ele.isSelected) {
+                ele.persons.forEach(function(p) {
+                    if (p.isSelected) {
+                        valArr.push({ "name": p.name, "type": "3", "person_id": p.person_id })
+
+                    }
+                })
+            }
+        });
+        console.log(JSON.stringify(valArr));
+        orderDetail_data.userInfo;
+        var nextRoute = valArr;
+        var operatorName = orderDetail_data.userInfo.user.name;
+        var operatorId = orderDetail_data.userInfo.user.person_id;
+        console.log(operatorName)
+        var _data = {
+            "order_id": orderDetail_data.order_id,
+            "operator_id": operatorId,
+            "operator_name": operatorName,
+            "next_route": nextRoute
+        };
+        orderDetail_pub.assignOrderSet(_data);
+        $("#createAssignSet").hide();
+    },
+    stopOrderSetYes: function() {//中止工单确定
+        var operatorName = orderDetail_data.userInfo.user.name;
+        var operatorId = orderDetail_data.userInfo.user.person_id;
+        var _data = {
+            "order_id": orderDetail_data.order_id,
+            "operator_id": operatorId,
+            "operator_name": operatorName,
+            "opinion": orderDetail_data.stop_order_content
+        };
+        controller.stopOrderSet(_data);
+    },
     //事项内容keyup事件
-    keyupMatterContent: function (model, index, event) {
+    //params:
+    //  flag 2为结构化输入'我要对'文本框 3为结构化输入'进行'文本框
+    keyupMatterContent: function (model, index, event, jqTextarea, addSpecialCharFocusIndex, addSpecialCharAddedStr, flag) {
+        commonData.textAttrName = flag == 2 ? 'desc_forepart' : flag == 3 ? 'desc_aftpart' : 'description';
         commonData.curMatterIndex = index;
         commonData.curMatterContent = JSON.parse(JSON.stringify(model));
         commonData.publicModel.curMatterIndex = index;
         var code = event.keyCode;
-        var jqTarget = $(event.currentTarget);
+        var jqTarget = jqTextarea ? jqTextarea : $(event.currentTarget);
         var textwrap = jqTarget[0];
-
-
         commonData.editingJqTextwrap = jqTarget;
 
-        var focusIndex = textwrap.selectionStart;
-        var text = model.description || '';
+        var focusIndex = addSpecialCharFocusIndex ? addSpecialCharFocusIndex : textwrap.selectionStart;
+        var text = model[commonData.textAttrName] || '';
         var len = text.length;
+        if (!addSpecialCharAddedStr && len == commonData.beforeLen) return;        //过滤：1、中文输入法输入的拼音字符 2、对文本框操作无效的按键
         var text1 = text.slice(0, focusIndex);
         var text2 = text.slice(focusIndex);
         commonData.text1 = text1;
@@ -21,11 +104,10 @@ var publicMethod = {
         var noLastCharText1 = text1.slice(0, focusIndex - 1);
         var len1 = text1.length;
         var text1Char = text1 + commonData.deletedChar;
+        var searchedText;
         var addedLen = len - commonData.beforeLen;
-        var addedStr = text.slice(focusIndex - addedLen, focusIndex);
-        if (code == 51) {       //'#'
-
-        } else if (code == 8) {        //退格键删除操作
+        var addedStr = addSpecialCharAddedStr ? addSpecialCharAddedStr : text.slice(focusIndex - addedLen, focusIndex);
+        if (code == 8) {        //退格键删除操作
             if (commonData.deletedChar == ' ') {      //在空格后
                 //只有对象或SOP后面允许输入空格的情况下此处加强判断可以去掉，目前没有限制空格在普通文本中的输入
                 if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') || text1.lastIndexOf(' ') < text1.lastIndexOf('#')) {        //在对象结束空格后      //此处不能发起一次搜索，此时可能的情况：@地源热泵设备类@建筑4
@@ -33,8 +115,8 @@ var publicMethod = {
                     content.content = text1 + ' ' + text2;
                 }
             } else if (text1Char.lastIndexOf(' ') < text1Char.lastIndexOf('@') && text2.indexOf(' ') !== -1) {        //在对象@或普通字符后且在空格前
-                if (commonData.deletedChar == '@') {     //在对象@后
-                    console.log('删除对象@符');
+                if (commonData.deletedChar == '@') {     //在对象@后        //To Delete
+                    console.log('删除对象 @符');
                 } else {     //在普通字符后，例如：'@建筑2' —> '@建2' 发起一次搜索
                     searchedText = text1.slice(text1.lastIndexOf('@') + 1) + text2.slice(0, text2.indexOf(' '));
                     console.log('删除对象中的普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
@@ -44,13 +126,29 @@ var publicMethod = {
                             publicMethod.dealSearchedObjects(data, commonData.publicModel);
                             commonData.publicModel.aite = true;
                             if (data.length) {
-                                commonData.publicModel.curMatterPopType = 0;
+                                commonData.publicModel.curMatterPopType = 0;        //To Delete
+                                publicMethod.setCurPop(0, commonData.types[0]);
                             } else {
                                 commonData.publicModel.curMatterPopType = 3;
+                                setTimeout(function () {
+                                    publicMethod.setCurPop(3, commonData.types[0]);
+                                }, 0);
                             }
                         });
                     } else {
                         commonData.publicModel.curMatterPopType = 3;
+                    }
+                }
+            } else if (text1Char.lastIndexOf(' ') < text1Char.lastIndexOf('#') && text2.indexOf(' ') !== -1) {        //在SOP#或普通字符后且在空格前
+                if (commonData.deletedChar == '#') {     //在SOP #后
+                    console.log('删除SOP #符');
+                } else {     //在普通字符后，例如：'#SOP名称1' —> '#SOP名1' 发起一次搜索
+                    searchedText = text1.slice(text1.lastIndexOf('#') + 1) + text2.slice(0, text2.indexOf(' '));
+                    console.log('删除SOP中的普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
+                    if (searchedText.length) {
+                        publicMethod.toQuerySopListForSel(true);
+                    } else {
+                        //commonData.publicModel.curMatterPopType = 3;
                     }
                 }
             }
@@ -67,7 +165,7 @@ var publicMethod = {
                     commonData.text2 = ' ' + commonData.text2;
                 }
                 commonData.notReplaceObj = true;
-                publicMethod.setCurPop(4, commonData.types[0]);
+                publicMethod.setCurPop(4, commonData.types[0], addSpecialCharFocusIndex);
             } else if (addedStr == '#') {      //输入#符
                 //SOP中间不允许输入#
                 if (noLastCharText1.lastIndexOf(' ') < noLastCharText1.lastIndexOf('#')) {
@@ -84,33 +182,53 @@ var publicMethod = {
                 //myWorkOrderMethod.selAllTags();
                 //yn_method.upDownSelect();
             } else {        //输入普通字符
-                if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') && text2 == '') {
-                    searchedText = text1.slice(text1.lastIndexOf('@') + 1);
-                    console.log('在@后输入普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
-                    if (!commonData.composing) {
-                        //createSopController.searchObject(searchedText);
+                if (text1.lastIndexOf('@') > text1.lastIndexOf('#')) {
+                    if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') && text2 == '') {
+                        searchedText = text1.slice(text1.lastIndexOf('@') + 1);
+                        console.log('在@后输入普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
+                        if (!commonData.composing) {
+                            myWorkOrderController.searchObject(searchedText);
+                        }
                     }
-                }
 
-                if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') && text2.indexOf(' ') !== -1) {
-                    searchedText = text1.slice(text1.lastIndexOf('@') + 1) + text2.slice(0, text2.indexOf(' '));
-                    console.log('在对象中输入普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
-                    if (!commonData.composing) {
-                        //createSopController.searchObject(searchedText);
+                    if (text1.lastIndexOf(' ') < text1.lastIndexOf('@') && text2.indexOf(' ') !== -1) {
+                        searchedText = text1.slice(text1.lastIndexOf('@') + 1) + text2.slice(0, text2.indexOf(' '));
+                        console.log('在对象中输入普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
+                        if (!commonData.composing) {
+                            myWorkOrderController.searchObject(searchedText);
+                        }
+                    }
+                    commonData.notReplaceObj = false;
+                } else {
+                    if (text1.lastIndexOf(' ') < text1.lastIndexOf('#') && text2 == '') {
+                        searchedText = text1.slice(text1.lastIndexOf('#') + 1);
+                        console.log('在#后输入普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
+                        if (!commonData.composing) {
+                            publicMethod.toQuerySopListForSel(true, searchedText, true);
+                        }
+                    }
+
+                    if (text1.lastIndexOf(' ') < text1.lastIndexOf('#') && text2.indexOf(' ') !== -1) {
+                        searchedText = text1.slice(text1.lastIndexOf('#') + 1) + text2.slice(0, text2.indexOf(' '));
+                        console.log('在SOP中输入普通字符，发起一次搜索，搜索的字符串为：' + searchedText);
+                        if (!commonData.composing) {
+                            publicMethod.toQuerySopListForSel(true, searchedText, true);
+                        }
                     }
                 }
-                commonData.notReplaceObj = false;
             }
         }
     },
 
     //事项内容keydown事件
-    keydownMatterContent: function (model, index, event) {
+    //params:
+    //  flag 2为结构化输入'我要对'文本框 3为结构化输入'进行'文本框
+    keydownMatterContent: function (model, index, event, flag) {
         var code = event.keyCode;
         var jqTarget = $(event.currentTarget);
         var textwrap = jqTarget[0];
         var focusIndex = textwrap.selectionStart;
-        var text = model.description || '';
+        var text = flag == 2 ? (model.desc_forepart || '') : flag == 3 ? (model.desc_aftpart || '') : (model[commonData.textAttrName] || '');
         commonData.beforeLen = text.length;
         if (code == 8) {        //删除操作
             var deletedType;
@@ -183,7 +301,7 @@ var publicMethod = {
         commonData.publicModel.curLevelList = [];       //当前有级别列表
         commonData.publicModel.leftLevel = [];      //左侧级别列表
 
-        //createSopModel.domainList = [];     //专业列表
+        //commonData.publicModel.domainList = [];     //专业列表
         commonData.publicModel.systemList = [];     //系统列表
         commonData.publicModel.checkedObjs = [];        //弹框页面check的对象
 
@@ -205,9 +323,9 @@ var publicMethod = {
 
         commonData.publicModel.selectedTools1 = [];     //新建/编辑SOP step1中所选的工具列表
         commonData.publicModel.selectedTools2 = [];     //新建/编辑SOP 下一步页面中所选的工具列表
-        //createSopModel.toolList = [];       //弹框工具列表
+        //commonData.publicModel.toolList = [];       //弹框工具列表
 
-        //createSopModel.orderTypeList = [];      //工单类型列表
+        //commonData.publicModel.orderTypeList = [];      //工单类型列表
         commonData.publicModel.brandList = [];      //品牌列表
         commonData.publicModel.labelList = [];      //标签列表
 
@@ -232,14 +350,15 @@ var publicMethod = {
             $(prebody).slideUp();
             $(event.srcElement).parents(".content-prev").find(".edit-div").show().next().hide();
         }
+        // if(
     },
 
     /*点击sop名称*/
     detailSop: function (sop, event) {
         event.stopPropagation();
         commonData.publicModel.detailSopShow = true;
+        $(".detail-alert").show();
         var postObj = {
-            user_id: commonData.publicModel.user_id,
             sop_id: sop.sop_id,
             version: sop.version	      //返回结果是否需要带筛选条
         }
@@ -248,6 +367,8 @@ var publicMethod = {
 
     closeDetailSop: function () {
         commonData.publicModel.detailSopShow = false;
+        $(".detail-alert").hide();
+
     },
 
     //选择品牌
@@ -304,7 +425,7 @@ var publicMethod = {
         }
         commonData.publicModel.sopCriteria = JSON.parse(JSON.stringify(commonData.publicModel.sopCriteria));
         var id = '#all_' + attrName1;
-        //if (createSopModel.sopCriteria[attrName1].length > selectedArr.length) {
+        //if (commonData.publicModel.sopCriteria[attrName1].length > selectedArr.length) {
         $(id).removeClass('sel-span');
         //} else {
         //    $(id).addClass('selection-on');
@@ -333,7 +454,7 @@ var publicMethod = {
             default:
                 break;
         }
-        createSopModel.sopCriteria = JSON.parse(JSON.stringify(commonData.publicModel.sopCriteria));
+        commonData.publicModel.sopCriteria = JSON.parse(JSON.stringify(commonData.publicModel.sopCriteria));
     },
 
     //选中/取消选中某类筛选条件参数
@@ -512,12 +633,26 @@ var publicMethod = {
         }
     },
 
+    //添加特殊字符@
+    addSpecialChar: function (event, index, symbol) {
+        event.stopPropagation();
+        var dom = event.currentTarget;
+        commonData.curMatterIndex = index;
+        var content = publicMethod.getCurMatter();
+        content[commonData.textAttrName] += symbol;
+        var jqTextarea = $(dom).parents('.textarea-div').find('textarea');
+        jqTextarea.focus();
+        var focusIndex = content[commonData.textAttrName].length;
+        var addedStr = symbol;
+        publicMethod.keyupMatterContent(content, index, event, jqTextarea, focusIndex, addedStr);
+    },
+
     //自定义信息点 列表状态-添加选项
     addOption2: function (custom, event, contentIndex) {
         event.stopPropagation();
         commonData.contentIndex = contentIndex;
         custom.items.push('');
-        // createSopModel.curStep = JSON.parse(JSON.stringify(createSopModel.curStep));
+        // commonData.publicModel.curStep = JSON.parse(JSON.stringify(commonData.publicModel.curStep));
     },
 
     //添加信息点  /*接口有问题今天看不了，10.11日继续*/
@@ -562,17 +697,28 @@ var publicMethod = {
     },
 
     /*添加工作内容*/
-    addContent: function (model, open, event,index0) {
-        debugger
+    addContent: function (model, open, event, index0) {
+        //清空工作内容 start
+        commonData.publicModel.workContent.pre_conform = "";
+        commonData.publicModel.workContent.content = "";
+        commonData.publicModel.workContent.content_obj = [];
+        commonData.publicModel.workContent.notice = "";
+        commonData.publicModel.workContent.confirm_result = [];
+        commonData.publicModel.workContent.domain = "";
+        commonData.publicModel.workContent.domain_name = "";
+        //清空工作内容 end
         if (open) {
             commonData.publicModel.addContentWindow = true;
+
+            $(".workcontent-alert").show();
             commonData.publicModel.curMatterIndex = index0;
             myWorkOrderController.queryGeneralDictByKey();
-            commonData.publicModel.work_c=true;
+            commonData.publicModel.work_c = true;
 
 
         } else {
             commonData.publicModel.addContentWindow = false;
+            $(".workcontent-alert").hide();
             commonData.publicModel.work_c = false;
         }
         commonData.publicModel.mattersVip = model || {};
@@ -582,7 +728,7 @@ var publicMethod = {
 
     /*事项名称计数*/
     matterNameCounter: function (model, event) {
-        $(event.target).next(".counter").find("b").text(model.length);
+        $(event.target).next(".counter").find("b").text(model.matter_name.length);
         // desc_aftpart
     },
 
@@ -710,70 +856,83 @@ var publicMethod = {
     },
 
     //设置当前弹窗
-    setCurPop: function (index, popType) {
+    setCurPop: function (index, popType, addSpecialCharFocusIndex) {      //true
         commonData.checkedObjs = [];
-
+        if (index == 4) {
+            commonData.publicModel.curObjType = 'init';
+        } else if (index == 0) {
+            commonData.publicModel.curObjType = 'search';
+        } else if (index == 3) {
+            commonData.publicModel.curObjType = 'custom';
+        }
         var jqTextareaDiv = commonData.editingJqTextwrap.parents(".textarea-div");
-        if(index!=3 && !commonData.publicModel.noPop) {
-            jqTextareaDiv.find(".textarea-prop").show();
-        }
-
         var jqPopDataDivs = jqTextareaDiv.find(".free-aite-pops").children();
-        var curJqPopDataDiv = $(jqPopDataDivs[index]);
-        if(popType=='content' && index==4 && !commonData.publicModel.noPop){
-            curJqPopDataDiv = $(jqPopDataDivs[index+5]);
-        }else if(popType=='content' && index==1 && !commonData.publicModel.noPop){
-            curJqPopDataDiv = $(jqPopDataDivs[index+5]);
-        }else if(popType=='content' && index==1 && commonData.publicModel.noPop){
-            curJqPopDataDiv = $(jqPopDataDivs[index]);
-        }if(popType=='obj' && index==3 && !commonData.publicModel.noPop){
-            curJqPopDataDiv = $(jqPopDataDivs[index+5]);
-        }
+        var curJqPopDataDiv;
         jqPopDataDivs.hide();
-        //jqTextareaDiv.find('.aite-bubble').hide();
-
         var hashtagDiv = jqTextareaDiv.find(".hashtag-bubble");
-        //$(".hashtag-bubble").hide();
+        if (commonData.publicModel.addContentWindow) {
+            if (index != 3 && !commonData.publicModel.noPop) {
+                jqTextareaDiv.find(".textarea-prop").show();
+            }
+            if (popType == 'content' && index == 4 && !commonData.publicModel.noPop) {
+                curJqPopDataDiv = $(jqPopDataDivs[index + 5]);
+            } else if (popType == 'content' && index == 1 && !commonData.publicModel.noPop) {
+                curJqPopDataDiv = $(jqPopDataDivs[index + 5]);
+            } else if (popType == 'content' && index == 1 && commonData.publicModel.noPop) {
+                curJqPopDataDiv = $(jqPopDataDivs[index]);
+            }
+            if (popType == 'obj' && index == 3 && !commonData.publicModel.noPop) {
+                curJqPopDataDiv = $(jqPopDataDivs[index + 5]);
+            }
 
-        if (popType == 'obj' || popType == 'content') {     //@对象弹框
-            $(".hashtag-bubble").hide();
-            if (commonData.publicModel.work_c) {
-                $(jqTextareaDiv.find('.aite-bubble')[1]).show();
-            } else {
+            if (popType == 'content') {     //@对象弹框
+                $(".hashtag-bubble").hide();
+                curJqPopDataDiv.show();
+                if (commonData.publicModel.work_c) {
+                    $(jqTextareaDiv.find('.aite-bubble')[1]).show();
+                } else {
+                    jqTextareaDiv.find('.aite-bubble').show();
+                }
+                $(jqPopDataDivs[index]).show();
+                if (popType == 'content') {     //?
+                    publicMethod.locationPop(commonData.publicModel.workContent, commonData.types[3], addSpecialCharFocusIndex);
+                } else {
+                    publicMethod.locationPop(commonData.curMatterContent, commonData.types[0], addSpecialCharFocusIndex);
+                }
+            }
+        } else {        //工单事项弹框
+            jqTextareaDiv.find(".textarea-prop").show();
+            curJqPopDataDiv = $(jqPopDataDivs[index]);
+            if (popType == 'obj') {     //@对象弹框
+                $(".hashtag-bubble").hide();
                 jqTextareaDiv.find('.aite-bubble').show();
+                curJqPopDataDiv.show();
+            } else {        //#SOP弹框
+                jqTextareaDiv.find('.aite-bubble').hide();
+                hashtagDiv.show();
             }
-            curJqPopDataDiv.show();
-            if(popType='content'){
-                publicMethod.locationPop(commonData.publicModel.workContent, commonData.types[3]);
-
-            }else{
-                publicMethod.locationPop(commonData.curMatterContent, commonData.types[0]);
-
-            }
-        } else {        //#SOP弹框
-            jqTextareaDiv.find('.aite-bubble').hide();
-            hashtagDiv.show();
+            publicMethod.locationPop(commonData.curMatterContent, commonData.types[0], addSpecialCharFocusIndex);
         }
     },
 
     //设置当前弹窗位置
-    locationPop: function (model, type) {
+    locationPop: function (model, type, addSpecialCharFocusIndex) {
         var textwrap = commonData.editingJqTextwrap;
         var textpdiv = commonData.editingJqTextwrap.parents(".textarea-div")
         var textdiv = $(textwrap).siblings(".textareadiv");
         var textareapop = $(textwrap).siblings(".textarea-prop");
 
-        //var value = model.description ? model.description : commonData.publicModel.workContent.content;     //取值方法统一如下
+        //var value = model[commonData.textAttrName] ? model[commonData.textAttrName] : commonData.publicModel.workContent.content;     //取值方法统一如下
 
         var contentData = publicMethod.getContentData(type);
         var attrName1 = contentData.attrName1;
-        if(model.content){
+        if (model && model.content) {
             var value = model[attrName1];
 
-        }else{
+        } else {
             var value = contentData.content[attrName1];
         }
-        if(commonData.publicModel.noPop) return;
+        if (commonData.publicModel.noPop) return;
         var focusIndex = textwrap[0].selectionStart;
         var firstPartStr = value.substring(0, focusIndex);
         var secondPartStr = value.substring(focusIndex);
@@ -803,6 +962,7 @@ var publicMethod = {
         commonData.editingJqTextwrap.parents(".textarea-div").find(".textarea-prop").hide();
     },
 
+    //确认选择的事项对象
     confirmCheckedMatterObjs: function () {
         var work_c = $(event.currentTarget).parents(".import-box")[0]
         if (work_c) {
@@ -810,7 +970,7 @@ var publicMethod = {
         } else {
             publicMethod.confirmCheckedObjs(commonData.types[0]);
         }
-        commonData.publicModel.noPop=false;
+        commonData.publicModel.noPop = false;
     },
 
     //确认勾选的对象
@@ -871,9 +1031,9 @@ var publicMethod = {
             content[attrName1] = commonData.text1.slice(0, commonData.text1.lastIndexOf(symbol)) + addedText + commonData.text2;
             console.log(content[attrName1])
 
-            if(type=="content"){
-                commonData.publicModel.workContent.content_objs=content[attrName2];
-                commonData.publicModel.workContent.content=commonData.publicModel.workContent.content.substring(1)+addedText;
+            if (type == "content") {
+                commonData.publicModel.workContent.content_objs = content[attrName2];
+                commonData.publicModel.workContent.content = commonData.publicModel.workContent.content.substring(1) + addedText;
 
             }
         } else if (!commonData.matchExistingObj[type1 + '_id']) {       //当前输入对象未匹配搜索结果时，删除当前输入的对象，并在该位置加上新增的对象
@@ -993,10 +1153,45 @@ var publicMethod = {
         publicMethod.markInitialSelectedObjs(type, type1);
     },
 
+    //确认自定义对象
+    confirmCustomizeObj: function () {
+        //TODO: 验证
+        var value = commonData.editingJqTextwrap.parents(".slide-div").find(".customText").find('input').val();
+        var obj = {
+            obj_type: commonData.publicModel.selectedObjType,
+            obj_name: value
+        }
+        myWorkOrderController.addTempObjectWithType(obj, true, null, null);
+    },
+
+    //成功添加自定义对象后的处理
+    //@params: isConfirmCustomizeObj是否为点击确定按钮，确认自定义对象，其它可能的情况：删除已有对象某些字符时自定义、@后输入字符空格结束自定义
+    addedTempObjectWithType: function (obj, isConfirmCustomizeObj, isShowPop) {
+        if (isConfirmCustomizeObj) {
+            //设置数据content.content_objs
+            //var content = commonData.curStep.step_content[commonData.contentIndex];
+            var contentData = publicMethod.getContentData(type);
+            var attrName1 = contentData.attrName1;
+            var attrName2 = contentData.attrName2;
+            var content = contentData.content;
+            var content_objs = contentData.content_objs;
+            var objType = obj.obj_type;
+            var type = objType == '2' ? 'component' : objType == '3' ? 'tool' : 'other';
+            content.content_objs/* = commonData.otherSelectedObjs*/.push({      //To Confirm With Backstage
+                obj_type: type,
+                obj_name: obj.obj_name
+            });
+            //设置数据content.content
+            var spaceOrNoSpaceChar = commonData.text2.length && commonData.text2[0] == ' ' ? '' : ' ';
+            content.content = commonData.text1.slice(0, commonData.text1.lastIndexOf('@')) + '@' + obj.obj_name + spaceOrNoSpaceChar + commonData.text2;
+        }
+        publicMethod.hideCurPop();
+    },
+
     //获取文本框相关数据
     getContentData: function (type) {
         var types = commonData.types;
-        var attrName1 = type == types[0] || type == types[1] ? 'description' : 'content';
+        var attrName1 = type == types[0] || type == types[1] ? commonData.textAttrName : 'content';
         var attrName2 = type == types[0] ? 'desc_objs' : type == types[1] ? 'desc_sops' : 'content_objs';
         var content = publicMethod.getCurDataObj(type);
         if (!content[attrName2]) content[attrName2] = [];
@@ -1088,12 +1283,12 @@ var publicMethod = {
     },
 
     //查询可供选择的sop前的参数处理
-    toQuerySopListForSel: function (isInit, copyOrQuote) {
+    toQuerySopListForSel: function (isInit, searchedText, notReturnCriteria) {
         //if (isInit) $('#delaySearch input').val('');      //To Modify
-        if (copyOrQuote) commonData.copyOrQuote = copyOrQuote;
         var obj = {
-            need_return_criteria: true
+            need_return_criteria: !notReturnCriteria
         };
+        if (searchedText) obj.sop_name = searchedText;
         //var searchedText = $('#delaySearch input').val();       //To Add
         //if (searchedText) obj.sop_name = searchedText;
         if (!isInit) {
@@ -1164,14 +1359,16 @@ var publicMethod = {
     //添加工作内容名称
     addWorkContentName: function () {
         debugger;
+        commonData.publicModel.work_c = false;
         var contentData = publicMethod.getContentData(commonData.types[0]);
         var attrName1 = contentData.attrName1;
         var attrName2 = contentData.attrName2;
         var content = contentData.content;
         var content_objs = contentData.content_objs;
-        var desc_work = commonData.publicModel.desc_works[commonData.publicModel.desc_works.length - 1] || {};
+        var desc_work = commonData.publicModel.workContent || {};
         content[attrName1] = content[attrName1] + (desc_work.work_name || '') + ' ';
-        content.desc_works.push(desc_work);
+        content["desc_works"].push(desc_work);
+        commonData.publicModel.allMatters = JSON.parse(JSON.stringify(commonData.publicModel.allMatters));
     },
 
     //处理事项参数
@@ -1179,7 +1376,7 @@ var publicMethod = {
         //判断工作内容名称是否被删除
         for (var i = 0; i < commonData.publicModel.allMatters.length; i++) {
             var matter = commonData.publicModel.allMatters[i];
-            var text = matter.description;
+            var text = matter[commonData.textAttrName];
             var textArr = text ? text.split(' ') : [];
 
             var desc_worksCopy = [];
@@ -1199,7 +1396,6 @@ var publicMethod = {
 
     //处理工单参数addContent
     dealWorkOrderParam: function () {
-        publicMethod.dealMattersParam();
         commonData.publicModel.workOrderDraft.ask_start_time = commonData.publicModel.workOrderDraft.ask_start_time.replace(/[^0-9]/g, '') + '00';
         commonData.publicModel.workOrderDraft.ask_end_time = commonData.publicModel.workOrderDraft.ask_end_time ? commonData.publicModel.workOrderDraft.ask_end_time.replace(/[^0-9]/g, '') + '00' : '';
         commonData.publicModel.workOrderDraft.input_mode = commonData.publicModel.regular ? '2' : '1';
@@ -1208,6 +1404,8 @@ var publicMethod = {
 
     //保存工单草稿
     toSaveWorkOrderDraft: function () {
+        //publicMethod.getLeftDataAgain();
+        console.log(commonData.publicModel.workOrderDraft)
         publicMethod.dealWorkOrderParam();
         myWorkOrderController.saveDraftWorkOrder(commonData.publicModel.workOrderDraft);
     },
@@ -1242,7 +1440,7 @@ var publicMethod = {
         if (commonData.publicModel.regular) {     //结构化
             for (var i = 0; i < allMatters.length; i++) {
                 var matter = allMatters[i];
-                var desc_aftpart = matter.description;
+                var desc_aftpart = matter[commonData.textAttrName];
                 var symbol = '@';
                 var contentData = publicMethod.getContentData(commonData.types[0]);
                 var attrName1 = contentData.attrName1;
@@ -1291,7 +1489,17 @@ var publicMethod = {
         commonData.contentIndex = contentIndex;
         var content = commonData.publicModel.workContent[commonData.contentIndex];
         content.confirm_result.splice(index, 1);
-        // createSopModel.allSteps[createSopModel.curStepIndex].step_content[commonData.contentIndex].confirm_result.splice(index, 1);
+        // commonData.publicModel.allSteps[commonData.publicModel.curStepIndex].step_content[commonData.contentIndex].confirm_result.splice(index, 1);
+    },
+    //自定义信息点 弹框-删除选项
+    deleteOption: function (model, index, event, contentIndex) {
+        event.stopPropagation();
+        commonData.contentIndex = contentIndex;
+        if (commonData.publicModel.customItem.items.length > 1) {
+            commonData.publicModel.customItem.items.splice(index, 1);
+        } else {
+            commonData.publicModel.customItem.items = [{name: ''}];
+        }
     },
     //自定义信息点 列表状态-删除选项
     deleteOption2: function (custom, itemIndex, event, contentIndex) {
@@ -1302,20 +1510,86 @@ var publicMethod = {
     //删除信息点
     deleteInfoPoint: function (infoPoint, infoPointIndex, objIndex, contentIndex) {
         commonData.contentIndex = contentIndex;
-        var content = commonData.publicModel.workContent[commonData.contentIndex];
+        var content = commonData.publicModel.workContent;
         content.confirm_result[objIndex].info_points.splice(infoPointIndex, 1);
-        // createSopModel.allSteps[createSopModel.curStepIndex].step_content[commonData.contentIndex].confirm_result[objIndex].info_points.splice(infoPointIndex, 1);
+        // commonData.publicModel.allSteps[commonData.publicModel.curStepIndex].step_content[commonData.contentIndex].confirm_result[objIndex].info_points.splice(infoPointIndex, 1);
     },
     //删除自定义的信息点
     deleteCustomizedInfoPoint: function (custom, customIndex, objIndex, contentIndex) {
         commonData.contentIndex = contentIndex;
-        var content = commonData.publicModel.workContent[commonData.contentIndex];
+        var content = commonData.publicModel.workContent;
         content.confirm_result[objIndex].customs.splice(customIndex, 1);
     },
+    //点击编辑时，设置页面
+    setEditDraft: function () {
+        debugger;
+        commonData.publicModel.LorC = false;
+
+        $("#work-typec").psel(commonData.publicModel.workOrderDraft.order_type_name, true);
+        $("#work-urgency").psel(commonData.publicModel.workOrderDraft.urgency, false)
+
+        console.log(commonData.publicModel.workOrderDraft);
+
+        if (commonData.publicModel.workOrderDraft.ask_end_limit == "--") {
+            commonData.publicModel.fixedRadio = false;
+            $("#fixed-radio").psel(false, true)
+            $("#ask-radio").psel(true, true)
+            $("#ask_end_limit").val("");
+            var endTime = commonData.publicModel.workOrderDraft.ask_end_time;
+            $("#ask_end_time").psel(publicMethod.cutTime(endTime), true)
+        } else {
+            commonData.publicModel.fixedRadio = true;
+            $("#fixed-radio").psel(true, true)
+            $("#ask-radio").psel(false, true)
+
+            $("#ask_end_limit").val(commonData.publicModel.workOrderDraft.ask_end_limit)
+        }
+        if (commonData.publicModel.workOrderDraft.start_time_type == 1) {
+            $("#time-combobox").psel(0, true);
+        } else {
+            $("#time-combobox").psel(1, true);
+            var startTime = commonData.publicModel.workOrderDraft.ask_start_time;
+            $("#ask_start_time").psel(publicMethod.cutTime(startTime), true)
+        }
+    },
+    //分割时间
+    cutTime: function (time) {
+        //{y:2017,M:1,d:1,h:0,m:0}
+        var timeObj = {};
+        timeObj.y = time.substring(0, 4);
+        timeObj.M = time.substring(5, 7);
+        timeObj.d = time.substring(8, 10);
+        timeObj.h = time.substring(11, 13);
+        timeObj.m = time.substring(14, 16);
+        return timeObj;
+    },
+    //统一在获取一遍左侧数据
+    getLeftDataAgain:function () {
+            commonData.publicModel.workOrderDraft["order_type_name"]=$("#work-typec").psel().text;
+            commonData.publicModel.workOrderDraft["order_type"]=commonData.publicModel.workTypeC[$("#work-typec").psel().index].code;
+            commonData.publicModel.workOrderDraft["urgency"]=$("#work-urgency").psel().text;
+        var index=parseInt($("#time-combobox").psel().index);
+            commonData.publicModel.workOrderDraft["start_time_type"]=index+1;
+        if(index==0){
+            commonData.publicModel.workOrderDraft["ask_start_time"]="";
+        }else{
+            commonData.publicModel.workOrderDraft["ask_start_time"]=$("#ask_start_time").psel().startTime;
+        }
+        var fixed=$("#fixed-radio").psel();
+       if(fixed){
+           commonData.publicModel.workOrderDraft["ask_end_limit"]=$("#ask_end_limit").val();
+           commonData.publicModel.workOrderDraft["ask_end_time"]="";
+       }else{
+           commonData.publicModel.workOrderDraft["ask_end_time"]=$("#ask_end_time").psel().startTime;
+           commonData.publicModel.workOrderDraft["ask_end_limit"]="";
+       }
+
+    }
 
 }
 
 var commonData = {
+    stop_order_content:'',//中止内容
     publicModel: {},        //我的工单、计划监控的model
     types: ['obj', 'sop', 'workContentName', 'content'],       //事项@对象、事项#SOP、添加工作内容@对象、事项添加工作内容名称
     copyOrQuote: null,      //1复制，2引用
@@ -1325,6 +1599,8 @@ var commonData = {
 
     user_id: '',
     project_id: '',
+
+    textAttrName: '',       //文本属性名称
 
     //对象类
     objClass: {
@@ -1418,7 +1694,6 @@ var yn_method = {
         $("#del-confirm").phide();
     },
     scrollLoad: function () {
-        var userId = commonData.publicModel.user_id;
         var proId = commonData.publicModel.project_id;
         if ($("#work-already").psel()) {
             commonData.publicModel.workAlreadyID = commonData.publicModel.workAlready[$("#work-already").psel().index].id;
@@ -1454,8 +1729,14 @@ var yn_method = {
     /*创建页面*/
     createShow: function () {
         commonData.publicModel.LorC = false;
+        $("#work-typec").precover("请选择");
         $("#work-urgency").psel(0);
-        $("#time-combobox").psel(0);
+        $("#time-combobox").psel(0, true);
+        $("#fixed-radio").psel(true, true);
+        $("#ask-radio").psel(false, true);
+        $("#ask_end_limit").val("");
+        $(".matter-name").val("");
+        $(".freedom-textarea").val("");
         yn_method.getDateTime();
     },
     /*回到列表页*/
@@ -1474,10 +1755,10 @@ var yn_method = {
         $("#ask_end_time").psel({h: hours + 2}, false);
         if (commonData.publicModel.fixedRadio) {
             commonData.publicModel.workOrderDraft["ask_end_limit"] = $("#ask_end_limit").val();
+            commonData.publicModel.workOrderDraft["ask_end_time"] = "";
         } else {
             commonData.publicModel.workOrderDraft["ask_end_limit"] = "";
-            commonData.publicModel.workOrderDraft["ask_end_time"] = "";
-
+            commonData.publicModel.workOrderDraft["ask_end_time"] = $("#ask_end_time").psel().startTime;
         }
 
 
@@ -1520,14 +1801,14 @@ var yn_method = {
                 textRemain = textRemain.replace(value, "");
             });
             sops += textRemain;
-            // $(".regular-obj-text").find("textarea").val(objs);
+            // $(".regular-obj-text").find("textarea").val(objs);commonData.textAttrName
             // $(".regular-sop-text").find("textarea").val(sops);
             commonData.publicModel.singleMatters.desc_forepart = objs;
             commonData.publicModel.singleMatters.desc_aftpart = sops;
         } else {
             var reObjs = $(".regular-obj-text").find("textarea").val();
             var reSops = $(".regular-sop-text").find("textarea").val();
-            commonData.publicModel.description = reObjs + reSops;
+            commonData.publicModel[commonData.textAttrName] = reObjs + reSops;
         }
     },
     /*结构输入两者相加计数*/
@@ -1850,7 +2131,7 @@ var yn_method = {
                                         sop += "#" + $(hashtagBubble).find(dom).parent().prev().children().text() + " ";
                                     }
                                 });
-                                commonData.publicModel.description += sop;
+                                commonData.publicModel[commonData.textAttrName] += sop;
                                 // $(".matter-freedom textarea").
 
                             }
@@ -1976,7 +2257,7 @@ var yn_method = {
                                     sop += "#" + $(bubble).find(dom).parent().prev().children().text() + " ";
                                 }
                             });
-                            commonData.publicModel.description += sop;
+                            commonData.publicModel[commonData.textAttrName] += sop;
                             // }
                             break;
                         default:
@@ -2024,7 +2305,7 @@ var yn_method = {
      if (which) {//输入时的#浮窗
      sop = sop.substring(1);
      }
-     commonData.publicModel.description += sop;
+     commonData.publicModel[commonData.textAttrName] += sop;
      // $(".matter-freedom textarea").
 
      }
@@ -2058,7 +2339,7 @@ var yn_method = {
             if (which) {//输入时的#浮窗
                 sop = sop.substring(1);
             }
-            commonData.publicModel.description += sop;
+            commonData.publicModel[commonData.textAttrName] += sop;
             // $(".matter-freedom textarea").
 
         }
@@ -2077,8 +2358,6 @@ var yn_method = {
             if (content.parents || content.content && content.content.length == 0) {
                 var id = content.obj_type == "build" ? "build_id" : content.obj_type == "floor" ? "floor_id" : "space_id"
                 var obj = {
-                    user_id: commonData.publicModel.user_id,
-                    project_id: commonData.publicModel.project_id,
                     need_back_parents: true,
                 }
                 obj[id] = content.obj_id;
@@ -2097,11 +2376,14 @@ var yn_method = {
             $(".add-obj .aite-bubble").hide();
             $(".obj-fragment-div .aite-bubble").hide();
             $(".obj-info-btn .aite-bubble").hide();
+            // $(".add-info-btn .aite-bubble").hide();
+
             $(".add-sop .hashtag-bubble").hide();
             commonData.publicModel.clickAiteShow = false;
             commonData.publicModel.clickHashShow = false;
-            commonData.publicModel.noPop=false;
-        })
+            commonData.publicModel.noPop = false;
+        });
+
     },
     btnAble: function (index, obj, $event) {
         if (event.pEventAttr.state) {
@@ -2232,23 +2514,8 @@ var yn_method = {
     deleteMatter: function (dom) {
         $(dom).parents(".matter-all").remove();
     },
-    /* /!*选中checkbox*!/
-     selCheck:function (content,index,event) {
-     var state = event.pEventAttr.state;
-     var info_points = commonData.infoPoint_obj.info_points;
-     commonData.info_pointsCopy = JSON.parse(JSON.stringify(info_points));
-     if (state) {
-     commonData.info_pointsCopy.push(content);
-     } else {
-     for (var i = 0; i < commonData.info_pointsCopy.length; i++) {
-     if (commonData.info_pointsCopy[i].obj_id == content.obj_id) {
-     commonData.info_pointsCopy.splice(i, 1);
-     break;
-     }
-     }
-     }
-     }*/
-    addWorkContent: function () {
+
+    confirmAddWorkContent: function () {
         // if (!commonData.publicModel.mattersVip.desc_works) {
         //     commonData.publicModel.mattersVip["desc_works"] = [];
         // }
@@ -2256,21 +2523,35 @@ var yn_method = {
         // commonData.publicModel.workContent["desc_works"].push(commonData.publicModel.workContent);
         // commonData.publicModel.singleMatters["desc_works"] = commonData.publicModel.mattersVip["desc_works"];
         // debugger;
+        $(".obj-div").each(function(index1,value1){
+            $(this).find(".self-div").each(function(index2,value2){
+                commonData.publicModel.workContent.confirm_result[index1].customs[index2].items=[];
+                $(this).find(".info-self-input").each(function(index3,value3){
+                    var item=$(this).val();
+                    commonData.publicModel.workContent.confirm_result[index1].customs[index2].items.push(item);
+                })
+            })
+        })
+        console.log(commonData.publicModel.workContent)
         commonData.publicModel.addContentWindow = false;
+        $(".workcontent-alert").hide();
+
+        publicMethod.addWorkContentName();
         // publicMethod.addWorkContentName();
+
         // console.log(publicMethod.addWorkContentName());
-        commonData.publicModel.allMatters[commonData.publicModel.curMatterIndex].desc_works.push(commonData.publicModel.workContent)
+        //commonData.publicModel.allMatters[commonData.publicModel.curMatterIndex].desc_works.push(commonData.publicModel.workContent)
 
 
         // console.log(commonData.publicModel.workContent)
         // console.log(commonData.publicModel.mattersVip)
-        console.log(commonData.publicModel.allMatters[commonData.publicModel.curMatterIndex])
+        //console.log(commonData.publicModel.allMatters[commonData.publicModel.curMatterIndex])
 
     },
     contentAiteShow: function (dom, event) {
         event.stopPropagation();
         $(dom).children(".aite-bubble").show();
-        commonData.publicModel.noPop=true;
+        commonData.publicModel.noPop = true;
         publicMethod.setCurPop(4, 'content');
     },
     /*工单类型存储*/
@@ -2292,6 +2573,10 @@ var yn_method = {
     //选择对象所属类别
     selObjType: function (obj_type) {
         commonData.publicModel.selectedObjType = obj_type;
+    },
+    //时间限制的存储
+    askLimit:function (event) {
+        commonData.publicModel.workOrderDraft["ask_end_limit"]=event.target.value
     },
     /*草稿存储数据*/
     a: function () {

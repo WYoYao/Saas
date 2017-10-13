@@ -71,13 +71,13 @@
                 <div class="searchList_table_title_date">
                     <div class="searchList_table_title_data_top">
                         <div id="searchList_top_prevMonth" @click="searchPrevMonth(event)">
-                            <span v-text="M_currMonth !=1? M_currMonth-1 :12"></span>月
+                            <span v-show="M_currMonth" v-text="M_currMonth !=1? M_currMonth-1 :12"></span>月
                         </div>
                         <div id="searchList_top_currMonth">
-                            <span v-text="M_currMonth"></span>月
+                            <span v-show="M_currMonth"  v-text="M_currMonth"></span>月
                         </div>
                         <div id="searchList_top_nextMonth" @click="searchNextMonth(event)">
-                            <span v-text="M_currMonth !=12?M_currMonth +1 : 1"></span>月
+                            <span v-show="M_currMonth"  v-text="M_currMonth !=12?M_currMonth +1 : 1"></span>月
                         </div>
                     </div>
                     <div class="searchList_table_title_data_bottom">
@@ -90,13 +90,13 @@
                 </div>
             </div>
             <div class="searchList_table_list1" id="searchList_table_day">
-                <div class="searchList_table_list1_box" v-for="renders in renderTableListDay">
+                <div v-if="renderTableListDay" class="searchList_table_list1_box" v-for="renders in renderTableListDay">
                     <div :style="{height:renders.max_freq_num*50 +10+'px'}" class="searchList_table_list1_name" @click="seePlanDetailShow(renders.plan_id)">
                         <div class="planName" :title="renders.plan_name" v-text="renders.plan_name"></div>
                     </div>
                     <div :style="{height:renders.max_freq_num*50 +10+'px'}" class="searchList_table_list1_cycle">
                         <div>
-                            每<span><i v-text="renders.freq_cycle == 'd'?'周':''"></i><i v-text="renders.freq_num"></i>次</span>
+                            <span v-text="renders.freq_cycle_desc"></span>
                         </div>
                     </div>
                     <!-- <div v-text="renders.renderListDay">
@@ -107,25 +107,28 @@
                         <div>
                             <ul v-for="items in renders.renderListDay">
                                 <li v-for="(data,index) in items" @click="clickSeeOrderDetail(data.order_id)">
-                                    <span v-if="data.order_id" :code = data.markDay>
-                                        <img v-if="data.order_state" :src="'../../../../../images/orderState/' + data.order_state +'.png'" alt="">    
+                                    <span v-if="data.order_id" :code=d ata.markDay>
+                                        <img v-if="data.order_state !='--'" :src="'../../../../../images/orderState/' + data.order_state +'.png'" alt="">    
                                     </span>
                                     <span v-if="!data.order_id && data.ask_end_time">
                                         <img :src="'../../../../../images/orderState/' + 'next.png'" alt="">    
                                     </span>
-                                    
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
+                <div class="searchList_table_noData" v-show="model.renderTableListDay.length == 0">
+                    <div  class="image-div"><img src="../images/nodata.png" alt="暂无内容">
+                        <p>暂无内容</p>
+                    </div>
+                </div>
             </div>
             <div class="searchList_table_list2" id="searchList_table_common">
                 <div class="searchList_table_list2_box" v-for="renders in renderTableListCommon">
-                <!-- <div v-text="renders.row_count"></div> -->
-                
-                    <div :style="{height:renders.row_count*50 +'px'}" class="searchList_table_list2_name" @click="seePlanDetailShow(1)" >
-                        <div class="planName" :title ="renders.plan_name" v-text="renders.plan_name"></div>
+                    <!-- <div v-text="renders.row_count"></div> -->
+                    <div :style="{height:renders.row_count*50 +'px'}" class="searchList_table_list2_name" @click="seePlanDetailShow(renders.plan_id)">
+                        <div class="planName" :title="renders.plan_name" v-text="renders.plan_name"></div>
                     </div>
                     <div :style="{height:renders.row_count*50 +'px'}" class="searchList_table_list2_cycle">
                         <div>
@@ -140,20 +143,25 @@
                     <div class="searchList_table_list2_date">
                         <div>
                             <ul v-for="items in renders.dataCompareList">
-                                <li  :style="{width:data.mark*model.rightTab_liWidth+data.mark-1 +'px'}" v-for="(data,index) in items.step1" @click="clickSeeOrderDetail(data.order_id)">
-                                    <span v-if="!data.is_next_order" :code = data.markDay>
+                                <li :style="{width:data.mark*model.rightTab_liWidth+data.mark-1 +'px'}" v-for="(data,index) in items.step1" @click="clickSeeOrderDetail(data.order_id)">
+                                    <span v-if="!data.is_next_order" :code=d ata.markDay>
                                         <img v-if="data.order_state!='none'" :src="'../../../../../images/orderState/' + data.order_state +'.png'" alt="">    
                                     </span>
                                     <span v-if="data.is_next_order">
                                         <img :src="'../../../../../images/orderState/' + 'next.png'" alt="">    
                                     </span>
-                                    
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
+                 <div class="searchList_table_noData" v-show="model.renderTableListCommon.length == 0">
+                    <div  class="image-div"><img src="../images/nodata.png" alt="暂无内容">
+                        <p>暂无内容</p>
+                    </div>
+                </div>
             </div>
+            
         </div>
         <!-- loading -->
         <ploading-part class="list_loading" text="加载中"></ploading-part>

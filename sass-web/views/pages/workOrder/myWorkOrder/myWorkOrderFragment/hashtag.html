@@ -9,6 +9,24 @@
         </div>
         <div class="sop-body">
             <div class="sop-list" v-show="commonData.publicModel.sopList.length">
+<!--
+                <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList" :index="index" :title="model.sop_name">
+                    <div>
+                        <span @click="publicMethod.detailSop(model, $event)"><em v-for="(charObj, index) model.sop_name_arr" v-text="charObj.char" :class="charObj.mark ? 'redMark' : ''"></em></span>
+                    </div>
+                    <div>
+
+                        &lt;!&ndash;<pswitch-checkbox bind="true" id="model.sop_id" click="publicMethod.checkSop"></pswitch-checkbox>&ndash;&gt;
+                        <div :id="model.sop_id" class="pcheckbox"
+                             @click="publicMethod.checkObject(model, index, 'sop', $event)">
+                                        <span class="pcheckbox_input"
+                                              :class="model.checked ? 'pcheckbox-checked' : ''"></span>
+                            <span class="pswitch_label"></span>
+                        </div>
+
+                    </div>
+                </div>
+-->
                 <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList" :index="index" :title="model.sop_name">
                     <div>
                         <span v-text="model.sop_name" @click="publicMethod.detailSop(model, $event)"></span>

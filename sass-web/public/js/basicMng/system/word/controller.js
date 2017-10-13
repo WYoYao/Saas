@@ -31,7 +31,7 @@ var controllerword = {
             url: 'restNounService/updateNounById',
             data: argu,
             success: function(data) {
-                if (!Object.keys(data).length) {
+                if (Object.keys(data).length) {
                     cb();
                     $("#systempnotice").pshow({ text: "修改成功！", state: "success" });
                 }

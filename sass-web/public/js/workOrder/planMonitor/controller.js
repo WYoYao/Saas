@@ -17,19 +17,22 @@ var controller = {
                 list.forEach(function(info, index) {
                     info["name"] = info.tab_name;
                     if (index == '0') {
-                        info["icon"] = "z"
+                        info["icon"] = "z";
                     } else {
                         info["icon"] = "z"
                     }
                 });
                 // console.log(list)
                 model.buttonMenus = list;
-                methods.getListMonthDate(null,null,list[0].code); //获取当前月和上下月天数
+                var date = new Date();
+                var _year = date.getFullYear();
+                var _month = date.getMonth() + 1;
+                methods.getListMonthDate(_year,_month,list[0].order_type); //获取当前月和上下月天数
                 
 
             },
             error: function(error) {
-
+                $("#publishNotice").pshow({ text: '数据请求失败，请重试', state: "failure" });
             },
 
             complete: function() {
@@ -102,7 +105,7 @@ var controller = {
 
             },
             error: function(error) {
-
+                $("#publishNotice").pshow({ text: '数据请求失败，请重试', state: "failure" });
             },
 
             complete: function() {
@@ -208,7 +211,7 @@ var controller = {
                 // console.log(JSON.stringify(model.renderTableListCommon));
             },
             error: function(error) {
-
+                $("#publishNotice").pshow({ text: '数据请求失败，请重试', state: "failure" });
             },
             complete: function() {
                 $("#list_loading").phide();
@@ -277,8 +280,6 @@ var controller = {
     },
     getScrapList: function() { //作废列表
         $("#list_loading").pshow();
-        var userId = model.user_id;
-        var projectId = model.project_id;
         pajax.post({
             url: 'restWoPlanService/queryDestroyedWoPlanList',
             data: {},
@@ -377,6 +378,7 @@ var controller = {
                 // _data = d.planDetailData; //临时使用
                 model.plan_id = planId;
                 model.planDetailData = _data;
+                model.editOrderType = _data.order_type;//获取计划详情时存入工单类型
                 // $("#floatWindow").pshow();
 
             },
@@ -415,9 +417,10 @@ var controller = {
             url: 'restWoPlanService/getWoMattersPreview',
             data: _data,
             success: function(res) {
-                var _data = res && res.published_matters ? res.published_matters : {};
+                var _data = res && res.published_matters ? res.published_matters : [];
                 // _data = d.planCreateData; //临时使用
                 model.planCreateDetail = _data;
+                console.log(JSON.stringify(_data))
                 model.curPage = model.pages[7];
             },
             error: function(error) {
@@ -431,12 +434,12 @@ var controller = {
     },
     getObjExample:function(_data){//获取对象实例请求
         pajax.post({
-            url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
-            // url: 'restObjectService/queryObjectByClass',
+            // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            url: 'restObjectService/queryObjectByClass',
             data: _data,
             success: function(res) {
                 var _data = res && res.data ? res.data : [];
-                _data = d.objExample; //临时使用
+                // _data = d.objExample; //临时使用
                 model.planObjExampleArr = _data;
                 // console.log(_data)
                 $("#choiceObjExample").show();
@@ -457,6 +460,7 @@ var controller = {
             data: _data,
             success: function(res) {
                 $("#publishNotice").pshow({ text: '发布成功', state: "success" });
+                model.curPage = model.pages[0];
             },
             error: function(error) {
                  $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });
@@ -473,6 +477,7 @@ var controller = {
             data: _data,
             success: function(res) {
                 $("#publishNotice").pshow({ text: '发布成功', state: "success" });
+                model.curPage = model.pages[0];
             },
             error: function(error) {
                  $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });

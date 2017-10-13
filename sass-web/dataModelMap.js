@@ -3,14 +3,108 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
-    'restSystemService/querySystemDynamicInfo':{
-
+    'restEquipService/queryMaintEquipList': {
+        "type": "array",
+        "note": "未输入note",
+        "proArr": [{
+                "name": "create_time",
+                "type": "string",
+                "note": "create_time"
+            },
+            {
+                "name": "equip_id",
+                "type": "string",
+                "note": "equip_id"
+            },
+            {
+                "name": "equip_local_name",
+                "type": "string",
+                "note": "equip_local_name"
+            },
+            {
+                "name": "position",
+                "type": "string",
+                "note": "position"
+            },
+            {
+                "name": "work_orders",
+                "type": "array",
+                "note": "work_orders",
+                "proArr": [{
+                        "name": "order_id",
+                        "type": "string",
+                        "note": "order_id"
+                    },
+                    {
+                        "name": "order_state_desc",
+                        "type": "string",
+                        "note": "order_state_desc"
+                    },
+                    {
+                        "name": "summary",
+                        "type": "string",
+                        "note": "summary"
+                    }
+                ]
+            }
+        ]
     },
-    'restSystemService/querySystemPublicInfo':{
+    'restSystemService/addSystem': {
         "type": "object",
         "note": "未输入note",
-        "proArr": [
+        "proArr": [{
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
+                "name": "ResultMsg",
+                "type": "string",
+                "note": "ResultMsg"
+            }
+        ]
+    },
+    'restSystemService/querySystemDynamicInfoForAdd': {
+        "type": "array",
+        "note": "未输入note",
+    },
+    'restSystemService/updateSystemInfo': {
+        "type": "object",
+        "note": "未输入note",
+        "proArr": [{
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
+            {
+                "name": "ResultMsg",
+                "type": "string",
+                "note": "ResultMsg"
+            }
+        ]
+    },
+    'restSystemService/querySystemInfoPointHis': {
+        "type": "array",
+        "note": "未输入note",
+        "proArr": [{
+                "name": "date",
+                "type": "string",
+                "note": "date"
+            },
+            {
+                "name": "value",
+                "type": "string",
+                "note": "value"
+            }
+        ]
+    },
+    'restSystemService/querySystemDynamicInfo': {
+
+    },
+    'restSystemService/querySystemPublicInfo': {
+        "type": "object",
+        "note": "未输入note",
+        "proArr": [{
                 "name": "system_id",
                 "type": "string",
                 "note": "system_id"
@@ -602,7 +696,8 @@ var dataModelMap = {
             {
                 "name": "order_state",
                 "type": "string",
-                "note": "order_state"
+                "note": "order_state",
+                "isToSpecial": false
             },
             {
                 "name": "order_state_name",
@@ -2915,7 +3010,8 @@ var dataModelMap = {
             {
                 "note": "工单状态编码",
                 "name": "order_state",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             },
             {
                 "note": "工单状态名称",
@@ -3034,7 +3130,8 @@ var dataModelMap = {
             {
                 "note": "工单状态编码",
                 "name": "order_state",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             },
             {
                 "note": "工单状态名称",
@@ -3079,7 +3176,8 @@ var dataModelMap = {
             {
                 "note": "工单状态编码",
                 "name": "order_state",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             },
             {
                 "note": "工单状态名称",
@@ -3172,7 +3270,8 @@ var dataModelMap = {
             }, {
                 "note": "工单状态编码",
                 "name": "order_state",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
 
             }, {
                 "note": "是否为下次待发出工单",
@@ -3247,7 +3346,8 @@ var dataModelMap = {
                         }, {
                             "note": "工单状态编码",
                             "name": "order_state",
-                            "type": "string"
+                            "type": "string",
+                            "isToSpecial": false
                         }]
                 }]
         }]
@@ -3586,115 +3686,6 @@ var dataModelMap = {
                 "name": "parent_names",
                 "type": "array"
             }]
-        },]
-    },
-    "restWoPlanService/addWoPlan": {
-        "note": "发布/添加工单计划",
-        "type": "object",
-        "proArr": [{
-            "note": "员工id",
-            "name": "user_id",
-            "type": "string"
-        }, {
-            "note": "项目id",
-            "name": "project_id",
-            "type": "string"
-        }, {
-            "note": "工单计划id",
-            "name": "plan_id",
-            "type": "string"
-        }, {
-            "note": "工单计划名称",
-            "name": "plan_name",
-            "type": "string"
-        }, {
-            "note": "工单类型编码",
-            "name": "order_type",
-            "type": "string"
-        }, {
-            "note": "紧急程度,高、中、低",
-            "name": "urgency",
-            "type": "string"
-        }, {
-            "note": "提前创建工单时间",
-            "name": "ahead_create_time",
-            "type": "string"
-        }, {
-            "note": "计划频率-周期,y/m/w/d",
-            "name": "freq_cycle",
-            "type": "string"
-        }, {
-            "note": "计划频率-次数",
-            "name": "freq_num",
-            "type": "string"
-        }, {
-            "note": "计划频率-时间",
-            "name": "freq_times",
-            "type": "array",
-            "proArr": [{
-                "note": "开始时间",
-                "name": "start_time",
-                "type": "object",
-                "proArr": [{
-                    "note": "周期,y/m/w/d",
-                    "name": "cycle",
-                    "type": "string"
-                }, {
-                    "note": "1号",
-                    "name": "time_day",
-                    "type": "string"
-                }, {
-                    "note": "10时",
-                    "name": "time_hour",
-                    "type": "string"
-                }, {
-                    "note": "15分",
-                    "name": "time_minute",
-                    "type": "string"
-                },]
-            }, {
-                "note": "结束时间",
-                "name": "end_time",
-                "type": "object",
-                "proArr": [{
-                    "note": "周期,y/m/w/d",
-                    "name": "cycle",
-                    "type": "string"
-                }, {
-                    "note": "1号",
-                    "name": "time_day",
-                    "type": "string"
-                }, {
-                    "note": "10时",
-                    "name": "time_hour",
-                    "type": "string"
-                }, {
-                    "note": "15分",
-                    "name": "time_minute",
-                    "type": "string"
-                },]
-            }]
-        }, {
-            "note": "计划开始类型,1-发布成功后立即，2-指定时间",
-            "name": "plan_start_type",
-            "type": "string"
-        }, {
-            "note": "计划开始时间",
-            "name": "plan_start_time",
-            "type": "string"
-        }, {
-            "note": "计划结束时间",
-            "name": "plan_end_time",
-            "type": "string"
-        }, {
-            "note": "工单事项数组,草稿的matters",
-            "name": "draft_matters",
-            "type": "array",
-            "proArrBy": "order_matters"
-        }, {
-            "note": "工单事项数组,预览后的matters",
-            "name": "published_matters",
-            "type": "array"
         },]
     },
     "restWoPlanService/updateWoPlan": {
@@ -4333,27 +4324,33 @@ var dataModelMap = {
             }, {
                 "note": "项目id",
                 "name": "project_id",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "工单类型",
                 "name": "order_type",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "工单类型名称",
                 "name": "order_type_name",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "工单执行类型编码,数据字典查名称",
                 "name": "execute_type",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "紧急程度，高、中、低",
                 "name": "urgency",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "工单执行方式编码,数据字典查名称",
                 "name": "executie_mode",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
                 "name": "start_time_type",
@@ -4361,15 +4358,18 @@ var dataModelMap = {
             }, {
                 "note": "要求开始时间",
                 "name": "ask_start_time",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "要求固定时间内完成,单位小时",
                 "name": "ask_end_limit",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "要求结束时间",
                 "name": "ask_end_time",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "所需工具",
                 "name": "required_tools",
@@ -4377,15 +4377,18 @@ var dataModelMap = {
             }, {
                 "note": "工单概述,事项名称的串连",
                 "name": "summary",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
                 "name": "order_from_type",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "工单来源id，报修转工单时，这里是报修单id",
                 "name": "order_from_id",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "工单中专业列表",
                 "name": "domain_list",
@@ -4398,7 +4401,8 @@ var dataModelMap = {
             }, {
                 "note": "创建时间",
                 "name": "create_time",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "有效状态 true：有效，false：失效",
                 "name": "valid",
@@ -4407,7 +4411,6 @@ var dataModelMap = {
         }]
 
     },
-
     'restMyWorkOrderService/queryDraftWorkOrderById': {
         "note": "我的工单-编辑页:根据id查询工单详细信息-草稿的",
         "type": "object",
@@ -4536,7 +4539,8 @@ var dataModelMap = {
                             }, {
                                 "note": "工单状态编码",
                                 "name": "order_state",
-                                "type": "string"
+                                "type": "string",
+                                "isToSpecial": false
                             }, {
                                 "note": "工单状态名称",
                                 "name": "order_state_name",
@@ -6253,6 +6257,36 @@ var dataModelMap = {
             "note": "工单id",
             "name": "order_id",
             "type": "string"
+        }]
+    },
+    "restObjectService/searchObject": {
+        note: '搜索物理世界对象',
+        type: 'array',
+        proArr: [{
+            note: '对象id',
+            name: 'obj_id',
+            type: 'string'
+        }, {
+            note: '对象名称',
+            name: 'obj_name',
+            type: 'string'
+        }, {
+            note: '对象类型',
+            name: 'obj_type',
+            type: 'string'
+        }, {
+            note: '父级',
+            name: 'parents',
+            type: 'array',
+            proArr: [{
+                note: '父级id列表',
+                name: 'parent_ids',
+                type: 'array'
+            }, {
+                note: '父级名称列表',
+                name: 'parent_names',
+                type: 'array'
+            }]
         }]
     },
 };

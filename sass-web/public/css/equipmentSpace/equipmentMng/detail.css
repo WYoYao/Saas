@@ -402,7 +402,7 @@
 }
 
 .equipmentDetail .a-box {
-    /* position: relative; */
+    position: initial;
     /* float: left; */
     /* width: 260px; */
     margin-left: 90px;

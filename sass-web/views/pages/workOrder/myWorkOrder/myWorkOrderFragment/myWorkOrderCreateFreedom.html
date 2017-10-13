@@ -6,10 +6,10 @@
                       @input="yn_method.counterNum($event)"></textarea>
         <span class="counter"><b class="counterNum">0</b>/1000</span>
         <div class="add-obj-sop-content">
-            <div class="add-obj" onclick="yn_method.clickAiteShowFn(this,true,event)">
+            <div class="add-obj" @click="publicMethod.addSpecialChar($event, index0, '@')">
                 <span>@添加对象</span>
             </div>
-            <div class="add-sop" onclick="yn_method.clickAiteShowFn(this,false,event)">
+            <div class="add-sop" @click="publicMethod.addSpecialChar($event, index0, '#')">
                 <span>#添加SOP</span>
             </div>
             <div class="add-content" @click="publicMethod.addContent(model,true,event,index0)">

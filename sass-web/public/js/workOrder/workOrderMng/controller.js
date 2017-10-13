@@ -8,8 +8,6 @@ var controller = {
         });
         var timeObj={
             dataObj:{
-                user_id: workOrderMngModel.user_id,
-                project_id: workOrderMngModel.project_id,
                 dict_type:"wo_execute_type"      //时间类型，必须
             },
             noticeSuccessObj:{text: '获取时间类型成功', state: "success"},
@@ -18,8 +16,6 @@ var controller = {
         };
         var workObj={
                 dataObj:{
-                    user_id: workOrderMngModel.user_id,
-                    project_id: workOrderMngModel.project_id,
                     dict_type:"work_order_type"      //工单类型，必须
                 },
             noticeSuccessObj:{text: '获取工单状态成功', state: "success"},
@@ -27,8 +23,6 @@ var controller = {
 
         };
         var AllConditionObj={
-            user_id: workOrderMngModel.user_id,
-            project_id: workOrderMngModel.project_id,                     //项目id，必须
             time_type:"",                       //时间类型，temp-临时，plan计划
             order_type:"",                      //工单类型编码
             order_state:"",                     //工单状态编码
@@ -54,7 +48,6 @@ var controller = {
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
             url: 'restWoMonitorService/queryWorkOrderById',
             data: {
-                user_id: userId,
                 order_id: order_id
             },
             success: function(res) {
@@ -254,8 +247,6 @@ var controller = {
         pajax.post({
             url: 'restGeneralDictService/queryWorkOrderState',
             data: {
-                user_id: workOrderMngModel.user_id,
-                project_id: workOrderMngModel.project_id,
                 dict_type: "work_order_state"     //工单状态，必须
             },
             success: function (result) {
@@ -286,10 +277,7 @@ var controller = {
         $('#loadCover').pshow();
         pajax.post({
             url: 'restPersonService/queryProjectPersonSel',
-            data: {
-                user_id: workOrderMngModel.user_id,
-                project_id: workOrderMngModel.project_id
-            },
+            data: {},
             success: function (result) {
                 var data = result && result.data ? result.data : [];
                 var allArr=[
@@ -357,8 +345,6 @@ var controller = {
         creatorId = creatorId=="all" ? "" : creatorId;
         workOrderMngModel.pageNum=1;
        var conditionObj={
-           user_id: userId,                        //员工id-当前操作人id，必须
-           project_id: proId,                     //项目id，必须
            time_type:time,                       //时间类型，temp-临时，plan计划
            order_type:orderType,                      //工单类型编码
            order_state:orderState,                     //工单状态编码

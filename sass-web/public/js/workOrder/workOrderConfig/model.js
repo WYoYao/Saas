@@ -2,8 +2,6 @@ var workOrderModel = { //工单管理模块数据模型
     //------------------------------------------ydx__start------------------------------------------
     pages: ['schemeList', 'createWorkOrderCommon'], //页面
     curPage: 'schemeList', //当前页面
-    user_id: 'RY1505218031651', //用户id
-    project_id: 'Pj1301020001', //项目id
     plan_id: '', //工单计划id
     orderList: [], //工单下拉,
     timerTypeList: [], //时间下拉
@@ -524,8 +522,6 @@ var workOrderMethod = { //工单管理模块方法
     workOrderCommonSave: function() { //保存
         this.createReminds = [];//清空提示数组
         var post_and_duty = JSON.parse(JSON.stringify(workOrderModel.operateOptionList));
-        var userId = workOrderModel.user_id;
-        var projectId = workOrderModel.project_id;
         var planId = workOrderModel.plan_id;
         var orderType = workOrderModel.choiceOrderType.code ? workOrderModel.choiceOrderType.code : '';
         var orderTypeName = workOrderModel.choiceOrderType.name ? workOrderModel.choiceOrderType.name : '';

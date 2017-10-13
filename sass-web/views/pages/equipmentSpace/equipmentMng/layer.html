@@ -1,10 +1,19 @@
 <style>
     .layer {
         position: fixed;
-        z-index: 3;
+        z-index: 100;
         /*width: 300px;
         height: 400px;
         border: 1px solid red;*/
+    }
+
+    .lblock{
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
     }
     
     .layer .tip,
@@ -245,76 +254,78 @@
 </style>
 
 <script type="text/html" id="layer">
-    <div class="layer" :style='position'>{{position}}
-        <!-- 修改对勾弹窗Start -->
-        <div class="tip" v-show='layer.willSubmit'>
-            <div class="box">
-                <div class="header">
-                    <div class="column">
-                        <div class="radio" @click.capture="_clickChangeType(true)">
-                            <div class="per-switch-radio">
-                                <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
-                                <span class="per-switch_label"></span>
+    <div class="lblock" v-show='layer.willSubmit || layer.willCancel' @click='_hide()'>
+        <div class="layer" :style='position'>
+            <!-- 修改对勾弹窗Start -->
+            <div class="tip" v-show='layer.willSubmit'>
+                <div class="box">
+                    <div class="header">
+                        <div class="column">
+                            <div class="radio" @click.capture="_clickChangeType(true)">
+                                <div class="per-switch-radio">
+                                    <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
+                                    <span class="per-switch_label"></span>
+                                </div>
                             </div>
+                            <p>修正输入错误</p>
                         </div>
-                        <p>修正输入错误</p>
-                    </div>
-                    <div class="column">
-                        <div class="radio" @click.capture="_clickChangeType(false)">
-                            <div class="per-switch-radio">
-                                <span class="per-radio_input" :class="{ 'per-radio-checked':!changeType}"></span>
-                                <span class="per-switch_label"></span>
+                        <div class="column">
+                            <div class="radio" @click.capture="_clickChangeType(false)">
+                                <div class="per-switch-radio">
+                                    <span class="per-radio_input" :class="{ 'per-radio-checked':!changeType}"></span>
+                                    <span class="per-switch_label"></span>
+                                </div>
+                                <!-- <pswitch-radio bind="true" state="!changeType"> -->
                             </div>
-                            <!-- <pswitch-radio bind="true" state="!changeType"> -->
+                            <p>该信息有变化</p>
                         </div>
-                        <p>该信息有变化</p>
                     </div>
-                </div>
-                <div class="contenter" v-show='!changeType'>
-                    <span class="line">真实信息发生更改的内容及时间</span>
-                    <p class="label">生效时间：</p>
-                    <span class="label">
-                            <ptime-form id="_clickDateSelKey" bind="true">
-                                    <panel startyear="2013" endyear="2022" timetype="yMd" ></panel>
-                                </ptime-form>
-                    </span>
-                    <p class="label">生效时间：</p>
-                    <ul>
-                        <li class="th">
-                            <span>生效时间</span>
-                            <span>变化内容</span>
-                        </li>
-                    </ul>
-                    <ul>
-                        <li v-for='item in PointHis'>
-                            <span v-text='new Date(item.date).format("yyyy.MM.dd")'></span>
-                            <span v-text='item.value'></span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="footer">
-                    <span class="btn" @click.capture='_clickSubmit()'>
-                        <pbutton-blue text="确定"></pbutton-blue>
-                    </span>
+                    <div class="contenter" v-show='!changeType'>
+                        <span class="line">真实信息发生更改的内容及时间</span>
+                        <p class="label">生效时间：</p>
+                        <span class="label">
+                                <ptime-form id="_clickDateSelKey" bind="true">
+                                        <panel startyear="2013" endyear="2022" timetype="yMd" ></panel>
+                                    </ptime-form>
+                        </span>
+                        <p class="label">生效时间：</p>
+                        <ul>
+                            <li class="th">
+                                <span>生效时间</span>
+                                <span>变化内容</span>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li v-for='item in PointHis'>
+                                <span v-text='new Date(item.date).format("yyyy.MM.dd")'></span>
+                                <span v-text='item.value'></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer">
+                        <span class="btn" @click.capture='_clickSubmit()'>
+                            <pbutton-blue text="确定"></pbutton-blue>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-        <!-- 修改对勾弹窗End -->
-
-        <!-- 确认修改弹窗 Start -->
-        <div class="confirm" v-show='layer.willCancel'>
-            <p class="titlefont">确定退出编辑吗？</p>
-            <p class="description">取消编辑将不保存当前编辑信息</p>
-            <div class="panel">
-                <span class="sumitbtn" @click.capture='_clickCancelIDE()'>
-                        <pbutton-blue text="确定"></pbutton-blue>
-                    </span>
-                <span class="cancelbtn" @click.capture='_clickCancelCancelIDE()'>
-                        <pbutton-white text="取消"></pbutton-white>
-                    </span>
+            <!-- 修改对勾弹窗End -->
+    
+            <!-- 确认修改弹窗 Start -->
+            <div class="confirm" v-show='layer.willCancel'>
+                <p class="titlefont">确定退出编辑吗？</p>
+                <p class="description">取消编辑将不保存当前编辑信息</p>
+                <div class="panel">
+                    <span class="sumitbtn" @click.capture='_clickCancelIDE()'>
+                            <pbutton-blue text="确定"></pbutton-blue>
+                        </span>
+                    <span class="cancelbtn" @click.capture='_clickCancelCancelIDE()'>
+                            <pbutton-white text="取消"></pbutton-white>
+                        </span>
+                </div>
             </div>
+            <!-- 确认修改弹窗 End -->
         </div>
-        <!-- 确认修改弹窗 End -->
     </div>
 </script>
 <script>
@@ -350,6 +361,13 @@
         this.willSubmit = false;
         this.willCancel = true;
         this.cancelCb = cancelCb;
+    }
+
+    layerModel.prototype.hide=function(){
+        this.willSubmit = false;
+        this.willCancel = false;
+        this.display = "none";
+
     }
 
 
@@ -390,7 +408,7 @@
                 // 右边有位置直接显示右边
                 isLeft = (clientWidth - x) > compareWidth;
                 isTop = (clientHeight - y) > compareHeight;
-                style[isLeft ? 'left' : 'right'] = (isLeft ? x : clientWidth - x) + 'px';
+                style[isLeft ? 'left' : 'right'] = (isLeft ? x : clientWidth - x) + 304 + 'px';
                 style[isTop ? 'top' : 'bottom'] = (isTop ? y : (clientHeight - y + (_that.changeType ? 148 : 388))) + 'px';
                 style.display = _that.layer.display;
 
@@ -413,8 +431,33 @@
             var _that = this;
             // 创建日期控件
             _that._clickDateSelKey = ptool.produceId();
+
+            // document.addEventListener('click',function(){
+                
+            //     _that.layer.willSubmit = false;
+            //     _that.layer.willCancel = false;
+            //     _that.layer.display = "none";
+
+            //     if(_that.layer.cancelCb instanceof Function){
+
+            //         _that.layer.cancelCb();
+            //     }
+            // },true);
         },
         methods: {
+            _hide:function(){
+
+                var _that=this;
+
+                _that.layer.willSubmit = false;
+                _that.layer.willCancel = false;
+                _that.layer.display = "none";
+
+                if(_that.layer.cancelCb instanceof Function){
+
+                    _that.layer.cancelCb();
+                }
+            },
             // 修改的提交时候的窗台
             _clickChangeType: function(bool) {
 

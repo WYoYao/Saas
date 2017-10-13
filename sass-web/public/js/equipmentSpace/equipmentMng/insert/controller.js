@@ -24,13 +24,41 @@ var controllerInsert={
     addEquip:function(argu){
 
         return new Promise(function(resolve,reject){
-            pajax.post({
+            
+            var str=JSON.stringify(argu);
+
+            if(argu.attachments.length>0){
+                bool=true;
+            }else if(str.match(/attachments/g).length>1){
+                bool=true;
+            }else{
+                bool=false;
+            }
+
+            if(!argu.attachments.length){
+                delete argu.attachments;
+            }else{
+
+                argu = ['build_name','system_name','equip_category_name'].reduce(function(con,key){
+
+                    if(con[key]){
+                        delete con[key];
+                    };
+
+                    return con;
+                },argu)
+            }
+
+
+            pajax[bool?'updateWithFile':'post']({
                 url: 'restEquipService/addEquip',
                 data: argu,
                 success: function(data) {
+                    $("#globalnotice").pshow({text:"添加成功",state:"success"});
                     resolve();
                 },
                 error: function() {
+                    $("#globalnotice").pshow({text:"添加失败",state:"failure"});
                     reject(err);
                 },
                 complete: function() {

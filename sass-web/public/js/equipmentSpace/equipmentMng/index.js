@@ -204,12 +204,16 @@ $(function() {
 
     v.createVue();
 
-    // v.initPage('equipmentMng');
+    v.initPage('equipmentMng');
+
+    $("#globalloading").pshow();
 
     // v.initPage('equipmentMngDeatil', { equip_id: 'Eq1301020001003ACCCCC00C' });
 
     // v.initPage('equipmentMngInsert');
-    v.initPage('systemMng');
+    // v.initPage('systemMng');
+
+    // v.initPage('addSystem');
 
     // // 开发结束后删除
     // // 创建新建的页面内容

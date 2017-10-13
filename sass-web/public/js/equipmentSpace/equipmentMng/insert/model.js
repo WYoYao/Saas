@@ -208,22 +208,31 @@
         },
         methods: {
             // 切换进度轴
-            toggleSel: function (item) {
+            toggleSel: function (item, vkey, el) {
                 var _that = this;
-                console.log(item.id);
-                console.log(document.getElementById(item.id));
+                vkey = vkey || "ScrollList",
+                    el = el || "SrcollInsert_";
 
                 // 滚动内容
-                document.getElementById("SrcollInsert_" + item.id).scrollIntoView();
+                document.getElementById(el + item.id).scrollIntoView();
 
                 // 改变高亮
-                _that.ScrollList = _that.ScrollList.map(function (info) {
+                _that[vkey] = _that[vkey].map(function (info) {
 
                     info.isSelected = info.id == item.id;
 
                     return info;
                 });
 
+            },
+            //保存添加系统
+            _clickInsertSystemLayer:function(){
+                this._clickInsertSystem();
+                $("#float_system").phide();
+            },
+            // 隐藏添加系统
+            _clickInsertLayerCancelSystem:function(){
+                $("#float_system").phide();
             },
             //隐藏四个服务厂商
             _clickInsertLayerCancel: function () {
@@ -277,6 +286,15 @@
                     title: item.title
                 });
             },
+            // 展示展示新建位置
+            showInsertLayerBySystem: function (item) {
+
+                v.initPage("addSystem");
+
+                $("#float_system").pshow({
+                    title: item.title
+                });
+            },
             // 新建位置
             _ClickAddBlock: function (name) {
 
@@ -286,7 +304,8 @@
                         type: 5,
                     },
                     system: { // 系统
-                        title: '添加新系统'
+                        title: '添加新系统',
+                        type: 6,
                     },
                     factory: { // 厂家
                         title: '添加新厂家',
@@ -324,6 +343,8 @@
                     this.showInsertLayerByService(item);
                 } else if (item.type == 5) {
                     this.showInsertLayerByPostion(item);
+                } else if (item.type == 6) {
+                    this.showInsertLayerBySystem(item);
                 }
 
             },
@@ -337,11 +358,11 @@
                     })
             },
             // 查询技术信息
-            getEquipDynamicInfo: function () {
+            getEquipDynamicInfo: function (vkey, el) {
 
                 var _that = this;
                 res = {},
-                    list = _that.EquipDynamicInfoList;
+                    list = _that[vkey];
                 // tag 循环
                 return list.reduce(function (con, item) {
                     // points 循环
@@ -354,7 +375,7 @@
 
                         } else if (info.type == 1) {
 
-                            var text = getEquipDynamicInfoBykey("#EDI",info.info_code, 1, info);
+                            var text = getEquipDynamicInfoBykey(el, info.info_code, 1, info);
                             if (text) con[info.info_code] = text;
 
                         } else if (info.type == 2) {
@@ -370,7 +391,7 @@
 
                         } else if (info.type == 3) {
 
-                            var attachments = getEquipDynamicInfoBykey("#EDI",info.info_code, 4, info);
+                            var attachments = getEquipDynamicInfoBykey(el, info.info_code, 4, info);
 
                             con.attachments = con.attachments || [];
                             con.attachments = con.attachments.concat(attachments);
@@ -442,7 +463,8 @@
 
                 var request = Object.assign({}, textReq, uploadReq, _that.insertModel);
 
-                var EquipDynamicInfo = _that.getEquipDynamicInfo();
+
+                var EquipDynamicInfo = _that.getEquipDynamicInfo("EquipDynamicInfoList", "#EDI");
 
                 // 合并技术参数和基本参数的上传附件
                 if (EquipDynamicInfo.attachments && EquipDynamicInfo.attachments.length) {
@@ -460,6 +482,9 @@
                             text: '添加成功',
                             state: "success"
                         });
+
+                        v.initPage("equipmentMng");
+                        _that.onPage="list";
                     });
             },
         },

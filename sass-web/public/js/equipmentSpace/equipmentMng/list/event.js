@@ -11,7 +11,9 @@ var scrappedEquipment = function() {
 
                         var index = v.instance.ScrappedList.indexOf(v.instance.Scrapped);
 
-                        v.instance.ScrappedList.splice(index, 1);
+                        if(index>=-1){
+                            v.instance.ScrappedList.splice(index, 1);
+                        }
 
                         $("#equipmentMngpnotice").pshow({ text: '报废成功', state: "success" });
                     }).catch(function() {

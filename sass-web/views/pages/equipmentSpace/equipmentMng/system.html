@@ -1,8 +1,8 @@
-<div class="equipmentDetail" id="addSystem">
+<div class="equipmentDetail" id="addSystem" v-show='onPage=="System"'>
     <div class="content">
         <div class="headerd">
-            <span class="btn fl">
-                <pbutton-white text="取消" click=""></pbutton-white>
+            <span class="btn fl" @click.capture="_clickInsertBack()">
+                <pbutton-white text="取消"></pbutton-white>
             </span>
             <span class="btn fr">
                 <pbutton-white text="添加新系统" click="showAddSystem"></pbutton-white>
@@ -39,7 +39,7 @@
                         <div class="systemCont">
                             <div class="noData" v-show="item.system.length==0">该建筑在当前筛选项下尚无系统</div>
                             <ul class="systemList" v-show="item.system.length>0">
-                                <li v-for="sitem in item.system" @click='_clickQuerySystem(sitem)'>{{sitem.system_local_name}}</li>
+                                <li v-for="sitem in item.system" @click='queryPoints(sitem)'>{{sitem.system_local_name}}</li>
                             </ul>
                         </div>
                     </div>
@@ -60,23 +60,22 @@
                     <div v-for='item in totalPoints'>
                         <div class="detailItem" v-for='info in item.info_Points'>
                             <div class="contShow canEdit">
-                                <span class="name">{{item.info_name}}：</span><span class="cont">{{item.str_value}}</span>
-                                <span
-                                    class="edit" onclick="editItem(event)"><em>e</em>编辑</span>
+                                <span class="name">{{info.info_name}}：</span><span class="cont">{{info.str_value | filterStrValue}}</span>
+                                <span class="edit" onclick="editItem(event)" v-if='info.info_code!="build_local_name"  && info.info_code!="domain_name"  && info.info_code!="system_category_name"'><em>e</em>编辑</span>
                             </div>
                             <div class="editShow">
-                                <span class="name">{{item.info_name}}：</span>
+                                <span class="name">{{info.info_name}}：</span>
 
                                 <div class="editInput" v-if='info.type==0'>
-                                    <ptext-text placeholder="最多10个字" value='info.str_value'>
+                                    <ptext-text placeholder="'最多10个字'" value='info.str_value' bind='true'>
                                         <verify errtip="不能为空" verifytype="space">
                                             <verify>
                                     </ptext-text>
                                 </div>
                                 <div class="editInput" v-if='info.type==1'>
                                     <pcombobox-normal id="'cbx_Points_id_'+info.info_code" bind='true'>
-                                        <header placeholder="请选择保险单号"></header>
-                                        <item datasource="insurer_infos" text="name"></item>
+                                        <header placeholder=""></header>
+                                        <item datasource="info.cmpt_data" text="name"></item>
                                     </pcombobox-normal>
                                 </div>
                                 <div class="editInput" v-if='info.type==2'>
@@ -93,8 +92,8 @@
                                     </ptext-text>
                                 </div>
 
-                                <span class="cancel" onclick="_clickSystemWillSubmit($event,info)">x</span>
-                                <span class="sure" onclick="_clickSystemWillCancel($event,info)">Z</span>
+                                <span class="cancel" @click="_clickSystemWillCancel($event,info)">x</span>
+                                <span class="sure" @click="_clickSystemWillSubmit($event,info)">Z</span>
                             </div>
                         </div>
                     </div>
@@ -110,102 +109,10 @@
             <span class="btn fl">
                 <pbutton-white text="取消" click="hideAddSystem"></pbutton-white>
             </span>
-            <span class="btn fr">
-                <pbutton-blue text="保存" click=""></pbutton-blue>
+            <span class="btn fr" @click.capture="_clickInsertSystem()">
+                <pbutton-blue text="保存"></pbutton-blue>
             </span>
         </div>
-        <div class="contentd i_borderTop">
-            <div class="i_content sys_i_content">
-                <div class="own verticalAxes" id="spaceNavigBar">
-                    <div class="circleDiv">
-                        <div class="circle sel" stype="baseSection">
-                            <span class="name">基础</span>
-                        </div>
-                        <div class="circle" stype="technoSection">
-                            <span class="name">技术参数</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="moduleItem" id="baseSection" v-for='item in totalPoints'>
-                    <div class="header" v-text='item.tag'></div>
-                    <div class="eachItem lineItem" v-for='info in item.info_Points'>
-                        <div class="name"><span v-text='info.info_name'></span></div>
-                        <div class="cont" v-if='info.type==0'>
-                            <ptext-text placeholder="最多10个字" value='info.str_value'>
-                                <verify errtip="不能为空" verifytype="space">
-                                    <verify>
-                            </ptext-text>
-                        </div>
-                        <div class="cont" v-if='info.type==1'>
-                            <pcombobox-normal id="'cbx_Points_id_'+info.info_code" bind='true'>
-                                <header placeholder="请选择保险单号"></header>
-                                <item datasource="insurer_infos" text="name"></item>
-                            </pcombobox-normal>
-                        </div>
-                        <div class="cont" v-if='info.type==2'>
-                            <div class="per-switch-checkbox" v-for='check in info.cmpt_data' @click='check.isChecked=!check.isChecked'>
-                                <span class="per-checkbox_input" :class="{'per-checkbox-checked':check.isChecked}"></span>
-                                <span class="per-switch_label" v-text='check.name'></span>
-                            </div>
-                        </div>
-                        <div class="cont" v-if='info.type==3'>
-                            <pupload-attachment id="'cbx_Points_id_'+info.info_code" number="4" bind='true'></pupload-attachment>
-                        </div>
-                        <div class="cont" v-if='info.type==4'>
-                            <ptext-text value='info.str_value' bind='true' text="info.unit">
-                            </ptext-text>
-                        </div>
-                    </div>
-                    <!--<div class="eachItem lineItem">
-                        <div class="name"><span><em>*</em>系统编码</span></div>
-                        <div class="cont">
-                            <ptext-text placeholder="最多50个字">
-                                        <verify errtip="不能为空" verifytype="space"><verify>
-                                    </ptext-text>
-                        </div>
-                    </div>
-                    <div class="eachItem lineItem">
-                        <div class="name"><span><em>*</em>所属建筑</span></div>
-                        <div class="cont">
-                            <pcombobox-normal align="left" sel="" id="'spaceFloorDrop'">
-                                        <header placeholder="请选择建筑"></header>
-                                        <item datasource="spaceFloorArr" text="floor_local_name"></item>
-                                    </pcombobox-normal>
-                        </div>
-                    </div>
-                    <div class="eachItem lineItem">
-                        <div class="name"><span><em>*</em>所属专业</span></div>
-                        <div class="cont">
-                            <pcombobox-normal align="left" sel="">
-                                        <header placeholder="请选择专业"></header>
-                                        <item datasource="spaceFloorArr" text="floor_local_name"></item>
-                                    </pcombobox-normal>
-                        </div>
-                    </div>
-                    <div class="eachItem lineItem">
-                        <div class="name"><span><em>*</em>所属系统类型</span></div>
-                        <div class="cont">
-                            <pcombobox-normal align="left" sel="">
-                                        <header placeholder="请选择系统类型"></header>
-                                        <item datasource="spaceFloorArr" text="floor_local_name"></item>
-                                    </pcombobox-normal>
-                        </div>
-                    </div>-->
-                </div>
-                <!--<div class="moduleItem" id="technoSection">
-                    <div class="header">技术参数</div>
-                    <div class="eachItem lineItem">
-                        <div class="name"><span><em>*</em>名称</span></div>
-                        <div class="cont">
-                            <ptext-text placeholder="最多10个字">
-                                        <verify errtip="不能为空" verifytype="space"><verify>
-                                    </ptext-text>
-                        </div>
-                    </div>
-
-
-                </div>-->
-            </div>
-        </div>
+        <% include ./addSystem.html %>
     </div>
 </div>

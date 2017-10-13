@@ -322,11 +322,13 @@ var model = {
     newPlan_frequencyArr: [], //创建计划频率开始结束时间
     newPlan_startTime: "", //创建计划计划开始时间
     newPlan_endTime: "", //创建计划计划结束时间
-    planCreateDetail: [], //计划创建预览
+    planCreateDetail: [], //计划创建预览matters
     planObjExampleArr: [], //对象实例数组
     toolList: [], //工具列表
     selectedTool: [], //工具存储数组
     personPositionList: [], //人员岗位列表
+    editOrderType:'',//编辑工单类型
+    stop_order_content:"",//中止内容
 
 
 }
@@ -342,9 +344,25 @@ var methods = {
     },
     createNewPlan: function () { //创建计划
         var _index = $("#navBar").psel() ? $("#navBar").psel() : 0;
-        model.orderTypeCode = model.buttonMenus[_index].code;
+        model.orderTypeCode = model.buttonMenus[_index].order_type;
         model.orderTypeName = model.buttonMenus[_index].name;
+        $("#plan_name").precover(); //计划名称
+        $("#orderUrgency").precover("低");
+        $("#aheadCreateTime").precover();  
+        $("#planRateLeft").precover("请选择"); 
+        $("#planRateRig").precover("请选择"); 
+        $("#choice_planStartTime").precover("发布成功后立即"); 
+        $("#choice_planEndTime").precover("一直有效"); 
+        $("#plan_startTime").hide();
+        $("#plan_endTime").hide();
+        model.rateYear = "";
+        model.rateMonth = "";  
+        model.rateWeek = "";
+        model.rateDay = ""; 
+        commonData.publicModel.allMatters = [];//初始化计划新建右侧
+        publicMethod.addMatter();
         this.curPage = this.pages[6];
+
     },
     editNewPlan: function () { //编辑计划
 
@@ -394,11 +412,14 @@ var methods = {
     goBackPlanList: function () { //返回计划列表
         this.curPage = this.pages[0];
         model.scrapListArr = [];
+        model.planDetailData = {};//返回清空计划详情数据
+
     },
     clickScrapPlan: function () { //作废提示框显示
         $("#scrapModal").pshow();
     },
     clickEditPlan: function () { //点击修改计划
+        commonData.publicModel.allMatters = model.planDetailData.draft_matters;
         var planDetailObj = model.planDetailData;
         console.log(JSON.stringify(planDetailObj));
         this.curPage = this.pages[6];
@@ -553,9 +574,12 @@ var methods = {
         return d.getDate();
     },
 
-    getListMonthDate: function (_year, _month, _code) { //获取当前月和上下月天数
+    getListMonthDate: function (_year, _month, order_type) { //获取当前月和上下月天数
         var _this = this;
         var date = new Date();
+        if(_year){
+            model.year = _year;
+        }
         if (!model.year) {
             model.year = date.getFullYear();
         }
@@ -689,7 +713,7 @@ var methods = {
         }, 0);
         var cycleType = model.cycleType; //判断请求的频率类型，
         var _index = $("#navBar").psel() ? $("#navBar").psel() : 0;
-        var orderType = _code ? _code : model.buttonMenus[_index].code ? model.buttonMenus[_index].code : '1';
+        var orderType = order_type ? order_type : model.buttonMenus[_index].order_type ? model.buttonMenus[_index].order_type : '1';
         var planName = $("#sop_name_search1 input").val();
         // var startTime = _startTime;
         // var endTime = _endTime;
@@ -782,12 +806,16 @@ var methods = {
         if (index == 0) {
             $("#searchList_table_day").show();
             $("#searchList_table_common").hide();
-            this.getListMonthDate(null, null);
+            var date = new Date();
+            var _year = date.getFullYear();
+            this.getListMonthDate(_year, null);
             // controller.getPlanListDay(); //计划列表（日）
         } else {
             $("#searchList_table_day").hide();
             $("#searchList_table_common").show();
-            this.getListMonthDate(null, null);
+            var date = new Date();
+            var _year = date.getFullYear();
+            this.getListMonthDate(_year, null);
             // controller.getPlanListCommon();
         }
     },
@@ -843,6 +871,58 @@ var methods = {
     set_RateNum: function (pp_model, e) { //设置频率次数
         var planId = model.seePlanId;
         if (!planId) {
+            var rateType = $("#planRateLeft").psel().text;
+            var rateTime = pp_model.name;
+            // console.log(rateTime)
+            // console.log(rateType)
+            if (rateType == '年') {
+                model.rateYear = rateTime;
+                model.rateMonth = ''; //月频率数
+                model.rateWeek = ''; //周频率数
+                model.rateDay = ''; //日频率数
+                setTimeout(function () {
+                    for (var i = 0; i < rateTime; i++) {
+                        $("#yearStartTime" + i).psel({M: "01", d: "01", h: "00", m: "00"});
+                        $("#yearEndTime" + i).psel({M: "01", d: "01", h: "00", m: "00"});
+                    }
+                }, 0);
+
+
+            } else if (rateType == '月') {
+                model.rateYear = '';
+                model.rateMonth = rateTime; //月频率数
+                model.rateWeek = ''; //周频率数
+                model.rateDay = ''; //日频率数
+                setTimeout(function () {
+                    for (var i = 0; i < rateTime; i++) {
+                        $("#monthStartTime" + i).psel({d: "01", h: "00", m: "00"});
+                        $("#monthEndTime" + i).psel({d: "01", h: "00", m: "00"});
+                    }
+                }, 0);
+            } else if (rateType == '周') {
+                model.rateYear = '';
+                model.rateMonth = ''; //月频率数
+                model.rateWeek = rateTime; //周频率数
+                model.rateDay = ''; //日频率数
+                setTimeout(function () {
+                    for (var i = 0; i < rateTime; i++) {
+                        $("#weekStartTime" + i).psel({w: "01", h: "00", m: "00"});
+                        $("#weekEndTime" + i).psel({w: "01", h: "00", m: "00"});
+                    }
+                }, 0)
+            } else if (rateType == '日') {
+                model.rateYear = '';
+                model.rateMonth = ''; //月频率数
+                model.rateWeek = ''; //周频率数
+                model.rateDay = rateTime; //日频率数
+                setTimeout(function () {
+                    for (var i = 0; i < rateTime; i++) {
+                        $("#dayStartTime" + i).psel({h: "00", m: "00"});
+                        $("#dayEndTime" + i).psel({h: "00", m: "00"});
+                    }
+                }, 0)
+            }
+        }else{
             var rateType = $("#planRateLeft").psel().text;
             var rateTime = pp_model.name;
             // console.log(rateTime)
@@ -1038,7 +1118,7 @@ var methods = {
                 var st_m = st_str.substr(3, 2);
                 var obj_st = {
                     cycle: "d",
-                    time_day: st_d,
+                    time_day: "1",
                     time_hour: st_h,
                     time_minute: st_m
                 };
@@ -1051,7 +1131,7 @@ var methods = {
                 var ed_m = ed_str.substr(3, 2);
                 var obj_et = {
                     cycle: "d",
-                    time_day: ed_d,
+                    time_day: "1",
                     time_hour: ed_h,
                     time_minute: ed_m
                 };
@@ -1070,9 +1150,11 @@ var methods = {
         var choiceSt = $("#choice_planStartTime").psel().text;
         var choiceEt = $("#choice_planEndTime").psel().text;
         if (choiceSt == '发布成功后立即') { //判断选择开始时间类型
+            model.newPlanObj.plan_start_type = "1";//计划开始类型
             model.newPlanObj.plan_start_time = ""; //计划开始时间
         } else {
             var str = $("#plan_startTime >div").psel().startTime;
+            model.newPlanObj.plan_start_type = "2";//计划开始类型
             var newStr = str.substr(0, 4) + str.substr(5, 2) + str.substr(8, 2) + str.substr(11, 2) + str.substr(14, 2) + '00';
             model.newPlanObj.plan_start_time = newStr; //计划开始时间
         }
@@ -1087,7 +1169,6 @@ var methods = {
         }
         ;
         // console.log(JSON.stringify(model.newPlanObj))
-        //缺少验证
         publicMethod.dealMattersParam();
         var matters = commonData.publicModel.allMatters || []; //用于存储右侧操作后的结果数组
 
@@ -1169,8 +1250,6 @@ var methods = {
     },
     choiceObjExample: function (_obj, event, objId, objType) { //选择对象实例
         var _data = {
-            user_id: model.userId,
-            project_id: model.projectId,
             obj_id: objId,
             obj_type: objType
         };
@@ -1202,20 +1281,21 @@ var methods = {
             plan_name: model.newPlanObj.plan_name, //计划名称
             order_type: model.newPlanObj.order_type, //计划类型
             urgency: model.newPlanObj.urgency, //紧急程度
-            ahead_create_time: model.newPlanObj.ahead_create_time, //提前时间
+            ahead_create_time: Number(model.newPlanObj.ahead_create_time), //提前时间
             freq_cycle: model.newPlanObj.freq_cycle, //计划频率-周期
-            freq_num: model.newPlanObj.freq_num, //次数
+            freq_num: Number(model.newPlanObj.freq_num), //次数
             freq_times: model.newPlanObj.freq_times, //时间
             plan_start_type: model.newPlanObj.plan_start_type, //计划开始类型
             plan_start_time: model.newPlanObj.plan_start_time, //计划开始时间
             plan_end_time: model.newPlanObj.plan_end_time, //计划结束时间
             draft_matters: model.newPlanObj.draft_matters, //草稿matters
-            published_matters: model.planCreateDetail.matters, //预览后的matters
+            published_matters: model.planCreateDetail, //预览后的matters
         };
         console.log(JSON.stringify(_data));
         var planId = model.seePlanId || '';
         if (planId) {
             _data.plan_id = model.plan_id;
+            _data.order_type = model.editOrderType;
             controller.getEditOrderPlan(_data); //编辑计划
         } else {
             controller.getAddOrderPlan(_data); //新建计划

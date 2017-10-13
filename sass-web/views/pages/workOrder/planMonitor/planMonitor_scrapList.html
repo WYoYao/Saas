@@ -26,6 +26,11 @@
 						<li v-text="item.destroy_person_name"></li>
 					</ul>
 				</div>
+				<div class="searchList_table_noData" v-show="model.scrapListArr.length == 0">
+                    <div  class="image-div"><img src="../images/nodata.png" alt="暂无内容">
+                        <p>暂无内容</p>
+                    </div>
+                </div>
 			</div>
 		</div>
 	</div>

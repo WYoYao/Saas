@@ -688,7 +688,7 @@ var CardInfo = function () {
                     submitCb, getPoints;
 
                 // 获取信息节点的方法
-                getPoints = equipmentMngDeatilController.queryEquipInfoPointHis.bind(null, _that.equip_id, key);
+                getPoints = equipmentMngDeatilController.queryEquipInfoPointHis.bind(null, _that.equip_id, info.info_code);
 
                 var type = info.type;
 
@@ -696,7 +696,7 @@ var CardInfo = function () {
                     "equip_id": _that.equip_id,
                     "info_point_code": info.info_code, //修改的信息点编码，必须
                     "info_point_value": "", //修改的信息点的值，必须
-                    "valid_time": isNewValue,
+                    "valid_time": "",
                 };
 
                 var info_point_code = info.info_code;
@@ -723,12 +723,16 @@ var CardInfo = function () {
                     req.attachments = attachments;
                 }
 
+                req.info_point_value=info_point_value;
+
                 // 成功回调
                 submitCb = function (isNewValue) {
-                    req.isNewValue = isNewValue;
+                    req.valid_time = isNewValue.isNewValue;
 
                     equipmentMngDeatilController.updateEquipInfo(req, (type == 3))
                         .then(function () {
+
+                            _that.hideAllIde();
 
                             // 技术点信息
                             _that.requeryEquipDynamicInfo();
@@ -752,6 +756,14 @@ var CardInfo = function () {
                 // 显示取消弹窗
                 _that.cancelTip(event, cancelCb);
             },
+            hideAllIde:function(){
+                var _that=this;
+                Object.keys(_that.view.ide).forEach(function(key){
+                    if(_that.view.ide.hasOwnProperty(key)){
+                        _that.view.ide[key]=false;
+                    }
+                })
+            },
             // 编辑状态下的对号按钮点击事件
             _clickSubmit: function (event, key) {
                 var _that = this,
@@ -770,7 +782,7 @@ var CardInfo = function () {
                         "equip_id": _that.equip_id,
                         "info_point_code": key, //修改的信息点编码，必须
                         "info_point_value": "", //修改的信息点的值，必须
-                        "valid_time": isNewValue,
+                        "valid_time": isNewValue.isNewValue,
                     };
 
                     if (type == 0 || type == 3) {
@@ -783,13 +795,15 @@ var CardInfo = function () {
                         req.info_point_value = _that.EquipInfoBak[key + '_id'];
                     } else if (type == 2) {
 
-                        req.attachments = _that.attachments.filter(function (item) {
+                        req.attachments = _that.attachments[key].filter(function (item) {
                             return item.toPro == key;
                         })
                     };
 
                     equipmentMngDeatilController.updateEquipInfo(req, (type == 2 || type == 3))
                         .then(function () {
+
+                            _that.hideAllIde();
 
                             // 更新设备信息
                             _that.requeryEquipPublicInfo();
@@ -808,6 +822,7 @@ var CardInfo = function () {
                 var _that = this;
 
                 var cancelCb = function () {
+                    _that.hideAllIde();
                     _that.EquipInfoBak = JSON.parse(JSON.stringify(_that.EquipInfo));
                 };
 
@@ -1155,7 +1170,7 @@ var CardInfo = function () {
                     {
                         key: 'maintain_cycle'
                     }
-                ].concat(this.getSettByKey(['maintainer', 'status']));
+                ].concat(this.getSettByKey(['maintainer']));
 
                 this.someSend(maintenanceArr);
             },
