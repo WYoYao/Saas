@@ -22,11 +22,12 @@
     </div>
     <div class="prev-body">
         <div class="slide-div operate">
-            <div class="textarea-div">
-                <textarea  v-model="workContent.content" @blur="publicMethod.blurContentItem"
+            <div class="textarea-div" >
+                <textarea id="content-textarea" v-model="workContent.content" @blur="publicMethod.blurContentItemOpe"
                            @keyup="publicMethod.keyupContent(model, 0, $event)"
                            @keydown="publicMethod.keydownContent(model, 0, $event)"
-                ></textarea>
+                          @focus="publicMethod.contentTextAreafocus"
+                ></textarea><!-- @blur="publicMethod.blurContentItemOpe"-->
 
                 <div class="obj-fragment-div" onclick="yn_method.contentAiteShow(this,event)">
                     <span class="aite-btn">@对象/部件/工具</span>

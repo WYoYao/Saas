@@ -16,7 +16,7 @@
         </ul>
     </div>
 
-    <div class="buildUpdate" v-show='!buildPageIndex'>
+    <div class="buildUpdate" v-if='!buildPageIndex'>
         <div class="btnline">
             <div class="back" @click.capture='_clickbuildgoBack()'>
                 <pbutton-white text="返回"></pbutton-white>
@@ -29,12 +29,12 @@
                 <h2 class="title">基本信息</h2>
                 <ul class="tables">
                     <li class="row">
-                        <p>项目本地编码</p>
+                        <p>建筑体本地编码</p>
                         <buildtexteditor :keys='"build_local_id"' :value='BuildInfo.build_local_id' :set='setBuild.bind(this)'>
                         </buildtexteditor>
                     </li>
                     <li class="row">
-                        <p>项目本地名称</p>
+                        <p>建筑体本地名称</p>
                         <buildtexteditor :keys='"build_local_name"' :value='BuildInfo.build_local_name' :set='setBuild.bind(this)'>
                         </buildtexteditor>
                     </li>
@@ -103,7 +103,7 @@
                                 <pupload-img id='pictureUpload' number="9"></pupload-img>
                             </div>
                             <em class="ide" @click='uploadImg.isShowIDE=!uploadImg.isShowIDE' v-show='!uploadImg.isShowIDE'>e</em>
-                            <em class="smt" @click='_uploadPicture()' v-show='uploadImg.isShowIDE'>Z</em>
+                            <em class="smt" @click='_uploadPicture(),uploadImg.isShowIDE=!uploadImg.isShowIDE;' v-show='uploadImg.isShowIDE'>Z</em>
                             <em class="ide" @click='uploadImg.isShowIDE=!uploadImg.isShowIDE' v-show='uploadImg.isShowIDE'>x</em>
                             <!-- 编辑状态End -->
                             </span>

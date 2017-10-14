@@ -42,6 +42,9 @@ var orderDetail_pub = {
                     orderDetail_data.pub_model.curPage = 'see_orderDetail';
                     orderDetail_pub.getWorkOrderServiceList(orderDetail_data.pub_model, null, order_id); //查询工单操作列表
                     orderDetail_pub.getUserInfo();//获取人员信息
+                     if(typeof fn == "function"){
+                        orderDetail_data.fun = fn;
+                    }
                 }
             },
             error: function(error) {
@@ -106,7 +109,9 @@ var orderDetail_pub = {
             data: _data,
             success: function(res) {
                 $("#publishNotice").pshow({ text: '中止成功', state: "success" });
-                model.curPage = model.pages[0];
+                if(orderDetail_data.fun){
+                    orderDetail_data.fun();
+                }
                 $("#stopOrder").phide();
             },
             error: function(error) {
@@ -124,7 +129,9 @@ var orderDetail_pub = {
             data: _data,
             success: function(res) {
                 $("#publishNotice").pshow({ text: '指派成功', state: "success" });
-                model.curPage = model.pages[0];
+                if(orderDetail_data.fun){
+                    orderDetail_data.fun();
+                } 
             },
             error: function(error) {
                 $("#publishNotice").pshow({ text: '指派失败,请重试', state: "failure" });
@@ -336,11 +343,12 @@ var orderDetail_pub = {
     stopOrderSetYes: function() {//中止工单确定
         var operatorName = orderDetail_data.userInfo.user.name;
         var operatorId = orderDetail_data.userInfo.user.person_id;
+        var option = orderDetail_data.pub_model.stop_order_content;
         var _data = {
             "order_id": orderDetail_data.order_id,
             "operator_id": operatorId,
             "operator_name": operatorName,
-            "opinion": model.stop_order_content
+            "opinion": option
         };
         orderDetail_pub.stopOrderSet(_data);
     },
@@ -362,6 +370,7 @@ var orderDetail_pub = {
     },
     stopOrderSetHide: function() { //停止工单隐藏
         $("#stopOrder").phide();
+        orderDetail_data.pub_model.stop_order_content = '';
     },
     choiceObjExample: function(_obj, event, objId, objType) { //选择对象实例
         var _data = {

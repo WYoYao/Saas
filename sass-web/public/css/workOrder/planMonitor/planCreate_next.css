@@ -59,7 +59,7 @@
     margin: 0 20px;
     /* min-height: 500px; */
     border: 1px solid #d9e2e8;
-    height: 850px;
+    height: calc(100% - 80px);
     overflow: auto;
 }
 .see_planDetail_grid_top{

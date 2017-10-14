@@ -324,9 +324,6 @@ var controller = {
     },
     /*根据筛选条件查询工单*/
     selEvent:function (selObj,event) {
-
-        var userId= workOrderMngModel.user_id; //commonData.user_id;
-        var proId=  workOrderMngModel.project_id; //commonData.project_id;
         if($("#time-type").psel()){
             var time=workOrderMngModel.timeType[$("#time-type").psel().index].code;
         }

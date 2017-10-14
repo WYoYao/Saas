@@ -1609,8 +1609,30 @@ var equipmentMngDeatilController = {
                     build_id: build_id
                 },
                 success: function(data) {
+
                     if (data.data) {
-                        resolve(data.data);
+                        resolve(data.data.map(function(item){
+                            var obj_id=item.obj_id;
+
+                            item.Parent_obj_id=item.obj_id;
+
+                            item.content=item.content.map(function(info){
+
+                                info.Parent_obj_id=obj_id;
+
+                                info.content=info.content.map(function(x){
+
+                                    x.Parent_obj_id=obj_id;
+
+                                    return x;
+                                });
+
+                                return info;
+                            });
+
+                            return item;
+
+                        }));
                     } else {
                         reject(data);
                     }

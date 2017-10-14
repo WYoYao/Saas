@@ -132,6 +132,16 @@
 .planCreate_page_con_left_sendTime{
 	margin: 20px 20px;
 }
+#aheadCreateTime{
+	display:flex;
+	flex-flow: row nowrap;
+	align-items: center;
+}
+#aheadCreateTime >strong{
+	width: 30px;
+	font-weight: normal;
+	margin-left: 10px;
+}
 .planCreate_page_con_left_sendTime >h4{
 	position: relative;
 	left: -10px;

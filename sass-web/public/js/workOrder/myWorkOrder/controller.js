@@ -144,7 +144,6 @@ var myWorkOrderController = {
         });
     },
     selAlreadyEvent: function () {
-        var proId = commonData.publicModel.project_id;
         if ($("#work-already").psel()) {
             commonData.publicModel.workAlreadyID = commonData.publicModel.workAlready[$("#work-already").psel().index].id;
         }
@@ -157,8 +156,8 @@ var myWorkOrderController = {
         commonData.publicModel.pageNum = 1;
         if (orderType == "") {
             var conditionObj = {
-                user_id: userId,                        //员工id-当前操作人id，必须
-                project_id: proId,                     //项目id，必须
+                // user_id: userId,                        //员工id-当前操作人id，必须
+                // project_id: proId,                     //项目id，必须
                 page: commonData.publicModel.pageNum,                       //当前页号，必须
                 page_size: 50                        //每页返回数量，必须
             };

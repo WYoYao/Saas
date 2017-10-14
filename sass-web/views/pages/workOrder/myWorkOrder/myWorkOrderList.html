@@ -13,26 +13,6 @@
             </div>
             <div class="myWork-content-list-body">
                 <div class="myWork-list-body-table">
-                    <!--<div class="myWork-table" v-show="commonData.publicModel.workList.length!=0 && commonData.publicModel.workAlreadyID == 0">
-                        <div class="myWork-table-header">
-                            <div class="table-header-id"><span>工单ID</span></div>
-                            <div class="table-header-type"><span>类型</span></div>
-                            <div class="table-header-summary"><span>简介</span></div>
-                            <div class="table-header-create"><span>创建时间</span></div>
-                            <div class="table-header-operate"><span>操作</span></div>
-                        </div>
-                        <div class="myWork-table-body">
-                            <div class="tr" v-for="item in commonData.publicModel.workList">
-                                <div class="table-header-id"><span v-text="item.order_id"></span></div>
-                                <div class="table-header-type"><span v-text="item.order_type_name"></span></div>
-                                <div class="table-header-summary"><span v-text="item.summary"></span></div>
-                                <div class="table-header-create"><span v-text="item.create_time"></span></div>
-                                <div class="table-header-operate"><span><i>`</i><em>编辑</em></span><span
-                                        @click="yn_method.delConfirm(0, item.order_id, $event)"><i>p</i><em>删除</em></span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>-->
                     <%include myWorkOrderFragment/workListDraft.html%>
                     <%include myWorkOrderFragment/workListMe.html%>
                     <div class="myWork-table-noData" v-show="commonData.publicModel.workList.length==0">

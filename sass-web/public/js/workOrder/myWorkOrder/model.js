@@ -29,8 +29,6 @@ var myWorkOrderModel = {//工单管理模块数据模型
 
     //------------------------------------------yn__start------------------------------------------
     //vue绑定的数据data
-    user_id: '', //用户id
-    project_id: '', //项目id
     LorC: true,//列表页或者新建页
     workAlready: [
         {
@@ -216,7 +214,8 @@ var myWorkOrderModel = {//工单管理模块数据模型
     },
     noPop:null,//点击添加对象和信息点是否需要textarea处prop
     selectedObjType:"",//自定义选中对象类别
-    blurNum:false,
+    blurClose:null,
+    textareaOperate:null,
     //------------------------------------------yn__end------------------------------------------
 }
 

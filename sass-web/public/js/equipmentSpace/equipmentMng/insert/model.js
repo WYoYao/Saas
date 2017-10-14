@@ -604,8 +604,30 @@
                 var _that = this;
 
                 if (newValue.build_id != oldValue.build_id) {
+
+
+                    var build_id=_that.BuildFloorSpaceTree.reduce(function(build_id,item){
+
+                        var callee=arguments.callee;
+
+                        if(build_id)return build_id;
+
+                        if(item.obj_id==newValue.build_id){
+
+                            return item.Parent_obj_id;
+                        };
+
+                        if(_.isArray(item.content)){
+
+                            return item.content.reduce(callee,build_id);
+
+                        }
+
+
+                    },'');
+
                     // 当 build_id 修改的之后修改的对应的 系统属性的选择的下拉数据源
-                    controllerInsert.querySystemForBuild(newValue.build_id)
+                    controllerInsert.querySystemForBuild(build_id)
                         .then(function (list) {
                             _that.SystemForBuild = list;
                         })

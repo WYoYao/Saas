@@ -1,5 +1,5 @@
 ;
-(function() {
+(function () {
 
     function BuildInfo() {
         return {
@@ -50,6 +50,7 @@
     v.pushComponent({
         name: 'build',
         data: {
+            detailIndex:0,
             BuildList: [],
             buildPageIndex: true,
             BuildInfo: new BuildInfo(),
@@ -421,17 +422,20 @@
             },
         },
         methods: {
-            _download: function(item) {
+            _download: function (item) {
 
                 console.log(item.key);
             },
-            _clickbuildgoBack: function() {
+            _clickbuildgoBack: function () {
                 this.buildPageIndex = true;
             },
-            _clickGoDeatil: function(index) {
-
+            _clickGoDeatil: function (index) {
+            
                 var _that = this;
                 var item = this.BuildList[index];
+
+                _that.detailIndex=index;
+
 
                 var req = {
                     build_id: item.build_id, //建筑id,必须
@@ -440,14 +444,14 @@
 
                 this.buildPageIndex = false;
 
-                controllerbuild.queryBuildInfo(req, function(data) {
+                controllerbuild.queryBuildInfo(req, function (data) {
                     _that.BuildInfo = data;
 
                     /**
                      * 绑定图片控件
                      */
-
-                    $("#pictureUpload").pval(data.picture.map(function(item) {
+                    $("#pictureUpload").precover();
+                    $("#pictureUpload").pval(data.picture.map(function (item) {
 
                         return {
                             url: item.key,
@@ -455,7 +459,8 @@
                         }
                     }));
 
-                    $("#uploadDrawing").pval(data.drawing.map(function(item) {
+                    $("#uploadDrawing").precover();
+                    $("#uploadDrawing").pval(data.drawing.map(function (item) {
 
                         return {
                             url: item.key,
@@ -463,7 +468,8 @@
                         }
                     }))
 
-                    $("#uploadArchive").pval(data.archive.map(function(item) {
+                    $("#uploadArchive").precover();
+                    $("#uploadArchive").pval(data.archive.map(function (item) {
 
                         return {
                             url: item.key,
@@ -472,12 +478,12 @@
                     }))
                 })
             },
-            setBuild: function(key, value) {
+            setBuild: function (key, value) {
                 // 将修改后的值传递实体中
                 this.BuildInfo[key] = value;
 
                 // 将修改后的值传入到列表中
-                var index = this.BuildList.map(function(item) {
+                var index = this.BuildList.map(function (item) {
 
                     return item.build_id;
                 }).indexOf(this.BuildInfo.build_id);
@@ -490,11 +496,12 @@
 
 
             },
-            _uploadPicture: function() {
+            _uploadPicture: function () {
+                var _that = this;
 
-                var pictures = $("#pictureUpload").pval().filter(function(item) {
+                var pictures = $("#pictureUpload").pval().filter(function (item) {
                     return !!item.suffix;
-                }).map(function(item) {
+                }).map(function (item) {
 
                     return {
                         type: 1,
@@ -520,14 +527,18 @@
                 };
 
 
-                controllerbuild.updateBuildInfoFile(arr);
+                controllerbuild.updateBuildInfoFile(arr, function () {
+
+                    _that._clickGoDeatil(_that.detailIndex);
+                });
 
             },
-            _uploadDrawing: function() {
+            _uploadDrawing: function () {
+                var _that = this;
 
-                var drawings = $("#uploadDrawing").pval().filter(function(item) {
+                var drawings = $("#uploadDrawing").pval().filter(function (item) {
                     return !!item.suffix;
-                }).map(function(item) {
+                }).map(function (item) {
 
                     return {
                         type: 1,
@@ -553,14 +564,18 @@
                 };
 
 
-                controllerbuild.updateBuildInfoFile(arr);
+                controllerbuild.updateBuildInfoFile(arr, function () {
+
+                    _that._clickGoDeatil(_that.detailIndex);
+                });
 
             },
-            _uploadArchive: function() {
+            _uploadArchive: function () {
+                var _that = this;
 
-                var archives = $("#uploadArchive").pval().filter(function(item) {
+                var archives = $("#uploadArchive").pval().filter(function (item) {
                     return !!item.suffix;
-                }).map(function(item) {
+                }).map(function (item) {
 
                     return {
                         type: 1,
@@ -586,16 +601,19 @@
                 };
 
 
-                controllerbuild.updateBuildInfoFile(arr);
+                controllerbuild.updateBuildInfoFile(arr, function () {
+
+                    _that._clickGoDeatil(_that.detailIndex);
+                });
 
             },
-            _clearPicture: function() {
+            _clearPicture: function () {
                 $("#pictureUpload").pval();
             }
         },
-        beforeMount: function() {
+        beforeMount: function () {
             var _that = this;
-            controllerbuild.queryBuildList(function(data) {
+            controllerbuild.queryBuildList(function (data) {
                 _that.BuildList = data;
             })
         },

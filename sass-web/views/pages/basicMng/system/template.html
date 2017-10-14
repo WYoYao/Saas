@@ -624,6 +624,10 @@
         computed: {
             textaValue: function() {
 
+                if(this.keys=="build_func_type"){
+                    debugger;
+                }
+
                 var _that = this;
 
                 // 树类型的单独做判断
@@ -689,8 +693,8 @@
 
                         // 树接口和的普通下拉菜单分别做处理
                         var index = _that[this.istree ? 'treeSource' : 'datasource'].map(function(item) {
-                            return item.code + '';
-                        }).indexOf(_that.value.code + '');
+                            return new String(item.code);
+                        }).indexOf(new String(_that.value.code));
 
                         if (!this.istree) {
                             if (index != -1) $("#" + _that._clickCombox).psel(index);

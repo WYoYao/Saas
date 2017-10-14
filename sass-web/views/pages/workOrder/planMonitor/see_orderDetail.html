@@ -6,10 +6,10 @@
                     <pbutton-white text="返回" onclick="orderDetail_pub.orderDetail_goBack()"></pbutton-white>
                 </div>
                 <div class="see_orderDetail_page_save">
-                    <div>
+                    <div v-if="orderDetailData.order_state != '8' && orderDetailData.order_state !='9'">
                         <pbutton-white v-if="orderDetail_data.goBackFlag =='2' || orderDetail_data.goBackFlag =='3' " bind='true' text="'指派'" onclick="orderDetail_pub.clickAssignSet()"></pbutton-white>
                     </div>
-                    <div>
+                    <div v-if="orderDetailData.order_state != '8' && orderDetailData.order_state !='9'">
                         <pbutton-white v-if="orderDetail_data.goBackFlag =='2' || orderDetail_data.goBackFlag =='3'" bind='true' text="'中止'" onclick="orderDetail_pub.stopOrder_con_show()"></pbutton-white>
                     </div>
                     <div>
@@ -218,13 +218,14 @@
                 </div>
                 <!-- 审核相关 -->
                 <div class="see_orderDetail_check">
-                    <ul v-for="wo_exec_controls in orderDetailData.wo_exec_controls">
+                    <ul v-for="wo_exec_controls in orderDetailData.wo_exec_controls"  v-if="wo_exec_controls.control_code == 'apply' || wo_exec_controls.control_code == 'aduit'">
                         <li>
                             <div class="see_orderDetail_check_header">
                                 <div>
                                     <span v-text="wo_exec_controls.control_code == 'apply'?'申请':'审核'">
                                         
-                                    </span><i v-if="wo_exec_controls.control_code == 'apply'" v-text="wo_exec_controls.apply_type =='finish'?'完成':'终止'">
+                                    </span>
+                                    <i v-if="wo_exec_controls.control_code == 'apply'" v-text="wo_exec_controls.apply_type =='finish'?'完成':'终止'">
                                         
                                     </i>
                                 </div>

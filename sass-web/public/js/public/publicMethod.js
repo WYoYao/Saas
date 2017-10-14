@@ -1,11 +1,11 @@
 var publicMethod = {
-    clickAdditem: function(item) { //弹出框添加选中
+    clickAdditem: function (item) { //弹出框添加选中
 
         var id = item.id;
 
-        var personPositionList = JSON.parse(JSON.stringify( orderDetail_data.pub_model.personPositionList));
+        var personPositionList = JSON.parse(JSON.stringify(orderDetail_data.pub_model.personPositionList));
 
-        personPositionList.forEach(function(item) {
+        personPositionList.forEach(function (item) {
 
             if (item.id == id) {
 
@@ -13,14 +13,14 @@ var publicMethod = {
 
                 // 当父级被选中的时候子级跟随变化
                 if (item.type == 2) {
-                    item.persons.map(function(t) {
+                    item.persons.map(function (t) {
 
                         t.isSelected = item.isSelected;
                         return t;
                     })
                 }
             } else if (item.type == 2) {
-                item.isSelected = item.persons.reduce(function(con, info) {
+                item.isSelected = item.persons.reduce(function (con, info) {
                     info.isSelected = info.id == id ? !info.isSelected : info.isSelected;
                     if (!con) return con;
                     return info.isSelected;
@@ -33,22 +33,22 @@ var publicMethod = {
         // Vue.set(this, 'personPositionList', personPositionList);
 
     },
-     createAssignSetYes: function() { //指派设置确定
+    createAssignSetYes: function () { //指派设置确定
         var valArr = [];
         var arr = JSON.parse(JSON.stringify(orderDetail_data.pub_model.personPositionList));
-        arr.forEach(function(ele) {
+        arr.forEach(function (ele) {
             if (ele.isSelected) {
                 if (ele.type == 2) {
-                    valArr.push({ "name": ele.name, "type": ele.type })
+                    valArr.push({"name": ele.name, "type": ele.type})
                 } else if (ele.type == 3) {
-                    valArr.push({ "name": ele.name, "type": ele.type, "person_id": ele.person_id })
+                    valArr.push({"name": ele.name, "type": ele.type, "person_id": ele.person_id})
 
                 }
             }
             if (ele.type == "2" && !ele.isSelected) {
-                ele.persons.forEach(function(p) {
+                ele.persons.forEach(function (p) {
                     if (p.isSelected) {
-                        valArr.push({ "name": p.name, "type": "3", "person_id": p.person_id })
+                        valArr.push({"name": p.name, "type": "3", "person_id": p.person_id})
 
                     }
                 })
@@ -69,7 +69,7 @@ var publicMethod = {
         orderDetail_pub.assignOrderSet(_data);
         $("#createAssignSet").hide();
     },
-    stopOrderSetYes: function() {//中止工单确定
+    stopOrderSetYes: function () {//中止工单确定
         var operatorName = orderDetail_data.userInfo.user.name;
         var operatorId = orderDetail_data.userInfo.user.person_id;
         var _data = {
@@ -352,7 +352,33 @@ var publicMethod = {
         }
         // if(
     },
+    //标准操作内容编辑时失焦问题
+    blurContentItemOpe:function (event) {
+        event.stopPropagation();
+        var num = event.srcElement.value.length;
+        var prebody = $(event.srcElement).parents(".prev-body");
+        commonData.publicModel.textareaOperate=false;
+        setTimeout(function () {
+            if(commonData.publicModel.blurClose && !commonData.publicModel.textareaOperate){
+                if (num == 0) {
+                    $(prebody).slideUp();
+                    $(event.srcElement).parents(".content-prev").find(".edit-div").show().next().hide();
+                    commonData.publicModel.textareaOperate=false;
+                }
+            }
+        },2000);
+    },
+    contentTextAreafocus:function(event){
+        event.stopPropagation();
+        commonData.publicModel.textareaOperate=true;
+        var prebody = $(event.srcElement).parents(".prev-body");
+        $(prebody).slideDown();
+    },
+    operatePrevBodyShow:function (dom,event) {
+        console.log(dom,event)
 
+        event.stopPropagation();
+    },
     /*点击sop名称*/
     detailSop: function (sop, event) {
         event.stopPropagation();
@@ -971,6 +997,7 @@ var publicMethod = {
             publicMethod.confirmCheckedObjs(commonData.types[0]);
         }
         commonData.publicModel.noPop = false;
+        commonData.publicModel.blurClose=true;
     },
 
     //确认勾选的对象
@@ -1564,32 +1591,32 @@ var publicMethod = {
         return timeObj;
     },
     //统一在获取一遍左侧数据
-    getLeftDataAgain:function () {
-            commonData.publicModel.workOrderDraft["order_type_name"]=$("#work-typec").psel().text;
-            commonData.publicModel.workOrderDraft["order_type"]=commonData.publicModel.workTypeC[$("#work-typec").psel().index].code;
-            commonData.publicModel.workOrderDraft["urgency"]=$("#work-urgency").psel().text;
-        var index=parseInt($("#time-combobox").psel().index);
-            commonData.publicModel.workOrderDraft["start_time_type"]=index+1;
-        if(index==0){
-            commonData.publicModel.workOrderDraft["ask_start_time"]="";
-        }else{
-            commonData.publicModel.workOrderDraft["ask_start_time"]=$("#ask_start_time").psel().startTime;
+    getLeftDataAgain: function () {
+        commonData.publicModel.workOrderDraft["order_type_name"] = $("#work-typec").psel().text;
+        commonData.publicModel.workOrderDraft["order_type"] = commonData.publicModel.workTypeC[$("#work-typec").psel().index].code;
+        commonData.publicModel.workOrderDraft["urgency"] = $("#work-urgency").psel().text;
+        var index = parseInt($("#time-combobox").psel().index);
+        commonData.publicModel.workOrderDraft["start_time_type"] = index + 1;
+        if (index == 0) {
+            commonData.publicModel.workOrderDraft["ask_start_time"] = "";
+        } else {
+            commonData.publicModel.workOrderDraft["ask_start_time"] = $("#ask_start_time").psel().startTime;
         }
-        var fixed=$("#fixed-radio").psel();
-       if(fixed){
-           commonData.publicModel.workOrderDraft["ask_end_limit"]=$("#ask_end_limit").val();
-           commonData.publicModel.workOrderDraft["ask_end_time"]="";
-       }else{
-           commonData.publicModel.workOrderDraft["ask_end_time"]=$("#ask_end_time").psel().startTime;
-           commonData.publicModel.workOrderDraft["ask_end_limit"]="";
-       }
+        var fixed = $("#fixed-radio").psel();
+        if (fixed) {
+            commonData.publicModel.workOrderDraft["ask_end_limit"] = $("#ask_end_limit").val();
+            commonData.publicModel.workOrderDraft["ask_end_time"] = "";
+        } else {
+            commonData.publicModel.workOrderDraft["ask_end_time"] = $("#ask_end_time").psel().startTime;
+            commonData.publicModel.workOrderDraft["ask_end_limit"] = "";
+        }
 
     }
 
 }
 
 var commonData = {
-    stop_order_content:'',//中止内容
+    stop_order_content: '',//中止内容
     publicModel: {},        //我的工单、计划监控的model
     types: ['obj', 'sop', 'workContentName', 'content'],       //事项@对象、事项#SOP、添加工作内容@对象、事项添加工作内容名称
     copyOrQuote: null,      //1复制，2引用
@@ -1694,7 +1721,6 @@ var yn_method = {
         $("#del-confirm").phide();
     },
     scrollLoad: function () {
-        var proId = commonData.publicModel.project_id;
         if ($("#work-already").psel()) {
             commonData.publicModel.workAlreadyID = commonData.publicModel.workAlready[$("#work-already").psel().index].id;
         }
@@ -1714,8 +1740,6 @@ var yn_method = {
                 // alert("到底部了")
                 commonData.publicModel.pageNum += 1;
                 var conditionSelObj = {
-                    user_id: userId,                        //员工id-当前操作人id，必须
-                    project_id: proId,                     //项目id，必须
                     order_type: orderType,                      //工单类型编码
                     page: commonData.publicModel.pageNum,                       //当前页号，必须
                     page_size: 50                        //每页返回数量，必须
@@ -1742,6 +1766,9 @@ var yn_method = {
     /*回到列表页*/
     listShow: function () {
         commonData.publicModel.LorC = true;
+        // $("#work-already").psel().text;
+        // $("#work-type").psel().text;
+        myWorkOrderController.selAlreadyEvent()
     },
     getDateTime: function () {
         commonData.publicModel.starYear = new Date().getFullYear();
@@ -2361,13 +2388,16 @@ var yn_method = {
                     need_back_parents: true,
                 }
                 obj[id] = content.obj_id;
-                myWorkOrderController.queryEquip(obj)
+                // commonData.publicModel.isCustomizeBtnAble=true;
+                myWorkOrderController.queryEquip(obj);
+
             }
         }
 
     },
     defaultPage: function (dom) {
         $(dom).parents(".aite-bubble").find(".none-both").show().siblings().hide();
+        // commonData.publicModel.isCustomizeBtnAble=false;
     },
     closeBubble: function () {
 
@@ -2382,6 +2412,15 @@ var yn_method = {
             commonData.publicModel.clickAiteShow = false;
             commonData.publicModel.clickHashShow = false;
             commonData.publicModel.noPop = false;
+            commonData.publicModel.blurClose=true;
+            // commonData.publicModel.textareaOperate=false;
+            if(!commonData.publicModel.textareaOperate && $("#content-textarea").val().length==0){
+                debugger;
+                $("#content-textarea").parents(".prev-body").slideUp();
+                commonData.publicModel.editBtn=true;
+            }
+
+            
         });
 
     },
@@ -2392,7 +2431,7 @@ var yn_method = {
             var checks = $(event.target).parents(".last-level-box").find(".aite-list>div:last-of-type").children();
             $(checks).some(function (i, dom, arr) {
                 // var check = $("#"+dom.id).psel();
-                $("#" + dom.id).psel()
+                $("#" + dom.id).psel();
                 // if(check){
                 //     return check;
                 // }
@@ -2489,22 +2528,26 @@ var yn_method = {
     },
     /*验证时间*/
     verifyTime: function () {
-        var ask_start_time = $("#ask_start_time").psel();
-        var ask_end_time = $("#ask_end_time").psel();
-        var end_timestamp = yn_method.transferTime(ask_end_time.startTime);
-        var start_timestamp = yn_method.transferTime(ask_start_time.startTime);
-        if (start_timestamp > end_timestamp) {
-            $("#ask_end_time").find(".per-combobox-title").css({
-                "border": "1px solid #ed6767"
-            });
-            $(".time-error-tips").show();
-        } else {
-            $("#ask_end_time").find(".per-combobox-title").css({
-                "border": "1px solid #cacaca"
-            });
-            $(".time-error-tips").hide();
-            commonData.publicModel.workOrderDraft["ask_end_time"] = ask_end_time.startTime;
-            commonData.publicModel.workOrderDraft["ask_end_limit"] = "";
+        if ($("#time-combobox").psel().index == 1) {
+
+            var ask_start_time = $("#ask_start_time").psel();
+            var ask_end_time = $("#ask_end_time").psel();
+            var end_timestamp = yn_method.transferTime(ask_end_time.startTime);
+            var start_timestamp = yn_method.transferTime(ask_start_time.startTime);
+            if (start_timestamp > end_timestamp) {
+                $("#ask_end_time").find(".per-combobox-title").css({
+                    "border": "1px solid #ed6767"
+                });
+                $(".time-error-tips").show();
+            } else if (start_timestamp < end_timestamp) {
+                $("#ask_end_time").find(".per-combobox-title").css({
+                    "border": "1px solid #cacaca"
+                });
+                $(".time-error-tips").hide();
+                commonData.publicModel.workOrderDraft["ask_end_time"] = ask_end_time.startTime;
+                commonData.publicModel.workOrderDraft["ask_end_limit"] = "";
+
+            }
 
         }
 
@@ -2523,11 +2566,11 @@ var yn_method = {
         // commonData.publicModel.workContent["desc_works"].push(commonData.publicModel.workContent);
         // commonData.publicModel.singleMatters["desc_works"] = commonData.publicModel.mattersVip["desc_works"];
         // debugger;
-        $(".obj-div").each(function(index1,value1){
-            $(this).find(".self-div").each(function(index2,value2){
-                commonData.publicModel.workContent.confirm_result[index1].customs[index2].items=[];
-                $(this).find(".info-self-input").each(function(index3,value3){
-                    var item=$(this).val();
+        $(".obj-div").each(function (index1, value1) {
+            $(this).find(".self-div").each(function (index2, value2) {
+                commonData.publicModel.workContent.confirm_result[index1].customs[index2].items = [];
+                $(this).find(".info-self-input").each(function (index3, value3) {
+                    var item = $(this).val();
                     commonData.publicModel.workContent.confirm_result[index1].customs[index2].items.push(item);
                 })
             })
@@ -2551,8 +2594,13 @@ var yn_method = {
     contentAiteShow: function (dom, event) {
         event.stopPropagation();
         $(dom).children(".aite-bubble").show();
+        commonData.publicModel.blurClose=false;
         commonData.publicModel.noPop = true;
         publicMethod.setCurPop(4, 'content');
+        var num=$(dom).prev().val().length;
+        if(num==0){
+            $(dom).parents(".prev-body").slideUp();
+        }
     },
     /*工单类型存储*/
     workTypeFn: function (content) {
@@ -2575,8 +2623,8 @@ var yn_method = {
         commonData.publicModel.selectedObjType = obj_type;
     },
     //时间限制的存储
-    askLimit:function (event) {
-        commonData.publicModel.workOrderDraft["ask_end_limit"]=event.target.value
+    askLimit: function (event) {
+        commonData.publicModel.workOrderDraft["ask_end_limit"] = event.target.value
     },
     /*草稿存储数据*/
     a: function () {

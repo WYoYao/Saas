@@ -462,7 +462,11 @@
                         </div>
                     </div>
                     <div class="aite-footer">
-                        <pbutton-white text="自定义" click="publicMethod.customizeInfoPoint"></pbutton-white>
+                        <div class="customize-btn-div"
+                                ><!--v-show="commonData.publicModel.curObjType2 == 'infoPoint'"-->
+                        <pbutton-white text="自定义" click="publicMethod.customizeInfoPoint"
+                                       ></pbutton-white><!--disabled="!commonData.publicModel.isCustomizeBtnAble"-->
+                            </div>
                         <!--yn_method.customShow-->
                         <!--<pbutton-blue text="确定" disabled="true"></pbutton-blue>-->
                         <div v-show="commonData.publicModel.curObjType !== 'custom'" class="sureBtnDivs">

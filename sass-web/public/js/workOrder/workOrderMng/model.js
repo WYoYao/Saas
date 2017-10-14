@@ -48,8 +48,20 @@ var workOrderMngMethod = { //工单管理模块方法
     },
     openOrderDetail: function(order_id) { //打开工单详情
         // controller.getOrderDetail(order_id, model);
+        var fn = function(){
+             var AllConditionObj={
+                time_type:"",                       //时间类型，temp-临时，plan计划
+                order_type:"",                      //工单类型编码
+                order_state:"",                     //工单状态编码
+                creator_id:"",                      //创建人id
+                page:workOrderMngModel.pageNum,                       //当前页号，必须
+                page_size:50                        //每页返回数量，必须
+            }
+            controller.queryAllWorkOrder(AllConditionObj);//查询所有工单
+            workOrderMngModel.curPage = "workOrderList";
+        }
         workOrderMngModel.order_id = order_id;
-        orderDetail_pub.getOrderDetail(workOrderMngModel, order_id, "3");
+        orderDetail_pub.getOrderDetail(workOrderMngModel, order_id, "3" ,fn);
         // workOrderMngModel.curPage = workOrderMngModel.pages[1];
     },
     goBackOrderList: function() { //返回工单列表

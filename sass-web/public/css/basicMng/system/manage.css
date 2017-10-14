@@ -16,8 +16,8 @@
 .manage .tables .row {
     position: relative;
     width: 100%;
-    max-height: 170px;
-    height: auto;
+    /* max-height: 170px; */
+    /* height: auto; */
     border-bottom: 1px solid #dddddd;
     overflow: hidden;
 }
@@ -50,4 +50,34 @@
 .manage .tables .row .upload {
     margin: 20px;
     width: auto;
+}
+
+.manage .upload .upload-picture{
+    overflow: hidden;
+}
+
+.manage .upload .upload-picture-wrap{
+    float: left;
+    width: 130px;
+    height: 130px;
+    background: #eee;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    position: relative;
+    margin-right: 5px;
+    margin-top: 5px;
+}
+
+.manage .upload .upload-picture-wrap img{
+    max-width: 100%;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-position: center center;
+    margin: 0 auto;
+    display: block;
+    max-height: 100%;
 }

@@ -1457,29 +1457,14 @@ var dataModelMap = {
             },
             {
                 "name": "business_license",
-                "type": "string",
-                "note": "business_license"
+                "type": "fileLink",
+                "note": "business_license",
+                "fileType":1
             },
             {
                 "name": "pictures",
-                "type": "array",
+                "type": "fileArray",
                 "note": "pictures",
-                "proArr": [{
-                    "name": "0",
-                    "type": "string",
-                    "note": "0"
-                },
-                    {
-                        "name": "1",
-                        "type": "string",
-                        "note": "1"
-                    },
-                    {
-                        "name": "2",
-                        "type": "string",
-                        "note": "2"
-                    }
-                ]
             },
             {
                 "name": "tool_type",
@@ -4033,6 +4018,11 @@ var dataModelMap = {
                 "proArr": [{
                     "note": "步骤id",
                     "name": "step_id",
+                    "type": "string"
+                },
+                {
+                    "note": "引擎需要的id",
+                    "name": "$ID",
                     "type": "string"
                 }, {
                     "note": "步骤序号",

@@ -189,8 +189,8 @@ var controller = {
                         for (var j = 0; j < obj.step.length; j++) {
                             var item = obj.step[j];
                             var k1 = j == 0 ? startTimeMs : obj.step[j - 1].ask_end_time + differMS;
-                            for (var k = k1; k < item.ask_end_time; k += differMS) {
-                                if (k >= item.ask_start_time && k < item.ask_end_time) {
+                            for (var k = k1; k <= item.ask_end_time; k += differMS) {
+                                if (k >= item.ask_start_time && k <=item.ask_end_time) {
                                     obj.step1.push({ mark: (item.ask_end_time - item.ask_start_time) / differMS + 1, order_state: item.order_state, order_id: item.order_id, ask_start_time: item.ask_start_time, ask_end_time: item.ask_end_time, is_next_order: item.is_next_order })
                                     break
                                 } else {
@@ -392,16 +392,19 @@ var controller = {
         });
     },
     getScrapOperat: function() { //确定作废操作
-        pajax.post({
+        pajax.update({
             url: 'restWoPlanService/destroyWoPlanById',
             data: {
-                plan_id: model.planId
+                plan_id: model.seePlanId
             },
             success: function(res) {
+                $("#scrapModal").phide();
                 model.curPage = model.pages[0];
+                controller.getTabList();
             },
             error: function(error) {
-
+                $("#scrapModal").phide();
+                 $("#publishNotice").pshow({ text: '作废失败，请重试', state: "failure" });
             },
 
             complete: function() {
@@ -461,6 +464,7 @@ var controller = {
             success: function(res) {
                 $("#publishNotice").pshow({ text: '发布成功', state: "success" });
                 model.curPage = model.pages[0];
+                controller.getTabList();
             },
             error: function(error) {
                  $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });
@@ -478,6 +482,7 @@ var controller = {
             success: function(res) {
                 $("#publishNotice").pshow({ text: '发布成功', state: "success" });
                 model.curPage = model.pages[0];
+                controller.getTabList();
             },
             error: function(error) {
                  $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });

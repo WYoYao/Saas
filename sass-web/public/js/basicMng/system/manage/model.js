@@ -35,6 +35,8 @@
                 _that.Customer = data;
             })
         },
+        watch:{
+        }
     })
 
 })();

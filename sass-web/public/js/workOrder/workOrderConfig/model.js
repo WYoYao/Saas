@@ -83,8 +83,6 @@ var workOrderMethod = { //工单管理模块方法
     },
     editOrderListInfo: function(obj) { //编辑
         workOrderModel.plan_id = obj.plan_id;
-        var userId = workOrderModel.user_id;
-        var projectId = workOrderModel.project_id;
         workOrderModel.curPage = workOrderModel.pages[1];
         // console.log(obj);
         var data = {

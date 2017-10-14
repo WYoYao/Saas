@@ -28,8 +28,6 @@ var model = {
 
     //------------------------------------------yn__start------------------------------------------
     //vue绑定的数据data
-    user_id: '', //用户id
-    project_id: '', //项目id
     LorC: true,//列表页或者新建页
     workAlready: [
         {
@@ -795,8 +793,11 @@ var methods = {
         controller.getScrapOperat();
     },
     clickSeeOrderDetail: function (order_id) { //点击列表内工单列表查看工单详情
+        var fn = function(){
+            controller.getTabList();
+        }
         if (order_id != "" && order_id != "--") {
-            orderDetail_pub.getOrderDetail(model, order_id, "2");
+            orderDetail_pub.getOrderDetail(model, order_id, "2" ,fn);
 
         }
     },

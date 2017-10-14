@@ -397,6 +397,9 @@
     display: inline-block;
     vertical-align: top;
 }*/
+.customize-btn-div{
+    display: inline;
+}
 .aite-footer .sureBtnDivs{
     display: inline-block;
     vertical-align: top;

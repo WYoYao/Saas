@@ -18,16 +18,28 @@
                 <p>营业执照</p>
                 <span>
                     <div class="upload">
-                            <pupload-img></pupload-img>
+                        <div class="upload-picture">
+                            <ul>
+                                <li class="upload-picture-wrap">
+                                    <img timg="" :src="Customer.business_license">
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </span>
             </li>
             <li class="row">
                 <p>产权证/托管合同</p>
                 <span>
-                        <div class="upload">
-                                <pupload-img></pupload-img>
+                    <div class="upload">
+                        <div class="upload-picture">
+                            <ul v-for='(url,index) in Customer.pictures'>
+                                <li class="upload-picture-wrap">
+                                    <img :src="url">
+                                </li>
+                            </ul>
                         </div>
+                    </div>
                 </span>
             </li>
             <li class="row">
