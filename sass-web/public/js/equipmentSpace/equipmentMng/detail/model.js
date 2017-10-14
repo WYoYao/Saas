@@ -803,7 +803,7 @@ var CardInfo = function () {
                     equipmentMngDeatilController.updateEquipInfo(req, (type == 2 || type == 3))
                         .then(function () {
 
-                            _that.hideAllIde();
+                            _that.view.ide[key]=false;
 
                             // 更新设备信息
                             _that.requeryEquipPublicInfo();
@@ -822,7 +822,8 @@ var CardInfo = function () {
                 var _that = this;
 
                 var cancelCb = function () {
-                    _that.hideAllIde();
+
+                    _that.view.ide[key]=false;
                     _that.EquipInfoBak = JSON.parse(JSON.stringify(_that.EquipInfo));
                 };
 

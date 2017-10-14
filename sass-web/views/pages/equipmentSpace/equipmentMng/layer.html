@@ -261,7 +261,7 @@
                 <div class="box">
                     <div class="header">
                         <div class="column">
-                            <div class="radio" @click.capture="_clickChangeType(true)">
+                            <div class="radio" @click.capture.stop="_clickChangeType(true)">
                                 <div class="per-switch-radio">
                                     <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
                                     <span class="per-switch_label"></span>
@@ -270,7 +270,7 @@
                             <p>修正输入错误</p>
                         </div>
                         <div class="column">
-                            <div class="radio" @click.capture="_clickChangeType(false)">
+                            <div class="radio" @click.capture.stop="_clickChangeType(false)">
                                 <div class="per-switch-radio">
                                     <span class="per-radio_input" :class="{ 'per-radio-checked':!changeType}"></span>
                                     <span class="per-switch_label"></span>
@@ -303,7 +303,7 @@
                         </ul>
                     </div>
                     <div class="footer">
-                        <span class="btn" @click.capture='_clickSubmit()'>
+                        <span class="btn" @click.capture.stop='_clickSubmit()'>
                             <pbutton-blue text="确定"></pbutton-blue>
                         </span>
                     </div>
@@ -316,10 +316,10 @@
                 <p class="titlefont">确定退出编辑吗？</p>
                 <p class="description">取消编辑将不保存当前编辑信息</p>
                 <div class="panel">
-                    <span class="sumitbtn" @click.capture='_clickCancelIDE()'>
+                    <span class="sumitbtn" @click.capture.stop='_clickCancelIDE()'>
                             <pbutton-blue text="确定"></pbutton-blue>
                         </span>
-                    <span class="cancelbtn" @click.capture='_clickCancelCancelIDE()'>
+                    <span class="cancelbtn" @click.capture.stop='_clickCancelCancelIDE()'>
                             <pbutton-white text="取消"></pbutton-white>
                         </span>
                 </div>
@@ -449,9 +449,7 @@
 
                 var _that=this;
 
-                _that.layer.willSubmit = false;
-                _that.layer.willCancel = false;
-                _that.layer.display = "none";
+                _that._clickCancelCancelIDE();
 
                 if(_that.layer.cancelCb instanceof Function){
 
@@ -485,12 +483,14 @@
                 this.layer.cancelCb();
 
                 this._clickCancelCancelIDE();
+                this._hide();
             },
             // 取消 取消编辑事件
             _clickCancelCancelIDE: function() {
-
+                this.layer.willSubmit = false;
                 this.layer.willCancel = false;
                 this.layer.display = "none";
+                // this._hide();
             },
         }
     })

@@ -608,6 +608,18 @@ var dataModelMap = {
     'restEquipService/queryEquipInfoPointHis': {
         "type": "array",
         "note": "未输入note",
+        "proArr": [
+            {
+                "name": "date",
+                "type": "string",
+                "note": "date"
+            },
+            {
+                "name": "value",
+                "type": "string",
+                "note": "value"
+            }
+        ]
     },
     'restEquipService/queryEquipDynamicInfo': {
         "type": "array",
