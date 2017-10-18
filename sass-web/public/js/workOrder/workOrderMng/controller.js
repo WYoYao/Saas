@@ -308,7 +308,6 @@ var controller = {
             url: 'restWoMonitorService/queryAllWorkOrder',
             data: conditionObj,
             success: function (result) {
-                console.log(result)
                 var data = result && result.data ? result.data : [];
                 workOrderMngModel.temList=workOrderMngModel.temList.concat(data);
                 workOrderMngModel.workList= workOrderMngModel.temList;

@@ -68,6 +68,8 @@ var workOrderMethod = { //工单管理模块方法
         this.editOrderCode = '';
         this.editTimerCode = '';
         this.createReminds = [];
+        $("#orderTypeSelect").precover("请选择工单类型");
+        $("#timerTypeSelect").precover("请选择时间类型");
         workOrderModel.curPage = workOrderModel.pages[1];
     },
     goBackOrderList: function() { //返回
@@ -80,6 +82,8 @@ var workOrderMethod = { //工单管理模块方法
         this.editTimerCode = '';
         this.createReminds = [];
         workOrderModel.curPage = workOrderModel.pages[0];
+        $("#orderTypeError").hide();
+        $("#timerTypeError").hide();
     },
     editOrderListInfo: function(obj) { //编辑
         workOrderModel.plan_id = obj.plan_id;
@@ -99,6 +103,9 @@ var workOrderMethod = { //工单管理模块方法
     // 模态框相关
     stepsToPerformWorkHide: function() { //执行工作步骤隐藏
         $("#stepsToPerformWork").phide();
+        // setTimeout(function(){
+        //     $("#stepsToPerformWork_con_operat_open").psel(true);
+        // },500)
     },
     createWorkOrderSetHide: function() { //新建工单设置隐藏
         $("#createWorkOrderSet").phide();
@@ -113,13 +120,28 @@ var workOrderMethod = { //工单管理模块方法
         $("#createAssignSet").hide();
     },
     addPersonPosition: function() { //添加人员或岗位click
-        controller.getPersonPositionList(); //获取人员岗位请求
+
+
+        if(!workOrderModel.personPositionList.length){
+            controller.getPersonPositionList(); //获取人员岗位请求
+        }
+
+        // var _personList = workOrderModel.falsePersonPosition;
+        // if(_personList == undefined){
+        //     controller.getPersonPositionList(); //获取人员岗位请求
+        // }else if(_personList.length >0){
+        //     workOrderModel.personPositionList = _personList;
+        // }else{
+        //     controller.getPersonPositionList(); //获取人员岗位请求
+        // }
         $("#choicePersonPosition").pshow();
     },
     choicePersonPosiSetHide: function() { //选择人员隐藏
         $("#choicePersonPosition").phide()
     },
-    personPositionShow: function(e) { //岗位人员列表显示
+    personPositionShow: function(e,argu) { //岗位人员列表显示
+
+
         var $target = $(e.target);
 
         var $person_position_list = $target.parent().parent().find(".choicePersonPosition_con_persion_position");
@@ -166,6 +188,13 @@ var workOrderMethod = { //工单管理模块方法
     },
     addPositionPersonModel: function() { //点击确定添加人或岗位
         var valArr = [];
+
+        workOrderModel.personPositionList=workOrderModel.personPositionList.map(function(item){
+            
+            item.isLock=item.isSelected?true:false;
+            return item;
+        });
+
         var arr = JSON.parse(JSON.stringify(workOrderModel.personPositionList));
 
         arr.forEach(function(ele) {
@@ -186,21 +215,48 @@ var workOrderMethod = { //工单管理模块方法
                 })
             }
         });
+
+
         // console.log(JSON.stringify(valArr))
         var _data = workOrderModel.allPositionDuty; //执行步骤列表全集
-        var perPosiList = JSON.parse(JSON.stringify(workOrderModel.falsePersonPosition)); //下级路由选择人和岗位列表
+        // var perPosiList = JSON.parse(JSON.stringify(workOrderModel.falsePersonPosition)); //下级路由选择人和岗位列表
         valArr.forEach(function(info) {
             info.duty = [];
             info.right = JSON.parse(JSON.stringify(_data));
             // info.duty.ppList = JSON.parse(JSON.stringify(perPosiList));
-
         });
+
+
+        valArrMap=valArr.map(function(x){
+            return x.name;
+        });
+
+        oolMap=workOrderModel.operateOptionList.map(function(x){
+            return x.name;
+        })
+
+        // 获取新增项
+        var resultArr= valArrMap.reduce(function(con,name,i){
+            var index=oolMap.indexOf(name);
+            if(index==-1){
+                con.push(i);
+            }
+
+            return con;
+        },[]).map(function(index){
+            return valArr[index];
+        });
+
         // console.log(JSON.stringify(valArr));
-        workOrderModel.operateOptionList = JSON.parse(JSON.stringify(valArr));
+        // workOrderModel.operateOptionList = JSON.parse(JSON.stringify(valArr));
+
+        workOrderModel.operateOptionList=(workOrderModel.operateOptionList || []).concat(resultArr);
         $("#choicePersonPosition").hide();
 
     },
     clickAdditem: function(item) { //弹出框添加选中
+
+        if(item.isLock)return;
 
         var id = item.id;
 
@@ -263,50 +319,96 @@ var workOrderMethod = { //工单管理模块方法
         // } 
         /*创建工单*/
         if (code == 'create') {
+            var _filter = workOrderModel.operateOptionList[faIndex].duty[childIndex].filter_scheduling;//过滤人员
+            var _executieMode = workOrderModel.operateOptionList[faIndex].duty[childIndex].executie_mode;//执行方式
+            var _ppList = workOrderModel.operateOptionList[faIndex].duty[childIndex].ppList;
+            var trueList = _data.map(function(item) {
+                    item.isSelected = true;
+
+                    item.id = ptool.produceId();
+
+                    if (item.type == 2) {
+
+                        item.persons = item.persons.map(function(info) {
+
+                            info.isSelected = true;
+                            info.id = ptool.produceId();
+                            return info;
+                        })
+                    }
+
+                    return item;
+                });
             if (!_this.plan_id) { //新建
-                // console.log(allList);
-                // allList.duty.forEach(function(info,index2){
-                //     info.ppList = _data
-                // });
 
                 _this.personPositionList = arr.ppList ? arr.ppList : _data;
-                // _this.
-                var state = $(".createWorkOrderSet_con_filter_person >div").psel(); //过滤
-                $(".createWorkOrderSet_con_filter_person >div").psel(state);
-                var moreFlag = $("#moreOperaBtn > div").psel();
-                if (moreFlag) {
-                    $("#moreOperaBtn > div").psel(true);
-                } else {
-                    $("#oneOperaBtn >div").psel(true)
+                /*过滤人员*/
+                if(_filter == undefined){
+                    $("#new_filter_person").psel(true);
+                }else if(_filter == true){
+                    $("#new_filter_person").psel(true);
+                }else{
+                    $("#new_filter_person").psel(false);
                 }
+                /*执行方式*/
+                if(_executieMode == undefined){
+                    $("#moreOperaBtn").psel(true);
+                }else if(_executieMode == '2'){
+                    $("#moreOperaBtn").psel(true);
+                }else{
+                    $("#moreOperaBtn").psel(false);
+                }
+                /*人员列表*/
+                if(_ppList == undefined){
+                    _this.personPositionList = trueList;
+                }else if(_ppList.length >0){
+                     _this.personPositionList = _ppList;
+                }else{
+                    _this.personPositionList = trueList;
+                }
+
 
             } else { //编辑
                 _this.personPositionList = arr.ppList; //返回编辑读取人员列表
-                var state = arr.filter_scheduling ? true : false; //是否过滤
-                $(".createWorkOrderSet_con_filter_person >div").psel(state);
-                var moreFlag1 = arr.executie_mode;
-                if (moreFlag == '2') {
-                    $("#moreOperaBtn > div").psel(true);
-                } else {
-                    $("#oneOperaBtn >div").psel(true)
+                if(_filter == true){
+                    $("#new_filter_person").psel(true);
+                }else{
+                    $("#new_filter_person").psel(false);
+                }
+                
+                if(_executieMode == '2'){
+                    $("#moreOperaBtn").psel(true);
+                }else{
+                    $("#moreOperaBtn").psel(false);
                 }
             }
             $("#createWorkOrderSet").pshow();
         }
         /* 执行工作步骤*/
         else if (code == 'execute') {
-            if (!_this.plan_id) {
-                var flag = $(".stepsToPerformWork_con_operat >div").psel();
-                $(".stepsToPerformWork_con_operat >div").psel(flag);
-                $(".stepsToPerformWork_con_operat >div").psel()
-            } else {
-                var flag = arr.limit_domain;
-                $(".stepsToPerformWork_con_operat >div").psel(flag)
+            var _state = workOrderModel.operateOptionList[faIndex].duty[childIndex].limit_domain;
+            if(!_this.plan_id){
+                if(_state == undefined){
+                    $("#zhixing_open").psel(true);
+                }else if(_state == true){
+                    $("#zhixing_open").psel(true);
+                }else{
+                    $("#zhixing_close").psel(true);
+                }
+
+            }else{
+                if(_state == true){
+                    $("#zhixing_open").psel(true);
+                }else{
+                    $("#noUseBtn").psel(true);
+                }    
             }
             $("#stepsToPerformWork").pshow();
         }
         /*指派工单*/
         else if (code == 'assign') {
+            var _state =  workOrderModel.operateOptionList[faIndex].duty[childIndex].filter_scheduling;
+            var _ppList = workOrderModel.operateOptionList[faIndex].duty[childIndex].ppList;
             if (!_this.plan_id) {
                 var state = $(".createAssignSet_con_filter_person >div").psel();
                 $(".createAssignSet_con_filter_person >div").psel(state);
@@ -327,27 +429,48 @@ var workOrderMethod = { //工单管理模块方法
 
                     return item;
                 });
-                _this.personPositionList = arr.ppList ? arr.ppList : trueList;
-            } else {
-                // console.log(arr)
-                var state = arr.filter_scheduling ? true : false;
-                $(".createAssignSet_con_filter_person >div").psel(state);
+                if(_ppList == undefined){
+                    _this.personPositionList = trueList;
+                }else if(_ppList.length >0){
+                     _this.personPositionList = _ppList;
+                }else{
+                    _this.personPositionList = trueList;
+                }
+
+                if(_state == undefined){
+                    $("#zhipai_filter").psel(false);
+                }else if(_state == true){
+                    $("#zhipai_filter").psel(true);
+                }else{
+                    $("#zhipai_filter").psel(false);
+                }
+            } else {//编辑
+                if(_state == true){
+                    $("#zhipai_filter").psel(true);
+                }else{
+                    $("#zhipai_filter").psel(false);
+                }
                 _this.personPositionList = arr.ppList;
             };
             $("#createAssignSet").pshow();
         }
         /* 审核申请*/
         else if (code == 'audit') {
+            var _check = workOrderModel.operateOptionList[faIndex].duty[childIndex].audit_close_way;//1手动，2自动
             if (!_this.plan_id) {
-                var flag = $(".checkOrderSet_con_operat >div").psel();
-                $(".checkOrderSet_con_operat >div").psel(flag);
-                $(".checkOrderSet_con_operat >div").psel()
+                if(_check == undefined){
+                    $("#shenhe_open").psel(true);
+                }else if(_check == '2'){
+                    $("#shenhe_open").psel(true);
+                }else{
+                    $("#shenhe_close").psel(true);
+                }
             } else {
-                var flag = arr.limit_domain;
-                if (flag == "1") {
-                    $("#stepsToPerformWork_con_operat_open").psel(true)
+                // var flag = arr.limit_domain;
+                if (_check == '2') {
+                     $("#shenhe_open").psel(true);
                 } else {
-                    $("#stepsToPerformWork_con_operat_close").psel(true)
+                    $("#shenhe_close").psel(true);
                 }
             }
             $("#checkOrderSet").pshow();
@@ -385,38 +508,39 @@ var workOrderMethod = { //工单管理模块方法
         var filter_scheduling = $(".createWorkOrderSet_con_filter_person >div").psel();
         var executie_mode = $(".createWorkOrderSet_con_opera_choice >div").psel() ? '2' : '1';
         workOrderModel.operateOptionList[fIndex].duty[cIndex].next_route = valArr;
-        workOrderModel.operateOptionList[fIndex].duty[cIndex].executie_mode = executie_mode;
-        workOrderModel.operateOptionList[fIndex].duty[cIndex].filter_scheduling = filter_scheduling;
+        workOrderModel.operateOptionList[fIndex].duty[cIndex].executie_mode = executie_mode;//执行方式
+        workOrderModel.operateOptionList[fIndex].duty[cIndex].filter_scheduling = filter_scheduling;//过滤人员范围
         //设置ppList里面元素选中
-        var newArr = JSON.parse(JSON.stringify(workOrderModel.operateOptionList));
-        newArr.forEach(function(item, index1) {
-            item.duty.forEach(function(info, index2) {
-                if (!info.ppList) {
-                    info.ppList = workOrderModel.falsePersonPosition;
+        // var newArr = JSON.parse(JSON.stringify(workOrderModel.operateOptionList));
+        // newArr.forEach(function(item, index1) {
+        //     item.duty.forEach(function(info, index2) {
+        //         if (!info.ppList) {
+        //             info.ppList = workOrderModel.falsePersonPosition;
 
-                }
-                info.ppList.map(function(pplist, index3) {
-                    if (info.next_route) {
-                        info.next_route.forEach(function(next, index4) {
-                            if (next.name == pplist.name) {
-                                pplist.isSelected = true;
-                                if (next.type == '2') {
-                                    pplist.persons.forEach(function(person, index5) {
-                                        person.isSelected = true;
-                                    })
-                                }
+        //         }
+        //         info.ppList.map(function(pplist, index3) {
+        //             if (info.next_route) {
+        //                 info.next_route.forEach(function(next, index4) {
+        //                     if (next.name == pplist.name) {
+        //                         pplist.isSelected = true;
+        //                         if (next.type == '2') {
+        //                             pplist.persons.forEach(function(person, index5) {
+        //                                 person.isSelected = true;
+        //                             })
+        //                         }
 
-                            }
+        //                     }
 
-                        })
-                    }
+        //                 })
+        //             }
 
-                })
+        //         })
 
 
-            })
-        });
-        workOrderModel.operateOptionList = JSON.parse(JSON.stringify(newArr))
+        //     })
+        // });
+        // workOrderModel.operateOptionList = JSON.parse(JSON.stringify(newArr))
+        workOrderModel.operateOptionList[fIndex].duty[cIndex].ppList = JSON.parse(JSON.stringify(workOrderModel.personPositionList));
         // console.log(JSON.stringify(newArr));
 
         // workOrderModel.operateOptionList[fIndex].next_route.[cIndex]
@@ -455,35 +579,36 @@ var workOrderMethod = { //工单管理模块方法
         workOrderModel.operateOptionList[fIndex].duty[cIndex].filter_scheduling = filter_scheduling;
 
         //设置ppList里面元素选中
-        var newArr = JSON.parse(JSON.stringify(workOrderModel.operateOptionList));
-        newArr.forEach(function(item, index1) {
-            item.duty.forEach(function(info, index2) {
-                if (!info.ppList) {
-                    info.ppList = workOrderModel.falsePersonPosition;
+        // var newArr = JSON.parse(JSON.stringify(workOrderModel.operateOptionList));
+        // newArr.forEach(function(item, index1) {
+        //     item.duty.forEach(function(info, index2) {
+        //         if (!info.ppList) {
+        //             info.ppList = workOrderModel.falsePersonPosition;
 
-                }
-                info.ppList.map(function(pplist, index3) {
-                    if (info.next_route) {
-                        info.next_route.forEach(function(next, index4) {
-                            if (next.name == pplist.name) {
-                                pplist.isSelected = true;
-                                if (next.type == '2') {
-                                    pplist.persons.forEach(function(person, index5) {
-                                        person.isSelected = true;
-                                    })
-                                }
+        //         }
+        //         info.ppList.map(function(pplist, index3) {
+        //             if (info.next_route) {
+        //                 info.next_route.forEach(function(next, index4) {
+        //                     if (next.name == pplist.name) {
+        //                         pplist.isSelected = true;
+        //                         if (next.type == '2') {
+        //                             pplist.persons.forEach(function(person, index5) {
+        //                                 person.isSelected = true;
+        //                             })
+        //                         }
 
-                            }
+        //                     }
 
-                        })
-                    }
+        //                 })
+        //             }
 
-                })
+        //         })
 
 
-            })
-        });
-        workOrderModel.operateOptionList = JSON.parse(JSON.stringify(newArr))
+        //     })
+        // });
+
+        workOrderModel.operateOptionList[fIndex].duty[cIndex].ppList = JSON.parse(JSON.stringify(workOrderModel.personPositionList));
         // console.log(JSON.stringify(newArr));
 
 
@@ -494,8 +619,8 @@ var workOrderMethod = { //工单管理模块方法
         var cIndex = workOrderModel.operateOptionChildIndex;
         var name = workOrderModel.currStepDutyName;
         var code = workOrderModel.currStepDutyCode;
-        var filter_scheduling = !$(".stepsToPerformWork_con_operat >div").psel();
-        workOrderModel.operateOptionList[fIndex].duty[cIndex].filter_scheduling = filter_scheduling;
+        var limit_domain = $(".stepsToPerformWork_con_operat >div").psel();
+        workOrderModel.operateOptionList[fIndex].duty[cIndex].limit_domain = limit_domain;
         $("#stepsToPerformWork").hide();
     },
     checkOrderSetYes: function() { //审核确定
@@ -603,8 +728,12 @@ var workOrderMethod = { //工单管理模块方法
                 $("#orderTypeError").show();
             };
             if (order && timer) {
-
-                controller.getErrorFlowPlanType(typeData, commitData,pustAndDutyData, orderTypeName, executeTypeName)
+                if(post_and_duty.length > 0){
+                    controller.getErrorFlowPlanType(typeData, commitData,pustAndDutyData, orderTypeName, executeTypeName)
+                    
+                }else{
+                     $("#publishNotice").pshow({ text: '保存失败，请添加岗位或人员', state: "failure" });
+                }
 
             } else {
                 $("#publishNotice").pshow({ text: '保存失败，请重试', state: "failure" });
@@ -620,6 +749,7 @@ var workOrderMethod = { //工单管理模块方法
                 post_and_duty: post_and_duty
             };
             var editData = {
+                plan_id: planId,
                 order_type: orderType,
                 execute_type: executeType,
                 post_and_duty: post_and_duty

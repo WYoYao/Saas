@@ -500,6 +500,9 @@ body {
             .personWrap .personDetail .perItem .percont {
                 float: left;
                 width: 260px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
 
                 .personWrap .personDetail .perItem .percont img {

@@ -31,6 +31,10 @@ function addPersonShow() {//添加人员显示
     instance.selPerson = new personObj();
     instance.idNumberInput = '';
 
+    var allInput = $("#addPersonPage [pertype='personInput']");
+    for (var i = 0; i < allInput.length; i++) {
+        $(allInput[i]).precover();//恢复默认
+    }
     $("#addPersonPage [pertype='defineTagBox']").precover();//恢复默认  
     $("#addPersonPage [pertype='sexCombobox']").psel(0);//性别赋值
     $("#addPersonPage [pertype='posiCombobox']").precover();//职位赋值
@@ -69,8 +73,11 @@ function perEditClick(event) {//显示 人员编辑
     instance.perCheckSign = false;
     //赋值
     instance.idNumberInput = instance.selPerson.id_number;//身份证赋值
+    var allInput = $("#perEditDetail [pertype='personInput']");
+    for (var i = 0; i < allInput.length; i++) {
+        $(allInput[i]).precover();//恢复默认
+    }
 
-    $("#perEditDetail [pertype='personInput']").precover();//恢复默认
     $("#perEditDetail [pertype='sexCombobox']").psel(instance.selPerson.gender == 'male' ? 0 : 1);//性别下拉赋值
     $("#perEditDetail [pertype='uplodImgBox']").precover();//图像恢复
     personController.attachments = [];

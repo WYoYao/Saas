@@ -31,5 +31,18 @@ html {
     border: 1px solid #d9e2e8;
     padding: 0 20px;
     box-sizing: border-box;
+}
+/* 修改滚动条 */
+.contenterScrollBar::-webkit-scrollbar{
+    width: 6px;
+}
+
+.contenterScrollBar{
+    position: absolute;
+    top: 2px;
+    left: 0;
+    right: 2px;
+    bottom: 2px;
+    box-sizing: border-box;
     overflow-y: overlay;
 }

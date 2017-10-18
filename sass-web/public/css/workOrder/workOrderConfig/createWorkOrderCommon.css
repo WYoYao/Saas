@@ -48,6 +48,8 @@
 }
 
 .createWorkOrderCommon_page_con {
+    height: calc(100% - 120px);
+    overflow: auto;
     padding: 30px 50px 0 30px;
 }
 .createWorkOrderCommon_error .commit_error{
@@ -245,6 +247,9 @@
     line-height: 32px;
     padding-left: 10px;
     box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 #add_more_work>ul>li:hover {
@@ -505,7 +510,7 @@
 
 .createAssignSet_con_box_list {
     border: 1px solid #cacaca;
-    min-height: 100px;
+    min-height: 30px;
     max-height: 368px;
     margin-top: 10px;
     overflow: auto;

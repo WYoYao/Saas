@@ -105,14 +105,14 @@
             <span>启动后，只有符合专业要求的人员才可接单及处理对应事项</span>
         </div>
         <div class="stepsToPerformWork_con_operat">
-            <pswitch-radio id="stepsToPerformWork_con_operat_open" name="1" state="true" text="启动"></pswitch-radio>
+            <pswitch-radio id="zhixing_open" name="1" state="true" text="启动"></pswitch-radio>
             <span></span>
-            <pswitch-radio id="noUseBtn" name="1" text="不启动"></pswitch-radio>
+            <pswitch-radio id="zhixing_close" name="1" text="不启动"></pswitch-radio>
 
 
         </div>
         <button class="stepsToPerformWork_con_btn">
-            <pbutton-blue id="'stepsToPerformWork_con_btn_yes'" text="'确定'" @click="stepsToPerformWorkYes()"></pbutton-blue>
+            <pbutton-blue bind="true" id="'stepsToPerformWork_con_btn_yes'" text="'确定'" @click="stepsToPerformWorkYes()"></pbutton-blue>
             <pbutton-white id="stepsToPerformWork_con_btn_cancle" text="取消" click="workOrderMethod.stepsToPerformWorkHide()"></pbutton-white>
         </button>
     </div>
@@ -128,7 +128,7 @@
                 <div class="choicePersonPosition_con_box_list_div" v-for="(items, index) in personPositionList">
                     <div class="choicePersonPosition_con_box_list_div_ul" v-if="items.type == '2'">
                         <div class="choicePersonPosition_con_box_list_div_posi">
-                            <span @click="personPositionShow(event)">r</span>
+                            <span @click="personPositionShow(event,items)">r</span>
                             <em v-text="items.name"></em>
                             <div class="position_checkbox positionChoice1" @click.stop='clickAdditem(items)'>
                                 <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
@@ -212,7 +212,7 @@
             </div>
             <div class="createWorkOrderSet_con_filter_person">
                 <h3>是否需要按照排班表过滤每次指派的人员范围：</h3>
-                <pswitch-slide></pswitch-slide>
+                <pswitch-slide id="new_filter_person"></pswitch-slide>
             </div>
             <div class="createWorkOrderSet_con_opera_choice">
                 <h3>请选择工单的执行方式</h3>
@@ -271,7 +271,7 @@
             </div>
             <div class="createAssignSet_con_filter_person">
                 <h3>是否需要按照排班表过滤每次指派的人员范围：</h3>
-                <pswitch-slide></pswitch-slide>
+                <pswitch-slide id="zhipai_filter"></pswitch-slide>
             </div>
             <!--  <div class="createAssignSet_con_opera_choice">
                 <h3>请选择工单的执行方式</h3>
@@ -293,9 +293,9 @@
             <span>请选择审核通过后，工单的结束方式</span>
         </div>
         <div class="checkOrderSet_con_operat">
-            <pswitch-radio id="stepsToPerformWork_con_operat_open" name="" state="true" text="审核结束通过后，工单自动结束"></pswitch-radio>
+            <pswitch-radio id="shenhe_open" name="" state="true" text="审核结束通过后，工单自动结束"></pswitch-radio>
             <span></span>
-            <pswitch-radio id="stepsToPerformWork_con_operat_close" name="" text="手动点击结束工单才可结束"></pswitch-radio>
+            <pswitch-radio id="shenhe_close" name="" text="手动点击结束工单才可结束"></pswitch-radio>
         </div>
         <button class="checkOrderSet_con_btn">
             <pbutton-blue bind="true" id="'checkOrderSet_con_btn_yes'" text="'确定'"@click="checkOrderSetYes()"></pbutton-blue>

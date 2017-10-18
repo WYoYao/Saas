@@ -1,7 +1,8 @@
-<div id="word" class="system">
+<div id="word" class="system" v-if='onPage=="word"'>
     <div class="word">
         <div class="left">
-            <span class="title" v-for='item in nounTypeList' :class='{on:item.isSelecd}' v-text='item.noun_type_name' @click='_queryDeatil(item)'>  </span>
+            <span class="title" v-for='item in nounTypeList' :class='{on:item.isSelecd}' v-text='item.noun_type_name' @click='_queryDeatil(item)'>
+            </span>
             <!-- <span class="on title"> 工单类型 </span>
             <span class="title"> 操作模块名称 </span>
             <span class="title"> 专业 </span>
@@ -11,24 +12,31 @@
         <div class="right">
             <!-- <div class="rightbox"> -->
             <ul class="thead">
-                <li><span class="col">是否使用该项</span><span class="col">系统标准名称</span><span class="col">名词释义</span><span class="col">本地名称</span></li>
+                <li>
+                    <span class="col">是否使用该项</span>
+                    <span class="col">系统标准名称</span>
+                    <span class="col">名词释义</span>
+                    <span class="col">本地名称</span>
+                </li>
             </ul>
             <ul class="tbody">
-                <li v-for='(item,index) in showlist' @click='_ideitem(item,index)'>
-                    <span class="col">
-                        <span @click.stop='_changeCustomerUse(item,index)'>
-                            <div class="per-switch-slide">
-                                <span class="per-slide-Bg" :class='{"per-slide-checked":item.customer_use}'></span>
-                    <span class="per-switch_round"></span>
+                <div class="contenterScrollBar">
+                    <li v-for='(item,index) in showlist' @click='_ideitem(item,index)'>
+                        <span class="col">
+                            <span @click.stop='_changeCustomerUse(item,index)'>
+                                <div class="per-switch-slide">
+                                    <span class="per-slide-Bg" :class='{"per-slide-checked":item.customer_use}'></span>
+                                    <span class="per-switch_round"></span>
+                                </div>
+                            </span>
+                        </span>
+                        <span class="col" v-text='item.name'></span>
+                        <span class="col" v-text='item.description'></span>
+                        <span class="col" v-text='item.customer_name'></span>
+                    </li>
+                </div>
+            </ul>
+            <!-- </div> -->
         </div>
-        </span>
-        </span>
-        <span class="col" v-text='item.name'></span>
-        <span class="col" v-text='item.description'>原始组件AA1描述</span>
-        <span class="col" v-text='item.customer_name'>原始组件AA1描述</span>
-        </li>
-        </ul>
-        <!-- </div> -->
     </div>
-</div>
 </div>

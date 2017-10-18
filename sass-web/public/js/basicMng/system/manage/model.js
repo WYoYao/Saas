@@ -26,6 +26,7 @@
     v.pushComponent({
         name: 'manage',
         data: {
+            onPage:"manage",
             Customer: new Customer(),
         },
         methods: {},

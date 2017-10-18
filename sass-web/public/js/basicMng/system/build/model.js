@@ -63,6 +63,9 @@
             archive: {
                 isShowIDE: false,
             },
+            consum_model:{
+                isShowIDE: false,
+            },
             // BuildInfo: {
             //     "build_id": 'build_id', //建筑id,saas库中建筑表id
             //     "build_code": 'build_code', //建筑体编码，物理世界建筑id
@@ -257,168 +260,8 @@
                         name: '其他',
                     },
                 ],
-                build_direct: [{
-                        "code": "1",
-                        "name": "北",
-                        "angle": "0°",
-                        "directionCode": "N"
-                    },
-                    {
-                        "code": "2",
-                        "name": "东北偏北",
-                        "angle": "22.5°",
-                        "directionCode": "NNE"
-                    },
-                    {
-                        "code": "3",
-                        "name": "东北",
-                        "angle": "0°",
-                        "directionCode": "NE"
-                    },
-                    {
-                        "code": "4",
-                        "name": "东北偏东",
-                        "angle": "0°",
-                        "directionCode": "ENE"
-                    },
-                    {
-                        "code": "5",
-                        "name": "东",
-                        "angle": "0°",
-                        "directionCode": "E"
-                    },
-                    {
-                        "code": "6",
-                        "name": "东南偏东",
-                        "angle": "0°",
-                        "directionCode": "ESE"
-                    },
-                    {
-                        "code": "7",
-                        "name": "东南",
-                        "angle": "0°",
-                        "directionCode": "SE"
-                    },
-                    {
-                        "code": "8",
-                        "name": "东南偏南",
-                        "angle": "0°",
-                        "directionCode": "SSE"
-                    },
-                    {
-                        "code": "9",
-                        "name": "南",
-                        "angle": "0°",
-                        "directionCode": "S"
-                    },
-                    {
-                        "code": "A",
-                        "name": "西南偏南",
-                        "angle": "0°",
-                        "directionCode": "SSW"
-                    },
-                    {
-                        "code": "B",
-                        "name": "西南",
-                        "angle": "0°",
-                        "directionCode": "SW"
-                    },
-                    {
-                        "code": "C",
-                        "name": "西南偏西",
-                        "angle": "0°",
-                        "directionCode": "WSW"
-                    },
-                    {
-                        "code": "D",
-                        "name": "西",
-                        "angle": "0°",
-                        "directionCode": "W"
-                    },
-                    {
-                        "code": "E",
-                        "name": "西北偏西",
-                        "angle": "0°",
-                        "directionCode": "WNW"
-                    },
-                    {
-                        "code": "F",
-                        "name": "西北",
-                        "angle": "0°",
-                        "directionCode": "NW"
-                    },
-                    {
-                        "code": "G",
-                        "name": "西北偏北",
-                        "angle": "337.5°",
-                        "directionCode": "NNW"
-                    },
-                    {
-                        "code": "H",
-                        "name": "全向/无向",
-                        "angle": "",
-                        "directionCode": "C"
-                    }
-                ],
-                build_func_type: [{
-                        "code": "100",
-                        "name": "公共区域",
-                        "content": [{
-                                "code": "110",
-                                "name": "盥洗区",
-                                "content": [{
-                                        "code": "111",
-                                        "name": "卫生间"
-                                    },
-                                    {
-                                        "code": "112",
-                                        "name": "更衣室"
-                                    }
-                                ]
-                            },
-                            {
-                                "code": "120",
-                                "name": "走廊",
-                                "content": []
-                            }
-                        ]
-                    },
-                    {
-                        "code": "200",
-                        "name": "后勤",
-                        "content": [{
-                                "code": "210",
-                                "name": "洁洗区",
-                                "content": [{
-                                        "code": "211",
-                                        "name": "洗衣房"
-                                    },
-                                    {
-                                        "code": "212",
-                                        "name": "消毒间"
-                                    }
-                                ]
-                            },
-                            {
-                                "code": "220",
-                                "name": "备餐区",
-                                "content": [{
-                                        "code": "221",
-                                        "name": "厨房"
-                                    },
-                                    {
-                                        "code": "222",
-                                        "name": "洗碗间"
-                                    },
-                                    {
-                                        "code": "223",
-                                        "name": "茶水间"
-                                    }
-                                ]
-                            }
-                        ]
-                    }
-                ]
+                build_direct: [],
+                build_func_type: [],
             },
         },
         methods: {
@@ -430,9 +273,13 @@
                 this.buildPageIndex = true;
             },
             _clickGoDeatil: function (index) {
-            
+                
+                // 初始化详情的数据
+
                 var _that = this;
                 var item = this.BuildList[index];
+
+                v.initPage("build");
 
                 _that.detailIndex=index;
 
@@ -476,6 +323,15 @@
                             name: item.name,
                         }
                     }))
+
+                    $("#uploadConsum_model").precover();
+                    $("#uploadConsum_model").pval(data.consum_model.map(function (item) {
+
+                        return {
+                            url: item.key,
+                            name: item.name,
+                        }
+                    }))
                 })
             },
             setBuild: function (key, value) {
@@ -499,9 +355,7 @@
             _uploadPicture: function () {
                 var _that = this;
 
-                var pictures = $("#pictureUpload").pval().filter(function (item) {
-                    return !!item.suffix;
-                }).map(function (item) {
+                var pictures = $("#pictureUpload").pval().map(function (item) {
 
                     return {
                         type: 1,
@@ -512,8 +366,8 @@
                             multiFile: false,
                             fileName: item.name,
                             fileSuffix: item.suffix,
-                            isNewFile: true,
-                            fileType: 1
+                            isNewFile: item.isNewFile,
+                            fileType: 2
                         }
                     };
                 });
@@ -529,6 +383,8 @@
 
                 controllerbuild.updateBuildInfoFile(arr, function () {
 
+                    v.instance.picture.isShowIDE=!v.instance.picture.isShowIDE;
+                    
                     _that._clickGoDeatil(_that.detailIndex);
                 });
 
@@ -536,9 +392,7 @@
             _uploadDrawing: function () {
                 var _that = this;
 
-                var drawings = $("#uploadDrawing").pval().filter(function (item) {
-                    return !!item.suffix;
-                }).map(function (item) {
+                var drawings = $("#uploadDrawing").pval().map(function (item) {
 
                     return {
                         type: 1,
@@ -549,7 +403,7 @@
                             multiFile: false,
                             fileName: item.name,
                             fileSuffix: item.suffix,
-                            isNewFile: true,
+                            isNewFile: item.isNewFile,
                             fileType: 2
                         }
                     };
@@ -565,7 +419,7 @@
 
 
                 controllerbuild.updateBuildInfoFile(arr, function () {
-
+                    v.instance.drawing.isShowIDE=!v.instance.drawing.isShowIDE;
                     _that._clickGoDeatil(_that.detailIndex);
                 });
 
@@ -573,7 +427,42 @@
             _uploadArchive: function () {
                 var _that = this;
 
-                var archives = $("#uploadArchive").pval().filter(function (item) {
+                var archives = $("#uploadArchive").pval().map(function (item) {
+
+                    return {
+                        type: 1,
+                        name: item.name,
+                        attachments: {
+                            path: item.url,
+                            toPro: 'key',
+                            multiFile: false,
+                            fileName: item.name,
+                            fileSuffix: item.suffix,
+                            isNewFile: item.isNewFile,
+                            fileType: 2
+                        }
+                    };
+                });
+
+                var arr = {
+                    "build_id": v.instance.BuildInfo.build_id, //建筑id,saas库中建筑表id，必须
+                    "build_code": v.instance.BuildInfo.build_code, //建筑体编码，物理世界建筑id，必须
+                    "info_point_code": "archive", //修改的信息点(图纸)编码，必须
+                    "info_point_value": archives,
+                    "valid_time": new Date().format('yyyyMMddhhmmss'),
+                };
+
+
+                controllerbuild.updateBuildInfoFile(arr, function () {
+                    v.instance.archive.isShowIDE=!v.instance.archive.isShowIDE;
+                    _that._clickGoDeatil(_that.detailIndex);
+                });
+
+            },
+            _uploadConsum_model: function () {
+                var _that = this;
+
+                var consum_model = $("#uploadConsum_model").pval().filter(function (item) {
                     return !!item.suffix;
                 }).map(function (item) {
 
@@ -595,8 +484,8 @@
                 var arr = {
                     "build_id": v.instance.BuildInfo.build_id, //建筑id,saas库中建筑表id，必须
                     "build_code": v.instance.BuildInfo.build_code, //建筑体编码，物理世界建筑id，必须
-                    "info_point_code": "archive", //修改的信息点(图纸)编码，必须
-                    "info_point_value": archives,
+                    "info_point_code": "consum_model", //修改的信息点(图纸)编码，必须
+                    "info_point_value": consum_model,
                     "valid_time": new Date().format('yyyyMMddhhmmss'),
                 };
 
@@ -616,6 +505,15 @@
             controllerbuild.queryBuildList(function (data) {
                 _that.BuildList = data;
             })
+
+            controllerbuild.queryAllBuildingCode(function(list){
+                _that.EnumType.build_func_type=list;
+            })
+
+            controllerbuild.queryAllDirectionCode(function(list){
+                _that.EnumType.build_direct=list;
+            })
+
         },
     })
 })();

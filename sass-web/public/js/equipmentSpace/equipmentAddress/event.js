@@ -11,6 +11,8 @@ $(function () {
 //tab事件
 
 function addList() {
+    var validResult = $('#divMerchantInfoToNew').pverifi();
+    if (!validResult) return;
     equipmentLogic.saveMerchant(null, function () {
         $("#eqaddressfloat").phide();
     });
@@ -25,7 +27,7 @@ function addfloatShow() {
 }
 //详情float
 function selfloatShow() {
-    $("#eqaddressfloat").pshow({ title:  equipmentAddressModal.tabSelName+'详情' });
+    $("#eqaddressfloat").pshow({ title: equipmentAddressModal.tabSelName + '详情' });
     $(".eqaddressFloatWrap").find(".addWrap").hide();
     $(".eqaddressFloatWrap").find(".selWrap").show();
     $("#delEqaddress").show();
@@ -45,13 +47,16 @@ function getCurrGridElement() {
 function editSelClick(event) {
     var par = $(event.currentTarget).parents(".selTemp");
     par.addClass("selTempEdit").removeClass("selTempSel");
-
-
     equipmentLogic.editMerchantEvent();
 }
 //确定
-function editConfirm(event) {
+function editConfirm(event, isInsure) {
     var currJqTarget = $(event.currentTarget);
+    var validJqTarget = currJqTarget.parent().parent();
+    if (isInsure) validJqTarget = validJqTarget.parent();
+    var validResult = validJqTarget.pverifi();
+    if (!validResult) return;
+
     var par = currJqTarget.parents(".selTemp");
     var type = par.attr("type");
     equipmentLogic.saveMerchant(type, function () {
@@ -62,6 +67,7 @@ function editConfirm(event) {
 function editCancel(target) {
     var par = $(target).parents(".selTemp");
     par.addClass("selTempSel").removeClass("selTempEdit");
+    $(target).parent().parent().phideTextTip();
 }
 
 //添加保险单号

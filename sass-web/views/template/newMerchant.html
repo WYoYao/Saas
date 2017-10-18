@@ -2,29 +2,34 @@
     <div class="inputTemp">
         <span class="inputname"><em>*</em><b>{{tabSelName}}名称:</b></span>
         <div class="inputwrap">
-            <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.company_name">
-                        <verify errtip="不可为空"  verifytype="space"></verify>
-                    </ptext-text>
+            <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.company_name" id="'txtMerchantName'">
+                <verify errtip="不可为空"  verifytype="space"></verify>
+                <verify errtip="最多输入50个字"  verifytype="length" length="50"></verify>
+            </ptext-text>
         </div>
 
     </div>
     <div class="inputTemp">
         <span class="inputname"><b>联系人:</b></span>
         <div class="inputwrap">
-            <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.contacts"></ptext-text>
+            <ptext-text placeholder="'请输入'" bind="true" value="selMerchantToUpdate.contacts">
+                <verify errtip="最多输入20个字"  verifytype="length" length="20"></verify>
+            </ptext-text>
         </div>
 
     </div>
     <div class="inputTemp">
         <span class="inputname"><b>联系电话:</b></span>
         <div class="inputwrap">
-            <ptext-text placeholder="'请输入电话号码'" bind="true" value="selMerchantToUpdate.phone"></ptext-text>
+            <ptext-text placeholder="'请输入电话号码'" bind="true" value="selMerchantToUpdate.phone" blur="equipmentAddressVueMethod.phoneTextValid" id="'txtMerchPhone'">
+            </ptext-text>
         </div>
     </div>
     <div class="inputTemp" v-show="!(tabSelIndex==3)">
         <span class="inputname"><b>网址:</b></span>
         <div class="inputwrap">
-            <ptext-text placeholder="'请输入网址'" bind="true" value="selMerchantToUpdate.web"></ptext-text>
+            <ptext-text placeholder="'请输入网址'" bind="true" value="selMerchantToUpdate.web">
+            </ptext-text>
         </div>
     </div>
     <div class="inputTemp" v-show="!(tabSelIndex==3)">
@@ -40,12 +45,14 @@
         </div>
     </div>
 
-    <div class="insurerWrapPar" v-show="tabSelIndex==3">
+    <div class="insurerWrapPar" v-if="tabSelIndex==3">
         <div class="insurerWrap" v-for="(insu,oindex) in selMerchantToUpdate.insurer_info">
             <div class="inputTemp">
                 <span class="inputname"><b>保险单号:</b></span>
                 <div class="inputwrap">
-                    <ptext-text placeholder="'请输入保险单号'" bind="true" value="insu.insurer_num"></ptext-text>
+                    <ptext-text placeholder="'请输入保险单号'" bind="true" value="insu.insurer_num">
+                        <verify errtip="不可为空"  verifytype="space"></verify>
+                    </ptext-text>
                 </div>
             </div>
             <div class="inputTemp">
@@ -56,22 +63,25 @@
             </div>
             <div class="insureraddBut">
                 <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0"></pbutton-white>
-                <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="oindex>0" v-bind:ji="oindex"></pbutton-white>
+                <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-bind:ji="oindex" v-show="oindex>0"></pbutton-white>
             </div>
         </div>
 
     </div>
     <div class="brandWrapPar" v-if="tabSelIndex==1">
-        <div class="insurerWrap" v-for="(brand,index) in selMerchantToUpdate.brands">
+        <div class="insurerWrap" v-for="(model,index) in selMerchantToUpdate.brands">
             <div class="inputTemp">
-                <span class="inputname"><b>所含品牌:</b></span>
+                <span class="inputname" v-on:click="equipmentAddressVueMethod.brandRepeatValid(model,event,index2)"><b>所含品牌:</b></span>
                 <div class="inputwrap">
-                    <ptext-text placeholder="'请输入品牌'" bind="true" value="brand.name"></ptext-text>
+                    <ptext-text txtbrand placeholder="'请输入品牌'" bind="true" value="model.name" blur="equipmentAddressVueMethod.brandRepeatValid">
+                        <verify errtip="品牌名称不可为空"  verifytype="space"></verify>
+                        <verify errtip="最多输入20个字"  verifytype="length" length="20"></verify>
+                    </ptext-text>
                 </div>
             </div>
             <div class="insureraddBut">
                 <pbutton-white icon="'J'" shape="ellipse" click="addBrandClick" bind="true" v-show="index==0"></pbutton-white>
-                <pbutton-white icon="'p'" shape="ellipse" click="delInsurerClick" bind="true" v-show="index!=0" v-bind:ji="index"></pbutton-white>
+                <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-bind:ji="index" v-show="index!=0"></pbutton-white>
             </div>
         </div>
 

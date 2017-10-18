@@ -48,7 +48,11 @@ var controllerInsert = {
                 };
 
                 return con;
-            }, argu)
+            }, argu);
+
+            // 如果有空间ID删除对应的建筑ID  没有空间ID 删除对应的空间ID
+            if(argu.hasOwnProperty("space_id") && argu["space_id"]) delete argu["build_id"];
+            else delete argu["space_id"];
 
 
             pajax[bool ? 'updateWithFile' : 'post']({

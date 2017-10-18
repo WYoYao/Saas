@@ -1,4 +1,4 @@
-<div id="build" class="system">
+<div id="build" class="system" v-if='onPage=="build"'>
     <div class="build" v-show='buildPageIndex'>
         <ul class="theader">
             <li>
@@ -19,185 +19,189 @@
     <div class="buildUpdate" v-if='!buildPageIndex'>
         <div class="btnline">
             <div class="back" @click.capture='_clickbuildgoBack()'>
-                <pbutton-white text="返回"></pbutton-white>
+                <pbutton-white text="取消"></pbutton-white>
             </div>
         </div>
         <div class="block">
 
-            <!-- 基本信息 Start -->
-            <div class="part">
-                <h2 class="title">基本信息</h2>
-                <ul class="tables">
-                    <li class="row">
-                        <p>建筑体本地编码</p>
-                        <buildtexteditor :keys='"build_local_id"' :value='BuildInfo.build_local_id' :set='setBuild.bind(this)'>
-                        </buildtexteditor>
-                    </li>
-                    <li class="row">
-                        <p>建筑体本地名称</p>
-                        <buildtexteditor :keys='"build_local_name"' :value='BuildInfo.build_local_name' :set='setBuild.bind(this)'>
-                        </buildtexteditor>
-                    </li>
-                    <li class="row">
-                        <p>BIM模型中编码</p>
-                        <buildtexteditor :keys='"BIMID"' :value='BuildInfo.BIMID' :set='setBuild.bind(this)'>
-                        </buildtexteditor>
-                    </li>
-                </ul>
-            </div>
-            <!-- 基本信息 End -->
+            <div class="contenterScrollBar">
 
-
-            <!-- 建筑信息Start -->
-            <div class="part">
-                <div>
-                    <h2 class="title">建筑信息</h2>
-                </div>
-                <div class="weather">
-                    <soan class="prompt">建筑信息-建筑类型</soan>
+                <!-- 基本信息 Start -->
+                <div class="part">
+                    <h2 class="title">基本信息</h2>
                     <ul class="tables">
                         <li class="row">
-                            <p>建筑年代</p>
-                            <buildtexteditor :keys='"build_age"' :value='BuildInfo.build_age' :set='setBuild.bind(this)'>
+                            <p>建筑体本地编码</p>
+                            <buildtexteditor :keys='"build_local_id"' :value='BuildInfo.build_local_id' :set='setBuild.bind(this)'>
                             </buildtexteditor>
                         </li>
                         <li class="row">
-                            <p>建筑功能类型</p>
-                            <buildcomboxeditor :keys='"build_func_type"' :values='BuildInfo.build_func_type' :set='setBuild.bind(this)' :datasource='EnumType.build_func_type' :istree='true'>
-                            </buildcomboxeditor>
+                            <p>建筑体本地名称</p>
+                            <buildtexteditor :keys='"build_local_name"' :value='BuildInfo.build_local_name' :set='setBuild.bind(this)'>
+                            </buildtexteditor>
                         </li>
                         <li class="row">
-                            <p>空调类型</p>
-                            <buildcomboxeditor :keys='"ac_type"' :values='BuildInfo.ac_type' :set='setBuild.bind(this)' :datasource='EnumType.ac_type'>
-                            </buildcomboxeditor>
+                            <p>BIM模型中编码</p>
+                            <buildtexteditor :keys='"BIMID"' :value='BuildInfo.BIMID' :set='setBuild.bind(this)'>
+                            </buildtexteditor>
                         </li>
-                        <li class="row">
-                            <p>采暖类型</p>
-                            <buildcomboxeditor :keys='"heat_type"' :values='BuildInfo.heat_type' :set='setBuild.bind(this)' :datasource='EnumType.heat_type'>
-                            </buildcomboxeditor>
-                        </li>
-                        <li class="row">
-                            <p>绿建等级</p>
-                            <!-- <buildtexteditor :keys='"green_build_lev_name"' :value='BuildInfo.green_build_lev_name' :set='setBuild.bind(this)'>
-                            </buildtexteditor> -->
-                            <buildcomboxeditor :keys='"green_build_lev"' :values='BuildInfo.green_build_lev' :set='setBuild.bind(this)' :datasource='EnumType.green_build_lev'>
-                            </buildcomboxeditor>
-                        </li>
-                        <li class="textarea">
-                            <p>文字简介</p>
-                            <showboxtextarea :keyname="'intro'" :value='BuildInfo.intro' :set='setBuild.bind(this)'></showboxtextarea>
-                        </li>
-                        <li class="row">
-                            <p>建筑图片</p>
-                            <span class="auto per-upload-picture per-upload_horizontal">
-                            <div class="showdowloadul" v-show='!uploadImg.isShowIDE'>
-                                    <ul class="per-upload-picture-ul">
-                                        <li class="per-upload-picture-wrap" v-for='item in BuildInfo.picture'>
+                    </ul>
+                </div>
+                <!-- 基本信息 End -->
+
+
+                <!-- 建筑信息Start -->
+                <div class="part">
+                    <div>
+                        <h2 class="title">建筑信息</h2>
+                    </div>
+                    <div class="weather">
+                        <soan class="prompt">建筑信息-建筑类型</soan>
+                        <ul class="tables">
+                            <li class="row">
+                                <p>建筑年代</p>
+                                <buildtexteditor :keys='"build_age"' :value='BuildInfo.build_age' :set='setBuild.bind(this)'>
+                                </buildtexteditor>
+                            </li>
+                            <li class="row">
+                                <p>建筑功能类型</p>
+                                <buildcomboxeditor :keys='"build_func_type"' :values='BuildInfo.build_func_type' :set='setBuild.bind(this)' :datasource='EnumType.build_func_type'
+                                    :istree='true'>
+                                </buildcomboxeditor>
+                            </li>
+                            <li class="row">
+                                <p>空调类型</p>
+                                <buildcomboxeditor :keys='"ac_type"' :values='BuildInfo.ac_type' :set='setBuild.bind(this)' :datasource='EnumType.ac_type'>
+                                </buildcomboxeditor>
+                            </li>
+                            <li class="row">
+                                <p>采暖类型</p>
+                                <buildcomboxeditor :keys='"heat_type"' :values='BuildInfo.heat_type' :set='setBuild.bind(this)' :datasource='EnumType.heat_type'>
+                                </buildcomboxeditor>
+                            </li>
+                            <li class="row">
+                                <p>绿建等级</p>
+                                <!-- <buildtexteditor :keys='"green_build_lev_name"' :value='BuildInfo.green_build_lev_name' :set='setBuild.bind(this)'>
+                                </buildtexteditor> -->
+                                <buildcomboxeditor :keys='"green_build_lev"' :values='BuildInfo.green_build_lev' :set='setBuild.bind(this)' :datasource='EnumType.green_build_lev'>
+                                </buildcomboxeditor>
+                            </li>
+                            <li class="textarea">
+                                <p>文字简介</p>
+                                <showboxtextarea :keyname="'intro'" :value='BuildInfo.intro' :set='setBuild.bind(this)'></showboxtextarea>
+                            </li>
+                            <li class="row">
+                                <p>建筑图片</p>
+                                <span class="auto per-upload-picture per-upload_horizontal">
+                                    <div class="showdowloadul" v-show='!uploadImg.isShowIDE'>
+                                        <ul class="per-upload-picture-ul">
+                                            <li class="per-upload-picture-wrap" v-for='item in BuildInfo.picture'>
                                                 <img :src='item.key'>
                                             </li>
-                                        </ul>  
-                            </div>
-                                                            <!-- <span class="text">123123123</span><em class="ide">e</em> -->
-                            <!-- 编辑状态Start -->
-                            <div class="showdowloadul" v-show='uploadImg.isShowIDE'>
-                                <pupload-img id='pictureUpload' number="9"></pupload-img>
-                            </div>
-                            <em class="ide" @click='uploadImg.isShowIDE=!uploadImg.isShowIDE' v-show='!uploadImg.isShowIDE'>e</em>
-                            <em class="smt" @click='_uploadPicture(),uploadImg.isShowIDE=!uploadImg.isShowIDE;' v-show='uploadImg.isShowIDE'>Z</em>
-                            <em class="ide" @click='uploadImg.isShowIDE=!uploadImg.isShowIDE' v-show='uploadImg.isShowIDE'>x</em>
-                            <!-- 编辑状态End -->
-                            </span>
-                        </li>
-                    </ul>
-                </div>
-                <div class="weather">
-                    <soan class="prompt">建筑信息-设计指标</soan>
-                    <ul class="tables">
-                        <li class="row">
-                            <p>单位面积设计冷量</p>
-                            <buildtextuniteditor :unit='"W/m2"' :keys='"design_cool_load_index"' :value='BuildInfo.design_cool_load_index' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li>
-                        <li class="row">
-                            <p>单位面积设计热量</p>
-                            <buildtextuniteditor :unit='"W/m2"' :keys='"design_heat_load_index"' :value='BuildInfo.design_heat_load_index' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li>
-                        <li class="row">
-                            <p>单位面积配电设计容量</p>
-                            <buildtextuniteditor :unit='"W/m2"' :keys='"design_elec_load_index"' :value='BuildInfo.design_elec_load_index' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li>
-                    </ul>
-                </div>
-                <div class="weather">
-                    <soan class="prompt">建筑信息-结构参数</soan>
-                    <ul class="tables">
-                        <li class="row">
-                            <p>建筑结构类型</p>
-                            <!-- <buildtexteditor :keys='"struct_type_name"' :value='BuildInfo.struct_type_name' :set='setBuild.bind(this)'>
-                            </buildtexteditor> -->
-
-                            <buildcomboxeditor :keys='"struct_type"' :values='BuildInfo.struct_type' :set='setBuild.bind(this)' :datasource='EnumType.struct_type'>
-                            </buildcomboxeditor>
-                        </li>
-                        <li class="row">
-                            <p>抗震设防烈度</p>
-                            <buildcomboxeditor :keys='"SFI"' :values='BuildInfo.SFI' :set='setBuild.bind(this)' :datasource='EnumType.SFI'>
-                            </buildcomboxeditor>
-                        </li>
-                        <li class="row">
-                            <p>建筑体系系数</p>
-                            <buildtextuniteditor :unit='"W/m2"' :keys='"shape_coeff"' :value='BuildInfo.shape_coeff' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li>
-                        <li class="row">
-                            <p>建筑朝向</p>
-                            <buildcomboxeditor :keys='"build_direct"' :value='BuildInfo.build_direct' :set='setBuild.bind(this)' :datasource='EnumType.build_direct'>
-                            </buildcomboxeditor>
-                        </li>
-                        <li class="row">
-                            <p>保温类型</p>
-                            <buildcomboxeditor :keys='"insulate_type"' :values='BuildInfo.insulate_type' :set='setBuild.bind(this)' :datasource='EnumType.insulate_type'>
-                            </buildcomboxeditor>
-                        </li>
-                    </ul>
-                </div>
-                <div class="weather">
-                    <soan class="prompt">面积信息</soan>
-                    <ul class="tables">
-                        <li class="row">
-                            <p>建筑建筑总面积</p>
-                            <buildtextuniteditor :unit='"m2"' :keys='"GFA"' :value='BuildInfo.GFA' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li>
-                        <li class="row">
-                            <p>建筑建筑总高度</p>
-                            <buildtextuniteditor :unit='"m"' :keys='"tot_height"' :value='BuildInfo.tot_height' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li>
-                        <li class="row">
-                            <p>建筑占地面积</p>
-                            <buildtextuniteditor :unit='"m2"' :keys='"cover_area"' :value='BuildInfo.cover_area' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li>
-                        <!-- <li class="row">
-                            <p>建筑层数</p>
-                            <buildtextuniteditor :unit='"层"' :keys='"tot_height"' :value='BuildInfo.tot_height' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li> -->
-                    </ul>
-                </div>
-                <div class="weather">
-                    <soan class="prompt">图纸与档案</soan>
-                    <ul class="tables">
-                        <li class="row">
-                            <p>图纸</p>
-                            <span class="auto">
+                                        </ul>
+                                    </div>
+                                    <!-- <span class="text">123123123</span><em class="ide">e</em> -->
+                                    <!-- 编辑状态Start -->
+                                    <div class="showdowloadul" v-show='uploadImg.isShowIDE'>
+                                        <pupload-img id='pictureUpload' number="9"></pupload-img>
+                                    </div>
+                                    <em class="ide" @click='uploadImg.isShowIDE=!uploadImg.isShowIDE' v-show='!uploadImg.isShowIDE'>e</em>
+                                    <em class="smt" @click='_uploadPicture(),uploadImg.isShowIDE=!uploadImg.isShowIDE;' v-show='uploadImg.isShowIDE'>Z</em>
+                                    <em class="ide" @click='uploadImg.isShowIDE=!uploadImg.isShowIDE' v-show='uploadImg.isShowIDE'>x</em>
+                                    <!-- 编辑状态End -->
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="weather">
+                        <soan class="prompt">建筑信息-设计指标</soan>
+                        <ul class="tables">
+                            <li class="row">
+                                <p>单位面积设计冷量</p>
+                                <buildtextuniteditor :unit='"W/m2"' :keys='"design_cool_load_index"' :value='BuildInfo.design_cool_load_index' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li>
+                            <li class="row">
+                                <p>单位面积设计热量</p>
+                                <buildtextuniteditor :unit='"W/m2"' :keys='"design_heat_load_index"' :value='BuildInfo.design_heat_load_index' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li>
+                            <li class="row">
+                                <p>单位面积配电设计容量</p>
+                                <buildtextuniteditor :unit='"W/m2"' :keys='"design_elec_load_index"' :value='BuildInfo.design_elec_load_index' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="weather">
+                        <soan class="prompt">建筑信息-结构参数</soan>
+                        <ul class="tables">
+                            <li class="row">
+                                <p>建筑结构类型</p>
+                                <buildcomboxeditor :keys='"struct_type"' :values='BuildInfo.struct_type' :set='setBuild.bind(this)' :datasource='EnumType.struct_type'>
+                                </buildcomboxeditor>
+                            </li>
+                            <li class="row">
+                                <p>抗震设防烈度</p>
+                                <buildcomboxeditor :keys='"SFI"' :values='BuildInfo.SFI' :set='setBuild.bind(this)' :datasource='EnumType.SFI'>
+                                </buildcomboxeditor>
+                            </li>
+                            <li class="row">
+                                <p>建筑体系系数</p>
+                                <buildtextuniteditor :unit='"1/m"' :keys='"shape_coeff"' :value='BuildInfo.shape_coeff' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li>
+                            <li class="row">
+                                <p>建筑朝向</p>
+                                <buildcomboxeditor :keys='"build_direct"' :values='BuildInfo.build_direct' :set='setBuild.bind(this)' :datasource='EnumType.build_direct'>
+                                </buildcomboxeditor>
+                            </li>
+                            <li class="row">
+                                <p>保温类型</p>
+                                <buildcomboxeditor :keys='"insulate_type"' :values='BuildInfo.insulate_type' :set='setBuild.bind(this)' :datasource='EnumType.insulate_type'>
+                                </buildcomboxeditor>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="weather">
+                        <soan class="prompt">面积信息</soan>
+                        <ul class="tables">
+                            <li class="row">
+                                <p>建筑总面积</p>
+                                <buildtextuniteditor :unit='"m2"' :keys='"GFA"' :value='BuildInfo.GFA' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li>
+                            <li class="row">
+                                <p>建筑总高度</p>
+                                <buildtextuniteditor :unit='"m"' :keys='"tot_height"' :value='BuildInfo.tot_height' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li>
+                            <li class="row">
+                                <p>建筑占地面积</p>
+                                <buildtextuniteditor :unit='"m2"' :keys='"cover_area"' :value='BuildInfo.cover_area' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li>
+                            <!-- <li class="row">
+                                <p>建筑层数</p>
+                                <buildtextuniteditor :unit='"层"' :keys='"tot_height"' :value='BuildInfo.tot_height' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li> -->
+                        </ul>
+                    </div>
+                    <div class="weather">
+                        <soan class="prompt">图纸与档案</soan>
+                        <ul class="tables">
+                            <li class="row">
+                                <p>图纸</p>
+                                <span class="auto">
                                     <!-- 编辑状态Start -->
                                     <ul class="showdowloadul" v-show='!drawing.isShowIDE'>
 
-                                            <li class="item" v-for='item in BuildInfo.drawing'>{{item.name}}<a :href='item.key' ><p class="loadIcon">D</p></a></li>
+                                        <li class="item" v-for='item in BuildInfo.drawing'>{{item.name}}
+                                            <a :href='item.key'>
+                                                <p class="loadIcon">D</p>
+                                            </a>
+                                        </li>
 
                                     </ul>
                                     <em class="ide" v-show='!drawing.isShowIDE' @click='drawing.isShowIDE=!drawing.isShowIDE'>e</em>
@@ -205,45 +209,77 @@
                                         <pupload-attachment id='uploadDrawing' number="9"></pupload-attachment>
                                     </div>
                                     <em class="smt" v-show='drawing.isShowIDE' @click='_uploadDrawing()'>Z</em>
-                                    <em class="ide" v-show='drawing.isShowIDE' @click='drawing.isShowIDE=!drawing.isShowIDE'>x</em> 
+                                    <em class="ide" v-show='drawing.isShowIDE' @click='drawing.isShowIDE=!drawing.isShowIDE'>x</em>
                                     <!-- 编辑状态End -->
-                                    </span>
-                            <!-- <showdowload :keyname='"drawing"' :value='BuildInfo.drawing' :set='setBuild.bind(this)'></showdowload> -->
-                        </li>
-                        <li class="row">
-                            <p>档案</p>
-                            <span class="auto">
+                                </span>
+                                <!-- <showdowload :keyname='"drawing"' :value='BuildInfo.drawing' :set='setBuild.bind(this)'></showdowload> -->
+                            </li>
+                            <li class="row">
+                                <p>档案</p>
+                                <span class="auto">
                                     <!-- 编辑状态Start -->
                                     <ul class="showdowloadul" v-show='!archive.isShowIDE'>
-                                        
-                                        <li class="item" v-for='item in BuildInfo.archive'>{{item.name}}<a :href='item.key' ><p class="loadIcon">D</p></a></li>
-                                        
+
+                                        <li class="item" v-for='item in BuildInfo.archive'>{{item.name}}
+                                            <a :href='item.key'>
+                                                <p class="loadIcon">D</p>
+                                            </a>
+                                        </li>
+
                                     </ul>
                                     <em class="ide" v-show='!archive.isShowIDE' @click='archive.isShowIDE=!archive.isShowIDE'>e</em>
                                     <div class="showdowloadul" v-show='archive.isShowIDE'>
                                         <pupload-attachment id='uploadArchive' number="9"></pupload-attachment>
                                     </div>
                                     <em class="smt" v-show='archive.isShowIDE' @click='_uploadArchive()'>Z</em>
-                                    <em class="ide" v-show='archive.isShowIDE' @click='archive.isShowIDE=!archive.isShowIDE'>x</em> 
+                                    <em class="ide" v-show='archive.isShowIDE' @click='archive.isShowIDE=!archive.isShowIDE'>x</em>
                                     <!-- 编辑状态End -->
-                                    </span>
-                            <!-- <showdowload :keyname='"archive"' :value='BuildInfo.archive' :set='setBuild.bind(this)'></showdowload> -->
-                        </li>
-                    </ul>
-                </div>
-                <div class="weather">
-                    <soan class="prompt">人员信息</soan>
-                    <ul class="tables">
-                        <li class="row">
-                            <p>建筑常驻人数</p>
-                            <buildtextuniteditor :unit='"人"' :keys='"permanent_people_num"' :value='BuildInfo.permanent_people_num' :set='setBuild.bind(this)'>
-                            </buildtextuniteditor>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- 建筑信息End -->
+                                </span>
+                                <!-- <showdowload :keyname='"archive"' :value='BuildInfo.archive' :set='setBuild.bind(this)'></showdowload> -->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="weather">
+                        <soan class="prompt">建筑能耗模型</soan>
+                        <ul class="tables">
+                            <li class="row">
+                                <p>建筑能耗模型</p>
+                                <span class="auto">
+                                    <!-- 编辑状态Start -->
+                                    <ul class="showdowloadul" v-show='!consum_model.isShowIDE'>
 
+                                        <li class="item" v-for='item in BuildInfo.consum_model'>{{item.name}}
+                                            <a :href='item.key'>
+                                                <p class="loadIcon">D</p>
+                                            </a>
+                                        </li>
+
+                                    </ul>
+                                    <em class="ide" v-show='!consum_model.isShowIDE' @click='consum_model.isShowIDE=!consum_model.isShowIDE'>e</em>
+                                    <div class="showdowloadul" v-show='consum_model.isShowIDE'>
+                                        <pupload-attachment id='uploadConsum_model' number="9"></pupload-attachment>
+                                    </div>
+                                    <em class="smt" v-show='consum_model.isShowIDE' @click='_uploadConsum_model()'>Z</em>
+                                    <em class="ide" v-show='consum_model.isShowIDE' @click='consum_model.isShowIDE=!consum_model.isShowIDE'>x</em>
+                                    <!-- 编辑状态End -->
+                                </span>
+                                <!-- <showdowload :keyname='"archive"' :value='BuildInfo.archive' :set='setBuild.bind(this)'></showdowload> -->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="weather">
+                        <soan class="prompt">人员信息</soan>
+                        <ul class="tables">
+                            <li class="row">
+                                <p>建筑常驻人数</p>
+                                <buildtextuniteditor :unit='"人"' :keys='"permanent_people_num"' :value='BuildInfo.permanent_people_num' :set='setBuild.bind(this)'>
+                                </buildtextuniteditor>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- 建筑信息End -->
+            </div>
         </div>
     </div>
 </div>

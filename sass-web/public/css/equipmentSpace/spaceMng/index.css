@@ -5,7 +5,12 @@
     padding: 16px 12px 0px;
     box-sizing: border-box;
     position: relative;
+    display: none;
 }
+
+    .contentWrap .see_orderDetail_box {
+        box-shadow: none;
+    }
 
     .contentWrap #see_orderDetail_bg {
         position: absolute;
@@ -120,7 +125,7 @@
 
             .contentWrap .spaceContent .leftContent .itemCont .floorTitle {
                 height: 46px;
-                width: 330px;
+                width: 240px;
                 line-height: 48px;
                 color: #666666;
                 text-overflow: ellipsis;
@@ -137,13 +142,16 @@
                 font-size: 16px;
                 color: #333333;
                 top: 12px;
-                right: 26px;
+                right: 30px;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
+                max-width: 126px;
             }
 
                 .contentWrap .spaceContent .leftContent .itemCont .floorNumber span {
                     font-size: 20px;
                     color: #02a9d1;
-                    margin-right: 6px;
                 }
 
             .contentWrap .spaceContent .leftContent .itemCont .info {
@@ -153,7 +161,21 @@
 
                 .contentWrap .spaceContent .leftContent .itemCont .info span {
                     margin-right: 20px;
+                    max-width: 160px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: inline-block;
                 }
+
+            .contentWrap .spaceContent .leftContent .itemCont .func {
+                height: 26px;
+                line-height: 26px;
+                width: 302px;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
 
             .contentWrap .spaceContent .leftContent .itemCont .checkDetail {
                 position: absolute;
@@ -429,6 +451,9 @@
         .contentWrap .spaceContent .allSpace .spaceItem .info {
             color: #666666;
             margin-bottom: 16px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
             .contentWrap .spaceContent .allSpace .spaceItem .info em {
@@ -439,6 +464,12 @@
             color: #333333;
             line-height: 24px;
             font-size: 16px;
+            width: 258px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            word-wrap: break-word;
         }
 
         .contentWrap .spaceContent .allFloor .floorItem .noSpace {
@@ -549,44 +580,48 @@
             display: none;
         }
 
-            .contentWrap .spaceContent .removeSpace .removeHead {
+        .contentWrap .spaceContent .addSpaceDiv {
+            display: block;
+        }
+
+        .contentWrap .spaceContent .removeSpace .removeHead {
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            right: 20px;
+            overflow: hidden;
+            height: 30px;
+        }
+
+            .contentWrap .spaceContent .removeSpace .removeHead .cancel {
                 position: absolute;
-                top: 10px;
-                left: 20px;
-                right: 20px;
-                overflow: hidden;
+                top: 0;
+                left: 0;
+            }
+
+            .contentWrap .spaceContent .removeSpace .removeHead .title {
                 height: 30px;
+                line-height: 30px;
+                font-size: 18px;
+                text-align: center;
             }
 
-                .contentWrap .spaceContent .removeSpace .removeHead .cancel {
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                }
+        .contentWrap .spaceContent .removeSpace .removeCont {
+            height: 100%;
+            border: 1px solid #d9e2e8;
+            box-sizing: border-box;
+            background: #f5f8f9;
+            overflow-y: auto;
+        }
 
-                .contentWrap .spaceContent .removeSpace .removeHead .title {
-                    height: 30px;
-                    line-height: 30px;
-                    font-size: 18px;
-                    text-align: center;
-                }
+            .contentWrap .spaceContent .removeSpace .removeCont .allFloor {
+                padding: 20px 20px 0;
+            }
 
-            .contentWrap .spaceContent .removeSpace .removeCont {
+            .contentWrap .spaceContent .removeSpace .removeCont .noData {
                 height: 100%;
-                border: 1px solid #d9e2e8;
-                box-sizing: border-box;
-                background: #f5f8f9;
-                overflow-y: auto;
+                background: url(/images/spaceMng/nodata.png) no-repeat center;
             }
-
-                .contentWrap .spaceContent .removeSpace .removeCont .allFloor {
-                    padding: 20px 20px 0;
-                }
-
-                .contentWrap .spaceContent .removeSpace .removeCont .noData {
-                    height: 100%;
-                    background: url(/images/spaceMng/nodata.png) no-repeat center;
-                }
 
         .contentWrap .spaceContent .detailFloat {
             width: 460px;
@@ -617,6 +652,11 @@
                 .contentWrap .spaceContent .detailFloat .detailItem .contShow {
                     height: 44px;
                     line-height: 44px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                    position: relative;
+                    padding-right: 60px;
                 }
 
                     .contentWrap .spaceContent .detailFloat .detailItem .contShow .name {
@@ -629,12 +669,13 @@
                     }
 
                     .contentWrap .spaceContent .detailFloat .detailItem .contShow .edit {
-                        float: right;
+                        position: absolute;
+                        top: 14px;
+                        right: 0px;
                         color: #637e99;
                         height: 16px;
                         cursor: pointer;
                         line-height: 16px;
-                        margin-top: 14px;
                         display: none;
                         cursor: pointer;
                     }

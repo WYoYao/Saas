@@ -1,4 +1,4 @@
-<div id="manage" class="system">
+<div id="manage" class="system" v-if='onPage=="manage"'>
     <div class="content manage">
         <p class="tel">若资料有误，请联系客服修改：400-8800-6633</p>
         <ul class="tables">
@@ -12,7 +12,7 @@
             </li>
             <li class="row">
                 <p>公司经营有效期</p>
-                <span v-text="new Date(Customer.operation_valid_term_start).format('yyyy.MM.dd')+'-'+new Date(Customer.contract_valid_term_start).format('yyyy.MM.dd')"></span>
+                <span v-text="new Date(Customer.operation_valid_term_start).format('yyyy.MM.dd')+'-'+new Date(Customer.operation_valid_term_end).format('yyyy.MM.dd')"></span>
             </li>
             <li class="row">
                 <p>营业执照</p>

@@ -1024,7 +1024,7 @@ var CardInfo = function () {
                 req = this.getReqByKey(item);
                 type = item.idetype;
 
-                if (!req.info_point_value && req.attachments && !req.attachments.lenght) {
+                if (!req.info_point_value && req.attachments && !req.attachments.length) {
                     return function () {
                         return new Promise(function (resolve, reject) {
                             resolve();
@@ -1274,7 +1274,7 @@ var CardInfo = function () {
             covertHeight: function (arr, minh, maxh, sh) {
                 // 获取总高度
                 var totalHeight = $("#verticalAlxescontentb").height() - 50,
-                    len = arr.lenght,
+                    len = arr.length,
                     ih = 0, //计算后单个高度的距离
                     itemTop = 0;
 

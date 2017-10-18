@@ -62,7 +62,7 @@
 
         this._instance = new Vue({
             el: this.el,
-            data: this.data,
+            data: JSON.parse(JSON.stringify(this.data)),
             methods: this.methods,
             computed: this.computed,
             watch: this.watch,
@@ -158,7 +158,7 @@
         // 循环修改Vue 实例中的内容
         Object.keys(data).reduce(function(con, key, index) {
 
-            con[key] = data[key];
+            con[key] =JSON.parse(JSON.stringify(data[key]));
             return con;
         }, this._instance);
 

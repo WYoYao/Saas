@@ -56,6 +56,11 @@ var controller = {
                 //     { "code": "temp", "name": "临时性", "description": "xxx" },
                 //     { "code": "plan", "name": "计划性", "description": "xxx" }
                 // ]
+                _data.forEach(function(item,index){
+                    if(index !='0'){
+                        item.name = item.name + "性";
+                    }
+                })
                 workOrderModel.timerTypeList = _data;
 
             },
@@ -133,7 +138,7 @@ var controller = {
                 });
 
                 workOrderModel.falsePersonPosition = JSON.parse(JSON.stringify(falseList));
-
+                
                 workOrderModel.personPositionList = workOrderModel.personPositionList.length > 0 ? workOrderModel.personPositionList : workOrderModel.falsePersonPosition;
 
 
@@ -254,7 +259,7 @@ var controller = {
             }
         });
     },
-    getEiteWorkOrderSave: function(_data) { //编辑保存
+    getEditWorkOrderSave: function(_data) { //编辑保存
         pajax.post({
             url: 'restFlowPlanService/updateFlowPlanById',
             data: _data,
@@ -275,10 +280,6 @@ var controller = {
             url: 'restFlowPlanService/verifyFlowPlanType',
             data: typeData,
             success: function(result) {
-                result = {
-                    "can_use": true
-                }
-
                 if (result && result.can_use) {
                     controller.getErrorPostAndDuty(pustAndDutyData, commitData);
 
@@ -378,24 +379,8 @@ var controller = {
             url: 'restFlowPlanService/verifyPostAndDuty',
             data: pustAndDutyData,
             success: function(result) {
-
-                // result = {                                                      //假数据需真实数据测试
-                //     isPass: false,
-                //     reminds: ["提示消息1", "提示消息2", "提示消息3"],           //临时使用
-                //     post_and_duty: [{
-                //         'type': 2,
-                //         'name': '岗位A',
-                //         'duty': ["create"]
-                //     }, {
-                //         'type': 3,
-                //         'personId': '66666',
-                //         'name': '人员A',
-                //         'duty': ["apply"]
-                //     }]
-                // }
-
                 if (result && result.is_pass) {
-                    controller.getEiteWorkOrderSave(editData);
+                    controller.getEditWorkOrderSave(editData);
 
                 } else {
                     var operateOptionList = JSON.parse(JSON.stringify(workOrderModel.operateOptionList));

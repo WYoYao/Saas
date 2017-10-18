@@ -110,6 +110,9 @@
 }
 
 .word .right .tbody .col {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     color: #333333;
 }
 
@@ -138,7 +141,7 @@
 }
 
 .floatTemp .item {
-    min-height: 40px;
+    min-height: 50px;
 }
 
 .floatTemp .item:after {

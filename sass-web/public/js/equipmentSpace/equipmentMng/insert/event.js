@@ -151,8 +151,24 @@
                     }
                 })
 
+                //选择建筑和空间
+                if(key=="build_id"){
+
+                    // 是空间的时候
+                    if(item.Parent_obj_id!=item.obj_id){
+                        // 赋值空间管理
+                        _that["insertModel"].space_id=item.obj_id;
+
+                    }else{
+
+                        if(_that.insertModel.hasOwnProperty("space_id")) delete _that.insertModel["space_id"];
+                    }
+                }
+
                 // 当设备类型选择后需要动态查询技术参数
                 if (key == "equip_category") {
+
+                    // 默认优先查询建筑ID
                     _that.queryEquipDynamicInfoForAdd(item.code);
                 }
 

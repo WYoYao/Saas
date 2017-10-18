@@ -1,5 +1,5 @@
 var controllerbuild = {
-    queryBuildList: function(cb) {
+    queryBuildList: function (cb) {
         // console.log(`测试数据后面需删除Start`);
         // $("#systemloading").pshow()
         // setTimeout(function() {
@@ -25,16 +25,16 @@ var controllerbuild = {
         pajax.post({
             url: 'restCustomerService/queryBuildList',
             data: {},
-            success: function(data) {
+            success: function (data) {
                 Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(data.data) : void 0;
             },
-            complete: function() {
+            complete: function () {
                 $("#systemloading").phide()
             },
         });
 
     },
-    queryBuildInfo: function(argu, cb) {
+    queryBuildInfo: function (argu, cb) {
         // console.log(`测试数据后面需删除Start`);
         // $("#systemloading").pshow()
         // setTimeout(function() {
@@ -135,63 +135,109 @@ var controllerbuild = {
         pajax.post({
             url: 'restCustomerService/queryBuildInfo',
             data: argu,
-            success: function(data) {
+            success: function (data) {
+
+                // 判断如果建筑信息的中没有返回建筑模型字段，则赋一个空值。
+                if(!_.isArray(data.consum_model)){
+
+                    data.consum_model=[];
+                }
+
                 Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(data) : void 0;
             },
-            complete: function() {
+            complete: function () {
                 $("#systemloading").phide()
             },
         });
     },
-    updateBuildInfo: function(argu, cb) {
+    updateBuildInfo: function (argu, cb) {
 
+        // 循环将修改的参数数字参数修改为字符串
+        for (var key in argu) {
+            if (argu.hasOwnProperty(key)) {
+                var element = argu[key];
+
+                if(Object.prototype.toString.call(element).slice(8,-1)=="Number"){
+                    argu[key]=element.toString();
+                }
+            }
+        };
 
         pajax.post({
             url: 'restCustomerService/updateBuildInfo',
             data: argu,
-            success: function(data) {
-                $("#systempnotice").pshow({ text: "修改成功！", state: "success" });
+            success: function (data) {
+                $("#systempnotice").pshow({
+                    text: "修改成功！",
+                    state: "success"
+                });
                 Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(data) : void 0;
             },
-            error: function() {
-                $("#systempnotice").pshow({ text: "修改失败！", state: "failure" });
+            error: function () {
+                $("#systempnotice").pshow({
+                    text: "修改失败！",
+                    state: "failure"
+                });
             }
         });
     },
     // 修改建筑体信息
-    updateBuildInfoFile: function(argu, cb) {
+    updateBuildInfoFile: function (argu, cb) {
 
         pajax.updateWithFile({
             url: 'restCustomerService/updateBuildInfo',
             data: argu,
-            success: function(data) {
-                $("#systempnotice").pshow({ text: "修改成功！", state: "success" });
+            success: function (data) {
+                $("#systempnotice").pshow({
+                    text: "修改成功！",
+                    state: "success"
+                });
                 Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(data) : void 0;
             },
-            error: function() {
-                $("#systempnotice").pshow({ text: "修改失败！", state: "failure" });
+            error: function () {
+                $("#systempnotice").pshow({
+                    text: "修改失败！",
+                    state: "failure"
+                });
             }
         });
     },
     //查询方位信息
-    queryAllDirectionCode: function(cb) {
+    queryAllDirectionCode: function (cb) {
         pajax.post({
             url: 'restDictService/queryAllDirectionCode',
             data: {},
-            success: function(data) {
-                Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(data) : void 0;
+            success: function (data) {
+                Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(data.data) : void 0;
             },
-            error: function() {
+            error: function () {
 
             }
         });
     },
-    queryBuildInfoPointHis: function(info_point_code, cb) {
+    queryAllBuildingCode: function (cb) {
+
+
+        pajax.post({
+            url: 'restDictService/queryAllBuildingCode',
+            data: {},
+            success: function (data) {
+                Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(data.data) : void 0;
+            },
+            error: function () {
+
+            }
+        });
+    },
+    queryBuildInfoPointHis: function (info_point_code, cb) {
 
         pajax.post({
             url: 'restCustomerService/queryBuildInfoPointHis',
-            data: { info_point_code: info_point_code, build_code: v.instance.BuildInfo.build_code },
-            success: function(data) {
+            data: {
+                info_point_code: info_point_code,
+                build_code: v.instance.BuildInfo.build_code
+            },
+            success: function (data) {
                 function convert(str) {
 
                     var str = new Object(str).toString();
@@ -209,7 +255,7 @@ var controllerbuild = {
 
                     return new Date(`${y}/${M}/${d} ${h}:${m}:${s}`);
                 };
-                var arr = _.isArray(data.data) ? data.data.map(function(item) {
+                var arr = _.isArray(data.data) ? data.data.map(function (item) {
 
                     item.date = convert(item.date);
 
@@ -217,7 +263,7 @@ var controllerbuild = {
                 }) : [];
                 Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(arr) : void 0;
             },
-            error: function() {
+            error: function () {
 
             }
         });

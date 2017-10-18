@@ -12,7 +12,7 @@ $(function () {
         $("#work-type").psel(0, false);
         yn_method.scrollLoad();//滚动加载
 
-    }, 300);
+    }, 500);
 
     yn_method.freedomOrRegular()
     $(".textarea-prop").click(function (event) {

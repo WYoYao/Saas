@@ -3,8 +3,6 @@ var myWorkOrderController = {
     //------------------------------------------zy__start------------------------------------------
     //新增页:保存工单草稿
     saveDraftWorkOrder: function (obj) {
-        console.log("保存的数据是：")
-        console.log(obj)
         $('#globalloading').pshow();
         pajax.post({
             url: 'restMyWorkOrderService/saveDraftWorkOrder',
@@ -32,7 +30,7 @@ var myWorkOrderController = {
             success: function (result) {
                 var data = result ? result : {};
                 commonData.publicModel.orderDetailData = data.wo_body || {};
-                orderDetail_pub.getOrderDetail(commonData.publicModel, commonData.publicModel.orderDetailData.order_id, '4', data);
+                orderDetail_pub.getOrderDetail(commonData.publicModel, commonData.publicModel.orderDetailData.order_id, '4');
                 commonData.publicModel.LorC = 0;
             },
             error: function (err) {
@@ -131,6 +129,8 @@ var myWorkOrderController = {
             data: conditionObj,
             success: function (result) {
                 var data = result && result.data ? result.data : [];
+                console.log(data)
+                console.log(url,conditionObj)
                 commonData.publicModel.temList = commonData.publicModel.temList.concat(data);
                 commonData.publicModel.workList = commonData.publicModel.temList;
                 $("#myWork-list-notice").pshow({text: '获取工单列表成功', state: "success"});
@@ -163,7 +163,7 @@ var myWorkOrderController = {
             };
         } else {
             conditionObj = {
-                order_type: null,                      //工单类型编码
+                order_type: orderType,                      //工单类型编码
                 page: commonData.publicModel.pageNum,                       //当前页号，必须
                 page_size: 50                        //每页返回数量，必须
             };
@@ -240,8 +240,6 @@ var myWorkOrderController = {
                 commonData.publicModel.workOrderDraft = result;
 
                 commonData.publicModel.allMatters = result.matters;
-                console.log("查询到的详细工单内容是:")
-                console.log(commonData.publicModel.workOrderDraft)
                 publicMethod.setEditDraft()
 
             },
@@ -452,7 +450,7 @@ var myWorkOrderController = {
             success: function (result) {
                 var data = result && result.data ? result.data : [];
                 commonData.publicModel.domainList = data;
-                $("#myWork-list-notice").pshow({text: '专业查询成功', state: "success"});
+                // $("#myWork-list-notice").pshow({text: '专业查询成功', state: "success"});
             },
             error: function (err) {
                 $("#myWork-list-notice").pshow({text: '专业查询失败', state: "failure"});
@@ -623,7 +621,7 @@ var myWorkOrderController = {
         });
     },
     //12、添加自定义对象
-    addTempObjectWithType: function (obj, isConfirmCustomizeObj, isShowPop) {
+    addTempObjectWithType: function (obj, isConfirmCustomizeObj, isShowPop, isNextPage) {
         pajax.update({
             url: 'restObjectService/addTempObjectWithType',
             data: obj,

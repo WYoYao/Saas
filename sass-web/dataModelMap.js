@@ -3,6 +3,45 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
+    'restDictService/queryAllBuildingCode':{
+        "type": "array",
+        "note": "未输入note",
+        "proArr": [
+            {
+                "name": "code",
+                "type": "string",
+                "note": "code"
+            },
+            {
+                "name": "name",
+                "type": "string",
+                "note": "name"
+            },
+            {
+                "name": "content",
+                "type": "array",
+                "note": "content",
+                "proArr": [
+                    {
+                        "name": "code",
+                        "type": "string",
+                        "note": "code"
+                    },
+                    {
+                        "name": "name",
+                        "type": "string",
+                        "note": "name"
+                    },
+                    {
+                        "name": "content",
+                        "type": "array",
+                        "note": "content",
+                        "proArr": []
+                    }
+                ]
+            }
+        ]
+    },
     'restEquipService/queryMaintEquipList': {
         "type": "array",
         "note": "未输入note",
@@ -1582,9 +1621,9 @@ var dataModelMap = {
                 "note": "designer"
             },
             {
-                "name": "constructor",
+                "name": "constructors",
                 "type": "string",
-                "note": "constructor"
+                "note": "constructors"
             },
             {
                 "name": "property",
@@ -2373,7 +2412,7 @@ var dataModelMap = {
         "proArr": [{
             "note": "can_use",
             "name": "can_use",
-            "type": "string"
+            "type": "boolean"
         }]
     },
     'restFlowPlanService/verifyPostAndDuty': {
@@ -4533,7 +4572,8 @@ var dataModelMap = {
                             }, {
                                 "note": "要求结束时间",
                                 "name": "ask_end_time",
-                                "type": "string"
+                                "type": "string",
+                                "isToSpecial": false
                             }, {
                                 "note": "所需工具",
                                 "name": "required_tools",
@@ -5406,6 +5446,7 @@ var dataModelMap = {
             "name": "floor_type",
             "mapName": "",
             "type": "string",
+            "isToSpecial": false
         }, {
             "note": "楼层面积",
             "name": "area",
@@ -6127,6 +6168,10 @@ var dataModelMap = {
         "note": "某一个商家信息",
         "type": "object",
         "proArrBy": 'merchantInfo'
+    },
+    'restEquipCompanyService/validmerchantnamerepeat': {
+        "note": "验证商家名称是否重复",
+        "type": "object"
     },
     'restCardService/queryEquipList': {
         "type": "array",

@@ -13,14 +13,15 @@ $(function () {
         $("#work-type").psel(0,false);
         $("#work-state").psel(0,false);
         $("#create-person").psel(0,false);
-        yn_method.scrollLoad();
-    },300);
+        yn_method.scrollLoadMonitor();
+    },500);
 
 
     //------------------------------------------yn__end------------------------------------------
 });
 var yn_method={
-    scrollLoad: function () {
+    scrollLoadMonitor: function () {
+        debugger;
         if($("#time-type").psel()){
             var time=workOrderMngModel.timeType[$("#time-type").psel().index].code;
         }

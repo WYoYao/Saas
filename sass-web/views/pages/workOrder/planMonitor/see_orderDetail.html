@@ -37,7 +37,7 @@
                             <h5>
                                 要求结束时间
                             </h5>
-                            <span v-text="orderDetailData.ask_end_time?orderDetail_pub.timeFormatting(orderDetailData.ask_end_time) : ''">2017.7.1 08:00</span>
+                            <span v-if="orderDetailData.ask_end_time" v-text="orderDetailData.ask_end_time?orderDetail_pub.timeFormatting(orderDetailData.ask_end_time) : ''">2017.7.1 08:00</span>
                         </li>
                         <li>
                             <h4>
@@ -46,8 +46,8 @@
                             <div v-text="orderDetail_pub.arrToString(orderDetailData.required_tools)">
                                 扳手、螺丝刀、电钻
                             </div>
-                            <section>
-                                <pbutton-white v-if="orderDetail_data.goBackFlag =='4'" bind='true' text="'+添加工具'" onclick="orderDetail_pub.clickToolListShow(event)"></pbutton-white>
+                            <section v-if="orderDetail_data.goBackFlag =='4'">
+                                <pbutton-white  bind='true' text="'+添加工具'" onclick="orderDetail_pub.clickToolListShow(event)"></pbutton-white>
                                 <div class="tool-select-list tool nextStepSelToolPop" id="nextStepSelToolPop">
                                     <div class="tool-select-list-title">
                                         <span>选择工具</span>
@@ -262,7 +262,7 @@
                 </div>
                 <!-- 操作人列表 -->
                 <div class="operat_person_list">
-                    <ul v-for="wo_exec_controls in orderDetailData.wo_exec_controls">
+                    <ul v-for="wo_exec_controls in orderDetailData.wo_exec_controls" v-if="wo_exec_controls.control_code == 'assign'">
                         <li>
                             <i>操作人</i>
                             <span v-text="wo_exec_controls.operator_name">张三</span>
@@ -293,7 +293,7 @@
                 </div>
                 <div v-if="orderDetail_data.goBackFlag =='2' || orderDetail_data.goBackFlag =='3'">
                     <pwindow-modal id="createAssignSet" templateid="createAssignSet_con" title="指派"></pwindow-modal>
-                    <pwindow-modal id="stopOrder" templateid="stopOrder_con" title="终止工单"></pwindow-modal>
+                    <pwindow-modal id="stopOrder" templateid="stopOrder_con" title="中止工单"></pwindow-modal>
                 </div>
             </div>
         </div>

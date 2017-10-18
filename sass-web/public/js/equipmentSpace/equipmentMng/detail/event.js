@@ -339,8 +339,6 @@ var _SystemDomainChange = function (item) {
 
         return function () {
 
-            debugger;
-
             // 当前附件的文件集合
             var arr = $("#ideid_" + key).pval();
             var _that = v.instance;

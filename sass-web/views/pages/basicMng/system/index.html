@@ -61,19 +61,28 @@
             <% include template1.html %>
                 <% include template2.html %>
                     <div class="component" id="component">
-                        <ptab-navigation id="navBar" text="name" datasource="buttonMenus" templateid="tabTemplate" sel="systemTabClick"></ptab-navigation>
+                        <ptab-navigation id="navBar" icon="icon" text="name" datasource="buttonMenus" templateid="tabTemplate" beforesel="systemTabbeforeClick" sel="systemTabClick"></ptab-navigation>
 
                         <!-- float -->
                         <pwindow-float id="floatWindow" isshade="true" title="名词详情" templateid="floatTemp">
                             <button>
-                        <!-- <pbutton-blue text="编辑" icon="e" click="editFloat"  isborder="false" id="ss"></pbutton-blue> -->
-                        <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
-                    </button>
+                                <!-- <pbutton-blue text="编辑" icon="e" click="editFloat"  isborder="false" id="ss"></pbutton-blue> -->
+                                <!-- <pbutton-blue text="取消" icon="e" click="confirmhide" isborder="false" id="ds"></pbutton-blue> -->
+                            </button>
                             <animate maxpx="0" minpx="-830" orientation="right"> </animate>
                         </pwindow-float>
                     </div>
                     <ploading-part id='systemloading'></ploading-part>
                     <pnotice-message id='systempnotice'></pnotice-message>
+
+                    <pwindow-confirm id="bubbleWindow">
+                        <button>
+                            <pbutton-blue text="我点错啦" click="cancelPage()"></pbutton-blue>
+                            <pbutton-white text="确定离开" click="goPage()"></pbutton-white>
+                        </button>
+                    </pwindow-confirm>
+
+
                     <script type="text/html" id="tabTemplate">
                         <% include manage.html %>
                             <% include project.html %>

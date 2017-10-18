@@ -1,7 +1,7 @@
 var controllerword = {
 
     queryNounTypeList: function(cb) {
-        $("#systemloading").pshow()
+        // $("#systemloading").pshow()
         pajax.post({
             url: 'restNounService/queryNounTypeList',
             data: {},
@@ -9,7 +9,7 @@ var controllerword = {
                 Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(data.data) : void 0;
             },
             complete: function() {
-                $("#systemloading").phide()
+                // $("#systemloading").phide()
             },
         });
     },

@@ -49,7 +49,7 @@ function infoEditSure() {//ftype来自于哪里啊
     var $thisObj = $("#sureEditBut").data('thisObj');
     var ftype = $thisObj.parents(".detailItem").attr("ftype");
     if (spaceInfoController.editDetailCopy[ftype] == (instance.editFloatName == 'floor' ? instance.floorDetail[ftype] : instance.spaceDetail[ftype])) {
-        $("#spaceNoticeWarn").pshow({ text: "没有修改！", state: "failure" });
+        $("#globalnotice").pshow({ text: "没有修改！", state: "failure" });
         return;
     }
     function call() {//编辑状态隐藏
@@ -150,14 +150,14 @@ function saveAddFloor() {
         var downSequence = instance.allFloorInfo.length == 0 ? 0 : instance.allFloorInfo[instance.allFloorInfo.length - 1].floor_sequence_id;
         var thisSequence = parseInt(downSequence) - 1;
     }
-    floorDetail.floor_sequence_id = thisSequence;
+    floorDetail.floor_sequence_id = thisSequence.toString();
 
     if (!floorDetail.floor_local_name.ptrimHeadTail()) {
-        $("#spaceNoticeWarn").pshow({ text: "楼层名称不能为空！", state: "failure" });
+        $("#globalnotice").pshow({ text: "楼层名称不能为空！", state: "failure" });
         return;
     }
     if (!floorDetail.floor_local_id.ptrimHeadTail()) {
-        $("#spaceNoticeWarn").pshow({ text: "楼层编码不能为空！", state: "failure" });
+        $("#globalnotice").pshow({ text: "楼层编码不能为空！", state: "failure" });
         return;
     }
 
@@ -166,9 +166,13 @@ function saveAddFloor() {
     spaceInfoController.fidRepeat = true;
     spaceInfoController.fbimRepeat = true;
     spaceInfoController.fverifyNum = 0;
-    spaceInfoController.verifyFloorBimId('add');
+    if (!floorDetail.BIMID.ptrimHeadTail()) {//为空
+        spaceInfoController.fbimRepeat = false;
+        spaceInfoController.fverifyNum = 1;
+    }
     spaceInfoController.verifyFloorLocalId('add');
     spaceInfoController.verifyFloorName('add');
+    !!floorDetail.BIMID.ptrimHeadTail() && spaceInfoController.verifyFloorBimId('add');
 
 }
 function floorTypeSel(event) {//请选择楼层性质
@@ -186,13 +190,20 @@ function addSpaceShow(event, instancePara) {
     spaceInfoController.systemModelObj && spaceInfoController.queryAllSpaceCode();
     spaceInfoController.systemModelObj && spaceInfoController.queryAllRentalCode();
     instance.spaceFloorArr = [];
-    $("#addSpaceDiv").show();
     instance.spaceDetail = new spaceObj();
-    $("#spaceBuildDrop").precover('请选择建筑');
-    $("#spaceFloorDrop").precover('请选择楼层');
+    instance.showPage = 'addSpace';
+    //$("#addSpaceDiv").show();
+    //$("#spaceBuildDrop").precover('请选择建筑');
+    //$("#spaceFloorDrop").precover('请选择楼层');
+    //var allInput = $("#addSpaceDiv [widtye='inputText']");
+    //for (var i = 0; i < allInput.length; i++) {
+    //    $(allInput[i]).precover();
+    //}
 }
 function addSpaceHide(event) {
-    $("#addSpaceDiv").hide();
+    //$("#addSpaceDiv").hide();
+    var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
+    instance.showPage = '';
 }
 function buildLiSel(item) {//建筑的点击事件 首页
     var instance = spaceInfoModel.instance();
@@ -230,25 +241,49 @@ function saveAddSpace(event) {
     var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
     var spaceDetail = instance.spaceDetail;
     if (!spaceDetail.build_id) {
-        $("#spaceNoticeWarn").pshow({ text: "所属建筑不能为空！", state: "failure" });
+        $("#globalnotice").pshow({ text: "所属建筑不能为空！", state: "failure" });
+        return;
+    }
+    if (!spaceDetail.floor_id) {
+        $("#globalnotice").pshow({ text: "所属楼层不能为空！", state: "failure" });
         return;
     }
     if (!spaceDetail.room_local_name.ptrimHeadTail()) {
-        $("#spaceNoticeWarn").pshow({ text: "空间名称不能为空！", state: "failure" });
+        $("#globalnotice").pshow({ text: "空间名称不能为空！", state: "failure" });
         return;
     }
     if (!spaceDetail.room_local_id.ptrimHeadTail()) {
-        $("#spaceNoticeWarn").pshow({ text: "空间编号不能为空！", state: "failure" });
+        $("#globalnotice").pshow({ text: "空间编号不能为空！", state: "failure" });
         return;
     }
+    if (!spaceDetail.tenant_type.ptrimHeadTail()) {
+        $("#globalnotice").pshow({ text: "租赁业态类型不能为空！", state: "failure" });
+        return;
+    }
+    //输入数字的判断
+    var allInput = $("#addSpaceDiv [widtye='inputText']");
+    var wrongSign = true;
+    for (var i = 0; i < allInput.length; i++) {
+        wrongSign = $(allInput[i]).pverifi();
+        if (!wrongSign) break;
+    }
+    if (!wrongSign) {
+        $("#globalnotice").pshow({ text: "需要输入数字的请修改", state: "failure" });
+        return;
+    }
+
     //验证是有重复
     spaceInfoController.snameRepeat = true;
     spaceInfoController.sidRepeat = true;
     spaceInfoController.sbimRepeat = true;
     spaceInfoController.sverifyNum = 0;
+    if (!spaceDetail.BIMID.ptrimHeadTail()) {//为空
+        spaceInfoController.sbimRepeat = false;
+        spaceInfoController.sverifyNum = 1;
+    }
     spaceInfoController.verifySpaceName('add');
     spaceInfoController.verifySpaceLocalId('add');
-    spaceInfoController.verifySpaceBimId('add');
+    !!spaceDetail.BIMID.ptrimHeadTail() && spaceInfoController.verifySpaceBimId('add');
 }
 function verifyDestroy() {//是否可以拆除
     spaceInfoController.verifyDestroySpace();
@@ -260,7 +295,7 @@ function destroyCancle() {
     $("#desSpaceDialog").phide();
 }
 function spceBindClick() {
-    $(".contTreeHead").on('click', function (event) {
+    $("#spaceMoleMange").on('click', '.contTreeHead', function (event) {
         var $this = $(event.currentTarget);
         var $contTreeList = $this.siblings(".contTreeList");
         if ($contTreeList.is(":visible")) {
@@ -268,6 +303,13 @@ function spceBindClick() {
         } else {
             $contTreeList.slideDown();
         }
+    });
+    $("#spaceMoleMange").on('click', '#spaceNavigBar .circle', function (event) {
+        var $this = $(event.currentTarget);
+        $("#spaceNavigBar .circle").removeClass("sel");
+        $this.addClass("sel");
+        var stype = $this.attr("stype");
+        document.getElementById(stype).scrollIntoView();
     });
 }
 var floorTypeArr = [{ name: '普通楼层' }, { name: '中庭' }, { name: '室外' }, { name: '其他' }];

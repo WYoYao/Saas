@@ -33,8 +33,9 @@ spaceInfoModel.instance = function () {
                 //工单
                 curPage: '',
                 orderDetailData: {},
-                orderOperatList:[],
-         
+                orderOperatList: [],
+
+                showPage:''//当前显示的页面
             },
             methods: {
                 upFloor: function (findex, item) {
@@ -103,7 +104,7 @@ spaceInfoModel.instance = function () {
                     event.stopPropagation();
                     var $orderList = $(event.currentTarget).find(".orderList");
                     if (item.orders.length == 1) {//只有一个工单
-                        orderDetail_pub.getOrderDetail(this, item.order_id, '1');
+                        orderDetail_pub.getOrderDetail(this, item.orders[0].order_id, '1');
                     }
                     if (item.orders.length > 1) {
                         $orderList.is(":visible") ? $orderList.css({ 'display': 'none' }) : $orderList.css({ 'display': 'block' });
@@ -164,7 +165,7 @@ function spaceObj() {
     self.area = '';
     self.elec_cap = '';                  //配电容量
     self.intro = '';                     //备注文字
-    self.tenant_type = '';               //租赁业态类型
+    self.tenant_type = '100';               //租赁业态类型
     self.tenant_type_name = '',
     self.tenant = '';                   //所属租户
     self.permanent_people_num = '';      //空间内常驻人数

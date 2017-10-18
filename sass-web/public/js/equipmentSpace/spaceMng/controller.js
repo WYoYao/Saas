@@ -13,7 +13,7 @@ spaceInfoController.editDetailCopy = {};
 spaceInfoController.editSpaceDetail = {};
 spaceInfoController.queryBuild = function () { //查询建筑体
     var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
-    $("#spaceLoading").pshow();
+    $("#globalloading").pshow();
     pajax.post({
         url: 'restObjectService/queryBuild',
         data: {
@@ -22,6 +22,7 @@ spaceInfoController.queryBuild = function () { //查询建筑体
         },
         success: function (res) {
             data = res.data || [];
+            if (data.length == 0) { $("#globalloading").phide(); }
             instance.allBuild = data;
             setTimeout(function () {
                 $("#buildDropDown").psel(0);
@@ -29,17 +30,17 @@ spaceInfoController.queryBuild = function () { //查询建筑体
 
         },
         error: function (errObj) {
+            $("#globalloading").phide();
             console.error('queryBuild err');
         },
         complete: function () {
-            $("#spaceLoading").phide();
         }
     });
 }
 spaceInfoController.queryFloorWithOrder = function (sign, buildItem) { //查询某建筑下楼层信息
     var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
     if (sign == 'floor') {
-        $("#spaceLoading").pshow();
+        $("#globalloading").pshow();
     }
     pajax.post({
         url: 'restFloorService/queryFloorWithOrder',
@@ -56,9 +57,9 @@ spaceInfoController.queryFloorWithOrder = function (sign, buildItem) { //查询�
                 var lastSequence = 0;
                 for (var i = 0; i < instance.allFloorInfo.length; i++) {//顺序码可能是null的情况
                     var thisFloor = instance.allFloorInfo[i];
-                    if (thisFloor.floor_sequence_id === 0 || !!thisFloor.floor_sequence_id) {
+                    if (thisFloor.floor_sequence_id === 0 || !!thisFloor.floor_sequence_id) {//如果顺序码不是空
                         lastSequence = thisFloor.floor_sequence_id;
-                        return;
+                        continue;
                     }
                     hasNull = true;
                     thisFloor.floor_sequence_id = lastSequence - 1;
@@ -66,9 +67,9 @@ spaceInfoController.queryFloorWithOrder = function (sign, buildItem) { //查询�
                 }
                 if (hasNull) {
                     spaceInfoController.updateFloorOrder();
+                } else {
+                    $("#globalloading").phide();
                 }
-                $("#spaceLoading").phide();
-
                 setTimeout(function () {
                     scrollFloor();
                 }, 0);
@@ -78,7 +79,7 @@ spaceInfoController.queryFloorWithOrder = function (sign, buildItem) { //查询�
         },
         error: function (errObj) {
             console.error('queryFloorWithOrder err');
-            $("#spaceLoading").phide();
+            $("#globalloading").phide();
         },
         complete: function () {
         }
@@ -110,6 +111,7 @@ spaceInfoController.fidRepeat = true;
 spaceInfoController.fbimRepeat = true;
 spaceInfoController.fverifyNum = 0;
 spaceInfoController.verifyFloorName = function (param) { //新增页/编辑页:验证楼层名称是否可以使用
+    if (param == 'add') { $("#globalloading").pshow(); }
     var instance = spaceInfoModel.instance();
     pajax.update({
         url: 'restFloorService/verifyFloorName',
@@ -129,7 +131,7 @@ spaceInfoController.verifyFloorName = function (param) { //新增页/编辑页:�
                 }
             } else {
                 if (typeof param == "function") {//编辑
-                    $("#spaceNoticeWarn").pshow({ text: "楼层名称不可以使用！", state: "failure" });
+                    $("#globalnotice").pshow({ text: "楼层名称不可以使用！", state: "failure" });
                 }
             }
         },
@@ -199,39 +201,42 @@ spaceInfoController.canSaveAddFloor = function () {//是否可以保存
         return
     }
     if (spaceInfoController.fnameRepeat) {//如果是服务断了呢
-        $("#spaceNoticeWarn").pshow({ text: "楼层名称不可以使用！", state: "failure" });
+        $("#globalloading").phide();
+        $("#globalnotice").pshow({ text: "楼层名称不可以使用！", state: "failure" });
         return;
     }
     if (spaceInfoController.fidRepeat) {
-        $("#spaceNoticeWarn").pshow({ text: "楼层编码不可以使用！", state: "failure" });
+        $("#globalloading").phide();
+        $("#globalnotice").pshow({ text: "楼层编码不可以使用！", state: "failure" });
         return;
     }
     if (spaceInfoController.fbimRepeat) {
-        $("#spaceNoticeWarn").pshow({ text: "楼层BIM编码不可以使用！", state: "failure" });
+        $("#globalloading").phide();
+        $("#globalnotice").pshow({ text: "楼层BIM编码不可以使用！", state: "failure" });
         return;
     }
     spaceInfoController.addFloor();//保存楼层
 }
 spaceInfoController.addFloor = function () { //添加楼层信息
-    $("#spaceLoading").pshow();
+    $("#globalloading").pshow();
     var instance = spaceInfoModel.instance();
     var params = {
         //user_id: 'RY1505218031651', //用户id
         //project_id: 'Pj1301020001', //项目id
         build_id: instance.selBuild.obj_id
     }
-    params = $.extend({}, params, instance.floorDetail)
+    params = $.extend({}, params, instance.floorDetail);
     pajax.update({
         url: 'restFloorService/addFloor',
         data: params,
         success: function (res) {
             $("#addFloorDiv").hide();
             spaceInfoController.queryFloorWithOrder('floor', instance.selBuild);
-            $("#spaceNoticeWarn").pshow({ text: "添加楼层成功！", state: "success" });
+            $("#globalnotice").pshow({ text: "添加楼层成功！", state: "success" });
         },
         error: function (errObj) {
-            $("#spaceNoticeWarn").pshow({ text: "添加楼层失败！", state: "failure" });
-            $("#spaceLoading").phide();
+            $("#globalnotice").pshow({ text: "添加楼层失败！", state: "failure" });
+            $("#globalloading").phide();
             console.error('addFloor err');
         },
         complete: function () {
@@ -255,12 +260,12 @@ spaceInfoController.updateFloorInfo = function (ftype, fvalue, cb) { //编辑楼
             instance.detailEditSign = true;
             if (typeof cb == 'function') {
                 cb();
-                $("#spaceNoticeWarn").pshow({ text: "修改信息成功！", state: "success" });
+                $("#globalnotice").pshow({ text: "修改信息成功！", state: "success" });
             }
         },
         error: function (errObj) {
             console.error('updateFloorInfo err');
-            $("#spaceNoticeWarn").pshow({ text: "修改信息失败！", state: "failure" });
+            $("#globalnotice").pshow({ text: "修改信息失败！", state: "failure" });
             Vue.set(instance.floorDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原
         },
         complete: function () {
@@ -269,13 +274,13 @@ spaceInfoController.updateFloorInfo = function (ftype, fvalue, cb) { //编辑楼
     });
 }
 spaceInfoController.updateFloorOrder = function () { //更改楼层顺序
-    $("#spaceLoading").pshow();
+    $("#globalloading").pshow();
     var instance = spaceInfoModel.instance();
     var floorArr = [];
     instance.allFloorInfo.forEach(function (ele) {
         floorArr.push({
             floor_id: ele.floor_id,
-            floor_sequence_id: ele.floor_sequence_id
+            floor_sequence_id: ele.floor_sequence_id.toString()
         });
     });
     pajax.update({
@@ -291,13 +296,13 @@ spaceInfoController.updateFloorOrder = function () { //更改楼层顺序
             console.error('updateFloorOrder err');
         },
         complete: function () {
-            $("#spaceLoading").phide();
+            $("#globalloading").phide();
         }
     });
 }
 spaceInfoController.querySpaceWithGroup = function () { //查询某建筑下空间信息
     var instance = spaceInfoModel.instance();
-    $("#spaceLoading").pshow();
+    $("#globalloading").pshow();
     pajax.post({
         url: 'restSpaceService/querySpaceWithGroup',
         data: {
@@ -313,13 +318,13 @@ spaceInfoController.querySpaceWithGroup = function () { //查询某建筑下空�
             console.error('querySpaceWithGroup err');
         },
         complete: function () {
-            $("#spaceLoading").phide();
+            $("#globalloading").phide();
         }
     });
 }
 spaceInfoController.querySpaceForFloor = function () { //查询某楼层下空间信息
     var instance = spaceInfoModel.instance();
-    $("#spaceLoading").pshow();
+    $("#globalloading").pshow();
     pajax.post({
         url: 'restSpaceService/querySpaceForFloor',
         data: {
@@ -335,13 +340,13 @@ spaceInfoController.querySpaceForFloor = function () { //查询某楼层下空�
             console.error('querySpaceForFloor err');
         },
         complete: function () {
-            $("#spaceLoading").phide();
+            $("#globalloading").phide();
         }
     });
 }
 spaceInfoController.queryDestroyedSpace = function () { //查询某建筑下已拆除的空间信息
     var instance = spaceInfoModel.instance();
-    $("#spaceLoading").pshow();
+    $("#globalloading").pshow();
     pajax.post({
         url: 'restSpaceService/queryDestroyedSpace',
         data: {
@@ -357,7 +362,7 @@ spaceInfoController.queryDestroyedSpace = function () { //查询某建筑下已�
             console.error('queryDestroyedSpace err');
         },
         complete: function () {
-            $("#spaceLoading").phide();
+            $("#globalloading").phide();
         }
     });
 }
@@ -400,7 +405,7 @@ spaceInfoController.saveSpaceRemindConfig = function () { //保存空间提醒�
             remind_order_types: remind_order_types //选择的需要提醒的工单类型 
         },
         success: function (res) {
-            $("#spaceNoticeWarn").pshow({ text: "设置空间提醒成功！", state: "success" });
+            $("#globalnotice").pshow({ text: "设置空间提醒成功！", state: "success" });
             spaceInfoController.querySpaceRemindConfig();//重新获取一次
             if (instance.floorShowTitle == '建筑下的全部空间') {//重新获取空间
                 spaceInfoController.querySpaceWithGroup();
@@ -409,7 +414,7 @@ spaceInfoController.saveSpaceRemindConfig = function () { //保存空间提醒�
             }
         },
         error: function (errObj) {
-            $("#spaceNoticeWarn").pshow({ text: "设置空间提醒失败！", state: "failure" });
+            $("#globalnotice").pshow({ text: "设置空间提醒失败！", state: "failure" });
             instance.spaceRemind = JSON.parse(JSON.stringify(instance.spaceRemindCopy));
             console.error('saveSpaceRemindConfig err');
         },
@@ -502,6 +507,7 @@ spaceInfoController.sbimRepeat = true;
 spaceInfoController.sverifyNum = 0;
 spaceInfoController.systemModelObj = null;
 spaceInfoController.verifySpaceName = function (param) { //新增页/编辑页:验证空间名称是否可以使用
+    if (param == 'add') { $("#globalloading").pshow(); }
     var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
     pajax.update({
         url: 'restSpaceService/verifySpaceName',
@@ -519,7 +525,7 @@ spaceInfoController.verifySpaceName = function (param) { //新增页/编辑页:�
                 }
             } else {
                 if (typeof param == "function") {//编辑
-                    $("#spaceNoticeWarn").pshow({ text: "空间名称不可以使用！", state: "failure" });
+                    $("#globalnotice").pshow({ text: "空间名称不可以使用！", state: "failure" });
                 }
             }
         },
@@ -589,21 +595,24 @@ spaceInfoController.canSaveAddSpace = function () {//是否可以保存
         return
     }
     if (spaceInfoController.snameRepeat) {//如果是服务断了呢
-        $("#spaceNoticeWarn").pshow({ text: "空间名称不可以使用！", state: "failure" });
+        $("#globalloading").phide();
+        $("#globalnotice").pshow({ text: "空间名称不可以使用！", state: "failure" });
         return;
     }
     if (spaceInfoController.sidRepeat) {
-        $("#spaceNoticeWarn").pshow({ text: "空间编码不可以使用！", state: "failure" });
+        $("#globalloading").phide();
+        $("#globalnotice").pshow({ text: "空间编码不可以使用！", state: "failure" });
         return;
     }
     if (spaceInfoController.sbimRepeat) {
-        $("#spaceNoticeWarn").pshow({ text: "空间BIM编码不可以使用！", state: "failure" });
+        $("#globalloading").phide();
+        $("#globalnotice").pshow({ text: "空间BIM编码不可以使用！", state: "failure" });
         return;
     }
     spaceInfoController.addSpace();//保存楼层
 }
 spaceInfoController.addSpace = function () { //添加空间信息
-    $("#spaceLoading").pshow();
+    $("#globalloading").pshow();
     var instance = spaceInfoController.systemModelObj || spaceInfoModel.instance();
     var params = {
         //user_id: 'RY1505218031651', //用户id
@@ -614,10 +623,13 @@ spaceInfoController.addSpace = function () { //添加空间信息
         url: 'restSpaceService/addSpace',
         data: params,
         success: function (res) {
-            $("#addSpaceDiv").hide();
-            $("#spaceNoticeWarn").pshow({ text: "添加空间成功！", state: "success" });
-
-            if (spaceInfoController.systemModelObj) return;
+            //$("#addSpaceDiv").hide();
+            instance.showPage = '';
+            $("#globalnotice").pshow({ text: "添加空间成功！", state: "success" });
+            if (spaceInfoController.systemModelObj) {
+                $("#globalloading").phide();
+                return;
+            }
             if (instance.floorShowTitle == '建筑下的全部空间') {
                 spaceInfoController.querySpaceWithGroup();
             } else {
@@ -625,8 +637,8 @@ spaceInfoController.addSpace = function () { //添加空间信息
             }
         },
         error: function (errObj) {
-            $("#spaceNoticeWarn").pshow({ text: "添加空间失败！", state: "failure" });
-            $("#spaceLoading").phide();
+            $("#globalnotice").pshow({ text: "添加空间失败！", state: "failure" });
+            $("#globalloading").phide();
             console.error('addSpace err');
         },
         complete: function () {
@@ -670,7 +682,7 @@ spaceInfoController.verifyDestroySpace = function () { //验证空间是否可�
             if (canDestroy) {
                 $("#desSpaceDialog").pshow({ title: "您确定要作废该空间吗？", subtitle: "作废后，您只能在“已拆除空间”页面查看到它的详情" });
             } else {
-                $("#spaceNoticeWarn").pshow({ text: remind, state: "failure" });
+                $("#globalnotice").pshow({ text: remind, state: "failure" });
             }
         },
         error: function (errObj) {
@@ -691,7 +703,7 @@ spaceInfoController.destroySpace = function () { //拆除空间
             space_id: instance.spaceDetail.space_id,            //空间id，
         },
         success: function (res) {
-            $("#spaceNoticeWarn").pshow({ text: "拆除空间成功！", state: "success" });
+            $("#globalnotice").pshow({ text: "拆除空间成功！", state: "success" });
             $("#desSpaceDialog").phide();
             $("#spaceCheckFloat").phide();//弹出框隐藏
             if (instance.floorShowTitle == '建筑下的全部空间') {
@@ -702,7 +714,7 @@ spaceInfoController.destroySpace = function () { //拆除空间
         },
         error: function (errObj) {
             console.error('destroySpace err');
-            $("#spaceNoticeWarn").pshow({ text: "拆除空间失败！", state: "failure" });
+            $("#globalnotice").pshow({ text: "拆除空间失败！", state: "failure" });
         },
         complete: function () {
 
@@ -725,12 +737,12 @@ spaceInfoController.updateSpaceInfo = function (ftype, fvalue, cb) { //编辑空
             instance.detailEditSign = true;
             if (typeof cb == 'function') {
                 cb();
-                $("#spaceNoticeWarn").pshow({ text: "修改信息成功！", state: "success" });
+                $("#globalnotice").pshow({ text: "修改信息成功！", state: "success" });
             }
         },
         error: function (errObj) {
             console.error('updateSpaceInfo err');
-            $("#spaceNoticeWarn").pshow({ text: "修改信息失败！", state: "failure" });
+            $("#globalnotice").pshow({ text: "修改信息失败！", state: "failure" });
             ftype == 'room_func_type_name' && (true, Vue.set(instance.spaceDetail, 'room_func_type', spaceInfoController.editDetailCopy['room_func_type']));//空间类型
             ftype == 'tenant_type_name' && (true, Vue.set(instance.spaceDetail, 'tenant_type', spaceInfoController.editDetailCopy['tenant_type']));//空间类型
             Vue.set(instance.spaceDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原

@@ -126,9 +126,9 @@
 </script>
 
 <script type="text/html" id="floatTemp">
-    <div class="eqaddressFloatWrap">
+    <div class="eqaddressFloatWrap" id="divMerchantInfo">
         <!--新建 -->
-        <div class="addWrap">
+        <div class="addWrap" id="divMerchantInfoToNew">
             <% include ../../../template/newMerchant.html %>
 
             <div class="butWrap">
@@ -136,7 +136,7 @@
             </div>
         </div>
         <!-- 查看、编辑 -->
-        <div class="selWrap">
+        <div class="selWrap" id="divMerchantInfoToEdit">
             <div class="selTemp selTempSel" type="company_name">
                 <span class="selname"><b>{{tabSelName}}名称:</b></span>
                 <div class="selcon">
@@ -148,7 +148,10 @@
                     </div>
                     <div class="editInput">
                         <div>
-                            <ptext-text value="selMerchantToUpdate.company_name" bind="true"></ptext-text>
+                            <ptext-text value="selMerchantToUpdate.company_name" bind="true" id="'txtMerchantNameEdit'">
+                                <verify errtip="不可为空"  verifytype="space"></verify>
+                                <verify errtip="最多输入50个字"  verifytype="length" length="50"></verify>
+                            </ptext-text>
                         </div>
                         <div class="selBut">
                             <em class="Ficon co" onclick="editConfirm(event)">Z</em>
@@ -170,10 +173,14 @@
                     </div>
                     <div class="editInput">
                         <div>
-                            <ptext-text value="selMerchantToUpdate.contacts" bind="true"></ptext-text>
+                            <ptext-text value="selMerchantToUpdate.contacts" bind="true">
+                                <verify errtip="最多输入20个字"  verifytype="length" length="20"></verify>
+                            </ptext-text>
                         </div>
-                        <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
-
+                        <div class="selBut">
+                            <em class="Ficon co" onclick="editConfirm(event)">Z</em>
+                            <em class="Ficon" onclick="editCancel(this)">x</em>
+                        </div>
                     </div>
 
                 </div>
@@ -189,7 +196,7 @@
                     </div>
                     <div class="editInput">
                         <div>
-                            <ptext-text value="selMerchantToUpdate.phone" bind="true"></ptext-text>
+                            <ptext-text value="selMerchantToUpdate.phone" bind="true" blur="equipmentAddressVueMethod.phoneTextValidEdit" id="'txtEditMerchPhone'"></ptext-text>
                         </div>
                         <div class="selBut"><em class="Ficon co" onclick="editConfirm(event)">Z</em><em class="Ficon" onclick="editCancel(this)">x</em></div>
 
@@ -255,7 +262,7 @@
                 </div>
             </div>
 
-            <div class="selTemp selTempSel" v-show="tabSelIndex==1" type="brands">
+            <div class="selTemp selTempSel" v-if="tabSelIndex==1" type="brands">
                 <span class="selname"><b>所含品牌:</b></span>
                 <div class="selcon">
                     <div class="selInput">
@@ -269,11 +276,14 @@
                             <div class="insurerWrap" v-for="(brand,index) in selMerchantToUpdate.brands">
                                 <div class="inputTemp">
                                     <div class="inputwrap">
-                                        <ptext-text placeholder="'请输入品牌'" value="brand.name" bind="true"></ptext-text>
+                                        <ptext-text txtbrand placeholder="'请输入品牌'" value="brand.name" bind="true">
+                                            <verify errtip="品牌名称不可为空"  verifytype="space"></verify>
+                                            <verify errtip="最多输入20个字"  verifytype="length" length="20"></verify>
+                                        </ptext-text>
                                     </div>
                                 </div>
                                 <div class="insureraddBut">
-                                    <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="index!=0" v-bind:ji="index"></pbutton-white>
+                                    <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-bind:ji="index" v-show="index!=0"></pbutton-white>
                                     <pbutton-white icon="J" shape="ellipse" click="addBrandClick" v-show="index==0"></pbutton-white>
                                 </div>
                             </div>
@@ -287,7 +297,7 @@
                 </div>
             </div>
             <!-- 保险 -->
-            <div class="selTemp selTempSel bxDiv brandWrapPar" type="insurer_info" v-show="tabSelIndex==3">
+            <div class="selTemp selTempSel bxDiv brandWrapPar" type="insurer_info" v-if="tabSelIndex==3">
                 <!-- 查看 -->
                 <div class="selInput" v-for="(insurelook,oindex) in selMerchantToInfo.insurer_info">
                     <div class="tempDiv">
@@ -311,7 +321,9 @@
                     <div class="tempDiv">
                         <span class="selname"><b>保险单号:</b></span>
                         <div class="selcon ">
-                            <ptext-text value="insurelook.insurer_num" bind="true"></ptext-text>
+                            <ptext-text value="insurelook.insurer_num" bind="true">
+                                <verify errtip="不可为空"  verifytype="space"></verify>
+                            </ptext-text>
                         </div>
                     </div>
                     <div class="tempDiv">
@@ -321,12 +333,12 @@
                         </div>
                     </div>
                     <div class="selBut" v-show="oindex==0">
-                        <em class="Ficon co" onclick="editConfirm(event)">Z</em>
+                        <em class="Ficon co" onclick="editConfirm(event,true)">Z</em>
                         <em class="Ficon" onclick="editCancel(this)">x</em>
                     </div>
                     <div class="insureraddBut">
-                        <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0" v-bind:xx="oindex"></pbutton-white>
-                        <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-show="oindex>0"></pbutton-white>
+                        <pbutton-white icon="J" shape="ellipse" click="addInsurerClick" v-show="oindex==0"></pbutton-white>
+                        <pbutton-white icon="p" shape="ellipse" click="delInsurerClick" v-bind:ji="oindex" v-show="oindex>0"></pbutton-white>
                     </div>
 
                 </div>

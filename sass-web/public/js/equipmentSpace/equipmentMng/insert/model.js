@@ -640,6 +640,10 @@
 
                 if (newValue.build_id != oldValue.build_id) {
                     // 当 build_id 修改的之后修改的对应的 系统属性的选择的下拉数据源
+
+                    // 初始化没有值的时候，执行查询对应的值
+                    if(newValue.build_id=="--" || !newValue.build_id.length)return;
+
                     controllerInsert.querySystemForBuild(newValue.build_id)
                         .then(function (list) {
                             _that.SystemForBuild = list;

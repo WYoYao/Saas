@@ -148,7 +148,7 @@ var controllerproject = {
                     item.date = convert(item.date);
 
                     return item;
-                }) : [];
+                }).slice(0,3) : [];
                 Object.prototype.toString.call(cb).slice(8, -1) == 'Function' ? cb(arr) : void 0;
             },
             complete: function() {

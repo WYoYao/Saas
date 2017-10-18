@@ -1296,10 +1296,15 @@
     top: 0;
     left: 0;
     z-index: 10;
+    font-size: 12px;
 }
 .slide-div.operate .textarea-prop{
     position: absolute;
     z-index: 20;
+}
+.slide-div.operate .counter{
+    right: -966px;
+    bottom: 0;
 }
 .obj-fragment-div{
     position: absolute;

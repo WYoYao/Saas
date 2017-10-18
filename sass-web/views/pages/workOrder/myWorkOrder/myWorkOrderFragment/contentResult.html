@@ -31,7 +31,7 @@
                         <span v-text="confirmObj.obj_name">对象名称1</span>
                         <em v-text="yn_method.getParentsLinks(confirmObj.parents)">(建筑-楼层-空间名称/专业-系统/)</em>
                         <!--<a href="javascript:void (0)" onclick="yn_method.delObjs(this)"><i>p</i>删除对象</a>-->
-                        <a href="javascript:void (0)" @click="$root.deleteObj(confirmObj, index1, 0)"><i>p</i>删除对象</a>
+                        <a href="javascript:void (0)" @click="publicMethod.deleteObj(confirmObj, index1, 0)"><i>p</i>删除对象</a>
                     </div>
                     <div class="obj-info-self">
                         <!--选择的信息点列表-->
@@ -267,7 +267,10 @@
                                     </div>
                                 </div>
                                 <div class="aite-footer">
-                                    <pbutton-white text="自定义" click="publicMethod.customizeInfoPoint"></pbutton-white>
+                                    <div class="customize-btn-div">
+                                        <pbutton-white text="自定义" click="publicMethod.customizeInfoPoint"></pbutton-white>
+
+                                    </div>
                                     <!--<pbutton-blue text="确定" disabled="false" click="publicMethod.confirmCheckedInfoPoints2"></pbutton-blue>-->
                                     <div v-show="commonData.publicModel.curObjType !== 'custom'" class="sureBtnDivs">
                                         <pbutton-blue text="确定"
@@ -462,8 +465,8 @@
                         </div>
                     </div>
                     <div class="aite-footer">
-                        <div class="customize-btn-div"
-                                ><!--v-show="commonData.publicModel.curObjType2 == 'infoPoint'"-->
+                        <div class="customize-btn-div" v-show="commonData.publicModel.curObjType2 == 'infoPoint'"
+                                >
                         <pbutton-white text="自定义" click="publicMethod.customizeInfoPoint"
                                        ></pbutton-white><!--disabled="!commonData.publicModel.isCustomizeBtnAble"-->
                             </div>

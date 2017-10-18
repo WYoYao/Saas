@@ -1302,6 +1302,10 @@ var methods = {
             controller.getAddOrderPlan(_data); //新建计划
         }
     },
+    removePlanFn:function(str){//删除工单类型中的最后两位
+        var str = str || '';
+        return str.substring(0,str.length-2);
+    }
 
 
 }

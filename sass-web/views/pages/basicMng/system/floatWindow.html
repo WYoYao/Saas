@@ -15,25 +15,25 @@
             <div class='contleft'>
                 系统标准名称：
             </div>
-            <div class='contright'>
-                <ptext-text placeholder="'请输入本地名称'" value='wordInfo.name' bind='true'>
-                    <verify errtip="不可为空" verifytype="space"></verify>
-                </ptext-text>
+            <div class='contright' v-text='wordInfo.name'>
+                
             </div>
         </div>
         <div class='item'>
             <div class='contleft'>
                 本地名称：
             </div>
-            <div class='contright' v-text='wordInfo.description'>
-
+            <div class='contright'>
+                    <ptext-text id="'ide_customer_names'" placeholder="'请输入本地名称'" value='wordInfo.customer_name' bind='true'>
+                            <verify errtip="不可为空" verifytype="space"></verify>
+                        </ptext-text>
             </div>
         </div>
         <div class='item'>
             <div class='contleft'>
                 名词释义：
             </div>
-            <div class='contright' v-text='wordInfo.customer_name'>
+            <div class='contright' v-text='wordInfo.description'>
             </div>
         </div>
         <div class='bottom'>

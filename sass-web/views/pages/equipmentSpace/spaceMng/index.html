@@ -28,15 +28,16 @@
     <script type="text/javascript" src="/js/equipmentSpace/spaceMng/index.js"></script>
     <script type="text/javascript" src="/js/equipmentSpace/spaceMng/event.js"></script>
     <script type="text/javascript" src="/js/public/orderDetail_pub.js"></script>
-
+    <script type="text/javascript" src="/js/public/publicMethod.js"></script>
 </head>
 
 <body>
     <% include /treeTemplate.html %>
     <% include /template.html %>
-    <div class="contentWrap" id="spaceMoleMange">
+    <div class="contentWrap" id="spaceMoleMange" >
+        <ploading-part id="globalloading"></ploading-part>
+        <pnotice-message id="globalnotice"></pnotice-message>
         <div class="spaceContent">
-            <ploading-part id="spaceLoading"></ploading-part>
             <pwindow-modal id="spaceWarnSet" title="空间提醒设置" templateid="space-warn-edit"></pwindow-modal>
             <pwindow-float id="floorCheckFloat" templateid="floor-detail-float" title="楼层详情">
                 <animate maxpx="0" minpx="-460" orientation="right"></animate>
@@ -60,7 +61,7 @@
                 </button>
             </pwindow-confirm>
             <pwindow-modal id="saveModeSel" title="保存方式" templateid="select-save-mode"></pwindow-modal>
-            <pnotice-message id="spaceNoticeWarn"></pnotice-message>
+
             <div class="leftContent">
                 <div class="leftHead">
                     <div class="buildCombobox">
@@ -79,10 +80,10 @@
                             <div class="itemCont" v-bind:class="{sel:item.ischeck}">
                                 <div class="moveButton" v-on:click="moveDivClick($event)"><span class="up" v-on:click="upFloor(findex,item)">t</span><span class="down" v-on:click="downFloor(findex,item)">b</span></div>
                                 <div class="floorTitle">
-                                    <span>{{floorTypeArr[item.floor_type-1]}}</span><em>-</em><span>{{item.floor_local_id}}</span>
+                                    <span>{{!!item.floor_type?floorTypeArr[item.floor_type-1]:'--'}}</span><em>-</em><span>{{item.floor_local_id}}</span>
                                 </div>
                                 <div class="info"><span>面积：{{item.area}}平方米</span><span>高度：{{item.net_height}}米</span></div>
-                                <div class="info">功能说明：{{item.floor_func_type}}</div>
+                                <div class="func">功能说明：{{item.floor_func_type}}</div>
                                 <div class="floorNumber"><span>{{item.floor_local_name}}</span></div>
                                 <div class="checkDetail" v-on:click="checkFloorDetail($event,item)">查看详情</div>
                             </div>
@@ -255,7 +256,7 @@
                     </div>
                 </div>
             </div>
-            <div class="removeSpace" id="addSpaceDiv">
+            <div class="removeSpace addSpaceDiv" id="addSpaceDiv"  v-if="showPage=='addSpace'">
                 <div class="removeHead">
                     <pbutton-white text="取消" click="addSpaceHide" style="float: left;"></pbutton-white>
                     <pbutton-blue text="保存" style="float: right;" click="saveAddSpace"></pbutton-blue>

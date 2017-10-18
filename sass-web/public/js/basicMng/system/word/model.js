@@ -54,7 +54,12 @@ v.pushComponent({
             $("#floatWindow").pshow()
         },
         saveWordInfo: function() {
-            this.showlist[this.wordInfo.index].name = this.wordInfo.name;
+
+            if(!$("#ide_customer_names").pverifi()){
+                return;
+            }
+
+            this.showlist[this.wordInfo.index].customer_name = this.wordInfo.customer_name;
             this.showlist[this.wordInfo.index].customer_use = this.wordInfo.customer_use;
 
             var req = {

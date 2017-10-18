@@ -1,4 +1,5 @@
 $(function () {
+    $("#spaceMoleMange").show();
     var instance = spaceInfoModel.instance();
     spaceInfoController.init();
     $("#editSelBox .radioButton").on('click', function (event) {

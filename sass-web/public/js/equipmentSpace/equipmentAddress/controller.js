@@ -44,5 +44,9 @@ var equipmentAddressController = {
         this.sendUpdate('restEquipCompanyService/deleteEquipCompanyById', {
             company_id: id
         }, successCall, errCall, completeCall);
+    },
+    /*验证供应商、生产厂商、维修商、保险公司，名称是否重复*/
+    validMerchantNameRepeat: function (paramObj, successCall, errCall, completeCall) {
+        this.sendAjax('restEquipCompanyService/validmerchantnamerepeat', paramObj, successCall, errCall, completeCall);
     }
 };
