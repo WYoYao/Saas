@@ -13,7 +13,7 @@ $(function () {
         yn_method.scrollLoad();//滚动加载
 
     }, 500);
-
+    yn_method.flashNone();
     yn_method.freedomOrRegular()
     $(".textarea-prop").click(function (event) {
         event.stopPropagation();
@@ -915,7 +915,6 @@ $(function () {
 
 }*/
 yn_method.closeBubble();
-yn_method.a();
 
 
 

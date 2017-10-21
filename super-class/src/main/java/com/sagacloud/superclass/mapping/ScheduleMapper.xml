@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.ScheduleMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.Schedule" >
+    <id column="schedule_id" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+    <result column="shifts" property="shifts" jdbcType="VARCHAR" />
+    <result column="is_turn_shift" property="isTurnShift" jdbcType="VARCHAR" />
+    <result column="turn_shift_cycle" property="turnShiftCycle" jdbcType="VARCHAR" />
+    <result column="turn_shifts" property="turnShifts" jdbcType="VARCHAR" />
+    <result column="is_weekend_rest" property="isWeekendRest" jdbcType="VARCHAR" />
+    <result column="is_holiday_rest" property="isHolidayRest" jdbcType="VARCHAR" />
+    <result column="is_special_day_shift" property="isSpecialDayShift" jdbcType="VARCHAR" />
+    <result column="special_day_ids" property="specialDayIds" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="day_num" property="dayNum" jdbcType="VARCHAR" />
+    <result column="min_work_days" property="minWorkDays" jdbcType="VARCHAR" />
+    <result column="max_weekend_rest_days" property="maxWeekendRestDays" jdbcType="VARCHAR" />
+    <result column="max_consecutive_rest_days" property="maxConsecutiveRestDays" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="creater_id" property="createrId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    schedule_id, team_id, shifts, is_turn_shift, turn_shift_cycle, turn_shifts, is_weekend_rest, 
+    is_holiday_rest, is_special_day_shift, special_day_ids, start_time, end_time, day_num, 
+    min_work_days, max_weekend_rest_days, max_consecutive_rest_days, status, creater_id, 
+    create_time, update_time
+  </sql>
+  
+  <select id="selectUnEffectiveByTeamId" resultType="java.util.List" parameterType="java.lang.String" >
+  	select 
+  	<include refid="Base_Column_List" />
+  	from t_schedule
+  	where team_id = #{teamId,jdbcType=VARCHAR} and status &lt; 4 
+  </select>
+  
+  <select id="selectUpEffectiveByTeamId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select 
+  	<include refid="Base_Column_List" />
+  	from t_schedule
+  	where team_id = #{teamId,jdbcType=VARCHAR} and status = 4 order by create_time desc limit 0, 1
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_schedule
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_schedule
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.Schedule" >
+    insert into t_schedule (schedule_id, team_id, shifts, 
+      is_turn_shift, turn_shift_cycle, turn_shifts, 
+      is_weekend_rest, is_holiday_rest, is_special_day_shift, 
+      special_day_ids, start_time, end_time, 
+      day_num, min_work_days, max_weekend_rest_days, 
+      max_consecutive_rest_days, status, creater_id, 
+      create_time, update_time)
+    values (#{scheduleId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, #{shifts,jdbcType=VARCHAR}, 
+      #{isTurnShift,jdbcType=VARCHAR}, #{turnShiftCycle,jdbcType=VARCHAR}, #{turnShifts,jdbcType=VARCHAR}, 
+      #{isWeekendRest,jdbcType=VARCHAR}, #{isHolidayRest,jdbcType=VARCHAR}, #{isSpecialDayShift,jdbcType=VARCHAR}, 
+      #{specialDayIds,jdbcType=VARCHAR}, #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, 
+      #{dayNum,jdbcType=VARCHAR}, #{minWorkDays,jdbcType=VARCHAR}, #{maxWeekendRestDays,jdbcType=VARCHAR}, 
+      #{maxConsecutiveRestDays,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.Schedule" >
+    insert into t_schedule
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="scheduleId != null" >
+        schedule_id,
+      </if>
+      <if test="teamId != null" >
+        team_id,
+      </if>
+      <if test="shifts != null" >
+        shifts,
+      </if>
+      <if test="isTurnShift != null" >
+        is_turn_shift,
+      </if>
+      <if test="turnShiftCycle != null" >
+        turn_shift_cycle,
+      </if>
+      <if test="turnShifts != null" >
+        turn_shifts,
+      </if>
+      <if test="isWeekendRest != null" >
+        is_weekend_rest,
+      </if>
+      <if test="isHolidayRest != null" >
+        is_holiday_rest,
+      </if>
+      <if test="isSpecialDayShift != null" >
+        is_special_day_shift,
+      </if>
+      <if test="specialDayIds != null" >
+        special_day_ids,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="dayNum != null" >
+        day_num,
+      </if>
+      <if test="minWorkDays != null" >
+        min_work_days,
+      </if>
+      <if test="maxWeekendRestDays != null" >
+        max_weekend_rest_days,
+      </if>
+      <if test="maxConsecutiveRestDays != null" >
+        max_consecutive_rest_days,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="scheduleId != null" >
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="shifts != null" >
+        #{shifts,jdbcType=VARCHAR},
+      </if>
+      <if test="isTurnShift != null" >
+        #{isTurnShift,jdbcType=VARCHAR},
+      </if>
+      <if test="turnShiftCycle != null" >
+        #{turnShiftCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="turnShifts != null" >
+        #{turnShifts,jdbcType=VARCHAR},
+      </if>
+      <if test="isWeekendRest != null" >
+        #{isWeekendRest,jdbcType=VARCHAR},
+      </if>
+      <if test="isHolidayRest != null" >
+        #{isHolidayRest,jdbcType=VARCHAR},
+      </if>
+      <if test="isSpecialDayShift != null" >
+        #{isSpecialDayShift,jdbcType=VARCHAR},
+      </if>
+      <if test="specialDayIds != null" >
+        #{specialDayIds,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="dayNum != null" >
+        #{dayNum,jdbcType=VARCHAR},
+      </if>
+      <if test="minWorkDays != null" >
+        #{minWorkDays,jdbcType=VARCHAR},
+      </if>
+      <if test="maxWeekendRestDays != null" >
+        #{maxWeekendRestDays,jdbcType=VARCHAR},
+      </if>
+      <if test="maxConsecutiveRestDays != null" >
+        #{maxConsecutiveRestDays,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.Schedule" >
+    update t_schedule
+    <set >
+      <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="shifts != null" >
+        shifts = #{shifts,jdbcType=VARCHAR},
+      </if>
+      <if test="isTurnShift != null" >
+        is_turn_shift = #{isTurnShift,jdbcType=VARCHAR},
+      </if>
+      <if test="turnShiftCycle != null" >
+        turn_shift_cycle = #{turnShiftCycle,jdbcType=VARCHAR},
+      </if>
+      <if test="turnShifts != null" >
+        turn_shifts = #{turnShifts,jdbcType=VARCHAR},
+      </if>
+      <if test="isWeekendRest != null" >
+        is_weekend_rest = #{isWeekendRest,jdbcType=VARCHAR},
+      </if>
+      <if test="isHolidayRest != null" >
+        is_holiday_rest = #{isHolidayRest,jdbcType=VARCHAR},
+      </if>
+      <if test="isSpecialDayShift != null" >
+        is_special_day_shift = #{isSpecialDayShift,jdbcType=VARCHAR},
+      </if>
+      <if test="specialDayIds != null" >
+        special_day_ids = #{specialDayIds,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="dayNum != null" >
+        day_num = #{dayNum,jdbcType=VARCHAR},
+      </if>
+      <if test="minWorkDays != null" >
+        min_work_days = #{minWorkDays,jdbcType=VARCHAR},
+      </if>
+      <if test="maxWeekendRestDays != null" >
+        max_weekend_rest_days = #{maxWeekendRestDays,jdbcType=VARCHAR},
+      </if>
+      <if test="maxConsecutiveRestDays != null" >
+        max_consecutive_rest_days = #{maxConsecutiveRestDays,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.Schedule" >
+    update t_schedule
+    set team_id = #{teamId,jdbcType=VARCHAR},
+      shifts = #{shifts,jdbcType=VARCHAR},
+      is_turn_shift = #{isTurnShift,jdbcType=VARCHAR},
+      turn_shift_cycle = #{turnShiftCycle,jdbcType=VARCHAR},
+      turn_shifts = #{turnShifts,jdbcType=VARCHAR},
+      is_weekend_rest = #{isWeekendRest,jdbcType=VARCHAR},
+      is_holiday_rest = #{isHolidayRest,jdbcType=VARCHAR},
+      is_special_day_shift = #{isSpecialDayShift,jdbcType=VARCHAR},
+      special_day_ids = #{specialDayIds,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=DATE},
+      end_time = #{endTime,jdbcType=DATE},
+      day_num = #{dayNum,jdbcType=VARCHAR},
+      min_work_days = #{minWorkDays,jdbcType=VARCHAR},
+      max_weekend_rest_days = #{maxWeekendRestDays,jdbcType=VARCHAR},
+      max_consecutive_rest_days = #{maxConsecutiveRestDays,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -8,6 +8,7 @@ var myWorkOrderModel = {//工单管理模块数据模型
     selectedTool: [],
     toolList: [],
     stop_order_content: '',
+    planObjExampleArr: [],
 
     allMatters: [
         {
@@ -25,6 +26,8 @@ var myWorkOrderModel = {//工单管理模块数据模型
     curMatterIndex: 0,      //当前操作的事项索引
     curMatterPopType: 4,       //当前事项弹框类型，0-4为选择或搜索对象弹框，0搜索，1选择大类结果无级别，2选择大类结果有左侧级别，3自定义，4选择大类
     curContent: {},     //当前工作内容
+    inputToCustomize: false,        //是否为输入未匹配时展开自定义列表
+
     //------------------------------------------zy__end------------------------------------------
 
     //------------------------------------------yn__start------------------------------------------
@@ -200,7 +203,7 @@ var myWorkOrderModel = {//工单管理模块数据模型
 
     workContent: {
         work_id: "",        //工作内容id
-        work_name: "未命名工作内容1",      //工作内容名称
+        work_name: "",      //工作内容名称
         pre_conform: "",  //强制确认
         content: "",        //操作内容
         //操作内容中涉及的对象
@@ -216,6 +219,10 @@ var myWorkOrderModel = {//工单管理模块数据模型
     selectedObjType:"",//自定义选中对象类别
     blurClose:null,
     textareaOperate:null,
+    selSeriesType:'',//添加信息点中对自定义之前的curObjType的记录
+    Published:null,//f发布列表页
+    searchResultLength:null,//关键字搜索结果
+    del_matter_index:'',//删除事项的索引记录
     //------------------------------------------yn__end------------------------------------------
 }
 

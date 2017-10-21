@@ -16,14 +16,18 @@ var controller = {
                 var list = JSON.parse(JSON.stringify(_data));
                 list.forEach(function(info, index) {
                     info["name"] = info.tab_name;
+                    info["plan_index"] = index;
                     if (index == '0') {
                         info["icon"] = "z";
+                        
                     } else {
-                        info["icon"] = "z"
+                        info["icon"] = "z";
                     }
                 });
                 // console.log(list)
                 model.buttonMenus = list;
+                model.listTitlePlanName = list[0].name;
+
                 var date = new Date();
                 var _year = date.getFullYear();
                 var _month = date.getMonth() + 1;
@@ -126,7 +130,15 @@ var controller = {
                 var newList = dataList.map(function(item, index1) { //返回数据列表
                     item["dataCompareList"] = [];
                     item["newList"] = currList;
-                    var arr1 = JSON.parse(JSON.stringify(item.work_orders));
+                    var arr1 = [];
+                    var ask_st_empty = currList[0].markDay + "000000";
+                    var ask_et_empty = currList[0].markDay + "000000";//如果没有返回work_orders构造开始时间和结束时间是同一天
+                    if(item.work_orders.length >0){
+                        arr1 = JSON.parse(JSON.stringify(item.work_orders));
+
+                    }else{
+                        arr1 = [{"ask_start_time":ask_st_empty,"ask_end_time":ask_et_empty}];
+                    }
                     item["dataCompareList"] = arr1.concat(); //复制
                     item.work_orders.forEach(function(info) {
                         info.ask_start_time = info.ask_start_time.substring(0, 4) + "-" + info.ask_start_time.substring(4, 6) + "-" + info.ask_start_time.substring(6, 8);
@@ -173,7 +185,7 @@ var controller = {
                 //转换数据格式，对当前数组内前后天进行补齐
                 transList_Y.forEach(function(info, index1) {
                     var differMS = 1000 * 60 * 60 * 24;
-                    var st = info.newList[index1].markDay;
+                    var st = JSON.parse(JSON.stringify(info.newList[0].markDay));
                     var et = info.newList[info.newList.length - 1].markDay
                     var _st = st.substring(0, 4) + '-' + st.substring(4, 6) + '-' + st.substring(6, 8);
                     var _et = et.substring(0, 4) + '-' + et.substring(4, 6) + '-' + et.substring(6, 8);
@@ -194,8 +206,8 @@ var controller = {
                                     obj.step1.push({ mark: (item.ask_end_time - item.ask_start_time) / differMS + 1, order_state: item.order_state, order_id: item.order_id, ask_start_time: item.ask_start_time, ask_end_time: item.ask_end_time, is_next_order: item.is_next_order })
                                     break
                                 } else {
-                                    // obj.step1.push({mark:1,ask_start_time:k,ask_end_time:k+differMS})
-                                    obj.step1.push({ mark: 1, order_state: "none" })
+                                     obj.step1.push({mark:1,ask_start_time:Date.parse(new Date(k)),ask_end_time:Date.parse(new Date(k+differMS))})
+                                    // obj.step1.push({ mark: 1, order_state: "none" })
                                 }
                             }
                         }
@@ -203,7 +215,8 @@ var controller = {
                         var k1 = obj.step[obj.step.length - 1].ask_end_time + differMS;
                         var k2 = endTimeMs;
                         for (var k = k1; k <= k2; k += differMS) {
-                            obj.step1.push({ mark: 1, order_state: "none" })
+                            obj.step1.push({mark:1,ask_start_time:Date.parse(new Date(k)),ask_end_time:Date.parse(new Date(k+differMS))})
+                            // obj.step1.push({ mark: 1, order_state: "none" })
                         }
                     }
                 });
@@ -221,7 +234,7 @@ var controller = {
     getOrderStateList: function() { //查询工单状态列表
         $("#list_loading").pshow();
         pajax.post({
-            url: 'restGeneralDictService/queryGeneralDictByKey',
+            url: 'restGeneralDictService/queryWorkOrderState',
             data: {
                 dict_type: "work_order_state"
             },
@@ -456,7 +469,7 @@ var controller = {
             }
         });
     },
-    getAddOrderPlan:function(_data){//添加工单计划
+    getAddOrderPlan:function(_data,typeIndex,raceType){//添加工单计划
         $("#list_loading").pshow();
         pajax.update({
             url: 'restWoPlanService/addWoPlan',
@@ -464,7 +477,15 @@ var controller = {
             success: function(res) {
                 $("#publishNotice").pshow({ text: '发布成功', state: "success" });
                 model.curPage = model.pages[0];
-                controller.getTabList();
+                $(".cycle_tableChange >li").removeClass("active");
+                $(".cycle_tableChange >li[type="+ raceType +"]").addClass("active");
+                if(typeIndex){
+                    $("#navBar").psel(typeIndex);
+                    setTimeout(function(){
+                        methods.getListMonthDate(null,null,null)
+                    },5)
+                }
+                
             },
             error: function(error) {
                  $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });
@@ -474,7 +495,7 @@ var controller = {
             }
         });
     },
-    getEditOrderPlan:function(_data){//编辑计划保存
+    getEditOrderPlan:function(_data,typeIndex,raceType){//编辑计划保存
         $("#list_loading").pshow();
         pajax.update({
             url: 'restWoPlanService/updateWoPlan',
@@ -482,7 +503,14 @@ var controller = {
             success: function(res) {
                 $("#publishNotice").pshow({ text: '发布成功', state: "success" });
                 model.curPage = model.pages[0];
-                controller.getTabList();
+                $(".cycle_tableChange >li").removeClass("active");
+                $(".cycle_tableChange >li[type="+ raceType +"]").addClass("active");
+                if(typeIndex){
+                    $("#navBar").psel(typeIndex);
+                    setTimeout(function(){
+                        methods.getListMonthDate(null,null,null)
+                    },5)
+                }
             },
             error: function(error) {
                  $("#publishNotice").pshow({ text: '发布失败，请重试', state: "failure" });

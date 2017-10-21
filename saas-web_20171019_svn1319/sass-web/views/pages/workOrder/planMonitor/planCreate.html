@@ -1,0 +1,179 @@
+<div id="planCreate_bg" v-show="curPage == pages[6]">
+    <div class="planCreate_box">
+        <div class="planCreate_page">
+            <div class="planCreate_page_top">
+                <div class="planCreate_page_back">
+                    <pbutton-white bind='true' text="'取消'" @click="goBackPlanList()"></pbutton-white>
+                </div>
+                <div class="planCreate_page_save">
+                    <pbutton-blue bind="true" text="'下一步'" @click="next_btn_step()"></pbutton-blue>
+                </div>
+            </div>
+            <div class="planCreate_page_con">
+                <div class="planCreate_page_con_left">
+                    <div class="planCreate_page_con_left_tit">
+                        <span>基本信息</span>
+                    </div>
+                    <div class="planCreate_page_con_left_name">
+                        <h4><span>*</span><i>计划名称</i></h4>
+                        <div id="plan_name">
+                            <ptext-text bind="true" v-model="model.newPlanObj.plan_name">
+                                <verify errtip="计划名称不能为空" verifytype="space"></verify>
+                            </ptext-text>
+                        </div>
+                    </div>
+                    <div class="planCreate_page_con_left_orderType">
+                        <h4><strong></strong><i>工单类型：</i><em v-text="methods.removePlanFn(model.orderTypeName)"></em></h4>
+                    </div>
+                    <div class="planCreate_page_con_left_order_level">
+                        <h4><span>*</span><i>工单紧急程度</i></h4>
+                        <div id="orderUrgency">
+                            <pcombobox-normal bind="true" sel="">
+                                <header placeholder="低"></header>
+                                <item datasource="model.orderLevelList" text="name"></item>
+                            </pcombobox-normal>
+                        </div>
+                    </div>
+                    <div class="planCreate_page_con_left_sendTime">
+                        <h4><span>*</span><i>工单提前发送时间：</i></h4>
+                        <div id="aheadCreateTime">
+                            <!-- <span>提前：</span> -->
+                            <ptext-text text="提前：" placeholder="请在此输入时间" align="left">
+                                 <verify errtip="时间不能为空" verifytype="space"></verify>
+                                 <verify errtip="请输入正整数" verifytype="positiveint"></verify>
+
+                            </ptext-text>
+                            <strong>小时</strong>
+                        </div>
+                    </div>
+                    <div class="planCreate_page_con_left_planRate">
+                        <h4><span>*</span><i>计划频率：</i></h4>
+                        <div>
+                            <span>每</span>
+                            <pcombobox-normal :id="'planRateLeft'" bind="true" sel="methods.setYMWD_type(model,event)">
+                                <header placeholder="请选择"></header>
+                                <item datasource="model.planRateLeft" text="name"></item>
+                            </pcombobox-normal>
+                            <pcombobox-normal :id="'planRateRig'" bind="true" sel="methods.set_RateNum(model,event)">
+                                <header placeholder="请选择"></header>
+                                <item datasource="model.planRateRig" text="name"></item>
+                                <!-- <verify errtip="'请选择计划频率'" verifytype="number"></verify> -->
+                            </pcombobox-normal>
+                            <p>次</p>
+                        </div>
+                        <span id="planRace_error" class="per-input-basic">
+                            <div err="" class="error-tip" style="display: block;"><i>！</i><em errtext="">请选择计划频率</em></div>
+                        </span>
+                        <!-- 年 -->
+                        <ul v-if="rateYear" class="planCreate_page_con_left_planRateList planCreate_page_con_left_planRateList_year">
+                            <li v-for="(item,index) in rateYear">
+                                <span>第<i v-text="index +1"></i>次要求开始时间和结束时间</span>
+                                <section>
+                                    <ptime-form bind='true' :id="'yearStartTime' + index" sel="">
+                                        <panel startyear="2013" endyear="2022" timeType="Mdhm"></panel>
+                                    </ptime-form>
+                                    <i>至</i>
+                                    <ptime-form bind='true' id="'yearEndTime' + index" sel="">
+                                        <panel startyear="2013" endyear="2022" timeType="Mdhm"></panel>
+                                    </ptime-form>
+                                </section>
+                            </li>
+                        </ul>
+                        <!-- 月 -->
+                        <ul v-if="rateMonth" class="planCreate_page_con_left_planRateList planCreate_page_con_left_planRateList_month">
+                            <li v-for="(item,index) in rateMonth">
+                                <span>第<i v-text="index +1"></i>次要求开始时间和结束时间</span>
+                                <section>
+                                    <ptime-form bind='true' id="'monthStartTime' + index" sel="">
+                                        <panel startyear="2013" endyear="2022" timeType="dhm"></panel>
+                                    </ptime-form>
+                                    <i>至</i>
+                                    <ptime-form bind='true' id="'monthEndTime' + index" sel="">
+                                        <panel startyear="2013" endyear="2022" timeType="dhm"></panel>
+                                    </ptime-form>
+                                </section>
+                            </li>
+                        </ul>
+                        <!-- 周 -->
+                        <ul v-if="rateWeek" class="planCreate_page_con_left_planRateList planCreate_page_con_left_planRateList_week">
+                            <li v-for="(item,index) in rateWeek">
+                                <span>第<i v-text="index +1"></i>次要求开始时间和结束时间</span>
+                                <section>
+                                    <span>
+                                        <pcombobox-normal id="'weekChoiceList_prev' +index" bind="true" sel="">
+                                            <header placeholder="周一"></header>
+                                            <item datasource="model.weekChoice_List" text="name"></item>
+                                        </pcombobox-normal>
+                                        <ptime-form bind='true' id="'weekStartTime' + index" sel="">
+                                            <panel startyear="2013" endyear="2022" timeType="hm"></panel>
+                                        </ptime-form>  
+                                        
+                                    </span>
+                                    <i>至</i>
+                                    <span>
+                                        <pcombobox-normal id="'weekChoiceList_next' + index" bind="true" sel="">
+                                            <header placeholder="周一"></header>
+                                            <item datasource="model.weekChoice_List" text="name"></item>
+                                        </pcombobox-normal>
+                                        <ptime-form bind='true' id="'weekEndTime' + index" sel="">
+                                            <panel startyear="2013" endyear="2022" timeType="hm"></panel>
+                                        </ptime-form>
+                                            
+                                    </span>
+                                </section>
+                            </li>
+                        </ul>
+                        <!-- 日 -->
+                        <ul v-if="rateDay" class="planCreate_page_con_left_planRateList planCreate_page_con_left_planRateList_day">
+                            <li v-for="(item,index) in rateDay">
+                                <span>第<i v-text="index +1"></i>次要求开始时间和结束时间</span>
+                                <section>
+                                    <ptime-form bind='true' id="'dayStartTime' + index" sel="">
+                                        <panel startyear="2013" endyear="2022" timeType="hm"></panel>
+                                    </ptime-form>
+                                    <i>至</i>
+                                    <ptime-form bind='true' id="'dayEndTime' + index" sel="">
+                                        <panel startyear="2013" endyear="2022" timeType="hm"></panel>
+                                    </ptime-form>
+                                </section>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="planCreate_page_con_left_effectTime">
+                        <h4>计划生效时间：</h4>
+                        <div>
+                            <span>起</span>
+                            <pcombobox-normal id="'choice_planStartTime'" bind="true" sel="methods.plan_startTime_show(model,event)">
+                                <header placeholder="发布成功后立即"></header>
+                                <item datasource="model.effectTime_startList" text="name"></item>
+                            </pcombobox-normal>
+                        </div>
+                        <span class="plan_Time_choice" id="plan_startTime">
+                            <ptime-form bind='true'>
+                                <panel startyear="2013" endyear="2022" timeType="yMdhm"></panel>
+                            </ptime-form>
+                        </span>
+                        <div>
+                            <span>止</span>
+                            <pcombobox-normal id="'choice_planEndTime'" bind="true" sel="methods.plan_endTime_show(model,event)">
+                                <header placeholder="一直有效"></header>
+                                <item datasource="model.effectTime_endList" text="name"></item>
+                            </pcombobox-normal>
+                        </div>
+                        <span class="plan_Time_choice" id="plan_endTime">
+                            <ptime-form bind='true'>
+                                <panel startyear="2013" endyear="2022" timeType="yMdhm"></panel>
+                            </ptime-form>
+                        </span>
+                        <section id="choicePlanTime_error" class="per-input-basic">
+                             <div err="" class="error-tip" style="display: block;"><i>！</i><em errtext="">计划结束时间需大于开始时间</em></div>
+                        </section>
+                    </div>
+                </div>
+                <div class="planCreate_page_con_rig">
+                    <% include ../myWorkOrder/workMatter.html %>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

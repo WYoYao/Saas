@@ -66,7 +66,7 @@ var myWorkOrderController = {
     },
 
     //根据id查询工单详细信息-发布后的     //To Use
-    queryWorkOrderById: function (order_id) {
+    queryWorkOrderById1: function (order_id) {
         $('#globalloading').pshow();
         pajax.post({
             url: 'restWoMonitorService/queryWorkOrderById',
@@ -129,8 +129,6 @@ var myWorkOrderController = {
             data: conditionObj,
             success: function (result) {
                 var data = result && result.data ? result.data : [];
-                console.log(data)
-                console.log(url,conditionObj)
                 commonData.publicModel.temList = commonData.publicModel.temList.concat(data);
                 commonData.publicModel.workList = commonData.publicModel.temList;
                 $("#myWork-list-notice").pshow({text: '获取工单列表成功', state: "success"});
@@ -200,6 +198,31 @@ var myWorkOrderController = {
             }
         });
     },
+    //查看发布后的工单详情
+    queryWorkOrderById:function(order_id){
+        $('#loadCover').pshow();
+        commonData.publicModel.workList = [];
+        pajax.post({
+            url: 'restMyWorkOrderService/queryWorkOrderById',
+            data: {
+                order_id: order_id
+            },
+            success: function (result) {
+                var data = result ? result : {};
+                debugger;
+                commonData.publicModel.orderDetailData = data.work_order.wo_body || {};
+                orderDetail_pub.getOrderDetail(commonData.publicModel, commonData.publicModel.orderDetailData.order_id, '4');
+                // commonData.publicModel.LorC = true;
+                commonData.publicModel.Published= 1;
+            },
+            error: function (err) {
+                $("#myWork-list-notice").pshow({text: '获取工单详情失败', state: "failure"});
+            },
+            complete: function () {
+                $('#loadCover').phide();
+            }
+        });
+    },
     /*查询用户输入方式*/
     queryUserWoInputMode: function () {
         $('#loadCover').pshow();
@@ -223,6 +246,7 @@ var myWorkOrderController = {
     /*编辑草稿*/
     editDraft: function (index, order_id, event) {
         event.stopPropagation();
+        commonData.publicModel.workOrderDraft={};
         var editDraftObj = {
         };
         if (order_id) {
@@ -240,6 +264,10 @@ var myWorkOrderController = {
                 commonData.publicModel.workOrderDraft = result;
 
                 commonData.publicModel.allMatters = result.matters;
+                console.log("请求返回的：")
+                console.log(order_id)
+                console.log(result)
+                console.log(commonData.publicModel.workOrderDraft)
                 publicMethod.setEditDraft()
 
             },
@@ -503,7 +531,6 @@ var myWorkOrderController = {
                 publicMethod.setCriteriaStatus('fit_objs', 'selectedFit_objs', true, 'obj_id');
                 publicMethod.setCriteriaStatus('labels', 'selectedLabels', false);
 
-                commonData.publicModel.curLevelList = JSON.parse(JSON.stringify(commonData.publicModel.sopList));
 
                 var value = obj.sop_name;
                 for (var i = 0; i < sop.length; i++) {
@@ -511,13 +538,15 @@ var myWorkOrderController = {
                     if (item.sop_name) item.sop_name_arr = publicMethod.strToMarkedArr(item.sop_name, value);
                 }
 
+                commonData.publicModel.curLevelList = JSON.parse(JSON.stringify(sop));
+
                 if (commonData.firstSetMore) {
                     publicMethod.initSopModal();
                 }
-                /*isPop3 ? publicMethod.isSelectedObj1() : */
-                publicMethod.isSelectedObj(null, commonData.types[1]);
                 /*isPop3 ? publicMethod.setCurPop3(1) : */
                 publicMethod.setCurPop(null, commonData.types[1]);
+                /*isPop3 ? publicMethod.isSelectedObj1() : */
+                publicMethod.isSelectedObj(null, commonData.types[1]);
             },
             error: function (err) {
             },
@@ -581,17 +610,21 @@ var myWorkOrderController = {
      }
      });
      },*/
-    queryInfoPointForObject: function (obj, jqInfoPointPop) {
+    queryInfoPointForObject: function (obj, jqInfoPointPop,keyword) {
         commonData.publicModel.infoArray = [];
         $('#loadCover').pshow();
         commonData.publicModel.selectedObj = obj;
+        commonData.publicModel.searchResultLength=null;
         // obj.checked = !obj.checked;
         pajax.post({
             url: 'restObjectService/queryInfoPointForObject',
             data: {
                 // user_id: commonData.publicModel.user_id,
-                obj_id: obj.obj_id,
-                obj_type: obj.obj_type || commonData.publicModel.curObjType
+                // obj_id: commonData.infoPoint_obj.obj_id || obj.obj_id ,
+                obj_id:obj.obj_id,
+                // obj_type: commonData.publicModel.curObjType || obj.obj_type,
+                obj_type:obj.obj_type ||  commonData.publicModel.curObjType ,
+                keyword:keyword
             },
             success: function (result) {
                 var data = result && result.data ? result.data : [];
@@ -610,6 +643,7 @@ var myWorkOrderController = {
                     }
                 }
                 commonData.publicModel.infoArray = data;
+                commonData.publicModel.searchResultLength=data.length;
                 if (jqInfoPointPop) jqInfoPointPop.show();
                 commonData.publicModel.isCustomizeBtnAble = true;
             },
@@ -620,13 +654,60 @@ var myWorkOrderController = {
             }
         });
     },
+    //搜索信息点
+    searchInfoPoint: function (dom) {
+    $('#loadCover').pshow();
+        commonData.publicModel.curObjType = 'search';
+        $(dom).parents(".aite-bubble").find(".timely-checkbox").show().siblings().hide();
+    var keyword = $(dom).parents('.info-search-box').find('input').val();
+        pajax.post({
+            url: 'restObjectService/searchInfoPoint',
+            data: {
+                keyword: keyword
+            },
+            success: function (result) {
+                var data = result && result.data ? result.data : [];
+                var keywordArr = keyword.split(' ');
+                for (var i = 0; i < data.length; i++) {
+                    var item = data[i];
+                    if (item.parents) {
+                        for (var j = 0; j < item.parents.length; j++) {
+                            var item1 = item.parents[j];
+                            item1.linked_names = item1.parent_names.join('>') + '>' + item.obj_name;
+                        }
+
+                    }
+                    if (item.info_point.name) {
+                        for (var j = 0; j < keywordArr.length; j++) {
+                            var singleKeyword = keywordArr[j];
+                            if (!singleKeyword) continue;
+                            item.info_point.name_arr = publicMethod.strToMarkedArr(item.info_point.name, singleKeyword, item.info_point.name_arr);
+                        }
+                    }
+                }
+                commonData.publicModel.curLevelList = data;
+                commonData.publicModel.searchResultLength=data.length;
+                // if (data.length) {
+                //     commonMethod.setCurPop2(0, true);
+                //
+                // }
+                publicMethod.isSelectedInfoPoint()
+
+            },
+            error: function (err) {
+            },
+            complete: function () {
+                $('#loadCover').phide();
+            }
+        });
+    },
     //12、添加自定义对象
-    addTempObjectWithType: function (obj, isConfirmCustomizeObj, isShowPop, isNextPage) {
+    addTempObjectWithType: function (obj, isConfirmCustomizeObj, isShowPop, isNextPage, type) {
         pajax.update({
             url: 'restObjectService/addTempObjectWithType',
             data: obj,
             success: function (result) {
-                publicMethod.addedTempObjectWithType(obj, isConfirmCustomizeObj, isShowPop);
+                publicMethod.addedTempObjectWithType(obj, isConfirmCustomizeObj, isShowPop, type);
             },
             error: function (err) {
             },
@@ -669,15 +750,38 @@ var myWorkOrderController = {
                     if (data.length) {
                         publicMethod.setCurPop(0, commonData.types[0]);
                     } else {        //无匹配的结果时转换为自定义形式
+                        commonData.publicModel.inputToCustomize = true;
                         publicMethod.setCurPop(3, commonData.types[0]);
                     }
                     publicMethod.isSelectedObj(null, commonData.types[0]);
                     //publicMethod.locationPop(commonData.textwrap, commonData.textdiv, commonData.textareapop, commonData.text);     //定位
                     publicMethod.locationPop(null, commonData.types[0]);
                 } else {
-                    publicMethod.updateObjs(0, keyword, commonData.types[0]);
+                    commonData.publicModel.curLevelList = data;
+                    var customizeObj = true;
+                    for (var i = 0; i < data.length; i++) {
+                        var item = data[i];
+                        if (keyword == item.obj_name) {
+                            //添加自定义对象
+                            customizeObj = false;
+                            break;
+                        }
+                    }
+                    if (customizeObj) {
+                        console.log('输入了一个空格，结束对象输入，该对象为自定义对象');
+                        var objName = keyword;
+                        var obj = {
+                            user_id: commonData.user_id,
+                            project_id: commonData.project_id,
+                            obj_type: 'other',
+                            obj_name: objName
+                        }
+                        myWorkOrderController.addTempObjectWithType(obj);
+                    } else {
+                        console.log('输入了一个空格，结束对象输入，该对象可匹配到物理世界的对象');
+                        publicMethod.updateObjs(0, keyword, commonData.types[0], null, data[i]);
+                    }
                 }
-
             },
             error: function (err) {
             },
@@ -686,7 +790,6 @@ var myWorkOrderController = {
             }
         });
     },
-
     //------------------------------------------yn__end------------------------------------------
 
 }

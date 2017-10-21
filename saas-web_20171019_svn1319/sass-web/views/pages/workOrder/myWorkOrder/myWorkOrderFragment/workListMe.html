@@ -1,0 +1,18 @@
+<div class="myWork-table" v-show="commonData.publicModel.workList.length!=0 && commonData.publicModel.workAlreadyID != 0">
+    <div class="myWork-table-header">
+        <div class="table-header-id"><span>工单编号</span></div>
+        <div class="table-header-type"><span>工单类型</span></div>
+        <div class="table-header-summary"><span>工作事项</span></div>
+        <div class="table-header-create"><span>起止时间</span></div>
+        <div class="table-header-state"><span>工单状态</span></div>
+    </div>
+    <div class="myWork-table-body">
+        <div class="tr" v-for="(item,index) in commonData.publicModel.workList" @click="publicMethod.publishedWorkOrder(item,index)">
+            <div class="table-header-id" :tittle="item.order_id"><span v-text="item.order_id"></span></div>
+            <div class="table-header-type" :tittle="item.order_type_name"><span v-text="item.order_type_name"></span></div>
+            <div class="table-header-summary" :tittle="item.summary"><span v-text="item.summary"></span></div>
+            <div class="table-header-create" :tittle="item.ask_start_time"><span v-text="item.ask_start_time"></span><em>~</em><span v-text="item.ask_end_time"></span></div>
+            <div class="table-header-state" :tittle="item.order_state_name"><span v-text="item.order_state_name"></span></div>
+        </div>
+    </div>
+</div>

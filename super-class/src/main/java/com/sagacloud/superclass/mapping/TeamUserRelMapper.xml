@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.TeamUserRelMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.TeamUserRel" >
+    <id column="team_user_id" property="teamUserId" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_type" property="userType" jdbcType="VARCHAR" />
+    <result column="creater_id" property="createrId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <association property="team" 
+     				javaType="com.sagacloud.superclass.pojo.Team"
+     				resultMap="com.sagacloud.superclass.dao.TeamMapper.BaseResultMap" />
+    <association property="user" 
+    				javaType="com.sagacloud.superclass.pojo.User"
+    				resultMap="com.sagacloud.superclass.dao.UserMapper.BaseResultMap" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    team_user_id, team_id, user_id, user_type, creater_id, create_time
+  </sql>
+  <delete id="deleteByTeamId" >
+  	delete
+  	from t_team_user_rel
+  	where team_id = #{teamId,jdbcType=VARCHAR}
+  </delete>
+  
+  <delete id="deleteByUserTeamId" >
+  	delete
+  	from t_team_user_rel
+  	where team_id = #{teamId,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  
+  <select id="selectUserByTeamIds" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  	select ttu.team_user_id, ttu.user_type, 
+  			tu.user_id, tu.nickname, tu.head_portrait
+  	from t_team_user_rel ttu, t_user tu
+  	where ttu.team_id = #{teamId,jdbcType=VARCHAR} and ttu.user_id = tu.user_id and tu.valid = 1
+  	order by ttu.user_type asc, tu.nickname asc
+  </select>
+  
+  <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select ttu.team_user_id, ttu.user_id,ttu.team_id, 
+  		tt.team_id,tt.team_name, tt.team_num, tt.creater_id, tt.create_time, tt.valid
+  	from t_team_user_rel ttu, t_team tt
+  	where ttu.user_id = #{userId,jdbcType=VARCHAR} and ttu.team_id = tt.team_id and tt.valid = 1  
+  </select>
+  <select id="selectUserCountMapByTeamIds" resultType="java.util.HashMap" >
+  	select team_id, count(user_id) as userCount
+  	from t_team_user_rel
+  	where team_id in 
+  	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  	group by team_id
+  </select>
+  
+  <select id="selectUserCountByTeamId" parameterType="java.lang.String" resultType="java.lang.Integer" >
+  	select count(*) as userCount
+  	from t_team_user_rel
+  	where team_id = #{teamId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_team_user_rel
+    where team_user_id = #{teamUserId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_team_user_rel
+    where team_user_id = #{teamUserId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.TeamUserRel" >
+    insert into t_team_user_rel (team_user_id, team_id, user_id, 
+      user_type, creater_id, create_time
+      )
+    values (#{teamUserId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{userType,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.TeamUserRel" >
+    insert into t_team_user_rel
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="teamUserId != null" >
+        team_user_id,
+      </if>
+      <if test="teamId != null" >
+        team_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="userType != null" >
+        user_type,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="teamUserId != null" >
+        #{teamUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.TeamUserRel" >
+    update t_team_user_rel
+    <set >
+      <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        user_type = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where team_user_id = #{teamUserId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.TeamUserRel" >
+    update t_team_user_rel
+    set team_id = #{teamId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      user_type = #{userType,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where team_user_id = #{teamUserId,jdbcType=VARCHAR}
+  </update>
+</mapper>

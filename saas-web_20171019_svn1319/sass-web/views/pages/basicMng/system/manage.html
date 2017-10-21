@@ -1,0 +1,63 @@
+<div id="manage" class="system" v-if='onPage=="manage"'>
+    <div class="content manage">
+        <p class="tel">若资料有误，请联系客服修改：400-8800-6633</p>
+        <ul class="tables">
+            <li class="row">
+                <p>企业名称</p>
+                <span v-text="Customer.company_name"></span>
+            </li>
+            <li class="row">
+                <p>公司法人</p>
+                <span v-text="Customer.legal_person">潘石屹</span>
+            </li>
+            <li class="row">
+                <p>公司经营有效期</p>
+                <span v-text="new Date(Customer.operation_valid_term_start).format('yyyy.MM.dd')+'-'+new Date(Customer.operation_valid_term_end).format('yyyy.MM.dd')"></span>
+            </li>
+            <li class="row">
+                <p>营业执照</p>
+                <span>
+                    <div class="upload">
+                        <div class="upload-picture">
+                            <ul>
+                                <li class="upload-picture-wrap">
+                                    <img timg="" :src="Customer.business_license">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </span>
+            </li>
+            <li class="row">
+                <p>产权证/托管合同</p>
+                <span>
+                    <div class="upload">
+                        <div class="upload-picture">
+                            <ul v-for='(url,index) in Customer.pictures'>
+                                <li class="upload-picture-wrap">
+                                    <img :src="url">
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </span>
+            </li>
+            <li class="row">
+                <p>托管合同有效期限</p>
+                <span v-text="new Date(Customer.contract_valid_term_start).format('yyyy.MM.dd')+'-'+new Date(Customer.contract_valid_term_end).format('yyyy.MM.dd')"></span>
+            </li>
+            <li class="row">
+                <p>使用的工程工具</p>
+                <span v-text="Customer.tool_type">Revit</span>
+            </li>
+            <li class="row">
+                <p>联系人姓名</p>
+                <span v-text="Customer.contact_person">张三</span>
+            </li>
+            <li class="row">
+                <p>联系人手机号</p>
+                <span v-text="Customer.contact_phone">13856238523</span>
+            </li>
+        </ul>
+    </div>
+</div>

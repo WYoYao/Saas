@@ -60,6 +60,7 @@ v.pushComponent({
         listHeight: {}, // 行号的类型
         Scrapped: {}, // 准备报废的设备
          // 工单详情Start
+         planObjExampleArr:[],
          orderDetailData:{},
          orderOperatList:[],
          pages:[],
@@ -186,6 +187,7 @@ v.pushComponent({
             this.currentSelector.page = 1;
 
             equipmentMngList.queryEquipEnum(_that.onTab, this.currentSelector).then(function (list) {
+                
                 _that[EnumType[_that.onTab]] = list;
             })
 
@@ -312,7 +314,12 @@ v.pushComponent({
                 _that.currentSelector.page += 1;
 
                 equipmentMngList.queryEquipEnum(_that.onTab, _that.currentSelector).then(function (list) {
+
+                    var count=_that[EnumType[_that.onTab]].count;
+
                     _that[EnumType[_that.onTab]] = _that[EnumType[_that.onTab]].concat(list);
+
+                    _that[EnumType[_that.onTab]].count=count;
                 })
             }
 

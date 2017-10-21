@@ -1,8 +1,12 @@
-function scrollFloor() {
-    var scrollHeight = document.getElementById("floorContent").scrollHeight;
-    var offsetHeight = document.getElementById("floorContent").offsetHeight;
-    if (scrollHeight > offsetHeight) {
-        $("#floorContent").scrollTop(scrollHeight);
+function scrollFloor(operate) {
+    if (operate == 'add' && spaceInfoController.addFloorSign == 'up') {
+        $("#floorContent").scrollTop(0);
+    } else {
+        var scrollHeight = document.getElementById("floorContent").scrollHeight;
+        var offsetHeight = document.getElementById("floorContent").offsetHeight;
+        if (scrollHeight > offsetHeight) {
+            $("#floorContent").scrollTop(scrollHeight);
+        }
     }
 }
 function editItem(event) {
@@ -13,45 +17,49 @@ function editItem(event) {
     var $contShow = $this.parents(".contShow");
     $contShow.hide();
     $contShow.siblings(".editShow").show();
+    var $inputText = $contShow.siblings(".editShow").find("[widtye='inputText']");
+    if ($inputText.length > 0 && !$inputText.pverifi()) {//输入恢复初始化
+        $inputText.precover();
+    }
     var ftype = $this.parents(".detailItem").attr("ftype");//哪种属性
     if (instance.editFloatName == 'floor') {
-        spaceInfoController.editDetailCopy[ftype] = instance.floorDetail[ftype];//备份
+        spaceInfoController.editDetailCopy = JSON.parse(JSON.stringify(instance.floorDetail));//备份 
         ftype == 'floor_type' && (true, $('#editFloorType').psel(parseInt(instance.floorDetail.floor_type) - 1));//如果是楼层类型
-
     }
     if (instance.editFloatName == 'space') {
-        spaceInfoController.editDetailCopy[ftype] = instance.spaceDetail[ftype];//备份 todo
-        ftype == 'room_func_type_name' && (true, spaceInfoController.editDetailCopy['room_func_type'] = instance.spaceDetail['room_func_type']);//空间类型
-        ftype == 'tenant_type_name' && (true, spaceInfoController.editDetailCopy['tenant_type'] = instance.spaceDetail['tenant_type']);//租户类型
+        spaceInfoController.editDetailCopy = JSON.parse(JSON.stringify(instance.spaceDetail));//备份 
     }
 }
-function cancelEdit(event) {
-    var $this = $(event.currentTarget);
-    $("#quitEditDialog").pshow({ title: "确定退出编辑吗？", subtitle: "取消编辑将不保存当前编辑信息" });//弹出弹出框
-    $("#quitEditBut").data('thisObj', $this);
-}
+//function cancelEdit(event) {
+//    var $this = $(event.currentTarget);
+//    $("#quitEditDialog").pshow({ title: "确定退出编辑吗？", subtitle: "取消编辑将不保存当前编辑信息" });//弹出弹出框
+//    $("#quitEditBut").data('thisObj', $this);
+//}
 function sureEdit(event) {//弹出编辑确认框
     var $this = $(event.currentTarget);
-    $("#saveModeSel").pshow();//弹出弹出框
     var instance = spaceInfoModel.instance();
+    var $inputText = $this.parents(".detailItem").find("[widtye='inputText']");
+    if ($inputText.length > 0 && !$inputText.pverifi()) {//输入出现错误
+        return;
+    }
     var ftype = $this.parents(".detailItem").attr("ftype");
+
     if (instance.editFloatName == 'floor') {//楼层
         spaceInfoController.queryFloorInfoPointHis(ftype);//查询历史信息
     } else {
         spaceInfoController.querySpaceInfoPointHis(ftype);
     }
+    $("#saveModeSel").pshow();//弹出弹出框
     $("#sureEditBut").data('thisObj', $this);
+    $("#editTimeBox").psel({ y: (new Date()).format('yyyy'), M: (new Date()).format('MM'), d: (new Date()).format('dd') });//设置时间为今天
 }
+
 function infoEditSure() {//ftype来自于哪里啊
     var instance = spaceInfoModel.instance();
     $("#saveModeSel").phide();//弹出弹出框
     //保存数据
     var $thisObj = $("#sureEditBut").data('thisObj');
     var ftype = $thisObj.parents(".detailItem").attr("ftype");
-    if (spaceInfoController.editDetailCopy[ftype] == (instance.editFloatName == 'floor' ? instance.floorDetail[ftype] : instance.spaceDetail[ftype])) {
-        $("#globalnotice").pshow({ text: "没有修改！", state: "failure" });
-        return;
-    }
     function call() {//编辑状态隐藏
         var $editShow = $thisObj.parents(".editShow");
         $editShow.hide();
@@ -82,30 +90,27 @@ function infoEditSure() {//ftype来自于哪里啊
         spaceInfoController.updateSpaceInfo(ftype, fvalue, call);//编辑接口
     }
 }
-function infoEditCancle() {
-    $("#saveModeSel").phide();//弹出弹出框
-}
-function quitEditSure() {//确认取消编辑
-    $("#quitEditDialog").phide();
-    var $thisObj = $("#quitEditBut").data('thisObj');
-    var instance = spaceInfoModel.instance();
-    instance.detailEditSign = true;
-    var $editShow = $thisObj.parents(".editShow");
-    $editShow.hide();
-    $editShow.siblings(".contShow").show();
-    var ftype = $thisObj.parents(".detailItem").attr("ftype");//哪种属性
-    if (instance.editFloatName == 'floor') {
-        Vue.set(instance.floorDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原
-    }
-    if (instance.editFloatName == 'space') {
-        ftype == 'room_func_type_name' && (true, Vue.set(instance.spaceDetail, 'room_func_type', spaceInfoController.editDetailCopy['room_func_type']));//空间类型
-        ftype == 'tenant_type_name' && (true, Vue.set(instance.spaceDetail, 'tenant_type', spaceInfoController.editDetailCopy['tenant_type']));//空间类型
-        Vue.set(instance.spaceDetail, ftype, spaceInfoController.editDetailCopy[ftype]);//还原
-    }
-}
-function quiteEditCancle() {
-    $("#quitEditDialog").phide();
-}
+//function infoEditCancle() {
+//    $("#saveModeSel").phide();//弹出弹出框
+//}
+//function quitEditSure() {//确认取消编辑
+//    $("#quitEditDialog").phide();
+//    var $thisObj = $("#quitEditBut").data('thisObj');
+//    var instance = spaceInfoModel.instance();
+//    instance.detailEditSign = true;
+//    var $editShow = $thisObj.parents(".editShow");
+//    $editShow.hide();
+//    $editShow.siblings(".contShow").show();
+//    if (instance.editFloatName == 'floor') {
+//        instance.floorDetail = JSON.parse(JSON.stringify(spaceInfoController.editDetailCopy));//还原 
+//    }
+//    if (instance.editFloatName == 'space') {
+//        instance.spaceDetail = JSON.parse(JSON.stringify(spaceInfoController.editDetailCopy));//还原 
+//    }
+//}
+//function quiteEditCancle() {
+//    $("#quitEditDialog").phide();
+//}
 function showWarnSet() {
     $("#spaceWarnSet").pshow();
 }
@@ -135,9 +140,11 @@ function addFloorShow(event, param) {//添加楼层页面显示
     instance.floorDetail = new floorObj();
     spaceInfoController.addFloorSign = param;
     $("#addFloorDiv").show();
-    $("#addFloorDiv [floortype='nameInput']").precover();//恢复默认  
-    $("#addFloorDiv [floortype='idInput']").precover();//恢复默认  
     $("#addFloorDiv [floortype='typeDrop']").precover();//恢复默认  
+    var allInput = $("#addFloorDiv [widtye='inputText']");
+    for (var i = 0; i < allInput.length; i++) {//恢复默认 
+        $(allInput[i]).precover();
+    }
 }
 function saveAddFloor() {
     var instance = spaceInfoModel.instance();
@@ -152,15 +159,16 @@ function saveAddFloor() {
     }
     floorDetail.floor_sequence_id = thisSequence.toString();
 
-    if (!floorDetail.floor_local_name.ptrimHeadTail()) {
-        $("#globalnotice").pshow({ text: "楼层名称不能为空！", state: "failure" });
+    //input框的判断
+    var allInput = $("#addFloorDiv [widtye='inputText']");
+    var wrongSign = true;
+    for (var i = 0; i < allInput.length; i++) {
+        wrongSign = $(allInput[i]).pverifi();
+        if (!wrongSign) break;
+    }
+    if (!wrongSign) {
         return;
     }
-    if (!floorDetail.floor_local_id.ptrimHeadTail()) {
-        $("#globalnotice").pshow({ text: "楼层编码不能为空！", state: "failure" });
-        return;
-    }
-
     //验证是有重复
     spaceInfoController.fnameRepeat = true;
     spaceInfoController.fidRepeat = true;
@@ -248,19 +256,7 @@ function saveAddSpace(event) {
         $("#globalnotice").pshow({ text: "所属楼层不能为空！", state: "failure" });
         return;
     }
-    if (!spaceDetail.room_local_name.ptrimHeadTail()) {
-        $("#globalnotice").pshow({ text: "空间名称不能为空！", state: "failure" });
-        return;
-    }
-    if (!spaceDetail.room_local_id.ptrimHeadTail()) {
-        $("#globalnotice").pshow({ text: "空间编号不能为空！", state: "failure" });
-        return;
-    }
-    if (!spaceDetail.tenant_type.ptrimHeadTail()) {
-        $("#globalnotice").pshow({ text: "租赁业态类型不能为空！", state: "failure" });
-        return;
-    }
-    //输入数字的判断
+    //input框的判断
     var allInput = $("#addSpaceDiv [widtye='inputText']");
     var wrongSign = true;
     for (var i = 0; i < allInput.length; i++) {
@@ -268,10 +264,12 @@ function saveAddSpace(event) {
         if (!wrongSign) break;
     }
     if (!wrongSign) {
-        $("#globalnotice").pshow({ text: "需要输入数字的请修改", state: "failure" });
         return;
     }
-
+    if (!spaceDetail.tenant_type.ptrimHeadTail()) {
+        $("#globalnotice").pshow({ text: "租赁业态类型不能为空！", state: "failure" });
+        return;
+    }
     //验证是有重复
     spaceInfoController.snameRepeat = true;
     spaceInfoController.sidRepeat = true;

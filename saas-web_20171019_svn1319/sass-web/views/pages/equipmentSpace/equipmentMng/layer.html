@@ -1,0 +1,497 @@
+<style>
+    .layer {
+        position: fixed;
+        z-index: 100;
+        /*width: 300px;
+        height: 400px;
+        border: 1px solid red;*/
+    }
+
+    .lblock{
+        position: fixed;
+        z-index: 99;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+    
+    .layer .tip,
+    .layer .confirm {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 302px;
+        height: auto;
+        border: 1px solid #d9d9d9;
+        border-radius: 2px;
+        z-index: 2;
+        background: #ffffff;
+        box-shadow: 2px 2px 5px #d9d9d9;
+        text-indent: 0;
+    }
+    
+    .layer .confirm .titlefont {
+        display: block;
+        margin-top: 20px;
+        height: 30px;
+        line-height: 30px;
+        font-size: 16px;
+        color: #333333;
+        text-align: center;
+    }
+    
+    .layer .confirm .description {
+        display: block;
+        height: 16px;
+        line-height: 12px;
+        font-size: 12px;
+        color: #6d6d6d;
+        text-align: center;
+    }
+    
+    .layer .confirm .panel {
+        position: relative;
+        height: 68px;
+        width: 100%;
+    }
+    
+    .layer .confirm .panel .sumitbtn,
+    .layer .confirm .panel .cancelbtn {
+        position: absolute;
+        height: 30px;
+        width: 80px;
+        top: 50%;
+        margin-top: -15px;
+        left: 50%;
+    }
+    
+    .layer .confirm .panel .sumitbtn {
+        margin-left: -85px;
+    }
+    
+    .layer .confirm .panel .cancelbtn {
+        margin-left: 5px;
+    }
+    
+    .layer .tip .box {
+        margin: 10px 20px;
+        width: auto;
+        height: auto;
+    }
+    
+    .layer .tip .header {
+        height: 40px;
+        margin-top: 26px;
+        width: 100%;
+    }
+    
+    .layer .tip .column {
+        height: 100%;
+        width: 50%;
+        line-height: 40px;
+        float: left;
+    }
+    
+    .layer .tip .header .radio {
+        float: left;
+        height: 40px;
+        width: 25px;
+        padding-top: 4px;
+    }
+    
+    .layer .tip .contenter {
+        width: 100%;
+        height: auto;
+    }
+    
+    .layer .tip .contenter>ul {
+        height: auto;
+        max-height: 284px;
+        width: 100%;
+        overflow-y: overlay;
+        /* border: 1px solid #cccccc; */
+    }
+    
+    .layer .tip .contenter>ul>li {
+        width: 100%;
+        height: 36px;
+        background: #ffffff;
+        border-right: 1px solid #cccccc;
+        border-left: 1px solid #cccccc;
+        box-sizing: border-box;
+        border: 1px solid #cccccc;
+        border-bottom: none;
+    }
+    
+    .layer .tip .contenter>ul>li>span {
+        float: left;
+        width: 50%;
+        height: 100%;
+        line-height: 36px;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        box-sizing: border-box;
+    }
+    
+    .layer .tip .contenter>ul>li:not(.th)>span:nth-child(2n) {
+        border-left: 1px solid #cccccc;
+    }
+    
+    .layer .tip .contenter>ul>.th {
+        background: #8b959a;
+        height: 30px;
+        width: 100%;
+        border-bottom: none !important;
+    }
+    
+    .layer .tip .contenter>ul>li:nth-child(2n) {
+        background: #f8f8f8;
+    }
+    
+    .layer .tip .contenter>ul>li:last-child {
+        border-bottom: 1px solid #cccccc;
+    }
+    
+    .layer .tip .contenter>ul>.th span {
+        line-height: 30px;
+    }
+    
+    .layer .tip .contenter .label {
+        display: block;
+        font-size: 14px;
+        height: 30px;
+        width: 100%;
+        line-height: 30px;
+    }
+    
+    .layer .tip .contenter .line {
+        display: block;
+        position: relative;
+        text-indent: 0;
+        width: 100%;
+        text-align: center;
+        font-size: 12px;
+        line-height: 12px;
+        color: #b0b0b0;
+    }
+    
+    .layer .tip .contenter .line::before,
+    .layer .tip .contenter .line::after {
+        content: " ";
+        position: absolute;
+        top: 52%;
+        width: 16%;
+        height: 1px;
+        background: #dddddd;
+    }
+    
+    .layer .tip .contenter .line::before {
+        left: 0;
+    }
+    
+    .layer .tip .contenter .line::after {
+        right: 0;
+    }
+    
+    .layer .tip .footer {
+        height: 70px;
+        width: 100%;
+        vertical-align: center;
+        text-align: center;
+        line-height: 70px;
+    }
+    
+    .layer .tip .footer .btn {
+        display: inline-block;
+    }
+    
+    .layer .input {
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        width: 200px;
+        text-indent: 0;
+        line-height: 0;
+        width: 620px;
+    }
+    
+    .layer .col .input {
+        height: 44px;
+    }
+    
+    .layer .error .input {
+        height: 64px;
+    }
+    
+    .layer .ide,
+    .layer .cancel,
+    .layer .smt {
+        line-height: 44px;
+        font-family: 'perficon';
+        text-indent: 0;
+        width: 25px;
+        text-align: center;
+        cursor: pointer;
+    }
+    
+    .layer .ide,
+    .layer .cancel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        color: #7a94ad;
+    }
+    
+    .layer .smt {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        color: #68c5b3;
+    }
+</style>
+
+<script type="text/html" id="layer">
+    <div class="lblock" v-show='layer.willSubmit || layer.willCancel' @click='_hide()'>
+        <div class="layer" :style='position'>
+            <!-- 修改对勾弹窗Start -->
+            <div class="tip" v-show='layer.willSubmit'>
+                <div class="box">
+                    <div class="header">
+                        <div class="column">
+                            <div class="radio" @click.capture.stop="_clickChangeType(true)">
+                                <div class="per-switch-radio">
+                                    <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
+                                    <span class="per-switch_label"></span>
+                                </div>
+                            </div>
+                            <p>修正输入错误</p>
+                        </div>
+                        <div class="column">
+                            <div class="radio" @click.capture.stop="_clickChangeType(false)">
+                                <div class="per-switch-radio">
+                                    <span class="per-radio_input" :class="{ 'per-radio-checked':!changeType}"></span>
+                                    <span class="per-switch_label"></span>
+                                </div>
+                                <!-- <pswitch-radio bind="true" state="!changeType"> -->
+                            </div>
+                            <p>该信息有变化</p>
+                        </div>
+                    </div>
+                    <div class="contenter" v-show='!changeType'>
+                        <span class="line">真实信息发生更改的内容及时间</span>
+                        <p class="label">生效时间：</p>
+                        <span class="label">
+                                <ptime-form id="_clickDateSelKey" bind="true">
+                                        <panel startyear="2013" endyear="2022" timetype="yMd" ></panel>
+                                    </ptime-form>
+                        </span>
+                        <p class="label">历史变化记录：</p>
+                        <ul>
+                            <li class="th">
+                                <span>生效时间</span>
+                                <span>变化内容</span>
+                            </li>
+                        </ul>
+                        <ul>
+                            <li v-for='item in PointHis'>
+                                <span v-text='new Date(item.date).format("yyyy.MM.dd")'></span>
+                                <span v-text='item.value'></span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="footer">
+                        <span class="btn" @click.capture.stop='_clickSubmit()'>
+                            <pbutton-blue text="确定"></pbutton-blue>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <!-- 修改对勾弹窗End -->
+    
+            <!-- 确认修改弹窗 Start -->
+            <div class="confirm" v-show='layer.willCancel'>
+                <p class="titlefont">确定退出编辑吗？</p>
+                <p class="description">取消编辑将不保存当前编辑信息</p>
+                <div class="panel">
+                    <span class="sumitbtn" @click.capture.stop='_clickCancelIDE()'>
+                            <pbutton-blue text="确定"></pbutton-blue>
+                        </span>
+                    <span class="cancelbtn" @click.capture.stop='_clickCancelCancelIDE()'>
+                            <pbutton-white text="取消"></pbutton-white>
+                        </span>
+                </div>
+            </div>
+            <!-- 确认修改弹窗 End -->
+        </div>
+    </div>
+</script>
+<script>
+    var layerModel = function layerModel() {
+        this.left = 0;
+        this.top = 0;
+        this.display = 'none';
+        this.willSubmit = false; //准备提交，控制提交的再次确认框
+        this.willCancel = false;
+        this.submitCb = function() {};
+        this.cancelCb = function() {};
+        this.getPoints = function() {};
+    };
+
+    layerModel.prototype.init = function(left, top) {
+        this.left = left;
+        this.top = top;
+        this.display = "block";
+    };
+
+    layerModel.prototype.submit = function(left, top, submitCb, getPoints) {
+
+        this.init(left, top);
+        this.willCancel = false;
+        this.willSubmit = true;
+        this.submitCb = submitCb;
+        this.getPoints = getPoints;
+    }
+
+    layerModel.prototype.cancel = function(left, top, cancelCb) {
+
+        this.init(left, top);
+        this.willSubmit = false;
+        this.willCancel = true;
+        this.cancelCb = cancelCb;
+    }
+
+    layerModel.prototype.hide=function(){
+        this.willSubmit = false;
+        this.willCancel = false;
+        this.display = "none";
+
+    }
+
+
+
+    Vue.component('layer', {
+        data: function() {
+            return {
+                view: new layerModel(),
+                key: '', // key
+                // value: '', //值
+                willSubmit: false, //准备提交，控制提交的再次确认框
+                willCancel: false, // 准备取消 ,控制取消再次确认框
+                changeType: false, // 提交类型 true 发布新的内容的，false 修改旧的内容
+                PointHis: [],
+                _clickDateSelKey: '',
+                oldGetPoints: function() {
+
+                },
+            };
+        },
+        template: "#layer",
+        props: ['layer'],
+        computed: {
+            position: function() {
+                var _that = this,
+                    // 屏幕宽高
+                    clientHeight = document.body.clientHeight,
+                    clientWidth = document.body.clientWidth,
+                    // 弹出确认框宽高
+                    compareWidth = 300,
+                    compareHeight = 400,
+                    // 鼠标点击位置坐标
+                    x = _that.layer.left,
+                    y = _that.layer.top,
+                    style = {},
+                    isLeft = true,
+                    isTop = true;
+                // 右边有位置直接显示右边
+                isLeft = (clientWidth - x) > compareWidth;
+                isTop = (clientHeight - y) > compareHeight;
+                style[isLeft ? 'left' : 'right'] = (isLeft ? x : clientWidth - x) + 304 + 'px';
+                style[isTop ? 'top' : 'bottom'] = (isTop ? y : (clientHeight - y + (_that.changeType ? 148 : 388))) + 'px';
+                style.display = _that.layer.display;
+
+                return style;
+            }
+        },
+        beforeUpdate: function() {
+            // 每次变化查询时间节点
+            var _that = this;
+
+            if (_that.layer.getPoints != _that.oldGetPoints && _that.layer.willSubmit == true) {
+                this.layer.getPoints(function(list) {
+                    _that.oldGetPoints = _that.layer.getPoints;
+                    _that.PointHis = list;
+                })
+            }
+        },
+        beforeMount: function() {
+
+            var _that = this;
+            // 创建日期控件
+            _that._clickDateSelKey = ptool.produceId();
+
+            // document.addEventListener('click',function(){
+                
+            //     _that.layer.willSubmit = false;
+            //     _that.layer.willCancel = false;
+            //     _that.layer.display = "none";
+
+            //     if(_that.layer.cancelCb instanceof Function){
+
+            //         _that.layer.cancelCb();
+            //     }
+            // },true);
+        },
+        methods: {
+            _hide:function(){
+
+                var _that=this;
+
+                _that._clickCancelCancelIDE();
+
+                if(_that.layer.cancelCb instanceof Function){
+
+                    _that.layer.cancelCb();
+                }
+            },
+            // 修改的提交时候的窗台
+            _clickChangeType: function(bool) {
+
+                this.changeType = bool;
+            },
+            // 提交修改
+            _clickSubmit: function() {
+
+                var _that = this;
+
+                // 获取修改时间
+                var dateVal = new Date($('#' + this._clickDateSelKey).psel().startTime).format(
+                    'yyyyMMddhhssmm');
+
+                _that.layer.submitCb({
+                    isNewValue: !_that.changeType ? dateVal : '',
+                });
+                _that._clickCancelCancelIDE();
+
+            },
+            // 取消编辑
+            _clickCancelIDE: function() {
+
+                // 调用取消回调
+                this.layer.cancelCb();
+
+                this._clickCancelCancelIDE();
+                this._hide();
+            },
+            // 取消 取消编辑事件
+            _clickCancelCancelIDE: function() {
+                this.layer.willSubmit = false;
+                this.layer.willCancel = false;
+                this.layer.display = "none";
+                // this._hide();
+            },
+        }
+    })
+</script>

@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.SpecialDayMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.SpecialDay" >
+    <id column="special_day_id" property="specialDayId" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+    <result column="special_day_name" property="specialDayName" jdbcType="VARCHAR" />
+    <result column="special_day_type" property="specialDayType" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="DATE" />
+    <result column="end_time" property="endTime" jdbcType="DATE" />
+    <result column="shifts" property="shifts" jdbcType="VARCHAR" />
+    <result column="creater_id" property="createrId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    special_day_id, team_id, special_day_name, special_day_type, start_time, end_time, 
+    shifts, creater_id, create_time
+  </sql>
+  
+  <select id="selectByTeamId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_special_day
+    where team_id = #{teamId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKeys" resultMap="BaseResultMap" >
+  	select 
+  	<include refid="Base_Column_List" />
+  	from t_special_day
+  	where special_day_id in 
+  	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_special_day
+    where special_day_id = #{specialDayId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_special_day
+    where special_day_id = #{specialDayId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.SpecialDay" >
+    insert into t_special_day (special_day_id, team_id, special_day_name, 
+      special_day_type, start_time, end_time, 
+      shifts, creater_id, create_time
+      )
+    values (#{specialDayId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, #{specialDayName,jdbcType=VARCHAR}, 
+      #{specialDayType,jdbcType=VARCHAR}, #{startTime,jdbcType=DATE}, #{endTime,jdbcType=DATE}, 
+      #{shifts,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.SpecialDay" >
+    insert into t_special_day
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="specialDayId != null" >
+        special_day_id,
+      </if>
+      <if test="teamId != null" >
+        team_id,
+      </if>
+      <if test="specialDayName != null" >
+        special_day_name,
+      </if>
+      <if test="specialDayType != null" >
+        special_day_type,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="shifts != null" >
+        shifts,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="specialDayId != null" >
+        #{specialDayId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="specialDayName != null" >
+        #{specialDayName,jdbcType=VARCHAR},
+      </if>
+      <if test="specialDayType != null" >
+        #{specialDayType,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=DATE},
+      </if>
+      <if test="shifts != null" >
+        #{shifts,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.SpecialDay" >
+    update t_special_day
+    <set >
+      <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="specialDayName != null" >
+        special_day_name = #{specialDayName,jdbcType=VARCHAR},
+      </if>
+      <if test="specialDayType != null" >
+        special_day_type = #{specialDayType,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=DATE},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=DATE},
+      </if>
+      <if test="shifts != null" >
+        shifts = #{shifts,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where special_day_id = #{specialDayId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.SpecialDay" >
+    update t_special_day
+    set team_id = #{teamId,jdbcType=VARCHAR},
+      special_day_name = #{specialDayName,jdbcType=VARCHAR},
+      special_day_type = #{specialDayType,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=DATE},
+      end_time = #{endTime,jdbcType=DATE},
+      shifts = #{shifts,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where special_day_id = #{specialDayId,jdbcType=VARCHAR}
+  </update>
+</mapper>

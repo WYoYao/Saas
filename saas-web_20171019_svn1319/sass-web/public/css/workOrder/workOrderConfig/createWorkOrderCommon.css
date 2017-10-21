@@ -1,0 +1,748 @@
+#workOrderManage {
+    height: 100%;
+    overflow: hidden;
+}
+
+#createWorkOrderCommon_bg {
+    width: 100%;
+    height: 100%;
+    background: #e5e8ea;
+    padding: 18px 12px 0 12px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.createWorkOrderCommon_box {
+    height: 100%;
+    background: #fff;
+    /* border-left: 1px solid #d9e2e8;
+	border-right: 1px solid #d9e2e8; */
+    box-shadow: -5px 6px 10px rgba(13, 4, 8, 0.1);
+    padding: 20px 20px 10px 20px;
+}
+
+.createWorkOrderCommon_page {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #d9e2e8;
+}
+
+.createWorkOrderCommon_page_top {
+    height: 50px;
+    border-bottom: 1px solid #d9e2e8;
+    position: relative;
+}
+
+.createWorkOrderCommon_page_back {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+
+.createWorkOrderCommon_page_save {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.createWorkOrderCommon_page_con {
+    height: calc(100% - 120px);
+    overflow: auto;
+    padding: 30px 50px 0 30px;
+}
+.createWorkOrderCommon_error .commit_error{
+    height: 14px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    display: none;
+}
+.createWorkOrderCommon_error .commit_error >span{
+    color: #ef6767;
+    font-size: 14px;
+    padding-left: 10px;
+}
+.createWorkOrderCommon_error .commit_error2{
+    height: 14px;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+.createWorkOrderCommon_error .commit_error2 >span{
+    color: #ef6767;
+    font-size: 14px;
+    padding-left: 10px;
+}
+.createWorkOrderCommon_select {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.createWorkOrderCommon_select_tit {
+    font-size: 14px;
+    color: #333;
+}
+
+.createWorkOrderCommon_select_con {
+    width: 180px;
+}
+
+.createWorkOrderCommon_explain>span {
+    font-size: 14px;
+    color: #333;
+}
+.createWorkOrderCommon_less_tip{
+    margin-top: 10px;
+}
+.createWorkOrderCommon_less_tip p{
+    margin-bottom: 10px;
+    color: #ccc;
+    font-size: 12px;
+}
+.createWorkOrderCommon_add {
+    width: 148px;
+    height: 48px;
+    border: 1px solid #d9e2e8;
+    border-radius: 4px;
+    background: #f8f8f8;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    color: #7a94ad;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.createWorkOrderCommon_add div:nth-child(1) {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.createWorkOrderCommon_add div:nth-child(2) {
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+
+
+/* 添加人员岗位模块 */
+
+.createWorkOrderCommon_person_position {
+    width: 100%;
+}
+
+.createWorkOrderCommon_person_position_box {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: flex-start;
+    min-height: 50px;
+    box-sizing: border-box;
+    margin-top: 10px;
+}
+.createWorkOrderCommon_delete{
+	width: 20px;
+    height: 50px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-right: 10px;
+}
+.createWorkOrderCommon_person_position_box_left {
+    min-width: 144px;
+    height: 50px;
+    border-radius: 2px;
+    background: #dfdfdf;
+    padding: 10px;
+    border: 1px solid #cacaca;
+    box-sizing: border-box;
+    color: #7a94ad;
+}
+
+.createWorkOrderCommon_person_position_box_left,
+.createWorkOrderCommon_person_position_box_list {
+    float: left;
+}
+
+.createWorkOrderCommon_person_position_box_list {
+    margin-left: 10px;
+}
+
+.createWorkOrderCommon_person_position_box_list>ul {
+    display: inline-block;
+}
+
+.createWorkOrderCommon_person_position_box_list>ul>li {
+    float: left;
+    width: 200px;
+    height: 50px;
+    border-radius: 2px;
+    padding: 10px;
+    border: 1px solid #cacaca;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    position: relative;
+    cursor: pointer;
+}
+.createWorkOrderCommon_person_position_box_list>ul>li.redBorder{
+    border: 1px solid red;
+}
+.createWorkOrderCommon_person_position_box_list>span {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    border-radius: 2px;
+    padding: 10px;
+    border: 1px dashed #cacaca;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    cursor: pointer;
+    color: #7a94ad;
+    /* display: flex; */
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+#add_more_work {
+    cursor: pointer;
+    position: relative;
+}
+
+#add_more_work>span {
+    color: #7a94ad;
+}
+
+#add_more_work>em {
+    font-size: 20px;
+    font-weight: 600;
+    color: #7a94ad;
+    margin-right: 8px;
+    position: relative;
+    top: 3px
+}
+
+.add_more_work>ul {
+    position: absolute;
+    left: -1px;
+    top: 48px;
+    width: 228px;
+    min-height: 218px;
+    border: 1px solid #cacaca;
+    display: none;
+    background: #fff;
+    z-index: 5;
+    max-height: 300px;
+    overflow: auto;
+}
+
+#add_more_work>ul>li {
+    width: 100%;
+    height: 32px;
+    line-height: 32px;
+    padding-left: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+#add_more_work>ul>li:hover {
+    background: #cacaca;
+}
+
+.createWorkOrderCommon_person_position_box_list_top {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 98%;
+    height: 30px;
+}
+
+.createWorkOrderCommon_person_position_box_list_top>em {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.createWorkOrderCommon_person_position_box_list_top>span {
+    position: absolute;
+    top: 0;
+    right: 20px;
+}
+
+.createWorkOrderCommon_person_position_box_list_bottom {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+    font-size: 12px;
+    color: #7a94ad;
+}
+
+
+
+
+
+/* 弹框部分 */
+
+.stepsToPerformWork_con {
+    width: 458px;
+    height: 246px;
+    position: relative;
+    padding: 40px 45px 0 45px;
+}
+
+.stepsToPerformWork_con_txt>span {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.stepsToPerformWork_con_txt>span:first-child {
+    font-size: 14px;
+    color: #333;
+}
+
+.stepsToPerformWork_con_txt>span:last-child {
+    font-size: 14px;
+    color: #f87c7c;
+}
+
+.stepsToPerformWork_con_btn {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    margin-left: -104px;
+    width: 208px;
+}
+
+.stepsToPerformWork_con_operat>span {
+    display: block;
+    margin-top: 10px;
+}
+
+#stepsToPerformWork_con_btn_cancle {
+    margin-left: 40px;
+}
+
+
+
+/* ↑执行工作步骤 */
+
+.createWorkOrderSet_con {
+    width: 458px;
+    height: 660px;
+    position: relative;
+    padding: 40px 45px 0 45px;
+}
+
+.createWorkOrderSet_con_btn {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    margin-left: -104px;
+    width: 208px;
+}
+
+#createWorkOrderSet_con_btn_cancle {
+    margin-left: 40px;
+}
+
+.createWorkOrderSet_con_box {}
+
+.createWorkOrderSet_con_box_list {
+    border: 1px solid #cacaca;
+    min-height: 100px;
+    max-height: 368px;
+    margin-top: 10px;
+    overflow: auto;
+}
+
+.createWorkOrderSet_con_box_list_div_ul {}
+
+.createWorkOrderSet_con_box_list_div_ul>div {
+    height: 39px;
+    border-bottom: 1px solid #cacaca;
+}
+
+.createWorkOrderSet_con_box_list_div_posi {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    position: relative;
+}
+
+.createWorkOrderSet_con_box_list_div_posi>span {
+    font-family: 'perficon';
+    color: #7a94ad;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    line-height: 16px;
+    margin: 0 16px;
+}
+
+.createWorkOrderSet_con_box_list_div_posi>div {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+.createWorkOrderSet_con_box_list_div_pers{
+    display: none;
+}
+.createWorkOrderSet_con_box_list_div_pers>li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+
+.createWorkOrderSet_con_box_list_div_pers li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid #cacaca;
+    height: 39px;
+}
+
+.createWorkOrderSet_con_box_list_div_pers li>span {
+    margin-left: 60px;
+}
+
+.createWorkOrderSet_con_box_list_div_pers li>div {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.createWorkOrderSet_con_filter_person {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.createWorkOrderSet_con_opera_choice {}
+
+.createWorkOrderSet_con_opera_choice>h3 {
+    margin-bottom: 15px;
+}
+
+.createWorkOrderSet_con_opera_choice>span {
+    display: block;
+    height: 15px;
+}
+
+
+
+/* ↑新建工单设置 */
+
+.stepsToPerformWork_con {
+    width: 458px;
+    height: 218px;
+    position: relative;
+    padding: 40px 45px 0 45px;
+}
+
+.checkOrderSet_con_txt>span {
+    display: block;
+    margin-bottom: 15px;
+}
+
+.checkOrderSet_con_txt>span:first-child {
+    font-size: 14px;
+    color: #333;
+}
+
+
+.checkOrderSet_con_operat>span {
+    display: block;
+    margin-top: 10px;
+}
+
+.checkOrderSet_con_btn {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    margin-left: -104px;
+    width: 208px;
+}
+
+#checkOrderSet_con_btn_cancle {
+    margin-left: 40px;
+}
+
+
+
+
+/* ↑审核设置 */
+
+
+/* 指派设置 */
+
+.createAssignSet_con {
+    width: 458px;
+    height: 560px;
+    position: relative;
+    padding: 40px 45px 0 45px;
+}
+
+.createAssignSet_con_btn {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    margin-left: -104px;
+    width: 208px;
+}
+
+#createAssignSet_con_btn_cancle {
+    margin-left: 40px;
+}
+
+.createAssignSet_con_box {}
+
+.createAssignSet_con_box_list {
+    border: 1px solid #cacaca;
+    min-height: 30px;
+    max-height: 368px;
+    margin-top: 10px;
+    overflow: auto;
+}
+
+.createAssignSet_con_box_list_div_ul {}
+
+.createAssignSet_con_box_list_div_ul>div {
+    height: 39px;
+    border-bottom: 1px solid #cacaca;
+}
+
+.createAssignSet_con_box_list_div_posi {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    position: relative;
+}
+
+.createAssignSet_con_box_list_div_posi>span {
+    font-family: 'perficon';
+    color: #7a94ad;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    line-height: 16px;
+    margin: 0 16px;
+}
+
+.createAssignSet_con_box_list_div_posi>div {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.createAssignSet_con_box_list_div_pers>li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+
+.createAssignSet_con_box_list_div_pers li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid #cacaca;
+    height: 39px;
+}
+
+.createAssignSet_con_box_list_div_pers li>span {
+    margin-left: 60px;
+}
+
+.createAssignSet_con_box_list_div_pers li>div {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.createAssignSet_con_filter_person {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.createAssignSet_con_opera_choice {}
+
+.createAssignSet_con_opera_choice>h3 {
+    margin-bottom: 15px;
+}
+
+.createAssignSet_con_opera_choice>span {
+    display: block;
+    height: 15px;
+}
+
+
+
+/* 选择人员或岗位 */
+
+.choicePersonPosition_con {
+    width: 458px;
+    height: 660px;
+    position: relative;
+    padding: 40px 45px 0 45px;
+}
+
+.choicePersonPosition_con_btn {
+    position: absolute;
+    left: 50%;
+    bottom: 20px;
+    margin-left: -104px;
+    width: 208px;
+}
+
+#choicePersonPosition_con_btn_cancle {
+    margin-left: 40px;
+}
+
+.choicePersonPosition_con_box {}
+
+.choicePersonPosition_con_box_list {
+    border: 1px solid #cacaca;
+    min-height: 100px;
+    max-height: 400px;
+    margin-top: 10px;
+    overflow: auto;
+}
+
+.choicePersonPosition_con_box_list_div_ul {}
+
+.choicePersonPosition_con_box_list_div_ul>div {
+    height: 39px;
+    border-bottom: 1px solid #cacaca;
+}
+
+.choicePersonPosition_con_box_list_div_posi {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    position: relative;
+}
+
+.choicePersonPosition_con_box_list_div_posi>span {
+    font-family: 'perficon';
+    color: #7a94ad;
+    cursor: pointer;
+    width: 16px;
+    height: 16px;
+    text-align: center;
+    line-height: 16px;
+    margin: 0 16px;
+}
+
+.choicePersonPosition_con_box_list_div_posi>div {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+.choicePersonPosition_con_box_list_div_posi>div >span{
+	display: block;
+	width: 14px;
+	height: 14px;
+	border-radius: 2px;
+	border: 1px solid #7a94ad;
+}
+.checkboxChioce{
+	display: block;
+	width: 14px;
+	height: 14px;
+	border-radius: 2px;
+	border: 1px solid #7a94ad;
+	cursor: pointer;
+}
+.checkboxChioce.state{
+	background: #7a94ad;
+	position: relative;
+}
+
+.checkboxChioce.state:before{
+	box-sizing: content-box;
+    content: "";
+    border: 2px solid #fff;
+    border-left: 0;
+    border-top: 0;
+    height: 7px;
+    left: 4px;
+    top: 1px;
+    transform: rotate(45deg);
+    width: 4px;
+    transition: transform .15s cubic-bezier(.71, -0.46, .88, .6) .05s;
+    transform-origin: center;
+    position: absolute;
+}
+.choicePersonPosition_con_persion_position {
+    display: none;
+}
+
+.choicePersonPosition_con_box_list_div_pers>li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+
+.choicePersonPosition_con_box_list_div_pers li {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    position: relative;
+    border-bottom: 1px solid #cacaca;
+    height: 39px;
+}
+
+.choicePersonPosition_con_box_list_div_pers li>span {
+    margin-left: 60px;
+}
+
+.choicePersonPosition_con_box_list_div_pers li>div {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.choicePersonPosition_con_filter_person {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 30px;
+}
+
+.choicePersonPosition_con_opera_choice {}
+
+.choicePersonPosition_con_opera_choice>h3 {
+    margin-bottom: 15px;
+}
+
+.choicePersonPosition_con_opera_choice>span {
+    display: block;
+    height: 15px;
+}
+
+.choicePersonPosition_con_choice_person li>span {
+    margin-left: 46px;
+}
+
+
+
+/* 复选框样式 */

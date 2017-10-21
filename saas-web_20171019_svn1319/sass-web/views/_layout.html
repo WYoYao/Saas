@@ -1,0 +1,20 @@
+<script type="text/javascript">var pticket="67f53fb2e7b1d2092309887bf25e4dd28ee260203514382a04fad981f47402707e0c06728a0ad11b5b839a24600cf33c634ec9d5095e09de9daf37ead36f236d8b5dcc12c300ace3c96e6af9d5c4d264f14fe699aa0ba94a277c218d274b01114f618e4938323fc43892e4ecaa2c75823add8ccfcc9b23b3a8231acc39cb205e35bd6b9954b060d6acdbd5436b40e3842da011a97f1ec4d1354912df67b7db931550ebd66d73bc48550b83713dab738a9144f398fdd6043e97ef7e23cfe53f193e2176a50f17f87f7aa8c5640302cc939a8ad4a1f1551c80425f5aa7f221821ce9832231d92f4bbde67798793aeee192c0d13a2f8e4c15bcaa2e94890fd50a63795bcbb9466b9a1fe68e3782dd68aa22";</script><% include ./template/pageHead.html %>
+<script type="text/javascript" src="/js/layout.js"></script>
+<div id="div1">
+    <pframe-normal id="'pfnor'" title="'智赢管家'">
+        <user head="head" name="userName">
+            <item datasource="userMenus" click="selUserMenu"></item>
+        </user>
+        <item datasource="menuItems" text="name" child="menu" url="url">
+            <manage text="'项目管理'" url="/system"></manage>
+            <combobox>
+                <pcombobox-normal sel="selProject" id="'combobox1'" isborder="false" orientation="down" bind="true">
+                    <header placeholder="项目名称"></header>
+                    <item datasource="projectList" text="project_name"></item>
+                </pcombobox-normal>
+            </combobox>
+        </item>
+    </pframe-normal>
+</div>
+
+<% include ./template/pageFoot.html %>

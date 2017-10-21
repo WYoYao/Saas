@@ -92,15 +92,24 @@
                                                     </li>
                                                     <li>
                                                         <h5>确认操作结果：</h5>
-                                                        <div v-for="(confirm_result,_index) in steps.confirm_result">
+                                                        <div v-for="(confirm_result,index4) in steps.confirm_result">
                                                             <!-- {{steps.confirm_result}} -->
-                                                            <em v-text="confirm_result.obj_name"></em>
-                                                            <span v-for="(parents,pIndex) in confirm_result.parents">
-                                                                (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
-                                                                <pbutton-blue bind="true" text="'选择对象实例'" @click="choiceObjExample(confirm_result,event,confirm_result.obj_id,confirm_result.obj_type)"></pbutton-blue>
-                                                                
-                                                                
-                                                            </span>
+                                                            <div class="confirm_result_div1">
+                                                                <div class="confirm_result_div2">
+                                                                    <em v-text="confirm_result.obj_name"></em>
+                                                                    <span v-for="(parents,pIndex) in confirm_result.parents">
+                                                                        (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
+                                                                    </span>
+                                                                </div>
+                                                                <div>
+                                                                    <div :type="confirm_result.obj_type">
+                                                                        <section v-show="confirm_result.obj_type == 'system_class' || confirm_result.obj_type == 'equip_class'">
+                                                                            <pbutton-blue bind="true" text="'选择对象实例'" @click="choiceObjExample(confirm_result,event,confirm_result.obj_id,confirm_result.obj_type,index1,index2,index3,index4)"></pbutton-blue>    
+                                                                        </section>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            
                                                             <div>
                                                                 <i v-for="info_points in confirm_result.info_points" v-text="info_points.name"></i>
                                                                 <i v-for="customs in confirm_result.customs" v-text="customs.name"></i>

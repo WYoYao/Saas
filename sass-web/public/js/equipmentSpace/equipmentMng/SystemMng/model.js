@@ -292,6 +292,9 @@
             });
 
             _that.queryBuildSystem();
+
+            // 初始化弹窗
+            _that.layer=new layerModel();
         }
     })
 
@@ -299,7 +302,6 @@
     v.pushComponent({
         name: 'addSystem',
         data: {
-
             SystemPoints: [], // 动态信息列表
             SystemScrollBase: [{
                 title: "基础",
@@ -323,6 +325,8 @@
                 "system_category": "", //系统类型编码   
                 EList: [] // 设备类型集合           
             },
+            addSystemKey:ptool.produceId(),
+            isShowAddSystem:false,
         },
         computed: {
 

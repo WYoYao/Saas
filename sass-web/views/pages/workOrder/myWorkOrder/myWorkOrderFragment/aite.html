@@ -1,5 +1,5 @@
-<div class="aite-bubble" :class="{'click-aite':commonData.publicModel.clickAiteShow}">
-    <div class="aite-title" >
+<div class="aite-bubble" :class="{'click-aite':commonData.publicModel.clickAiteShow}" id="111">
+    <div class="aite-title">
         <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)"/>
         <span>请选择</span>
     </div>
@@ -7,7 +7,6 @@
         <!--即时搜索，只有复选-->
         <div class="timely-checkbox">
 
-<!--
             <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList">
                 <div>
                     <p><span
@@ -16,13 +15,13 @@
                         :class="charObj.mark ? 'redMark' : ''">空</span></p>
                     <p v-for="parent in model.parents">
                         <em v-for="charObj in parent.linked_names_arr"
-                           v-text="charObj.char"
-                           :class="charObj.mark ? 'redMark' : ''">建</em></p>
+                            v-text="charObj.char"
+                            :class="charObj.mark ? 'redMark' : ''">建</em></p>
                 </div>
                 <div>
-                    &lt;!&ndash;<pswitch-checkbox bind="true"></pswitch-checkbox>&ndash;&gt;
-                    &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
-                    &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                    <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
+                    <!--<span class="pcheckbox_input"></span>-->
+                    <!--<span class="pswitch_label"></span>-->
                     <div :id="'searchCheckbox' + index" class="pcheckbox"
                          @click="publicMethod.checkObject(model, index)">
                                         <span class="pcheckbox_input"
@@ -31,19 +30,20 @@
                     </div>
                 </div>
             </div>
--->
 
-            <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList">
-                <div>
-                    <p><span v-text="model.obj_name">空间1</span></p>
-                    <p v-for="parent in model.parents"><em v-text="parent.linked_names">建筑1 > 2层空调 > 空调供暖系统001</em></p>
-                </div>
-                <div>
-                    <pswitch-checkbox bind="true"></pswitch-checkbox>
-                    <!--<span class="pcheckbox_input"></span>-->
-                    <!--<span class="pswitch_label"></span>-->
-                </div>
-            </div>
+            <!--
+                        <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList">
+                            <div>
+                                <p><span v-text="model.obj_name">空间1</span></p>
+                                <p v-for="parent in model.parents"><em v-text="parent.linked_names">建筑1 > 2层空调 > 空调供暖系统001</em></p>
+                            </div>
+                            <div>
+                                <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                            </div>
+                        </div>
+            -->
         </div>
         <!--无级别 只有复选-->
         <div class="only-checkbox">
@@ -71,7 +71,8 @@
                 <div>
                     <span>添加筛选条件:</span>
                 </div>
-                <pcombobox-normal isborder="false" id="'major-need'" bind="true" sel="myWorkOrderController.querySystemForSystemDomain">
+                <pcombobox-normal isborder="false" id="'major-need'" bind="true"
+                                  sel="myWorkOrderController.querySystemForSystemDomain">
                     <header placeholder="专业"></header>
                     <item datasource="commonData.publicModel.domainList" text="name"></item>
                 </pcombobox-normal>
@@ -101,12 +102,14 @@
                 </div>-->
                 <div class="tree-body" :class="{'equip-trees':commonData.publicModel.curObjType=='equip'}">
                     <div class="tree-box">
-                        <ptree-normal bind="true" datasource="commonData.publicModel.leftLevel" sel="yn_method.clickLeftItem">
-                            <item  text="obj_name" issearch="false"  child="content"></item>
+                        <ptree-normal bind="true" datasource="commonData.publicModel.leftLevel"
+                                      sel="yn_method.clickLeftItem">
+                            <item text="obj_name" issearch="false" child="content"></item>
                         </ptree-normal>
                     </div>
                     <div class="last-level-box">
-                        <div class="aite-list" v-show="commonData.publicModel.lastLevel.length!=0" v-for="(obj,index1) in commonData.publicModel.lastLevel">
+                        <div class="aite-list" v-show="commonData.publicModel.lastLevel.length!=0"
+                             v-for="(obj,index1) in commonData.publicModel.lastLevel">
                             <div :title="obj.obj_name">
                                 <span v-text="obj.obj_name">建筑体</span>
                             </div>
@@ -130,22 +133,21 @@
         </div>
         <!--自定义-->
         <div class="customize">
-<!--
-            <div class="customize-tips">
+            <div class="customize-tips" v-show="inputToCustomize">
                 <span>未找到相关内容，您输入的内容将被添加为自定义</span>
             </div>
--->
+            <div class="customText" v-show="!inputToCustomize">
+                <p>自定义</p>
+                <ptext-text
+                    id="selfText"
+                    placeholder="请输入自定义内容">
+                    <verify
+                        errtip="请输入自定义内容" verifytype="space"></verify>
+                    <verify
+                        errtip="最多只能输入40个字符" length="40" verifytype="length"></verify>
+                </ptext-text>
+            </div>
             <div class="belong">
-                <div class="customText">
-                    <p>自定义</p>
-                    <ptext-text
-                        id="selfText"
-                        placeholder="请输入自定义内容">
-                        <verify
-                            errtip="请输入自定义内容"
-                            length="40"></verify>
-                    </ptext-text>
-                </div>
                 <div class="belong-title">
                     <h4>所属类别</h4>
                 </div>
@@ -171,7 +173,7 @@
         </div>
         <!--选择大类-->
         <div class="none-both">
-            <div class="aite-list"  onclick="myWorkOrderController.queryBuild(this)">
+            <div class="aite-list" onclick="myWorkOrderController.queryBuild(this)">
                 <div>
                     <span>建筑体</span>
                 </div>
@@ -199,7 +201,9 @@
         </div>
     </div>
     <div class="aite-footer">
-        <pbutton-white text="自定义" click="publicMethod.setCurPop(3, 'obj')"></pbutton-white>
+        <div v-show="commonData.publicModel.curObjType !== 'custom'">
+            <pbutton-white text="自定义" click="publicMethod.customizeObj"></pbutton-white>
+        </div>
         <div v-show="commonData.publicModel.curObjType !== 'custom'" class="sureBtnDivs">
             <pbutton-blue text="确定"
                           id="sureBtn"

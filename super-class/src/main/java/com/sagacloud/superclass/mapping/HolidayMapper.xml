@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.HolidayMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.Holiday" >
+    <id column="holiday_id" property="holidayId" jdbcType="VARCHAR" />
+    <result column="day" property="day" jdbcType="DATE" />
+    <result column="day_type" property="dayType" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    holiday_id, day, day_type, create_time
+  </sql>
+  
+  
+  <select id="select" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_holiday
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_holiday
+    where holiday_id = #{holidayId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_holiday
+    where holiday_id = #{holidayId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.Holiday" >
+    insert into t_holiday (holiday_id, day, day_type, 
+      create_time)
+    values (#{holidayId,jdbcType=VARCHAR}, #{day,jdbcType=DATE}, #{dayType,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.Holiday" >
+    insert into t_holiday
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="holidayId != null" >
+        holiday_id,
+      </if>
+      <if test="day != null" >
+        day,
+      </if>
+      <if test="dayType != null" >
+        day_type,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="holidayId != null" >
+        #{holidayId,jdbcType=VARCHAR},
+      </if>
+      <if test="day != null" >
+        #{day,jdbcType=DATE},
+      </if>
+      <if test="dayType != null" >
+        #{dayType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.Holiday" >
+    update t_holiday
+    <set >
+      <if test="day != null" >
+        day = #{day,jdbcType=DATE},
+      </if>
+      <if test="dayType != null" >
+        day_type = #{dayType,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where holiday_id = #{holidayId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.Holiday" >
+    update t_holiday
+    set day = #{day,jdbcType=DATE},
+      day_type = #{dayType,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where holiday_id = #{holidayId,jdbcType=VARCHAR}
+  </update>
+</mapper>

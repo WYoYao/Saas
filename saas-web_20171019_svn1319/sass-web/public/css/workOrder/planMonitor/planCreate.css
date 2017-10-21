@@ -1,0 +1,292 @@
+#planMonitor{
+	width: 100%;
+	height: 100%;
+	background: #E5E8EA;
+	overflow: hidden;
+}
+#planCreate{
+
+}
+
+#planCreate_bg {
+    width: 100%;
+    height: 100%;
+    background: #e5e8ea;
+    padding: 18px 12px 0 12px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.planCreate_box {
+    height: 100%;
+    background: #fff;
+    /* border-left: 1px solid #d9e2e8;
+	border-right: 1px solid #d9e2e8; */
+    box-shadow: -5px 6px 10px rgba(13, 4, 8, 0.1);
+    padding: 20px 20px 10px 20px;
+}
+
+.planCreate_page {
+    width: 100%;
+    height: 100%;
+    /* border: 1px solid #d9e2e8; */
+}
+
+.planCreate_page_top {
+    height: 50px;
+    /* border-bottom: 1px solid #d9e2e8; */
+    position: relative;
+}
+
+.planCreate_page_back {
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+.planCreate_page_save {
+    position: absolute;
+    top: 10px;
+    right: 0px;
+}
+.planCreate_page_con{
+	width: 100%;
+	height: calc( 100% - 80px);
+	display: flex;
+	flex-flow: row nowrap;
+	border: 1px solid #d9e2e8;
+	margin-bottom: 20px;
+}
+.planCreate_page_con_left{
+	min-width: 320px;
+	max-width: 400px;
+	max-height: 900px;
+	overflow: auto;
+	
+}
+.planCreate_page_con_left_tit{
+	padding: 20px 0;
+	margin:  0 20px;
+	font-size: 16px;
+	border-bottom: 1px solid #d9e2e8;
+}
+.planCreate_page_con_left_tit >span{
+	color: #333;
+}
+.planCreate_page_con_left_name{
+	margin: 20px 20px;
+}
+.planCreate_page_con_left_name >h4{
+	position: relative;
+	left: -10px;
+}
+.planCreate_page_con_left_name >h4 >span{
+	color: #68c5b3;
+}
+.planCreate_page_con_left_name >h4 >i{
+	margin-left: 4px;
+}
+.planCreate_page_con_left_name >div{
+	margin-top: 10px;
+}
+/* 通用标记 */
+.planCreate_page_con_left_orderType{
+	margin: 20px 20px;
+}
+.planCreate_page_con_left_orderType >h4{
+	position: relative;
+	left: -10px;
+}
+.planCreate_page_con_left_orderType h4>strong{
+	padding:0 3px;
+}
+.planCreate_page_con_left_orderType >h4 >span{
+	color: #68c5b3;
+}
+.planCreate_page_con_left_orderType >h4 >i{
+	margin-left: 4px;
+}
+.planCreate_page_con_left_orderType >div{
+	margin-top: 10px;
+}
+
+.planCreate_page_con_left_order_level{
+	margin: 20px 20px;
+}
+.planCreate_page_con_left_order_level >h4{
+	position: relative;
+	left: -10px;
+}
+.planCreate_page_con_left_order_level >h4 >span{
+	color: #68c5b3;
+}
+.planCreate_page_con_left_order_level >h4 >i{
+	margin-left: 4px;
+}
+.planCreate_page_con_left_order_level >div{
+	margin-top: 10px;
+}
+
+.planCreate_page_con_left_sendTime{
+	margin: 20px 20px;
+}
+#aheadCreateTime{
+	display:flex;
+	flex-flow: row nowrap;
+	align-items: center;
+}
+#aheadCreateTime >strong{
+	width: 30px;
+	font-weight: normal;
+	margin-left: 10px;
+}
+.planCreate_page_con_left_sendTime >h4{
+	position: relative;
+	left: -10px;
+}
+.planCreate_page_con_left_sendTime >h4 >span{
+	color: #68c5b3;
+}
+.planCreate_page_con_left_sendTime >h4 >i{
+	margin-left: 4px;
+}
+.planCreate_page_con_left_sendTime >div{
+	margin-top: 10px;
+	position: relative;
+}
+.planCreate_page_con_left_sendTime >div>span{
+	position: absolute;
+	top: 4px;
+	left: 14px;
+	display: block;
+	z-index: 5;
+	color: #6d6d6d;
+}
+.planCreate_page_con_left_planRate >div input{
+	/* text-indent: 48px; */
+}
+
+.planCreate_page_con_left_planRate{
+	margin: 20px 20px;
+}
+.planCreate_page_con_left_planRate >h4{
+	position: relative;
+	left: -10px;
+}
+.planCreate_page_con_left_planRate >h4 >span{
+	color: #68c5b3;
+}
+.planCreate_page_con_left_planRate >h4 >i{
+	margin-left: 4px;
+}
+.planCreate_page_con_left_planRate >div{
+	margin-top: 10px;
+	position: relative;
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+}
+.planCreate_page_con_left_planRate >div>span{
+	display: inline-block;
+	/* margin-right: 10px; */
+}
+.planCreate_page_con_left_sendTime >div >div input{
+	/* text-indent: 48px; */
+}
+#planRateLeft{
+	margin-left: 10px;
+	margin-right: 4px;
+	width: 120px;
+}
+#planRateRig{
+	margin-right: 10px;
+	width: 120px;
+}
+.planCreate_page_con_left_planRate >ul{
+	margin-top: 20px;
+	
+}
+.planCreate_page_con_left_planRateList >li{
+	display: flex;
+	flex-flow: column nowrap;
+}
+.planCreate_page_con_left_planRateList >li >section{
+	margin: 10px 0px 10px 36px;
+	display: flex;
+	flex-flow: column nowrap;
+	align-items: center;
+}
+.planCreate_page_con_left_planRateList >li >section >div{
+	margin-bottom: 10px;
+}
+.planCreate_page_con_left_planRateList_week >li >section >span {
+	margin-bottom: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+}
+.planCreate_page_con_left_planRateList_week >li >section >span >div:nth-child(2) {
+	margin-left: 10px;
+}
+.planCreate_page_con_left_planRateList >li >section >i{
+	margin-bottom: 10px;
+}
+.planCreate_page_con_left_planRateList >li >div{
+	
+}
+.planCreate_page_con_left_planRateList_day{
+	
+}
+#planRace_error{
+	display: none;
+	margin-bottom: 20px;
+}
+#choicePlanTime_error{
+	display: none;
+	margin-top: -20px;
+}
+/* 生效时间 */
+.planCreate_page_con_left_effectTime{
+	display: flex;
+	flex-flow: column nowrap;
+	margin: 20px 20px;
+	justify-content: center;
+}
+.planCreate_page_con_left_effectTime >div{
+	display: flex;
+	flex-flow: row nowrap;
+	margin-top: 10px;
+	align-items: center;
+}
+.planCreate_page_con_left_effectTime >div >span{
+	margin-right: 10px;
+}
+.planCreate_page_con_left_effectTime >div >div{
+	width: 250px;
+}
+#plan_startTime{
+	height: 60px;
+}
+#plan_startTime >div{
+	min-height: 30px!important;
+}
+#plan_endTime{
+	height: 60px;
+}
+#plan_endTime >div{
+	min-height: 30px!important;
+}
+
+.planCreate_page_con_rig{
+	width: calc(100% - 320px);
+	height: 100%;
+	border-left: 1px solid #d9e2e8;
+}
+.planCreate_page_con_rig  > div{
+	width: 100%;
+}
+.plan_Time_choice{
+	display: none;
+	margin-top: 10px;
+}

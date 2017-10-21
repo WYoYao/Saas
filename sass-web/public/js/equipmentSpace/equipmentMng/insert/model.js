@@ -100,6 +100,8 @@
         }
     };
 
+    var isSubmitting = false;
+
     v.pushComponent({
         name: 'equipmentMngInsert',
         data: {
@@ -135,7 +137,27 @@
             allSpaceCode: [],
             allRentalCode: [],
             // 新建位置需要的属性 End
-
+            // 新建品牌 Start
+            addBrandO: {
+                company_id: "",
+                company_name: "",
+                brand: ""
+            },
+            // 新建品牌 End
+            // 新建保险单号 Start
+            addInsurerNumO: {
+                company_id: "",
+                company_name: "",
+                insurer_info: { //保险单信息,必须
+                    insurer_num: "", //保险单号
+                    insurance_file: {
+                        "type": "2",
+                        "name": "",
+                        "url": ""
+                    } //保险文件，1-url，2-附件
+                }
+            },
+            // 新建保险单号 End
             ScrollBase: [{
                 title: "基础",
                 id: 'base',
@@ -226,12 +248,12 @@
 
             },
             //保存添加系统
-            _clickInsertSystemLayer:function(){
+            _clickInsertSystemLayer: function () {
                 this._clickInsertSystem();
                 $("#float_system").phide();
             },
             // 隐藏添加系统
-            _clickInsertLayerCancelSystem:function(){
+            _clickInsertLayerCancelSystem: function () {
                 $("#float_system").phide();
             },
             //隐藏四个服务厂商
@@ -247,6 +269,9 @@
                 var _that = this;
                 equipmentLogic.saveMerchant(null, function () {
                     _that._clickInsertLayerCancel();
+
+                    // 重新加载对应的四个厂商
+                    _that.reGetEquipCompanySel();
                 });
             },
             // 展示四个服务厂商
@@ -291,6 +316,8 @@
 
                 v.initPage("addSystem");
 
+                v.instance.isShowAddSystem = true;
+
                 $("#float_system").pshow({
                     title: item.title
                 });
@@ -314,7 +341,7 @@
                     },
                     brand: { // 品牌
                         title: '添加新品牌',
-
+                        type:7,
                     },
                     buy: { // 供应商
                         title: '添加新供应商',
@@ -332,7 +359,8 @@
                         name: '保险公司'
                     },
                     Insurance_num: { // 保险单号
-                        title: '添加新保险单号'
+                        title: '添加新保险单号',
+                        type:8,
                     }
 
                 };
@@ -345,6 +373,12 @@
                     this.showInsertLayerByPostion(item);
                 } else if (item.type == 6) {
                     this.showInsertLayerBySystem(item);
+                } else if(item.type == 7){
+                    // 添加品牌
+                    this.addBrand();
+                }else if(item.type==8){
+                    // 添加保险单号
+                    this.addInsuranceNum();
                 }
 
             },
@@ -393,8 +427,19 @@
 
                             var attachments = getEquipDynamicInfoBykey(el, info.info_code, 4, info);
 
-                            con.attachments = con.attachments || [];
-                            con.attachments = con.attachments.concat(attachments);
+                            con[info.info_code] = attachments.map(function (attachment) {
+
+                                attachment.toPro = 'key';
+                                attachment.multiFile = false;
+
+                                return {
+                                    "type": "2",
+                                    "name": attachment.fileName,
+                                    "key": "",
+                                    "attachments": attachments,
+                                };
+
+                            });
                         }
 
                         return con;
@@ -405,6 +450,11 @@
             },
             // 保存设备
             _SubmitEquip: function () {
+
+                if (isSubmitting) return;
+
+                isSubmitting = true;
+
                 var _that = this;
 
                 var textNameArr = Object.keys(EquipTextArr);
@@ -429,6 +479,8 @@
                             state: "failure"
                         });
 
+                        isSubmitting = false;
+
                         return;
                     } else if (!element.pverifi() && (element.pval()).length && !itemByEnum.isShould) {
 
@@ -437,6 +489,8 @@
                             text: itemByEnum.message,
                             state: "failure"
                         });
+
+                        isSubmitting = false;
 
                         return;
                     }
@@ -476,16 +530,125 @@
 
                 request = Object.assign({}, EquipDynamicInfo, request);
 
+                // 验证非空字段
+                var varr = ["equip_local_id", "equip_local_name", "build_id", "equip_category"];
+
+                if (!request['build_id']) {
+
+                    $("#globalnotice").pshow({
+                        text: "安装位置不能为空",
+                        state: "failure"
+                    });
+                    isSubmitting = false;
+                    return;
+                } else if (!request['equip_category']) {
+
+                    $("#globalnotice").pshow({
+                        text: "设备类型不能为空",
+                        state: "failure"
+                    });
+                    isSubmitting = false;
+                    return;
+                }
+
                 controllerInsert.addEquip(request)
                     .then(function () {
+
+
+                        isSubmitting = false;
+
                         $("#equipmentMngpnotice").pshow({
                             text: '添加成功',
                             state: "success"
                         });
 
                         v.initPage("equipmentMng");
-                        _that.onPage="list";
+                        _that.onPage = "list";
                     });
+            },
+            // 重新查询对应的四个厂商
+            reGetEquipCompanySel: function () {
+
+                var _that = this;
+
+                /**
+                 * 生产厂家下拉列表
+                 */
+                equipmentMngDeatilController.queryEquipCompanySel(2)
+                    .then(function (list) {
+                        _that.manufacturerList = list.map(function (item) {
+                            item.name = item.company_name;
+                            item.code = item.company_id;
+
+                            return item;
+                        });
+                    });
+
+                /**
+                 * 供应商下拉列表
+                 */
+                equipmentMngDeatilController.queryEquipCompanySel(1)
+                    .then(function (list) {
+                        _that.supplierList = list.map(function (item) {
+                            item.name = item.company_name;
+                            item.code = item.company_id;
+
+                            return item;
+                        });
+                    });
+
+                /**
+                 * 维修商名称 下拉列表
+                 */
+                equipmentMngDeatilController.queryEquipCompanySel(3)
+                    .then(function (list) {
+                        _that.maintainerList = list.map(function (item) {
+                            item.name = item.company_name;
+                            item.code = item.company_id;
+
+                            return item;
+                        });
+                    });
+
+                /**
+                 * 保险公司名称 下拉列表
+                 */
+                equipmentMngDeatilController.queryEquipCompanySel(4)
+                    .then(function (list) {
+                        _that.insurerList = list.map(function (item) {
+                            item.name = item.company_name;
+                            item.code = item.company_id;
+
+                            return item;
+                        });
+                    });
+            },
+            // 添加对应的保险单号
+            addInsuranceNum: function () {
+                $("#float_InsuranceNum").pshow({
+                    title: "添加保险单号"
+                });
+
+            },
+            cancelAddInsuranceNum: function () {
+                $("#float_InsuranceNum").phide();
+            },
+            // 添加品牌
+            addBrand: function () {
+
+                var _that=this;
+
+                _that.addBrandO={
+                    company_id:"",
+                    company_name: "",
+                }
+
+                $("#float_Brand").pshow({
+                    title: "添加品牌"
+                });
+            },
+            cancelAddBrand: function () {
+                $("#float_Brand").phide();
             },
         },
         beforeMount: function () {
@@ -523,59 +686,11 @@
                     }
 
                     _that.AllEquipCategory = list.map(disable);
-                })
-
-            /**
-             * 生产厂家下拉列表
-             */
-            equipmentMngDeatilController.queryEquipCompanySel(2)
-                .then(function (list) {
-                    _that.manufacturerList = list.map(function (item) {
-                        item.name = item.company_name;
-                        item.code = item.company_id;
-
-                        return item;
-                    });
                 });
 
-            /**
-             * 供应商下拉列表
-             */
-            equipmentMngDeatilController.queryEquipCompanySel(1)
-                .then(function (list) {
-                    _that.supplierList = list.map(function (item) {
-                        item.name = item.company_name;
-                        item.code = item.company_id;
+            // 加载对应的四个厂商
+            _that.reGetEquipCompanySel();
 
-                        return item;
-                    });
-                });
-
-            /**
-             * 维修商名称 下拉列表
-             */
-            equipmentMngDeatilController.queryEquipCompanySel(3)
-                .then(function (list) {
-                    _that.maintainerList = list.map(function (item) {
-                        item.name = item.company_name;
-                        item.code = item.company_id;
-
-                        return item;
-                    });
-                });
-
-            /**
-             * 保险公司名称 下拉列表
-             */
-            equipmentMngDeatilController.queryEquipCompanySel(4)
-                .then(function (list) {
-                    _that.insurerList = list.map(function (item) {
-                        item.name = item.company_name;
-                        item.code = item.company_id;
-
-                        return item;
-                    });
-                });
 
             $("#insert_" + 'brand').pdisable(true);
             $("#insert_" + 'insurer_num').pdisable(true);
@@ -606,25 +721,25 @@
                 if (newValue.build_id != oldValue.build_id) {
 
 
-                    var build_id=_that.BuildFloorSpaceTree.reduce(function(build_id,item){
+                    var build_id = _that.BuildFloorSpaceTree.reduce(function (build_id, item) {
 
-                        var callee=arguments.callee;
+                        var callee = arguments.callee;
 
-                        if(build_id)return build_id;
+                        if (build_id) return build_id;
 
-                        if(item.obj_id==newValue.build_id){
+                        if (item.obj_id == newValue.build_id) {
 
                             return item.Parent_obj_id;
                         };
 
-                        if(_.isArray(item.content)){
+                        if (_.isArray(item.content)) {
 
-                            return item.content.reduce(callee,build_id);
+                            return item.content.reduce(callee, build_id);
 
                         }
 
 
-                    },'');
+                    }, '');
 
                     // 当 build_id 修改的之后修改的对应的 系统属性的选择的下拉数据源
                     controllerInsert.querySystemForBuild(build_id)
@@ -642,12 +757,12 @@
                     // 当 build_id 修改的之后修改的对应的 系统属性的选择的下拉数据源
 
                     // 初始化没有值的时候，执行查询对应的值
-                    if(newValue.build_id=="--" || !newValue.build_id.length)return;
+                    if (newValue.build_id && (newValue.build_id == "--" || !newValue.build_id.length)) return;
 
-                    controllerInsert.querySystemForBuild(newValue.build_id)
-                        .then(function (list) {
-                            _that.SystemForBuild = list;
-                        })
+                    // controllerInsert.querySystemForBuild(newValue.build_id)
+                    //     .then(function (list) {
+                    //         _that.SystemForBuild = list;
+                    //     })
                 };
 
             }

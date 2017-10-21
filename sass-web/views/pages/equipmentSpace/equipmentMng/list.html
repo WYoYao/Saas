@@ -30,41 +30,45 @@
             <div class="spaceHeader" v-show='onTab!="equip_total"'></div>
             <div class="searchHeader" v-show='onTab=="equip_total"'>
                 <span class="searchtxt">
-                        <span class="searcjIcon" @click='_clickSearch()'>f</span>
-                <span class="clearSearch" @click='_clearSearch()' v-show='currentSelector.keyword.length'>x</span>
-                <ptext-text id='searchBtn' placeholder="关键字" text="&nbsp;&nbsp;"></ptext-text>
+                    <span class="searcjIcon" @click='_clickSearch()'>f</span>
+                    <span class="clearSearch" @click='_clearSearch()' v-show='currentSelector.keyword.length'>x</span>
+                    <ptext-text id='searchBtn' placeholder="关键字" text="&nbsp;&nbsp;"></ptext-text>
                 </span>
                 <span class="addequipment" @click.capture="goInsert()">
-                        <pbutton-white text="录入新设备" icon="e"></pbutton-white>
-                    </span>
+                    <pbutton-white text="录入新设备" icon="e"></pbutton-white>
+                </span>
                 <span class="systemMgn" @click.capture="goSystemMgn()">
-                        <pbutton-white text="系统管理" icon="e"></pbutton-white>
-                    </span>
+                    <pbutton-white text="系统管理" icon="e"></pbutton-white>
+                </span>
             </div>
             <div class="queryblock">
                 <div class="line">
                     <span class="qname">所属建筑：</span>
                     <ul class="list">
-                        <li class="itine" v-for='(item,index) in BuildList' :class='{onitine:item.obj_id==currentSelector.build_id}' v-text='item.obj_name' @click='listClassTolego("build_id",item.obj_id)'>全部</li>
+                        <li class="itine" v-for='(item,index) in BuildList' :class='{onitine:item.obj_id==currentSelector.build_id}' v-text='item.obj_name'
+                            @click='listClassTolego("build_id",item.obj_id)'>全部</li>
                     </ul>
                 </div>
                 <div class="line">
                     <span class="qname">所属专业：</span>
                     <ul class="list">
-                        <li class="itine" v-for='(item,index) in GeneralDict' :class='{onitine:item.code==currentSelector.domain_code}' v-text='item.name' @click='listClassTolego("domain_code",item.code)'>全部</li>
+                        <li class="itine" v-for='(item,index) in GeneralDict' :class='{onitine:item.code==currentSelector.domain_code}' v-text='item.name'
+                            @click='listClassTolego("domain_code",item.code)'>全部</li>
                     </ul>
                 </div>
                 <div class="line" v-show='onTab=="equip_total"'>
                     <span class="qname">所属系统：</span>
                     <ul class="list">
                         <li class="itine noitline" v-show='System.length==0'>请先选择专业</li>
-                        <li class="itine" v-for='(item,index) in System' :class='{onitine:item.system_id==currentSelector.system_id}' v-text='item.system_name' @click='listClassTolego("system_id",item.system_id)'>全部</li>
+                        <li class="itine" v-for='(item,index) in System' :class='{onitine:item.system_id==currentSelector.system_id}' v-text='item.system_name'
+                            @click='listClassTolego("system_id",item.system_id)'>全部</li>
                     </ul>
                 </div>
                 <div class="line" v-show='onTab=="equip_total"'>
                     <span class="qname">设备状态：</span>
                     <ul class="list">
-                        <li class="itine" v-for='(item,index) in EquipStateList' :class='{onitine:item.code==currentSelector.valid}' v-text='item.name' @click='listClassTolego("valid",item.code)'>全部</li>
+                        <li class="itine" v-for='(item,index) in EquipStateList' :class='{onitine:item.code==currentSelector.valid}' v-text='item.name'
+                            @click='listClassTolego("valid",item.code)'>全部</li>
                     </ul>
                 </div>
             </div>
@@ -73,7 +77,7 @@
                 <!-- 全部设备Start -->
                 <div class="block" v-show='onTab=="equip_total"'>
                     <div class="totalline">
-                        当前选项下设备共计：{{EquipList.length}} 个
+                        当前选项下设备共计：{{EquipList.count}} 个
                     </div>
                     <ul class="thead">
                         <li>
@@ -85,25 +89,32 @@
                             <span class="eq-item">录入时间</span>
                         </li>
                     </ul>
-                    <ul class="tbody" type='equip_total'>
+                    <ul class="tbody" type='equip_total' v-show='EquipList.length'>
                         <li v-for='item in EquipList' @click='_clickIntoDeatil(item)'>
-                            <span class="eq-item" v-text='item.equip_local_id'></span>
-                            <span class="eq-item" v-text='item.equip_local_name'></span>
-                            <span class="eq-item" v-text='item.specification'></span>
-                            <span class="eq-item" v-text='item.position'></span>
-                            <span class="eq-item" v-text='item.supplier'></span>
-                            <span class="eq-item">{{ item.create_time | yyyyMMddhhmmss2date | date2yyyyMMddhhmm }} 
-                                        <i class="overicon" v-show='item.destroy_remind_type==2'><span class="tiptext" v-text='item.destroy_remind'></span></i>
-                            <i class="willovericon" v-show='item.destroy_remind_type==1'><span class="tiptext" v-text='item.destroy_remind'></span></i>
+                            <span class="eq-item fontdot" v-text='item.equip_local_id'></span>
+                            <span class="eq-item fontdot" v-text='item.equip_local_name'></span>
+                            <span class="eq-item fontdot" v-text='item.specification'></span>
+                            <span class="eq-item fontdot" v-text='item.position'></span>
+                            <span class="eq-item fontdot" v-text='item.supplier'></span>
+                            <span class="eq-item fontdot">{{ item.create_time | yyyyMMddhhmmss2date | date2yyyyMMddhhmm }}
+                                <i class="overicon" v-show='item.destroy_remind_type==2'>
+                                    <span class="tiptext" v-text='item.destroy_remind'></span>
+                                </i>
+                                <i class="willovericon" v-show='item.destroy_remind_type==1'>
+                                    <span class="tiptext" v-text='item.destroy_remind'></span>
+                                </i>
                             </span>
                         </li>
+                    </ul>
+                    <ul class="tbody" v-show='!EquipList.length'>
+                        <pnotice-nodata text="暂无数据"></pnotice-nodata>
                     </ul>
                 </div>
                 <!-- 全部设备End -->
                 <!-- 当前维修中Start -->
                 <div class="block" v-show='onTab=="repair_count"'>
                     <div class="totalline">
-                        当前选项下设备共计：{{ServicingList.length}} 个
+                        当前选项下设备共计：{{ServicingList.count}} 个
                     </div>
                     <ul class="thead">
                         <li>
@@ -115,105 +126,122 @@
                             <span class="eq-item">对应工单</span>
                         </li>
                     </ul>
-                    <ul class="tbody" type='repair_count'>
-                        <li v-for='item in ServicingList'>
-                            <span class="eq-item" v-text='item.equip_local_id'></span>
-                            <span class="eq-item" v-text='item.equip_local_name'></span>
-                            <span class="eq-item" v-text='item.specification'></span>
-                            <span class="eq-item" v-text='item.position'></span>
-                            <span class="eq-item" v-text='item.maintainer'></span>
+                    <ul class="tbody" type='repair_count' v-show='ServicingList.length'>
+                        <li v-for='item in ServicingList' @click='_clickIntoDeatil(item)'>
+                            <span class="eq-item fontdot" v-text='item.equip_local_id'></span>
+                            <span class="eq-item fontdot" v-text='item.equip_local_name'></span>
+                            <span class="eq-item fontdot" v-text='item.specification'></span>
+                            <span class="eq-item fontdot" v-text='item.position'></span>
+                            <span class="eq-item fontdot" v-text='item.maintainer'></span>
                             <span class="eq-item" v-if='item.work_orders.length==1'>
-                                    <p class="stateicon" v-text='item.work_orders[0].order_state_desc'></p>
-                                    <span class="statetext" @click="_clickGoWork(item.work_orders[0])"><a class="link">{{item.work_orders[0].summary}}</a></span>
+                                <p class="stateicon" v-text='item.work_orders[0].order_state_desc'></p>
+                                <span class="statetext" @click.stop="_clickGoWork(item.work_orders[0])">
+                                    <a class="link">{{item.work_orders[0].summary}}</a>
+                                </span>
                             </span>
                             <span class="eq-item" v-if='item.work_orders.length>1'>
-                                    <a class="link" href="">{{item.work_orders.length}}条工单</a>
-                                    <div class="hgd">
-                                        <ul>
-                                            <li class="work_orders" v-for='info in item.work_orders'>
-                                                    <p class="stateicon" v-text='info.order_state_desc'></p>
-                                                    <span class="statetext"><a class="link" @click="_clickGoWork(info)">{{info.summary}}</a></span>
+                                <a class="link" href="">{{item.work_orders.length}}条工单</a>
+                                <div class="hgd">
+                                    <ul>
+                                        <li class="work_orders" v-for='info in item.work_orders'>
+                                            <p class="stateicon" v-text='info.order_state_desc'></p>
+                                            <span class="statetext">
+                                                <a class="link" @click.stop="_clickGoWork(info)">{{info.summary}}</a>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </span>
                         </li>
                     </ul>
+                    <ul class="tbody" v-show='!ServicingList.length'>
+                        <pnotice-nodata text="暂无数据"></pnotice-nodata>
+                    </ul>
                 </div>
-                </span>
-                </li>
-                </ul>
-            </div>
-            <!-- 当前维修中End -->
-            <!-- 当前维保中Start -->
-            <div class="block" v-show='onTab=="maint_count"'>
-                <div class="totalline">
-                    当前选项下设备共计：{{MaintenanceList.length}} 个
+                <!-- 当前维修中End -->
+                <!-- 当前维保中Start -->
+                <div class="block" v-show='onTab=="maint_count"'>
+                    <div class="totalline">
+                        当前选项下设备共计：{{MaintenanceList.count}} 个
+                    </div>
+                    <ul class="thead">
+                        <li>
+                            <span class="eq-item eq-fitem">设备编码</span>
+                            <span class="eq-item eq-fitem">设备名称</span>
+                            <span class="eq-item eq-fitem">设备型号</span>
+                            <span class="eq-item eq-fitem">所在位置</span>
+                            <span class="eq-item eq-fitem">对应工单</span>
+                        </li>
+                    </ul>
+                    <ul class="tbody" type='maint_count' v-show='MaintenanceList.length'>
+                        <li v-for='item in MaintenanceList' @click='_clickIntoDeatil(item)'>
+                            <span class="eq-item eq-fitem fontdot" v-text='item.equip_local_id'></span>
+                            <span class="eq-item eq-fitem fontdot" v-text='item.equip_local_name'></span>
+                            <span class="eq-item eq-fitem fontdot" v-text='item.specification'></span>
+                            <span class="eq-item eq-fitem fontdot" v-text='item.position'></span>
+                            <span class="eq-item eq-fitem fontdot" v-if='item.work_orders.length==1'>
+                                <p class="stateicon" v-text='item.work_orders[0].order_state_desc'></p>
+                                <span class="statetext">
+                                    <a class="link" @click.stop="_clickGoWork(item.work_orders[0])">{{item.work_orders[0].summary}}</a>
+                                </span>
+                            </span>
+                            <span class="eq-item" v-if='item.work_orders.length>1'>
+                                <a class="link">{{item.work_orders.length}}条工单</a>
+                                <div class="hgd">
+                                    <ul>
+                                        <li class="work_orders" v-for='info in item.work_orders'>
+                                            <p class="stateicon" v-text='info.order_state_desc'></p>
+                                            <span class="statetext">
+                                                <a class="link" @click.stop="_clickGoWork(info)">{{info.summary}}</a>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="tbody" v-show='!MaintenanceList.length'>
+                        <pnotice-nodata text="暂无数据"></pnotice-nodata>
+                    </ul>
                 </div>
-                <ul class="thead">
-                    <li>
-                        <span class="eq-item eq-fitem">设备编码</span>
-                        <span class="eq-item eq-fitem">设备名称</span>
-                        <span class="eq-item eq-fitem">设备型号</span>
-                        <span class="eq-item eq-fitem">所在位置</span>
-                        <span class="eq-item eq-fitem">对应工单</span>
-                    </li>
-                </ul>
-                <ul class="tbody" type='maint_count'>
-                    <li v-for='item in MaintenanceList'>
-                        <span class="eq-item eq-fitem" v-text='item.equip_local_id'></span>
-                        <span class="eq-item eq-fitem" v-text='item.equip_local_name'></span>
-                        <span class="eq-item eq-fitem" v-text='item.specification'></span>
-                        <span class="eq-item eq-fitem" v-text='item.position'></span>
-                        <span class="eq-item eq-fitem" v-if='item.work_orders.length==1'>
-                                                <p class="stateicon" v-text='item.work_orders[0].order_state_desc'></p>
-                                                <span class="statetext"><a class="link" @click="_clickGoWork(item.work_orders[0])">{{item.work_orders[0].summary}}</a></span>
-                        </span>
-                        <span class="eq-item" v-if='item.work_orders.length>1'>
-                                                <a class="link">{{item.work_orders.length}}条工单</a>
-                                                <div class="hgd">
-                                                    <ul>
-                                                        <li class="work_orders" v-for='info in item.work_orders'>
-                                                                <p class="stateicon" v-text='info.order_state_desc'></p>
-                                                                <span class="statetext"><a class="link" @click="_clickGoWork(info)">{{info.summary}}</a></span>
-                    </li>
-                </ul>
+                <!-- 当前维保中End -->
+                <!-- 即将报废Start -->
+                <div class="block" v-show='onTab=="going_destroy_count"'>
+                    <div class="totalline">
+                        当前选项下设备共计：{{ScrappedList.count}} 个
+                    </div>
+                    <ul class="thead">
+                        <li>
+                            <span class="eq-item">设备编码</span>
+                            <span class="eq-item">设备名称</span>
+                            <span class="eq-item">设备型号</span>
+                            <span class="eq-item">所在位置</span>
+                            <span class="eq-item">投入使用时间</span>
+                            <span class="eq-item">使用寿命</span>
+                        </li>
+                    </ul>
+                    <ul class="tbody" type='going_destroy_count' v-show='ScrappedList.length'>
+                        <li v-for='item in ScrappedList' @click='_clickIntoDeatil(item)'>
+                            <span class="eq-item fontdot" v-text='item.equip_local_id'></span>
+                            <span class="eq-item fontdot" v-text='item.equip_local_name'></span>
+                            <span class="eq-item fontdot" v-text='item.specification'></span>
+                            <span class="eq-item fontdot" v-text='item.position'></span>
+                            <span class="eq-item">{{item.start_date | yyyyMMddhhmmss2date | date2yyyyMMddhhmm}} </span>
+                            <span class="eq-item">{{item.service_life}}年
+                                <p class="stateicon" v-text='item.destroy_remind' v-if='item.destroy_remind'></p>
+                                <p class="bf" v-if='item.destroy_remind' @click.stop=_clickScrapped(item)>报废设备</p>
+                            </span>
+                        </li>
+                    </ul>
+                    <ul class="tbody" v-show='!ScrappedList.length'>
+                        <pnotice-nodata text="暂无数据"></pnotice-nodata>
+                    </ul>
+                </div>
+                <!-- 即将报废End -->
             </div>
-            </span>
-            </li>
-            </ul>
+            <!-- listHeight End -->
         </div>
-        <!-- 当前维保中End -->
-        <!-- 即将报废Start -->
-        <div class="block" v-show='onTab=="going_destroy_count"'>
-            <div class="totalline">
-                当前选项下设备共计：{{ScrappedList.length}} 个
-            </div>
-            <ul class="thead">
-                <li>
-                    <span class="eq-item">设备编码</span>
-                    <span class="eq-item">设备名称</span>
-                    <span class="eq-item">设备型号</span>
-                    <span class="eq-item">所在位置</span>
-                    <span class="eq-item">投入使用时间</span>
-                    <span class="eq-item">使用寿命</span>
-                </li>
-            </ul>
-            <ul class="tbody" type='going_destroy_count'>
-                <li v-for='item in ScrappedList'>
-                    <span class="eq-item" v-text='item.equip_local_id'></span>
-                    <span class="eq-item" v-text='item.equip_local_name'></span>
-                    <span class="eq-item" v-text='item.specification'></span>
-                    <span class="eq-item" v-text='item.position'></span>
-                    <span class="eq-item">{{item.start_date | yyyyMMddhhmmss2date | date2yyyyMMddhhmm}} </span>
-                    <span class="eq-item">{{item.service_life}}
-                                                            <p class="stateicon" v-text='item.destroy_remind' v-if='item.destroy_remind'></p>
-                                                            <p class="bf" v-if='item.destroy_remind' @click=_clickScrapped(item)>报废设备</p>
-                                                    </span>
-                </li>
-            </ul>
-        </div>
-        <!-- 即将报废End -->
     </div>
-    <!-- listHeight End -->
 </div>
-</div>
-</div>
-</div>
+<!-- </div> -->
 <!-- equipmentlist End -->

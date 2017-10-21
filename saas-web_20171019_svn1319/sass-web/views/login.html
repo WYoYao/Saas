@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Saas平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="/js/login.js"></script>
+
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min.css"/>
+    <link rel="stylesheet" href="./css/login/logined.css"/>
+</head>
+<body>
+<div class="v6s-login-wrap">
+    <div class="v6s-login-con">
+        <div class="v6s-login-bg">
+            <div class="login-title"><em></em>LOGO</div>
+            <div class="login-type">
+                <div class="login-tab">
+                    <div class="login-company" onclick="logWay(this,true)">
+                        <span>企业登录</span>
+                        <em></em>
+                    </div>
+                    <div class="login-person" onclick="logWay(this,false)">
+                        <span>个人登录</span>
+                        <em></em>
+                    </div>
+                </div>
+                <div class="login-form">
+
+                    <!-- 企业登录 -->
+                    <div class="form-company">
+                        <form method="post" action="/plogin" id="formCompanyLogin">
+                            <div class="login-con">
+                                <input type="hidden" name="type" value="1"/>
+                                <div class="email-div">
+                                    <input id="email" type="text" name="name" placeholder="输入邮箱" onfocus="inputFocus('#email', '#companyPass', '#err1')"/>
+                                </div>
+                                <div class="password-div">
+                                    <div class="password-div-hidden">
+                                        <input id="companyPass" type="password" name="pass" placeholder="输入密码" class="invisible-password"
+                                               onkeyup="transferValue(this.value,false)" onfocus="inputFocus('#email', '#companyPass', '#err1')"/>
+                                        <div class="visible-div" onclick="visiblePassword(true)">
+                                            <img src="../images/hidden.png" alt="不可见"/>
+                                        </div>
+                                    </div>
+                                    <div class="password-div-visible">
+                                        <input type="text" placeholder="输入密码" class="visible-password"
+                                               onkeyup="transferValue(this.value,true)"
+                                               onblur="verifyPassword(this,this.value)" autocomplete="off"/>
+                                        <div class="visible-div" onclick="visiblePassword(false)">
+                                            <img src="../images/visible.png" alt="可见"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="error-tip" id="err1">
+                                    <span><%=err==1?'邮箱或密码错误':err==2?'该账号不存在，请联系客服':err==3?'密码错误，请联系客服':''%></span>
+                                </div>
+                            </div>
+                            <input type="button" value="登录" class="login-button" onclick="formCompanyLogin()"
+                                   id="companyLoginBtn"/>
+                        </form>
+                    </div>
+
+                    <!-- 人员登录 -->
+                    <div class="form-person">
+                        <form method="post" action="/plogin" id="formPersonLogin">
+                            <div class="login-con">
+                                <input type="hidden" name="type" value="2"/>
+                                <div class="tel-div">
+                                    <input id="cellphoneNumber" type="text" name="name" placeholder="手机号" maxlength="11"
+                                           oninput="verifyAble(this,this.value)" onfocus="inputFocus('#cellphoneNumber', '#code', '#err2')"/>
+                                    <div class="send-code-countdown">
+                                        <span onclick="sendCode(this)">发送验证码</span>
+                                        <span><b>59</b>s</span>
+                                    </div>
+                                </div>
+                                <div class="verify-div">
+                                    <div class="code-div">
+                                        <input id="code" type="text" name="pass" placeholder="验证码" onfocus="inputFocus('#cellphoneNumber', '#code', '#err2')"/>
+                                    </div>
+                                </div>
+                                <div class="error-tip">
+                                    <span id="err2"><%=err==1?'手机号或验证码错误':err==2?'请输入有效的手机号':err==3?'验证码错误':''%></span>
+                                </div>
+                            </div>
+                            <input type="button" value="登录" class="login-button" onclick="formPersonLogin()"
+                                   id="personLoginBtn"/>
+                        </form>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="login-footer"><span>客服热线：400-8800-6633</span></div>
+        </div>
+    </div>
+    <img class="login-img" src="./images/login.jpg" id="imgback"/>
+    <div class="jing-ICP">© 2017 Persagy. All rights reserved. 版权所有</div>
+</div>
+</body>
+</html>

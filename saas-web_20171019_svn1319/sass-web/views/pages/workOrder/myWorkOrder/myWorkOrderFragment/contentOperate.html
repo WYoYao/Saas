@@ -1,0 +1,45 @@
+<div class="content-prev">
+    <div class="prev-title">
+        <div class="title-tip-div">
+            <span>标准作业操作内容</span>
+        </div>
+        <div class="edit-clear-div">
+            <div class="edit-div" v-show="commonData.publicModel.editBtn">
+                <pbutton-white text="编辑" icon="e" isborder="false" click="yn_method.editable"></pbutton-white>
+            </div>
+            <div class="clear-div" v-show="!commonData.publicModel.editBtn">
+                <img src="../images/clear_03.png" alt="清空图标"/>
+                <pbutton-white text="清空"  isborder="false" click="yn_method.delBubbleShow"></pbutton-white>
+            </div>
+            <!-- 清空按钮弹窗 -->
+            <pwindow-bubble>
+                <button>
+                    <pbutton-blue text="删除" click="yn_method.clearAll"></pbutton-blue>
+                    <pbutton-white text="取消" click="yn_method.delBubbleHide"></pbutton-white>
+                </button>
+            </pwindow-bubble>
+        </div>
+    </div>
+    <div class="prev-body">
+        <div class="slide-div operate">
+            <div class="textarea-div" >
+                <textarea id="content-textarea" maxlength="200" v-model="workContent.content" @blur="publicMethod.blurContentItemOpe"
+                           @keyup="publicMethod.keyupContent(model, 0, $event)"
+                           @keydown="publicMethod.keydownContent(model, 0, $event)"
+                          @focus="publicMethod.contentTextAreafocus"
+                ></textarea><!-- @blur="publicMethod.blurContentItemOpe"-->
+
+                <div class="obj-fragment-div" onclick="yn_method.contentAiteShow(this,event)">
+                    <span class="aite-btn">@对象/部件/工具</span>
+                    <% include aite.html %>
+                    <span class="counter"><b>0</b>/200</span>
+                </div>
+                <div class="textareadiv"></div>
+                <div class="textarea-prop" >
+                    <% include aite.html %>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

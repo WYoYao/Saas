@@ -1,0 +1,34 @@
+<div class="alert-all workcontent-alert"><!-- v-show="commonData.publicModel.addContentWindow"-->
+    <div class="alert-shade">
+        <div class="alert-box">
+            <div class="alert-content">
+                <div class="alert-container">
+                    <div class="alert-header">
+                        <div class="matter-title">
+                            <div class="matter-title-div">
+                                <input type="text" maxlength="100" placeholder="未命名工作内容-1" v-model="commonData.publicModel .workContent.work_name" onkeyup="yn_method.matterNameCounter1(this,this.value)"/>
+                                <span class="counter"><b>0</b>/100</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="alert-body">
+                        <div class="import-box">
+                            <%include contentPrev.html %>
+                            <%include contentOperate.html %>
+                            <%include contentAttention.html %>
+                            <%include contentResult.html %>
+                            <%include contentMajor.html %>
+                        </div>
+                    </div>
+                    <div class="alert-footer">
+                        <!--<pbutton-blue text="确定" click="yn_method.addWorkContent"></pbutton-blue>-->
+                        <pbutton-blue text="确定" click="yn_method.confirmAddWorkContent"></pbutton-blue>
+                    </div>
+                </div>
+            </div>
+            <div class="alert-close" @click="publicMethod.addContent(null,false,null)">
+                <img src="../images/alert_close_btn.png"/>
+            </div>
+        </div>
+    </div>
+</div>

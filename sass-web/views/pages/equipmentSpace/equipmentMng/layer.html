@@ -251,16 +251,19 @@
         right: 25px;
         color: #68c5b3;
     }
+    .layer .disable{
+        color: #b0b0b0;
+    }
 </style>
 
 <script type="text/html" id="layer">
     <div class="lblock" v-show='layer.willSubmit || layer.willCancel' @click='_hide()'>
         <div class="layer" :style='position'>
             <!-- 修改对勾弹窗Start -->
-            <div class="tip" v-show='layer.willSubmit'>
+            <div class="tip" v-show='layer.willSubmit' :style='translate' @click.stop="void 0">
                 <div class="box">
                     <div class="header">
-                        <div class="column">
+                        <div class="column" :class='{disable:!canChangeRadiu}'>
                             <div class="radio" @click.capture.stop="_clickChangeType(true)">
                                 <div class="per-switch-radio">
                                     <span class="per-radio_input" :class="{ 'per-radio-checked':changeType}"></span>
@@ -288,14 +291,14 @@
                                         <panel startyear="2013" endyear="2022" timetype="yMd" ></panel>
                                     </ptime-form>
                         </span>
-                        <p class="label">历史变化记录：</p>
-                        <ul>
+                        <p class="label" v-show='canChangeRadiu'>历史变化记录：</p>
+                        <ul v-show='canChangeRadiu'>
                             <li class="th">
                                 <span>生效时间</span>
                                 <span>变化内容</span>
                             </li>
                         </ul>
-                        <ul>
+                        <ul v-show='canChangeRadiu'>
                             <li v-for='item in PointHis'>
                                 <span v-text='new Date(item.date).format("yyyy.MM.dd")'></span>
                                 <span v-text='item.value'></span>
@@ -312,7 +315,7 @@
             <!-- 修改对勾弹窗End -->
     
             <!-- 确认修改弹窗 Start -->
-            <div class="confirm" v-show='layer.willCancel'>
+            <div class="confirm" v-show='layer.willCancel' :style='translate' @click.stop="void 0">
                 <p class="titlefont">确定退出编辑吗？</p>
                 <p class="description">取消编辑将不保存当前编辑信息</p>
                 <div class="panel">
@@ -392,27 +395,59 @@
         props: ['layer'],
         computed: {
             position: function() {
+
                 var _that = this,
                     // 屏幕宽高
                     clientHeight = document.body.clientHeight,
                     clientWidth = document.body.clientWidth,
-                    // 弹出确认框宽高
-                    compareWidth = 300,
-                    compareHeight = 400,
+
                     // 鼠标点击位置坐标
-                    x = _that.layer.left,
-                    y = _that.layer.top,
+                    x = _that.layer.left, // 点距left距离
+                    y = _that.layer.top,// 点距top距离
+                    cx= clientWidth-x,// 点距right距离
+                    cy=clientHeight-y,// 点距bottom距离
                     style = {},
                     isLeft = true,
                     isTop = true;
                 // 右边有位置直接显示右边
-                isLeft = (clientWidth - x) > compareWidth;
-                isTop = (clientHeight - y) > compareHeight;
-                style[isLeft ? 'left' : 'right'] = (isLeft ? x : clientWidth - x) + 304 + 'px';
-                style[isTop ? 'top' : 'bottom'] = (isTop ? y : (clientHeight - y + (_that.changeType ? 148 : 388))) + 'px';
+                isLeft = x > cx;
+                isTop = y > cy;
+                style[isLeft ? 'right':'left'] = (isLeft ? cx : x) + 'px';
+                style[isTop ? 'bottom':'top'] = (isTop ? cy : y) + 'px';
+                // style[isLeft ? 'left' : 'right'] = (isLeft ? x : cx) + 'px';
+                // style[isTop ? 'top' : 'bottom'] = (isTop ? y : cy) + 'px';
                 style.display = _that.layer.display;
 
                 return style;
+            },
+            translate:function(){
+
+                var _that = this,
+                    // 屏幕宽高
+                    clientHeight = document.body.clientHeight,
+                    clientWidth = document.body.clientWidth,
+
+                    // 鼠标点击位置坐标
+                    x = _that.layer.left, // 点距left距离
+                    y = _that.layer.top,// 点距top距离
+                    cx= clientWidth-x,// 点距right距离
+                    cy=clientHeight-y,// 点距bottom距离
+                    style = {},
+                    isLeft = true,
+                    isTop = true;
+                // 右边有位置直接显示右边
+                isLeft = x > cx;
+                isTop = y > cy;
+
+                var style={
+                    transform:"translate("+ (isLeft?"-100":"0") +"%,"+ (isTop?"-100":"0") +"%)",
+                }
+
+                return style;
+            },
+            // 是否可以点击修改
+            canChangeRadiu:function(){
+                return !!this.PointHis.length;
             }
         },
         beforeUpdate: function() {
@@ -451,13 +486,17 @@
 
                 _that._clickCancelCancelIDE();
 
-                if(_that.layer.cancelCb instanceof Function){
+                // if(_that.layer.cancelCb instanceof Function){
 
-                    _that.layer.cancelCb();
-                }
+                //     _that.layer.cancelCb();
+                // }
             },
             // 修改的提交时候的窗台
             _clickChangeType: function(bool) {
+
+                if(bool && !this.canChangeRadiu){
+                    return;
+                }
 
                 this.changeType = bool;
             },
@@ -468,7 +507,7 @@
 
                 // 获取修改时间
                 var dateVal = new Date($('#' + this._clickDateSelKey).psel().startTime).format(
-                    'yyyyMMddhhssmm');
+                    'yyyyMMdd') + '000000';
 
                 _that.layer.submitCb({
                     isNewValue: !_that.changeType ? dateVal : '',
@@ -490,6 +529,11 @@
                 this.layer.willSubmit = false;
                 this.layer.willCancel = false;
                 this.layer.display = "none";
+                
+                var now=new Date();
+                this.changeType=false;
+
+                $('#' + this._clickDateSelKey).psel({y:now.format('yyyy'),M:now.format('MM'),d:now.format('dd'),h:0,m:0})
                 // this._hide();
             },
         }

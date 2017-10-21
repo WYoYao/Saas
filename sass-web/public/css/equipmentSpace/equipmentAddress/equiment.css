@@ -92,7 +92,7 @@
         padding: 0 31px;
         padding-right: 64px;
         box-sizing: border-box;
-    }
+       float: left;    width: 100%; }
 
         .eqaddressFloatWrap .selTemp:hover {
             background: #f5f5f5;
@@ -158,7 +158,7 @@
 .eqaddressFloatWrap .selTemp.bxDiv.selTempEdit .editInput { position: relative;
 }
 .eqaddressFloatWrap .selTemp.selTempSel .selInput {
-    display: block;
+    display: block;word-break: break-all;
 }
 
 .eqaddressFloatWrap .selTemp.selTempSel .editInput {

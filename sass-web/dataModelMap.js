@@ -3,11 +3,30 @@
 
 /*数据model映射配置，支持无限嵌套*/
 var dataModelMap = {
-    'restDictService/queryAllBuildingCode':{
+    'restEquipService/verifyEquipLocalId': {
+        "type": "object",
+        "note": "未输入note",
+    },
+    'restEquipService/verifyEquipBimId': {
+        "type": "object",
+        "note": "未输入note",
+    },
+    'restSystemService/verifySystemName': {
+        "type": "object",
+        "note": "未输入note",
+    },
+    'restSystemService/verifySystemLocalId': {
+        "type": "object",
+        "note": "未输入note",
+    },
+    'restSystemService/verifySystemBimId': {
+        "type": "object",
+        "note": "未输入note",
+    },
+    'restDictService/queryAllBuildingCode': {
         "type": "array",
         "note": "未输入note",
-        "proArr": [
-            {
+        "proArr": [{
                 "name": "code",
                 "type": "string",
                 "note": "code"
@@ -21,8 +40,7 @@ var dataModelMap = {
                 "name": "content",
                 "type": "array",
                 "note": "content",
-                "proArr": [
-                    {
+                "proArr": [{
                         "name": "code",
                         "type": "string",
                         "note": "code"
@@ -45,48 +63,6 @@ var dataModelMap = {
     'restEquipService/queryMaintEquipList': {
         "type": "array",
         "note": "未输入note",
-        "proArr": [{
-                "name": "create_time",
-                "type": "string",
-                "note": "create_time"
-            },
-            {
-                "name": "equip_id",
-                "type": "string",
-                "note": "equip_id"
-            },
-            {
-                "name": "equip_local_name",
-                "type": "string",
-                "note": "equip_local_name"
-            },
-            {
-                "name": "position",
-                "type": "string",
-                "note": "position"
-            },
-            {
-                "name": "work_orders",
-                "type": "array",
-                "note": "work_orders",
-                "proArr": [{
-                        "name": "order_id",
-                        "type": "string",
-                        "note": "order_id"
-                    },
-                    {
-                        "name": "order_state_desc",
-                        "type": "string",
-                        "note": "order_state_desc"
-                    },
-                    {
-                        "name": "summary",
-                        "type": "string",
-                        "note": "summary"
-                    }
-                ]
-            }
-        ]
     },
     'restSystemService/addSystem': {
         "type": "object",
@@ -183,117 +159,15 @@ var dataModelMap = {
     'restEquipService/queryGoingDestroyEquipList': {
         "type": "array",
         "note": "未输入note",
-        "proArr": [
-            {
-                "name": "destroy_remind",
-                "type": "string",
-                "note": "destroy_remind"
-            },
-            {
-                "name": "destroy_remind_type",
-                "type": "string",
-                "note": "destroy_remind_type"
-            },
-            {
-                "name": "equip_id",
-                "type": "string",
-                "note": "equip_id"
-            },
-            {
-                "name": "equip_local_id",
-                "type": "string",
-                "note": "equip_local_id"
-            },
-            {
-                "name": "equip_local_name",
-                "type": "string",
-                "note": "equip_local_name"
-            },
-            {
-                "name": "maintainer",
-                "type": "string",
-                "note": "maintainer"
-            },
-            {
-                "name": "position",
-                "type": "string",
-                "note": "position"
-            },
-            {
-                "name": "service_life",
-                "type": "string",
-                "note": "service_life"
-            },
-            {
-                "name": "specification",
-                "type": "string",
-                "note": "specification"
-            },
-            {
-                "name": "start_date",
-                "type": "string",
-                "note": "start_date"
-            }
-        ]
     },
     'restEquipService/queryRepairEquipList': {
         "type": "array",
         "note": "未输入note",
-        "proArr": [
-            {
-                "name": "create_time",
-                "type": "string",
-                "note": "create_time"
-            },
-            {
-                "name": "equip_id",
-                "type": "string",
-                "note": "equip_id"
-            },
-            {
-                "name": "equip_local_id",
-                "type": "string",
-                "note": "equip_local_id"
-            },
-            {
-                "name": "equip_local_name",
-                "type": "string",
-                "note": "equip_local_name"
-            },
-            {
-                "name": "position",
-                "type": "string",
-                "note": "position"
-            },
-            {
-                "name": "work_orders",
-                "type": "array",
-                "note": "work_orders",
-                "proArr": [
-                    {
-                        "name": "order_id",
-                        "type": "string",
-                        "note": "order_id"
-                    },
-                    {
-                        "name": "order_state_desc",
-                        "type": "string",
-                        "note": "order_state_desc"
-                    },
-                    {
-                        "name": "summary",
-                        "type": "string",
-                        "note": "summary"
-                    }
-                ]
-            }
-        ]
     },
     'restEquipService/queryEquipPublicInfo': {
         "type": "object",
         "note": "未输入note",
-        "proArr": [
-            {
+        "proArr": [{
                 "name": "equip_id",
                 "type": "string",
                 "note": "equip_id"
@@ -368,10 +242,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "drawing",
                 "proArr": [{
-                    "name": "key",
-                    "type": "fileLink",
-                    "fileType": "1"
-                },
+                        "name": "key",
+                        "type": "fileLink",
+                        "fileType": "1"
+                    },
                     {
                         "name": "name",
                         "type": "string",
@@ -394,10 +268,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "check_report",
                 "proArr": [{
-                    "name": "key",
-                    "type": "fileLink",
-                    "fileType": "1"
-                },
+                        "name": "key",
+                        "type": "fileLink",
+                        "fileType": "2"
+                    },
                     {
                         "name": "name",
                         "type": "string",
@@ -412,19 +286,18 @@ var dataModelMap = {
             },
             {
                 "name": "nameplate",
-                "type": "array",
-                "note": "nameplate",
-                "proArr": "fileArray"
+                "type": "fileArray",
+                "note": "nameplate"
             },
             {
                 "name": "archive",
                 "type": "array",
                 "note": "archive",
                 "proArr": [{
-                    "name": "key",
-                    "type": "fileLink",
-                    "fileType": "1"
-                },
+                        "name": "key",
+                        "type": "fileLink",
+                        "fileType": "1"
+                    },
                     {
                         "name": "name",
                         "type": "string",
@@ -601,8 +474,7 @@ var dataModelMap = {
                 "name": "insurance_file",
                 "type": "array",
                 "note": "insurance_file",
-                "proArr": [
-                    {
+                "proArr": [{
                         "name": "key",
                         "type": "fileLink",
                         "fileType": "1"
@@ -629,10 +501,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Result",
-            "type": "string",
-            "note": "Result"
-        },
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -647,8 +519,7 @@ var dataModelMap = {
     'restEquipService/queryEquipInfoPointHis': {
         "type": "array",
         "note": "未输入note",
-        "proArr": [
-            {
+        "proArr": [{
                 "name": "date",
                 "type": "string",
                 "note": "date"
@@ -663,6 +534,71 @@ var dataModelMap = {
     'restEquipService/queryEquipDynamicInfo': {
         "type": "array",
         "note": "未输入note",
+        "proArr": [{
+            "name": "info_Points",
+            "type": "array",
+            "note": "info_Points",
+            "proArr": [{
+                "name": "att_value",
+                "type": "array",
+                "note": "att_value",
+                "proArr": [{
+                    "name": "key",
+                    "type": "fileLink",
+                    "note": "key",
+                    "fileType": "2",
+                }, {
+                    "name": "name",
+                    "type": "string",
+                    "note": "name"
+                }, {
+                    "name": "type",
+                    "type": "string",
+                    "note": "type"
+                }]
+            }, {
+                "name": "cmpt",
+                "type": "string",
+                "note": "cmpt"
+            }, {
+                "name": "cmpt_data",
+                "type": "array",
+                "note": "cmpt_data",
+                "proArr": [{
+                    "name": "code",
+                    "type": "string",
+                    "note": "code"
+                }, {
+                    "name": "name",
+                    "type": "string",
+                    "note": "name"
+                }]
+            }, {
+                "name": "data_type",
+                "type": "string",
+                "note": "data_type"
+            }, {
+                "name": "info_code",
+                "type": "string",
+                "note": "info_code"
+            }, {
+                "name": "info_name",
+                "type": "string",
+                "note": "info_name"
+            }, {
+                "name": "str_value",
+                "type": "string",
+                "note": "str_value"
+            }, {
+                "name": "unit",
+                "type": "string",
+                "note": "unit"
+            }]
+        }, {
+            "name": "tag",
+            "type": "string",
+            "note": "tag"
+        }]
     },
     'restEquipCompanyService/queryEquipCompanySel': {
         "type": "array",
@@ -673,10 +609,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Result",
-            "type": "string",
-            "note": "Result"
-        },
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -688,10 +624,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "code",
-            "type": "string",
-            "note": "code"
-        },
+                "name": "code",
+                "type": "string",
+                "note": "code"
+            },
             {
                 "name": "name",
                 "type": "string",
@@ -702,10 +638,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "content",
                 "proArr": [{
-                    "name": "code",
-                    "type": "string",
-                    "note": "code"
-                },
+                        "name": "code",
+                        "type": "string",
+                        "note": "code"
+                    },
                     {
                         "name": "name",
                         "type": "string",
@@ -716,10 +652,10 @@ var dataModelMap = {
                         "type": "array",
                         "note": "content",
                         "proArr": [{
-                            "name": "code",
-                            "type": "string",
-                            "note": "code"
-                        },
+                                "name": "code",
+                                "type": "string",
+                                "note": "code"
+                            },
                             {
                                 "name": "name",
                                 "type": "string",
@@ -735,10 +671,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "order_id",
-            "type": "string",
-            "note": "order_id"
-        },
+                "name": "order_id",
+                "type": "string",
+                "note": "order_id"
+            },
             {
                 "name": "summary",
                 "type": "string",
@@ -782,10 +718,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "equip_id",
-            "type": "string",
-            "note": "equip_id"
-        },
+                "name": "equip_id",
+                "type": "string",
+                "note": "equip_id"
+            },
             {
                 "name": "equip_qr_code",
                 "type": "fileLink",
@@ -797,10 +733,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "card_info",
                 "proArr": [{
-                    "name": "info_point_code",
-                    "type": "string",
-                    "note": "info_point_code"
-                },
+                        "name": "info_point_code",
+                        "type": "string",
+                        "note": "info_point_code"
+                    },
                     {
                         "name": "info_point_name",
                         "type": "string",
@@ -819,10 +755,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Result",
-            "type": "string",
-            "note": "Result"
-        },
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -834,10 +770,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "can_destroy",
-            "type": "boolean",
-            "note": "can_destroy"
-        },
+                "name": "can_destroy",
+                "type": "boolean",
+                "note": "can_destroy"
+            },
             {
                 "name": "remind",
                 "type": "string",
@@ -890,16 +826,16 @@ var dataModelMap = {
     'restEquipService/queryEquipList': {
         "type": "array",
         "note": "设备管理首页-查询项目下设备列表",
-        "proArrBy": 'equipList'
+        // "proArrBy": 'equipList'
     },
     'restSchedulingConfigService/saveOrUpdateSchedulingConfig': {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Result",
-            "type": "string",
-            "note": "Result"
-        },
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -911,10 +847,10 @@ var dataModelMap = {
         "type": "object",
         "note": "设备管理-首页:查询设备统计数量",
         "proArr": [{
-            "name": "equip_total",
-            "type": "number",
-            "note": "equip_total"
-        },
+                "name": "equip_total",
+                "type": "number",
+                "note": "equip_total"
+            },
             {
                 "name": "new_count",
                 "type": "number",
@@ -941,10 +877,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "build_id",
-            "type": "string",
-            "note": "build_id"
-        },
+                "name": "build_id",
+                "type": "string",
+                "note": "build_id"
+            },
             {
                 "name": "build_name",
                 "type": "string",
@@ -955,10 +891,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "system",
                 "proArr": [{
-                    "name": "system_id",
-                    "type": "string",
-                    "note": "system_id"
-                },
+                        "name": "system_id",
+                        "type": "string",
+                        "note": "system_id"
+                    },
                     {
                         "name": "system_local_id",
                         "type": "string",
@@ -977,10 +913,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Result",
-            "type": "string",
-            "note": "Result"
-        },
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -1006,10 +942,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Result",
-            "type": "string",
-            "note": "Result"
-        },
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -1021,10 +957,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "dict_id",
-            "type": "string",
-            "note": "dict_id"
-        },
+                "name": "dict_id",
+                "type": "string",
+                "note": "dict_id"
+            },
             {
                 "name": "code",
                 "type": "string",
@@ -1056,10 +992,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "noun_type",
-            "type": "string",
-            "note": "noun_type"
-        },
+                "name": "noun_type",
+                "type": "string",
+                "note": "noun_type"
+            },
             {
                 "name": "noun_type_name",
                 "type": "string",
@@ -1071,10 +1007,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "date",
-            "type": "string",
-            "note": "date"
-        },
+                "name": "date",
+                "type": "string",
+                "note": "date"
+            },
             {
                 "name": "value",
                 "type": "string",
@@ -1086,10 +1022,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "code",
-            "type": "string",
-            "note": "code"
-        },
+                "name": "code",
+                "type": "string",
+                "note": "code"
+            },
             {
                 "name": "name",
                 "type": "string",
@@ -1111,10 +1047,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Result",
-            "type": "string",
-            "note": "Result"
-        },
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -1126,10 +1062,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "date",
-            "type": "string",
-            "note": "date"
-        },
+                "name": "date",
+                "type": "string",
+                "note": "date"
+            },
             {
                 "name": "value",
                 "type": "string",
@@ -1141,10 +1077,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "build_id",
-            "type": "string",
-            "note": "build_id"
-        },
+                "name": "build_id",
+                "type": "string",
+                "note": "build_id"
+            },
             {
                 "name": "build_code",
                 "type": "string",
@@ -1220,10 +1156,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "picture",
                 "proArr": [{
-                    "name": "key",
-                    "type": "fileLink",
-                    "fileType": "1"
-                },
+                        "name": "key",
+                        "type": "fileLink",
+                        "fileType": "1"
+                    },
                     {
                         "name": "name",
                         "type": "string",
@@ -1316,10 +1252,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "drawing",
                 "proArr": [{
-                    "name": "key",
-                    "type": "fileLink",
-                    "fileType": "2"
-                },
+                        "name": "key",
+                        "type": "fileLink",
+                        "fileType": "2"
+                    },
                     {
                         "name": "name",
                         "type": "string",
@@ -1337,10 +1273,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "archive",
                 "proArr": [{
-                    "name": "key",
-                    "type": "fileLink",
-                    "fileType": "2"
-                },
+                        "name": "key",
+                        "type": "fileLink",
+                        "fileType": "2"
+                    },
                     {
                         "name": "name",
                         "type": "string",
@@ -1358,10 +1294,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "consum_model",
                 "proArr": [{
-                    "name": "key",
-                    "type": "string",
-                    "note": "key"
-                },
+                        "name": "key",
+                        "type": "string",
+                        "note": "key"
+                    },
                     {
                         "name": "name",
                         "type": "string",
@@ -1385,10 +1321,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "build_id",
-            "type": "string",
-            "note": "build_id"
-        },
+                "name": "build_id",
+                "type": "string",
+                "note": "build_id"
+            },
             {
                 "name": "build_code",
                 "type": "string",
@@ -1425,10 +1361,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Result",
-            "type": "string",
-            "note": "Result"
-        },
+                "name": "Result",
+                "type": "string",
+                "note": "Result"
+            },
             {
                 "name": "ResultMsg",
                 "type": "string",
@@ -1440,10 +1376,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "customer_id",
-            "type": "string",
-            "note": "customer_id"
-        },
+                "name": "customer_id",
+                "type": "string",
+                "note": "customer_id"
+            },
             {
                 "name": "company_name",
                 "type": "string",
@@ -1498,7 +1434,7 @@ var dataModelMap = {
                 "name": "business_license",
                 "type": "fileLink",
                 "note": "business_license",
-                "fileType":1
+                "fileType": 1
             },
             {
                 "name": "pictures",
@@ -1531,10 +1467,10 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "project_id",
-            "type": "string",
-            "note": "project_id"
-        },
+                "name": "project_id",
+                "type": "string",
+                "note": "project_id"
+            },
             {
                 "name": "project_local_id",
                 "type": "string",
@@ -1926,10 +1862,10 @@ var dataModelMap = {
         "type": "array",
         "note": "未输入note",
         "proArr": [{
-            "name": "code",
-            "type": "string",
-            "note": "code"
-        },
+                "name": "code",
+                "type": "string",
+                "note": "code"
+            },
             {
                 "name": "name",
                 "type": "string",
@@ -1945,10 +1881,10 @@ var dataModelMap = {
                 "type": "array",
                 "note": "time_plan",
                 "proArr": [{
-                    "name": "end",
-                    "type": "string",
-                    "note": "end"
-                },
+                        "name": "end",
+                        "type": "string",
+                        "note": "end"
+                    },
                     {
                         "name": "start",
                         "type": "string",
@@ -1962,26 +1898,26 @@ var dataModelMap = {
         "type": "object",
         "note": "未输入note",
         "proArr": [{
-            "name": "Content",
-            "type": "array",
-            "note": "Content",
-            "proArr": [{
-                "name": "columns",
+                "name": "Content",
                 "type": "array",
-                "note": "columns",
+                "note": "Content",
                 "proArr": [{
-                    "name": "0",
-                    "type": "string",
-                    "note": "0"
-                },
-                    {
-                        "name": "1",
-                        "type": "string",
-                        "note": "1"
-                    }
-                ]
-            }]
-        },
+                    "name": "columns",
+                    "type": "array",
+                    "note": "columns",
+                    "proArr": [{
+                            "name": "0",
+                            "type": "string",
+                            "note": "0"
+                        },
+                        {
+                            "name": "1",
+                            "type": "string",
+                            "note": "1"
+                        }
+                    ]
+                }]
+            },
             {
                 "name": "Count",
                 "type": "number",
@@ -2003,11 +1939,11 @@ var dataModelMap = {
         "note": "人员信息-列表页:查询人员列表",
         "type": "array",
         "proArr": [{
-            "note": "员工id",
-            "name": "person_id",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "员工id",
+                "name": "person_id",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "所属项目id",
                 "name": "project_id",
@@ -2070,23 +2006,23 @@ var dataModelMap = {
         "note": "人员信息-列表页:查询人员缩略图",
         "type": "array",
         "proArr": [{
-            "note": "岗位",
-            "name": "position",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        },
+                "note": "岗位",
+                "name": "position",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            },
             {
                 "note": "员工数组",
                 "name": "persons",
                 "mapName": "",
                 "type": "array",
                 "proArr": [{
-                    "note": "员工id",
-                    "name": "person_id",
-                    "mapName": "",
-                    "type": "string"
-                },
+                        "note": "员工id",
+                        "name": "person_id",
+                        "mapName": "",
+                        "type": "string"
+                    },
                     {
                         "note": "所属项目id",
                         "name": "project_id",
@@ -2120,11 +2056,11 @@ var dataModelMap = {
         "note": "人员信息-详细页:根据查询人员详细信息",
         "type": "object",
         "proArr": [{
-            "note": "员工id",
-            "name": "person_id",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "员工id",
+                "name": "person_id",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "所属项目id",
                 "name": "project_id",
@@ -2194,11 +2130,11 @@ var dataModelMap = {
                 "mapName": "",
                 "type": "array",
                 "proArr": [{
-                    "note": "id",
-                    "name": "code",
-                    "mapName": "",
-                    "type": "string"
-                },
+                        "note": "id",
+                        "name": "code",
+                        "mapName": "",
+                        "type": "string"
+                    },
                     {
                         "note": "名字",
                         "name": "name",
@@ -2245,11 +2181,11 @@ var dataModelMap = {
                 "mapName": "",
                 "type": "array",
                 "proArr": [{
-                    "note": "id",
-                    "name": "role_id",
-                    "mapName": "",
-                    "type": "string"
-                },
+                        "note": "id",
+                        "name": "role_id",
+                        "mapName": "",
+                        "type": "string"
+                    },
                     {
                         "note": "名字",
                         "name": "role_name",
@@ -2264,11 +2200,11 @@ var dataModelMap = {
         "note": "角色管理-列表页:查询角色列表",
         "type": "array",
         "proArr": [{
-            "note": "角色id",
-            "name": "role_id",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "角色id",
+                "name": "role_id",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "所属项目id",
                 "name": "project_id",
@@ -2299,11 +2235,11 @@ var dataModelMap = {
         "note": "角色管理-查询权限项列表",
         "type": "array",
         "proArr": [{
-            "note": "权限项id",
-            "name": "func_pack_id",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "权限项id",
+                "name": "func_pack_id",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "权限项名称",
                 "name": "func_pack_name",
@@ -2328,11 +2264,11 @@ var dataModelMap = {
         "note": "角色管理-根据id查询角色详细信息",
         "type": "object",
         "proArr": [{
-            "note": "角色id",
-            "name": "role_id",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "角色id",
+                "name": "role_id",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "项目id",
                 "name": "project_id",
@@ -2351,11 +2287,11 @@ var dataModelMap = {
                 "mapName": "",
                 "type": "array",
                 "proArr": [{
-                    "note": "权限项id",
-                    "name": "func_pack_id",
-                    "mapName": "",
-                    "type": "string"
-                },
+                        "note": "权限项id",
+                        "name": "func_pack_id",
+                        "mapName": "",
+                        "type": "string"
+                    },
                     {
                         "note": "权限项名称",
                         "name": "func_pack_name",
@@ -2376,11 +2312,11 @@ var dataModelMap = {
         "note": "数据字典 查询专业",
         "type": "array",
         "proArr": [{
-            "note": "id",
-            "name": "code",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "id",
+                "name": "code",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "名字",
                 "name": "name",
@@ -2455,11 +2391,11 @@ var dataModelMap = {
         "mapName": "",
         "type": "array",
         "proArr": [{
-            "note": "方案计划id",
-            "name": "plan_id",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "方案计划id",
+                "name": "plan_id",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "工单类型编码",
                 "name": "order_type",
@@ -2503,11 +2439,11 @@ var dataModelMap = {
         "mapName": "",
         "type": "object",
         "proArr": [{
-            "note": "返回结果状态",
-            "name": "Result",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "返回结果状态",
+                "name": "Result",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "返回结果状态信息",
                 "name": "ResultMsg",
@@ -2521,11 +2457,11 @@ var dataModelMap = {
         "mapName": "",
         "type": "object",
         "proArr": [{
-            "note": "返回结果状态",
-            "name": "Result",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "返回结果状态",
+                "name": "Result",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "提醒信息",
                 "name": "Item",
@@ -2550,10 +2486,10 @@ var dataModelMap = {
         "note": "查询项目下人员列表",
         "type": "array",
         "proArr": [{
-            "note": "员工id",
-            "name": "person_id",
-            "type": "string"
-        },
+                "note": "员工id",
+                "name": "person_id",
+                "type": "string"
+            },
             {
                 "note": "员工姓名",
                 "name": "name",
@@ -2565,18 +2501,18 @@ var dataModelMap = {
         "note": "查询岗位下在职人员",
         "type": "array",
         "proArr": [{
-            "note": "岗位名称",
-            "name": "position",
-            "type": "string"
-        },
+                "note": "岗位名称",
+                "name": "position",
+                "type": "string"
+            },
             {
                 "note": "岗位下人员列表",
                 "name": "persons",
                 "proArr": [{
-                    "note": "员工id",
-                    "name": "person_id",
-                    "type": "string"
-                },
+                        "note": "员工id",
+                        "name": "person_id",
+                        "type": "string"
+                    },
                     {
                         "note": "员工姓名",
                         "name": "name",
@@ -2590,10 +2526,10 @@ var dataModelMap = {
         "note": "根据id查询详细信息",
         "type": "object",
         "proArr": [{
-            "note": "方案id",
-            "name": "plan_id",
-            "type": "string"
-        },
+                "note": "方案id",
+                "name": "plan_id",
+                "type": "string"
+            },
             {
                 "note": "项目id",
                 "name": "project_id",
@@ -2624,10 +2560,10 @@ var dataModelMap = {
                 "name": "post_and_duty",
                 "type": "array",
                 "proArr": [{
-                    "note": "类型,2代表岗位,3代表人",
-                    "name": "type",
-                    "type": "string"
-                },
+                        "note": "类型,2代表岗位,3代表人",
+                        "name": "type",
+                        "type": "string"
+                    },
                     {
                         "note": "岗位名称",
                         "name": "name",
@@ -2638,10 +2574,10 @@ var dataModelMap = {
                         "name": "duty",
                         "type": "array",
                         "proArr": [{
-                            "note": "code",
-                            "name": "control_code",
-                            "type": "string"
-                        },
+                                "note": "code",
+                                "name": "control_code",
+                                "type": "string"
+                            },
                             {
                                 "note": "职责名称",
                                 "name": "control_name",
@@ -2673,10 +2609,10 @@ var dataModelMap = {
                                 "name": "next_route",
                                 "type": "array",
                                 "proArr": [{
-                                    "note": "类型,2岗位,3人",
-                                    "name": "type",
-                                    "type": "number"
-                                },
+                                        "note": "类型,2岗位,3人",
+                                        "name": "type",
+                                        "type": "number"
+                                    },
                                     {
                                         "note": "岗位名称/人员名称",
                                         "name": "name",
@@ -2715,10 +2651,10 @@ var dataModelMap = {
         "note": "流转方案新建保存",
         "type": "object",
         "proArr": [{
-            "note": "方案id",
-            "name": "plan_id",
-            "type": "string"
-        },
+                "note": "方案id",
+                "name": "plan_id",
+                "type": "string"
+            },
             {
                 "note": "项目id",
                 "name": "project_id",
@@ -2753,10 +2689,10 @@ var dataModelMap = {
                 "note": "岗位职责",
                 "name": "post_and_duty",
                 "proArr": [{
-                    "note": "类型,2代表岗位,3代表人",
-                    "name": "type",
-                    "type": "string"
-                },
+                        "note": "类型,2代表岗位,3代表人",
+                        "name": "type",
+                        "type": "string"
+                    },
                     {
                         "note": "岗位名称",
                         "name": "name",
@@ -2767,10 +2703,10 @@ var dataModelMap = {
                         "name": "duty",
                         "type": "array",
                         "proArr": [{
-                            "note": "code",
-                            "name": "control_code",
-                            "type": "string"
-                        },
+                                "note": "code",
+                                "name": "control_code",
+                                "type": "string"
+                            },
                             {
                                 "note": "职责名称",
                                 "name": "control_name",
@@ -2796,10 +2732,10 @@ var dataModelMap = {
                                 "note": "下级路由",
                                 "name": "next_route",
                                 "proArr": [{
-                                    "note": "类型,2岗位,3人",
-                                    "name": "type",
-                                    "type": "number"
-                                },
+                                        "note": "类型,2岗位,3人",
+                                        "name": "type",
+                                        "type": "number"
+                                    },
                                     {
                                         "note": "岗位名称/人员名称",
                                         "name": "name",
@@ -2837,10 +2773,10 @@ var dataModelMap = {
         "note": "根据id查询详细信息",
         "type": "object",
         "proArr": [{
-            "note": "方案id",
-            "name": "plan_id",
-            "type": "string"
-        },
+                "note": "方案id",
+                "name": "plan_id",
+                "type": "string"
+            },
             {
                 "note": "项目id",
                 "name": "project_id",
@@ -2871,10 +2807,10 @@ var dataModelMap = {
                 "name": "post_and_duty",
                 "type": "array",
                 "proArr": [{
-                    "note": "类型,2代表岗位,3代表人",
-                    "name": "type",
-                    "type": "string"
-                },
+                        "note": "类型,2代表岗位,3代表人",
+                        "name": "type",
+                        "type": "string"
+                    },
                     {
                         "note": "岗位名称",
                         "name": "name",
@@ -2891,10 +2827,10 @@ var dataModelMap = {
                         "name": "duty",
                         "type": "array",
                         "proArr": [{
-                            "note": "code",
-                            "name": "control_code",
-                            "type": "string"
-                        },
+                                "note": "code",
+                                "name": "control_code",
+                                "type": "string"
+                            },
                             {
                                 "note": "职责名称",
                                 "name": "control_name",
@@ -2926,10 +2862,10 @@ var dataModelMap = {
                                 "name": "next_route",
                                 "type": "array",
                                 "proArr": [{
-                                    "note": "类型,2岗位,3人",
-                                    "name": "type",
-                                    "type": "number"
-                                },
+                                        "note": "类型,2岗位,3人",
+                                        "name": "type",
+                                        "type": "number"
+                                    },
                                     {
                                         "note": "岗位名称/人员名称",
                                         "name": "name",
@@ -2968,10 +2904,10 @@ var dataModelMap = {
         "note": "查询岗位和人员列表",
         "type": "array",
         "proArr": [{
-            "note": "类型2岗位3人",
-            "name": "type",
-            "type": "string"
-        },
+                "note": "类型2岗位3人",
+                "name": "type",
+                "type": "string"
+            },
             {
                 "note": "岗位名称人员名称",
                 "name": "name",
@@ -2987,10 +2923,10 @@ var dataModelMap = {
                 "name": "persons",
                 "type": "array",
                 "proArr": [{
-                    "note": "员工id",
-                    "name": "person_id",
-                    "type": "string"
-                },
+                        "note": "员工id",
+                        "name": "person_id",
+                        "type": "string"
+                    },
                     {
                         "note": "员工姓名",
                         "name": "name",
@@ -3004,10 +2940,10 @@ var dataModelMap = {
         "note": "工单状态",
         "type": "array",
         "proArr": [{
-            "note": "编号",
-            "name": "code",
-            "type": "string"
-        },
+                "note": "编号",
+                "name": "code",
+                "type": "string"
+            },
             {
                 "note": "状态名称",
                 "name": "name",
@@ -3024,10 +2960,10 @@ var dataModelMap = {
         "note": "所有工单",
         "type": "array",
         "proArr": [{
-            "note": "工单id",
-            "name": "order_id",
-            "type": "string"
-        },
+                "note": "工单id",
+                "name": "order_id",
+                "type": "string"
+            },
             {
                 "note": "工单类型",
                 "name": "order_type",
@@ -3075,11 +3011,11 @@ var dataModelMap = {
         "note": "查询当前用户能使用的工单类型",
         "type": "array",
         "proArr": [{
-            "note": "id",
-            "name": "code",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "id",
+                "name": "code",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "名字",
                 "name": "name",
@@ -3104,10 +3040,10 @@ var dataModelMap = {
         "note": "我的草稿箱工单",
         "type": "array",
         "proArr": [{
-            "note": "工单id",
-            "name": "order_id",
-            "type": "string"
-        },
+                "note": "工单id",
+                "name": "order_id",
+                "type": "string"
+            },
             {
                 "note": "工单类型",
                 "name": "order_type",
@@ -3134,10 +3070,10 @@ var dataModelMap = {
         "note": "我发布的工单",
         "type": "array",
         "proArr": [{
-            "note": "工单id",
-            "name": "order_id",
-            "type": "string"
-        },
+                "note": "工单id",
+                "name": "order_id",
+                "type": "string"
+            },
             {
                 "note": "工单类型",
                 "name": "order_type",
@@ -3180,10 +3116,10 @@ var dataModelMap = {
         "note": "我参与的工单",
         "type": "array",
         "proArr": [{
-            "note": "工单id",
-            "name": "order_id",
-            "type": "string"
-        },
+                "note": "工单id",
+                "name": "order_id",
+                "type": "string"
+            },
             {
                 "note": "工单类型",
                 "name": "order_type",
@@ -3227,11 +3163,11 @@ var dataModelMap = {
         "mapName": "",
         "type": "object",
         "proArr": [{
-            "note": "返回结果状态",
-            "name": "Result",
-            "mapName": "",
-            "type": "string"
-        },
+                "note": "返回结果状态",
+                "name": "Result",
+                "mapName": "",
+                "type": "string"
+            },
             {
                 "note": "返回结果状态信息",
                 "name": "ResultMsg",
@@ -3264,6 +3200,10 @@ var dataModelMap = {
             "note": "计划名称",
             "name": "plan_name",
             "type": "string"
+        }, {
+            "note": "提醒类型",
+            "name": "remind_type",
+            "type": "number"
         }, {
             "note": "计划结束时间",
             "name": "plan_end_time",
@@ -3330,6 +3270,10 @@ var dataModelMap = {
             "name": "plan_name",
             "type": "string"
         }, {
+            "note": "提醒类型",
+            "name": "remind_type",
+            "type": "number"
+        }, {
             "note": "计划结束时间",
             "name": "plan_end_time",
             "type": "string"
@@ -3353,39 +3297,37 @@ var dataModelMap = {
             "note": "时间段内生成工单数组",
             "name": "work_order_date",
             "type": "array",
-            "proArr": [
-                {
-                    "note": "日期",
-                    "name": "date",
+            "proArr": [{
+                "note": "日期",
+                "name": "date",
+                "type": "string"
+            }, {
+                "note": "work_orders",
+                "name": "work_orders",
+                "type": "array",
+                "proArr": [{
+                    "note": "工单id",
+                    "name": "order_id",
                     "type": "string"
                 }, {
-                    "note": "work_orders",
-                    "name": "work_orders",
-                    "type": "array",
-                    "proArr": [
-                        {
-                            "note": "工单id",
-                            "name": "order_id",
-                            "type": "string"
-                        }, {
-                            "note": "工单生成的频次序号",
-                            "name": "freq_seq",
-                            "type": "number"
-                        }, {
-                            "note": "工单要求开始时间-yyyyMMddhhmmss",
-                            "name": "ask_start_time",
-                            "type": "string"
-                        }, {
-                            "note": "工单要求结束时间",
-                            "name": "ask_end_time",
-                            "type": "string"
-                        }, {
-                            "note": "工单状态编码",
-                            "name": "order_state",
-                            "type": "string",
-                            "isToSpecial": false
-                        }]
+                    "note": "工单生成的频次序号",
+                    "name": "freq_seq",
+                    "type": "number"
+                }, {
+                    "note": "工单要求开始时间-yyyyMMddhhmmss",
+                    "name": "ask_start_time",
+                    "type": "string"
+                }, {
+                    "note": "工单要求结束时间",
+                    "name": "ask_end_time",
+                    "type": "string"
+                }, {
+                    "note": "工单状态编码",
+                    "name": "order_state",
+                    "type": "string",
+                    "isToSpecial": false
                 }]
+            }]
         }]
     },
     "restWoPlanService/queryWoPlanById": {
@@ -3451,7 +3393,7 @@ var dataModelMap = {
                     "note": "分",
                     "name": "time_minute",
                     "type": "string"
-                },]
+                }, ]
             }, {
                 "note": "结束时间",
                 "name": "end_time",
@@ -3472,7 +3414,7 @@ var dataModelMap = {
                     "note": "分",
                     "name": "time_minute",
                     "type": "string"
-                },]
+                }, ]
             }]
         }, {
             "note": "计划开始类型,1-发布成功后立即，2-指定时间",
@@ -3481,11 +3423,13 @@ var dataModelMap = {
         }, {
             "note": "计划开始时间",
             "name": "plan_start_time",
-            "type": "string"
+            "type": "string",
+            "isToSpecial": false
         }, {
             "note": "计划结束时间",
             "name": "plan_end_time",
-            "type": "string"
+            "type": "string",
+            "isToSpecial": false
         }, {
             "note": "工单事项数组,草稿的matters",
             "name": "draft_matters",
@@ -3576,7 +3520,7 @@ var dataModelMap = {
                     "note": "15分",
                     "name": "time_minute",
                     "type": "string"
-                },]
+                }, ]
             }, {
                 "note": "结束时间",
                 "name": "end_time",
@@ -3597,7 +3541,7 @@ var dataModelMap = {
                     "note": "15分",
                     "name": "time_minute",
                     "type": "string"
-                },]
+                }, ]
             }]
         }, {
             "note": "计划开始类型,1-发布成功后立即，2-指定时间",
@@ -3624,7 +3568,7 @@ var dataModelMap = {
             "note": "最后更新时间,yyyyMMddHHmmss ",
             "name": "update_time",
             "type": "string"
-        },]
+        }, ]
     },
     "restWoPlanService/queryDestroyedWoPlanList": {
         "note": "查询作废的计划列表",
@@ -3722,7 +3666,7 @@ var dataModelMap = {
                 "name": "parent_names",
                 "type": "array"
             }]
-        },]
+        }, ]
     },
     "restWoPlanService/updateWoPlan": {
         "note": "根据Id编辑工单计划信息",
@@ -3787,7 +3731,7 @@ var dataModelMap = {
                     "note": "15分",
                     "name": "time_minute",
                     "type": "string"
-                },]
+                }, ]
             }, {
                 "note": "结束时间",
                 "name": "end_time",
@@ -3808,7 +3752,7 @@ var dataModelMap = {
                     "note": "15分",
                     "name": "time_minute",
                     "type": "string"
-                },]
+                }, ]
             }]
         }, {
             "note": "计划开始类型,1-发布成功后立即，2-指定时间",
@@ -3831,7 +3775,7 @@ var dataModelMap = {
             "note": "工单事项数组,预览后的matters",
             "name": "published_matters",
             "type": "array"
-        },]
+        }, ]
     },
     'plan_matters': [ //计划详情matters,同我的草稿中的matters
         {
@@ -3866,7 +3810,7 @@ var dataModelMap = {
                 "note": "对象名称",
                 "name": "obj_name",
                 "type": "string"
-            },]
+            }, ]
         }, {
             "note": "描述中涉及的sop",
             "name": "desc_sops",
@@ -3883,7 +3827,7 @@ var dataModelMap = {
                 "note": "version",
                 "name": "version",
                 "type": "string",
-            },]
+            }, ]
         }, {
             "note": "描述中涉及的工作内容",
             "name": "desc_works",
@@ -3920,7 +3864,7 @@ var dataModelMap = {
                     "note": "对象类型,",
                     "name": "obj_type",
                     "type": "string",
-                },]
+                }, ]
             }, {
                 "note": "注意事项",
                 "name": "notice",
@@ -3953,7 +3897,7 @@ var dataModelMap = {
                         "note": "parent_names",
                         "name": "parent_names",
                         "type": "array",
-                    },]
+                    }, ]
                 }, {
                     "note": "info_points",
                     "name": "info_points",
@@ -3974,7 +3918,7 @@ var dataModelMap = {
                             "note": "name",
                             "name": "name",
                             "type": "string",
-                        },]
+                        }, ]
                     }]
                 }, {
                     "note": "自定义项",
@@ -3996,8 +3940,8 @@ var dataModelMap = {
                         "note": "unit",
                         "name": "unit",
                         "type": "string",
-                    },]
-                },]
+                    }, ]
+                }, ]
             }, {
                 "note": "专业code",
                 "name": "domain",
@@ -4006,7 +3950,7 @@ var dataModelMap = {
                 "note": "专业名称",
                 "name": "domain_name",
                 "type": "string",
-            },]
+            }, ]
         }, {
             "note": "required_control",
             "name": "required_control",
@@ -4041,11 +3985,13 @@ var dataModelMap = {
             }, {
                 "note": "事项概述",
                 "name": "description",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "对象id",
                 "name": "obj_id",
-                "type": "string"
+                "type": "string",
+                "isToSpecial": false
             }, {
                 "note": "对象名称",
                 "name": "obj_name",
@@ -4055,140 +4001,147 @@ var dataModelMap = {
                 "name": "steps",
                 "type": "array",
                 "proArr": [{
-                    "note": "步骤id",
-                    "name": "step_id",
-                    "type": "string"
-                },
-                {
-                    "note": "引擎需要的id",
-                    "name": "$ID",
-                    "type": "string"
-                }, {
-                    "note": "步骤序号",
-                    "name": "step_sequence",
-                    "type": "string"
-                }, {
-                    "note": "步骤类型：1-文字输入,2-上传照片,3-拍照,4-扫码,5-工作内容,6-签字",
-                    "name": "step_type",
-                    "type": "string"
-                }, {
-                    "note": "强制确认",
-                    "name": "pre_conform",
-                    "type": "string"
-                }, {
-                    "note": "操作内容描述",
-                    "name": "content",
-                    "type": "string"
-                }, {
-                    "note": "操作内容中涉及的对象",
-                    "name": "content_objs",
-                    "type": "array",
-                    "proArr": [{
-                        "note": "对象id",
-                        "name": "obj_id",
+                        "note": "步骤id",
+                        "name": "step_id",
+                        "type": "string"
+                    },
+                    {
+                        "note": "引擎需要的id",
+                        "name": "$ID",
                         "type": "string"
                     }, {
-                        "note": "对象名称1",
-                        "name": "obj_name",
+                        "note": "步骤序号",
+                        "name": "step_sequence",
                         "type": "string"
                     }, {
-                        "note": "对象类型",
-                        "name": "obj_type",
-                        "type": "string"
-                    },]
-                }, {
-                    "note": "注意事项",
-                    "name": "notice",
-                    "type": "string"
-                }, {
-                    "note": "需确认的操作结果",
-                    "name": "confirm_result",
-                    "type": "array",
-                    "proArr": [{
-                        "note": "对象id",
-                        "name": "obj_id",
+                        "note": "步骤类型：1-文字输入,2-上传照片,3-拍照,4-扫码,5-工作内容,6-签字",
+                        "name": "step_type",
                         "type": "string"
                     }, {
-                        "note": "对象名称",
-                        "name": "obj_name",
+                        "note": "强制确认",
+                        "name": "pre_conform",
                         "type": "string"
                     }, {
-                        "note": "对象id",
-                        "name": "obj_type",
+                        "note": "操作内容描述",
+                        "name": "content",
                         "type": "string"
                     }, {
-                        "note": "parents",
-                        "name": "parents",
+                        "note": "操作内容中涉及的对象",
+                        "name": "content_objs",
                         "type": "array",
                         "proArr": [{
-                            "note": "parent_ids",
-                            "name": "parent_ids",
-                            "type": "array"
+                            "note": "对象id",
+                            "name": "obj_id",
+                            "type": "string",
+                            "isToSpecial": false
                         }, {
-                            "note": "parent_names",
-                            "name": "parent_names",
-                            "type": "array"
-                        }]
+                            "note": "对象名称1",
+                            "name": "obj_name",
+                            "type": "string",
+                            "isToSpecial": false
+                        }, {
+                            "note": "对象类型",
+                            "name": "obj_type",
+                            "type": "string",
+                            "isToSpecial": false
+                        }, ]
                     }, {
-                        "note": "信息点组件数据源类型-待定",
-                        "name": "info_points",
+                        "note": "注意事项",
+                        "name": "notice",
+                        "type": "string"
+                    }, {
+                        "note": "需确认的操作结果",
+                        "name": "confirm_result",
                         "type": "array",
                         "proArr": [{
-                            "note": "id",
-                            "name": "id",
-                            "type": "string"
+                            "note": "对象id",
+                            "name": "obj_id",
+                            "type": "string",
+                            "isToSpecial": false
                         }, {
-                            "note": "code",
-                            "name": "code",
-                            "type": "string"
+                            "note": "对象名称",
+                            "name": "obj_name",
+                            "type": "string",
+                            "isToSpecial": false
                         }, {
-                            "note": "name",
-                            "name": "name",
-                            "type": "string"
+                            "note": "对象id",
+                            "name": "obj_type",
+                            "type": "string",
+                            "isToSpecial": false
                         }, {
-                            "note": "unit",
-                            "name": "unit",
-                            "type": "string"
+                            "note": "parents",
+                            "name": "parents",
+                            "type": "array",
+                            "proArr": [{
+                                "note": "parent_ids",
+                                "name": "parent_ids",
+                                "type": "array"
+                            }, {
+                                "note": "parent_names",
+                                "name": "parent_names",
+                                "type": "array"
+                            }]
                         }, {
-                            "note": "cmpt",
-                            "name": "cmpt",
-                            "type": "string"
+                            "note": "信息点组件数据源类型-待定",
+                            "name": "info_points",
+                            "type": "array",
+                            "proArr": [{
+                                "note": "id",
+                                "name": "id",
+                                "type": "string"
+                            }, {
+                                "note": "code",
+                                "name": "code",
+                                "type": "string"
+                            }, {
+                                "note": "name",
+                                "name": "name",
+                                "type": "string"
+                            }, {
+                                "note": "unit",
+                                "name": "unit",
+                                "type": "string"
+                            }, {
+                                "note": "cmpt",
+                                "name": "cmpt",
+                                "type": "string"
+                            }, {
+                                "note": "cmpt_data",
+                                "name": "cmpt_data",
+                                "type": "string"
+                            }]
                         }, {
-                            "note": "cmpt_data",
-                            "name": "cmpt_data",
-                            "type": "string"
+                            "note": "自定义项，type：1-文本，2-单选，3-多选,4、无单位的数字,5、有单位的数字",
+                            "name": "customs",
+                            "type": "array",
+                            "proArr": [{
+                                "note": "name",
+                                "name": "name",
+                                "type": "string"
+                            }, {
+                                "note": "type",
+                                "name": "type",
+                                "type": "string"
+                            }, {
+                                "note": "items",
+                                "name": "items",
+                                "type": "array"
+                            }, {
+                                "note": "unit",
+                                "name": "unit",
+                                "type": "string"
+                            }]
                         }]
                     }, {
-                        "note": "自定义项，type：1-文本，2-单选，3-多选,4、无单位的数字,5、有单位的数字",
-                        "name": "customs",
-                        "type": "array",
-                        "proArr": [{
-                            "note": "name",
-                            "name": "name",
-                            "type": "string"
-                        }, {
-                            "note": "type",
-                            "name": "type",
-                            "type": "string"
-                        }, {
-                            "note": "items",
-                            "name": "items",
-                            "type": "array"
-                        }, {
-                            "note": "unit",
-                            "name": "unit",
-                            "type": "string"
-                        }]
-                    }]
-                }, {
-                    "note": "专业code",
-                    "name": "domain",
-                    "type": "string"
-                }, {
-                    "note": "专业名称",
-                    "name": "domain_name",
-                    "type": "string"
-                },]
+                        "note": "专业code",
+                        "name": "domain",
+                        "type": "string"
+                    }, {
+                        "note": "专业名称",
+                        "name": "domain_name",
+                        "type": "string"
+                    },
+                ]
             }, {
                 "note": "反馈信息",
                 "name": "feedback",
@@ -4200,23 +4153,28 @@ var dataModelMap = {
                 }, {
                     "note": "步骤id",
                     "name": "step_id",
-                    "type": "string"
+                    "type": "string",
+                    "isToSpecial": false
                 }, {
                     "note": "步骤序号",
                     "name": "step_sequence",
-                    "type": "string"
+                    "type": "string",
+                    "isToSpecial": false
                 }, {
                     "note": "步骤类型：1-文字输入,2-上传照片,3-拍照,4-扫码,5-工作内容,6-签字,",
                     "name": "step_type",
-                    "type": "string"
+                    "type": "string",
+                    "isToSpecial": false
                 }, {
                     "note": "前提确认结果",
                     "name": "pre_conform_result",
-                    "type": "string"
+                    "type": "string",
+                    "isToSpecial": false
                 }, {
                     "note": "反馈描述",
                     "name": "description",
-                    "type": "string"
+                    "type": "string",
+                    "isToSpecial": false
                 }, {
                     "note": "需确认的操作结果",
                     "name": "confirm_result",
@@ -4224,11 +4182,13 @@ var dataModelMap = {
                     "proArr": [{
                         "note": "obj_id",
                         "name": "obj_id",
-                        "type": "string"
+                        "type": "string",
+                        "isToSpecial": false
                     }, {
                         "note": "obj_name",
                         "name": "obj_name",
-                        "type": "string"
+                        "type": "string",
+                        "isToSpecial": false
                     }, {
                         "note": "信息点信息反馈",
                         "name": "info_points",
@@ -4291,7 +4251,7 @@ var dataModelMap = {
                 }, {
                     "note": "图片key",
                     "name": "photos",
-                    "type": "fileLink"
+                    "type": "fileArray"
                 }, {
                     "note": "执行人Id",
                     "name": "executor_id",
@@ -4309,15 +4269,18 @@ var dataModelMap = {
         }, {
             "note": "sop的id",
             "name": "sop_id",
-            "type": "string"
+            "type": "string",
+            "isToSpecial": false
         }, {
             "note": "sop名称",
             "name": "sop_name",
             "type": "string",
+            "isToSpecial": false
         }, {
             "note": "sop版本",
             "name": "version",
             "type": "string",
+            "isToSpecial": false
         }
     ],
     'restGeneralDictService/restWoPlanService': {
@@ -4331,7 +4294,7 @@ var dataModelMap = {
             "note": "tab名称",
             "name": "tab_name",
             "type": "string"
-        },]
+        }, ]
     },
     'restMyWorkOrderService/queryOperateRecord': {
         "note": "查询工单操作记录",
@@ -4455,245 +4418,424 @@ var dataModelMap = {
     'restMyWorkOrderService/queryDraftWorkOrderById': {
         "note": "我的工单-编辑页:根据id查询工单详细信息-草稿的",
         "type": "object",
-        "proArr": [
-            {
+        "proArr": [{
+            "note": "工单id",
+            "name": "order_id",
+            "type": "string"
+        }, {
+            "note": "项目id",
+            "name": "project_id",
+            "type": "string"
+        }, {
+            "note": "工单类型",
+            "name": "order_type",
+            "type": "string"
+        }, {
+            "note": "工单类型名称",
+            "name": "order_type_name",
+            "type": "string"
+        }, {
+            "note": "紧急程度，高、中、低",
+            "name": "urgency",
+            "type": "string"
+        }, {
+            "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
+            "name": "start_time_type",
+            "type": "string"
+        }, {
+            "note": "要求开始时间",
+            "name": "ask_start_time",
+            "type": "string"
+        }, {
+            "note": "要求固定时间内完成,单位小时",
+            "name": "ask_end_limit",
+            "type": "string"
+        }, {
+            "note": "输入方式",
+            "name": "input_mode",
+            "type": "string"
+        }, {
+            "note": "要求结束时间",
+            "name": "ask_end_time",
+            "type": "string"
+        }, {
+            "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
+            "name": "order_from_type",
+            "type": "string"
+        }, {
+            "note": "工单来源id，报修转工单时，这里是报修单id",
+            "name": "order_from_id",
+            "type": "string"
+        }, {
+            "note": "工单事项",
+            "name": "matters",
+            "type": "array",
+            "proArrBy": "order_matters"
+        }]
+    },
+    'restMyWorkOrderService/queryWorkOrderById': {
+        "note": "我的工单列表页-根据id查询工单详细信息-发布后的",
+        "type": "object",
+        "proArr": [{
+            "note": "work_order",
+            "name": "work_order",
+            "type": "object",
+            "proArr": [{
                 "note": "工单id",
                 "name": "order_id",
                 "type": "string"
             }, {
-                "note": "项目id",
-                "name": "project_id",
-                "type": "string"
-            }, {
-                "note": "工单类型",
-                "name": "order_type",
-                "type": "string"
-            }, {
-                "note": "工单类型名称",
-                "name": "order_type_name",
-                "type": "string"
-            }, {
-                "note": "紧急程度，高、中、低",
-                "name": "urgency",
-                "type": "string"
-            }, {
-                "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
-                "name": "start_time_type",
-                "type": "string"
-            }, {
-                "note": "要求开始时间",
-                "name": "ask_start_time",
-                "type": "string"
-            }, {
-                "note": "要求固定时间内完成,单位小时",
-                "name": "ask_end_limit",
-                "type": "string"
-            }, {
-                "note": "输入方式",
-                "name": "input_mode",
-                "type": "string"
-            }, {
-                "note": "要求结束时间",
-                "name": "ask_end_time",
-                "type": "string"
-            }, {
-                "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
-                "name": "order_from_type",
-                "type": "string"
-            }, {
-                "note": "工单来源id，报修转工单时，这里是报修单id",
-                "name": "order_from_id",
-                "type": "string"
-            }, {
-                "note": "工单事项",
-                "name": "matters",
-                "type": "array",
-                "proArrBy": "order_matters"
+                "note": "wo_body",
+                "name": "wo_body",
+                "type": "object",
+                "proArr": [{
+                    "note": "工单id",
+                    "name": "order_id",
+                    "type": "string"
+                }, {
+                    "note": "项目id",
+                    "name": "project_id",
+                    "type": "string"
+                }, {
+                    "note": "工单类型",
+                    "name": "order_type",
+                    "type": "string"
+                }, {
+                    "note": "工单类型名称",
+                    "name": "order_type_name",
+                    "type": "string"
+                }, {
+                    "note": "工单执行类型编码,数据字典查名称",
+                    "name": "execute_type",
+                    "type": "string"
+                }, {
+                    "note": "紧急程度，高、中、低",
+                    "name": "urgency",
+                    "type": "string"
+                }, {
+                    "note": "工单执行方式编码,数据字典查名称",
+                    "name": "executie_mode",
+                    "type": "string"
+                }, {
+                    "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
+                    "name": "start_time_type",
+                    "type": "string"
+                }, {
+                    "note": "要求开始时间",
+                    "name": "ask_start_time",
+                    "type": "string"
+                }, {
+                    "note": "要求固定时间内完成,单位小时",
+                    "name": "ask_end_limit",
+                    "type": "string"
+                }, {
+                    "note": "要求结束时间",
+                    "name": "ask_end_time",
+                    "type": "string",
+                    "isToSpecial": false
+                }, {
+                    "note": "所需工具",
+                    "name": "required_tools",
+                    "type": "array"
+                }, {
+                    "note": "工单状态编码",
+                    "name": "order_state",
+                    "type": "string",
+                    "isToSpecial": false
+                }, {
+                    "note": "工单状态名称",
+                    "name": "order_state_name",
+                    "type": "string"
+                }, {
+                    "note": "工单自定义状态编码",
+                    "name": "custom_state",
+                    "type": "string"
+                }, {
+                    "note": "工单自定义状态名称",
+                    "name": "custom_state_name",
+                    "type": "string"
+                }, {
+                    "note": "工单概述,事项名称的串连",
+                    "name": "summary",
+                    "type": "string"
+                }, {
+                    "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
+                    "name": "order_from_type",
+                    "type": "string"
+                }, {
+                    "note": "工单来源id，报修转工单时，这里是报修单id",
+                    "name": "order_from_id",
+                    "type": "string"
+                }, {
+                    "note": "创建人id",
+                    "name": "creator_id",
+                    "type": "string"
+                }, {
+                    "note": "创建人名字",
+                    "name": "creator_name",
+                    "type": "string"
+                }, {
+                    "note": "工单中专业列表",
+                    "name": "domain_list",
+                    "type": "array"
+                }, {
+                    "note": "专业限制",
+                    "name": "limit_domain",
+                    "type": "string"
+                }, {
+                    "note": "工单事项",
+                    "name": "matters",
+                    "type": "array",
+                    "proArrBy": "order_matters"
+                }, {
+                    "note": "执行控制信息",
+                    "name": "wo_exec_controls",
+                    "type": "array",
+                    "proArr": [{
+                            "note": "引擎需要的id",
+                            "name": "$ID",
+                            "type": "string"
+                        }, {
+                            "note": "exec_control_id",
+                            "name": "exec_control_id",
+                            "type": "string"
+                        }, {
+                            "note": "控制模板编码,名称查询数据字典",
+                            "name": "control_code",
+                            "type": "string"
+                        }, {
+                            "note": "操作人名字",
+                            "name": "operator_name",
+                            "type": "string"
+                        }, {
+                            "note": "操作开始时间",
+                            "name": "operate_start_time",
+                            "type": "string"
+                        }, {
+                            "note": "操作结束时间",
+                            "name": "operate_end_time",
+                            "type": "string"
+                        }, {
+                            "note": "申请类型，finish-正常结束，stop-中止",
+                            "name": "apply_type",
+                            "type": "string"
+                        }, {
+                            "note": "审核结果,1-通过，0-不通过",
+                            "name": "audit_result",
+                            "type": "string"
+                        }, {
+                            "note": "意见",
+                            "name": "opinion",
+                            "type": "string"
+                        }, {
+                            "note": "下级路由",
+                            "name": "next_route",
+                            "type": "array"
+                        },
+                        {
+                            "note": "操作时间",
+                            "name": "create_time",
+                            "type": "string"
+                        }
+                    ]
+                }, {
+                    "note": "发布时间",
+                    "name": "publish_time",
+                    "type": "string"
+                }, {
+                    "note": "创建时间",
+                    "name": "create_time",
+                    "type": "string"
+                }, {
+                    "note": "有效状态 true：有效，false：失效",
+                    "name": "valid",
+                    "type": "boolean"
+                }]
             }]
+        }]
+
+
     },
     'restWoMonitorService/queryWorkOrderById': {
         "note": "根据id查询工单详细信息-发布后的",
         "type": "object",
-        "proArr": [
-            {
-                "note": "work_order",
-                "name": "work_order",
+        "proArr": [{
+            "note": "work_order",
+            "name": "work_order",
+            "type": "object",
+            "proArr": [{
+                "note": "工单id",
+                "name": "order_id",
+                "type": "string"
+            }, {
+                "note": "wo_body",
+                "name": "wo_body",
                 "type": "object",
-                "proArr": [
-                    {
-                        "note": "工单id",
-                        "name": "order_id",
-                        "type": "string"
-                    }, {
-                        "note": "wo_body",
-                        "name": "wo_body",
-                        "type": "object",
-                        "proArr": [
-                            {
-                                "note": "工单id",
-                                "name": "order_id",
-                                "type": "string"
-                            }, {
-                                "note": "项目id",
-                                "name": "project_id",
-                                "type": "string"
-                            }, {
-                                "note": "工单类型",
-                                "name": "order_type",
-                                "type": "string"
-                            }, {
-                                "note": "工单类型名称",
-                                "name": "order_type_name",
-                                "type": "string"
-                            }, {
-                                "note": "工单执行类型编码,数据字典查名称",
-                                "name": "execute_type",
-                                "type": "string"
-                            }, {
-                                "note": "紧急程度，高、中、低",
-                                "name": "urgency",
-                                "type": "string"
-                            }, {
-                                "note": "工单执行方式编码,数据字典查名称",
-                                "name": "executie_mode",
-                                "type": "string"
-                            }, {
-                                "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
-                                "name": "start_time_type",
-                                "type": "string"
-                            }, {
-                                "note": "要求开始时间",
-                                "name": "ask_start_time",
-                                "type": "string"
-                            }, {
-                                "note": "要求固定时间内完成,单位小时",
-                                "name": "ask_end_limit",
-                                "type": "string"
-                            }, {
-                                "note": "要求结束时间",
-                                "name": "ask_end_time",
-                                "type": "string",
-                                "isToSpecial": false
-                            }, {
-                                "note": "所需工具",
-                                "name": "required_tools",
-                                "type": "array"
-                            }, {
-                                "note": "工单状态编码",
-                                "name": "order_state",
-                                "type": "string",
-                                "isToSpecial": false
-                            }, {
-                                "note": "工单状态名称",
-                                "name": "order_state_name",
-                                "type": "string"
-                            }, {
-                                "note": "工单自定义状态编码",
-                                "name": "custom_state",
-                                "type": "string"
-                            }, {
-                                "note": "工单自定义状态名称",
-                                "name": "custom_state_name",
-                                "type": "string"
-                            }, {
-                                "note": "工单概述,事项名称的串连",
-                                "name": "summary",
-                                "type": "string"
-                            }, {
-                                "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
-                                "name": "order_from_type",
-                                "type": "string"
-                            }, {
-                                "note": "工单来源id，报修转工单时，这里是报修单id",
-                                "name": "order_from_id",
-                                "type": "string"
-                            }, {
-                                "note": "创建人id",
-                                "name": "creator_id",
-                                "type": "string"
-                            }, {
-                                "note": "创建人名字",
-                                "name": "creator_name",
-                                "type": "string"
-                            }, {
-                                "note": "工单中专业列表",
-                                "name": "domain_list",
-                                "type": "array"
-                            }, {
-                                "note": "专业限制",
-                                "name": "limit_domain",
-                                "type": "string"
-                            }, {
-                                "note": "工单事项",
-                                "name": "matters",
-                                "type": "array",
-                                "proArrBy": "order_matters"
-                            }, {
-                                "note": "执行控制信息",
-                                "name": "wo_exec_controls",
-                                "type": "array",
-                                "proArr": [{
-                                    "note": "引擎需要的id",
-                                    "name": "$ID",
-                                    "type": "string"
-                                }, {
-                                    "note": "exec_control_id",
-                                    "name": "exec_control_id",
-                                    "type": "string"
-                                }, {
-                                    "note": "控制模板编码,名称查询数据字典",
-                                    "name": "control_code",
-                                    "type": "string"
-                                }, {
-                                    "note": "操作人名字",
-                                    "name": "operator_name",
-                                    "type": "string"
-                                }, {
-                                    "note": "操作开始时间",
-                                    "name": "operate_start_time",
-                                    "type": "string"
-                                }, {
-                                    "note": "操作结束时间",
-                                    "name": "operate_end_time",
-                                    "type": "string"
-                                }, {
-                                    "note": "申请类型，finish-正常结束，stop-中止",
-                                    "name": "apply_type",
-                                    "type": "string"
-                                }, {
-                                    "note": "审核结果,1-通过，0-不通过",
-                                    "name": "audit_result",
-                                    "type": "string"
-                                }, {
-                                    "note": "意见",
-                                    "name": "opinion",
-                                    "type": "string"
-                                }, {
-                                    "note": "下级路由",
-                                    "name": "next_route",
-                                    "type": "array"
-                                },
-                                    {
-                                        "note": "操作时间",
-                                        "name": "create_time",
-                                        "type": "string"
-                                    }
-                                ]
-                            }, {
-                                "note": "发布时间",
-                                "name": "publish_time",
-                                "type": "string"
-                            }, {
-                                "note": "创建时间",
-                                "name": "create_time",
-                                "type": "string"
-                            }, {
-                                "note": "有效状态 true：有效，false：失效",
-                                "name": "valid",
-                                "type": "boolean"
-                            }]
-                    }]
+                "proArr": [{
+                    "note": "工单id",
+                    "name": "order_id",
+                    "type": "string"
+                }, {
+                    "note": "项目id",
+                    "name": "project_id",
+                    "type": "string"
+                }, {
+                    "note": "工单类型",
+                    "name": "order_type",
+                    "type": "string"
+                }, {
+                    "note": "工单类型名称",
+                    "name": "order_type_name",
+                    "type": "string"
+                }, {
+                    "note": "工单执行类型编码,数据字典查名称",
+                    "name": "execute_type",
+                    "type": "string"
+                }, {
+                    "note": "紧急程度，高、中、低",
+                    "name": "urgency",
+                    "type": "string"
+                }, {
+                    "note": "工单执行方式编码,数据字典查名称",
+                    "name": "executie_mode",
+                    "type": "string"
+                }, {
+                    "note": "开始时间类型,1-发单后立即开始，2-自定义开始时间",
+                    "name": "start_time_type",
+                    "type": "string"
+                }, {
+                    "note": "要求开始时间",
+                    "name": "ask_start_time",
+                    "type": "string"
+                }, {
+                    "note": "要求固定时间内完成,单位小时",
+                    "name": "ask_end_limit",
+                    "type": "string"
+                }, {
+                    "note": "要求结束时间",
+                    "name": "ask_end_time",
+                    "type": "string",
+                    "isToSpecial": false
+                }, {
+                    "note": "所需工具",
+                    "name": "required_tools",
+                    "type": "array"
+                }, {
+                    "note": "工单状态编码",
+                    "name": "order_state",
+                    "type": "string",
+                    "isToSpecial": false
+                }, {
+                    "note": "工单状态名称",
+                    "name": "order_state_name",
+                    "type": "string"
+                }, {
+                    "note": "工单自定义状态编码",
+                    "name": "custom_state",
+                    "type": "string"
+                }, {
+                    "note": "工单自定义状态名称",
+                    "name": "custom_state_name",
+                    "type": "string"
+                }, {
+                    "note": "工单概述,事项名称的串连",
+                    "name": "summary",
+                    "type": "string"
+                }, {
+                    "note": "工单来源类型,1-正常创建，2-工单计划，3-报修转工单，默认1",
+                    "name": "order_from_type",
+                    "type": "string"
+                }, {
+                    "note": "工单来源id，报修转工单时，这里是报修单id",
+                    "name": "order_from_id",
+                    "type": "string"
+                }, {
+                    "note": "创建人id",
+                    "name": "creator_id",
+                    "type": "string"
+                }, {
+                    "note": "创建人名字",
+                    "name": "creator_name",
+                    "type": "string"
+                }, {
+                    "note": "工单中专业列表",
+                    "name": "domain_list",
+                    "type": "array"
+                }, {
+                    "note": "专业限制",
+                    "name": "limit_domain",
+                    "type": "string"
+                }, {
+                    "note": "工单事项",
+                    "name": "matters",
+                    "type": "array",
+                    "proArrBy": "order_matters"
+                }, {
+                    "note": "执行控制信息",
+                    "name": "wo_exec_controls",
+                    "type": "array",
+                    "proArr": [{
+                            "note": "引擎需要的id",
+                            "name": "$ID",
+                            "type": "string"
+                        }, {
+                            "note": "exec_control_id",
+                            "name": "exec_control_id",
+                            "type": "string"
+                        }, {
+                            "note": "控制模板编码,名称查询数据字典",
+                            "name": "control_code",
+                            "type": "string"
+                        }, {
+                            "note": "操作人名字",
+                            "name": "operator_name",
+                            "type": "string"
+                        }, {
+                            "note": "操作开始时间",
+                            "name": "operate_start_time",
+                            "type": "string"
+                        }, {
+                            "note": "操作结束时间",
+                            "name": "operate_end_time",
+                            "type": "string"
+                        }, {
+                            "note": "申请类型，finish-正常结束，stop-中止",
+                            "name": "apply_type",
+                            "type": "string"
+                        }, {
+                            "note": "审核结果,1-通过，0-不通过",
+                            "name": "audit_result",
+                            "type": "string"
+                        }, {
+                            "note": "意见",
+                            "name": "opinion",
+                            "type": "string"
+                        }, {
+                            "note": "下级路由",
+                            "name": "next_route",
+                            "type": "array"
+                        },
+                        {
+                            "note": "操作时间",
+                            "name": "create_time",
+                            "type": "string"
+                        }
+                    ]
+                }, {
+                    "note": "发布时间",
+                    "name": "publish_time",
+                    "type": "string"
+                }, {
+                    "note": "创建时间",
+                    "name": "create_time",
+                    "type": "string"
+                }, {
+                    "note": "有效状态 true：有效，false：失效",
+                    "name": "valid",
+                    "type": "boolean"
+                }]
             }]
+        }]
 
     },
     'restUserService/queryUserWoInputMode': {
@@ -5420,39 +5562,39 @@ var dataModelMap = {
         "note": "查询某建筑下楼层信息",
         "type": "array",
         "proArr": [{
-            "note": "楼层id",
-            "name": "floor_id",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        }, {
-            "note": "楼层编码",
-            "name": "floor_local_id",
-            "mapName": "",
-            "type": "string",
-        }, {
-            "note": "楼层本地名称",
-            "name": "floor_local_name",
-            "mapName": "",
-            "type": "string",
-        }, {
-            "note": "楼层顺序码",
-            "name": "floor_sequence_id",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        }, {
-            "note": "楼层性质，1. 普通楼层 2. 中庭 3. 室外 4. 其他",
-            "name": "floor_type",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        }, {
-            "note": "楼层面积",
-            "name": "area",
-            "mapName": "",
-            "type": "string",
-        },
+                "note": "楼层id",
+                "name": "floor_id",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            }, {
+                "note": "楼层编码",
+                "name": "floor_local_id",
+                "mapName": "",
+                "type": "string",
+            }, {
+                "note": "楼层本地名称",
+                "name": "floor_local_name",
+                "mapName": "",
+                "type": "string",
+            }, {
+                "note": "楼层顺序码",
+                "name": "floor_sequence_id",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            }, {
+                "note": "楼层性质，1. 普通楼层 2. 中庭 3. 室外 4. 其他",
+                "name": "floor_type",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            }, {
+                "note": "楼层面积",
+                "name": "area",
+                "mapName": "",
+                "type": "string",
+            },
             {
                 "note": "楼层高",
                 "name": "net_height",
@@ -5475,48 +5617,48 @@ var dataModelMap = {
         "note": "根据id查询楼层详细信息",
         "type": "object",
         "proArr": [{
-            "note": "楼层id",
-            "name": "floor_id",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        }, {
-            "note": "楼层编码",
-            "name": "floor_local_id",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        }, {
-            "note": "楼层本地名称",
-            "name": "floor_local_name",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        }, {
-            "note": "楼层顺序码",
-            "name": "floor_sequence_id",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false,
-        }, {
-            "note": "BIM编码",
-            "name": "BIMID",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        }, {
-            "note": "楼层性质，1. 普通楼层 2. 中庭 3. 室外 4. 其他",
-            "name": "floor_type",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        }, {
-            "note": "楼层面积",
-            "name": "area",
-            "mapName": "",
-            "type": "string",
-            "isToSpecial": false
-        },
+                "note": "楼层id",
+                "name": "floor_id",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            }, {
+                "note": "楼层编码",
+                "name": "floor_local_id",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            }, {
+                "note": "楼层本地名称",
+                "name": "floor_local_name",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            }, {
+                "note": "楼层顺序码",
+                "name": "floor_sequence_id",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false,
+            }, {
+                "note": "BIM编码",
+                "name": "BIMID",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            }, {
+                "note": "楼层性质，1. 普通楼层 2. 中庭 3. 室外 4. 其他",
+                "name": "floor_type",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            }, {
+                "note": "楼层面积",
+                "name": "area",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            },
             {
                 "note": "楼层高",
                 "name": "net_height",
@@ -6201,7 +6343,8 @@ var dataModelMap = {
             "proArr": [{
                 "note": "标题",
                 "name": "title",
-                "type": "string"
+                "type": "string",
+                'isToSpecial': false
             }, {
                 "note": "logo的key",
                 "name": "logo",
@@ -6336,5 +6479,225 @@ var dataModelMap = {
             }]
         }]
     },
+    'restUserService/updatePersonById':{
+        note: '个人登录-根据Id编辑人员信息',
+        type: 'array',
+        proArr: [{
+            note: '对象id',
+            name: 'obj_id',
+            type: 'string'
+        }, {
+            note: '对象名称',
+            name: 'obj_name',
+            type: 'string'
+        }, {
+            note: '对象类型',
+            name: 'obj_type',
+            type: 'string'
+        }, {
+            note: '父级',
+            name: 'parents',
+            type: 'array',
+            proArr: [{
+                note: '父级id列表',
+                name: 'parent_ids',
+                type: 'array'
+            }, {
+                note: '父级名称列表',
+                name: 'parent_names',
+                type: 'array'
+            }]
+        }]
+    },
+    'restCustomerService/verifyCustomerPasswd':{
+        note: '验证原密码',
+        type: 'obj',
+        proArr: [
+            {
+                note:'是否为原密码',
+                name:'is_passwd',
+                type: 'boolean'
+            }
+        ]
+    },
+    'restUserService/personLogin':{
+        "note":"登录获取查询人员详细信息",
+        "type":"object",
+        "proArr":[
+            {
+                "note": "员工id",
+                "name": "person_id",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "姓名",
+                "name": "name",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "身份证号码",
+                "name": "id_number",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "手机号",
+                "name": "phone_num",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "性别",
+                "name": "gender",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "出生年月 yyyy-MM-dd",
+                "name": "birthday",
+                "mapName": "",
+                "type": "string",
+                "isToSpecial": false
+            },
+            {
+                "note": "系统编码,用于图片服务",
+                "name": "system_code",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "秘钥,用于图片服务",
+                "name": "image_secret",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "创建时间",
+                "name": "create_time",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "上一次所在项目",
+                "name": "last_project_id",
+                "mapName": "",
+                "type": "string"
+            },
+            {
+                "note": "项目人员信息表",
+                "name": "project_persons",
+                "mapName": "",
+                "type": "array",
+                "proArr":[
+                    {
+                        "note": "项目id",
+                        "name": "project_id",
+                        "mapName": "",
+                        "type": "string"
+                    },
+                    {
+                        "note": "项目本地名称",
+                        "name": "project_local_name",
+                        "mapName": "",
+                        "type": "string"
+                    },
+                    {
+                        "note": "员工编号",
+                        "name": "person_num",
+                        "mapName": "",
+                        "type": "string"
+                    },
+                    {
+                        "note": "岗位",
+                        "name": "position",
+                        "mapName": "",
+                        "type": "string",
+                        "isToSpecial": false
+                    },
+                    {
+                        "note": "自定义标签",
+                        "name": "custom_tag",
+                        "mapName": "",
+                        "type": "array"
+                    },
+                    {
+                        "note": "专业编码",
+                        "name": "specialty",
+                        "mapName": "",
+                        "type": "array"
+                    },
+                    {
+                        "note": "证件照片",
+                        "name": "id_photo",
+                        "mapName": "",
+                        "type": "fileLink",
+                        "fileType": 1
+                    },
+                    {
+                        "note": "系统头像",
+                        "name": "head_portrait",
+                        "mapName": "",
+                        "type": "fileLink",
+                        "fileType": 1
+                    },
+                    {
+                        "note": "人员状态",
+                        "name": "person_status",
+                        "mapName": "",
+                        "type": "string"
+                    },{
+                        "note": "角色",
+                        "name": "roles",
+                        "mapName": "",
+                        "type": "object",
+                        "proArr":[
+                            {
+                                "note": "角色id",
+                                "name": "role_id",
+                                "mapName": "",
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    {
+                        "note": "菜单、功能权限组，编码",
+                        "name": "func_pack",
+                        "mapName": "",
+                        "type": "array"
+                    },
+                    {
+                        "note": "工具类型",
+                        "name": "tool_type",
+                        "mapName": "",
+                        "type": "string"
+                    },
+                    {
+                        "note": "特殊权限",
+                        "name": "rights",
+                        "mapName": "",
+                        "type": "object",
+                        "proArr":[
+                            {
+                                "note": "工具类型相关",
+                                "name": "wo_create",
+                                "mapName": "",
+                                "type": "boolean"
+                            }
+                        ]
+                    },
+                    {
+                        "note": "创建时间，yyyyMMddHHmmss",
+                        "name": "create_time",
+                        "mapName": "",
+                        "type": "string"
+                    },
+
+                ]
+            },
+
+        ]
+    }
 };
 module.exports = dataModelMap;

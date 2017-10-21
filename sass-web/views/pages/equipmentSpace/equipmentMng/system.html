@@ -69,7 +69,7 @@
                                 <div class="editInput" v-if='info.type==0'>
                                     <ptext-text placeholder="'最多10个字'" value='info.str_value' bind='true'>
                                         <verify errtip="不能为空" verifytype="space">
-                                            <verify>
+                                            </verify>
                                     </ptext-text>
                                 </div>
                                 <div class="editInput" v-if='info.type==1'>
@@ -104,7 +104,7 @@
             </div>
         </div>
     </div>
-    <div class="content" id="addSystemDiv" style="display: none;">
+    <div class="content" id="addSystemDiv" v-if='isShowAddSystem'>
         <div class="headerd">
             <span class="btn fl">
                 <pbutton-white text="取消" click="hideAddSystem"></pbutton-white>

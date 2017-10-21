@@ -32,11 +32,13 @@
 </head>
 
 <body>
+    <% include ../../equipmentSpace/equipmentMng/layer.html %>
     <% include /treeTemplate.html %>
     <% include /template.html %>
-    <div class="contentWrap" id="spaceMoleMange" >
+    <div class="contentWrap" id="spaceMoleMange">
         <ploading-part id="globalloading"></ploading-part>
         <pnotice-message id="globalnotice"></pnotice-message>
+        <layer :layer="layer"></layer>
         <div class="spaceContent">
             <pwindow-modal id="spaceWarnSet" title="空间提醒设置" templateid="space-warn-edit"></pwindow-modal>
             <pwindow-float id="floorCheckFloat" templateid="floor-detail-float" title="楼层详情">
@@ -61,7 +63,6 @@
                 </button>
             </pwindow-confirm>
             <pwindow-modal id="saveModeSel" title="保存方式" templateid="select-save-mode"></pwindow-modal>
-
             <div class="leftContent">
                 <div class="leftHead">
                     <div class="buildCombobox">
@@ -175,23 +176,26 @@
                         <div class="addItem">
                             <div class="name"><span><em>*</em>楼层名称：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'最多10个字'" bind="true" value="floorDetail.floor_local_name" floortype="nameInput">
-                                    <verify errtip="不能为空" verifytype="space"><verify>
+                                <ptext-text placeholder="'最多10个字'" bind="true" value="floorDetail.floor_local_name" widtye="inputText">
+                                    <verify errtip="不能为空" verifytype="space"></verify>
+                                    <verify errtip="楼层名称不可超过10个字！" verifytype="length" length="10"></verify>
                                 </ptext-text>
                             </div>
                         </div>
                         <div class="addItem">
                             <div class="name"><span><em>*</em>楼层编码：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'最多50个字'" bind="true" value="floorDetail.floor_local_id" floortype="idInput">
-                                    <verify errtip="不能为空" verifytype="space"><verify>
+                                <ptext-text placeholder="'最多50个字'" bind="true" value="floorDetail.floor_local_id" widtye="inputText">
+                                    <verify errtip="不能为空" verifytype="space"></verify>
+                                    <verify errtip="楼层编码不可超过50个字！" verifytype="length" length="50"></verify>
                                 </ptext-text>
                             </div>
                         </div>
                         <div class="addItem">
                             <div class="name"><span>BIM模型中编码：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'最多50个字'" bind="true" value="floorDetail.BIMID">
+                                <ptext-text placeholder="'最多50个字'" bind="true" value="floorDetail.BIMID" widtye="inputText">
+                                    <verify errtip="BIM模型中编码不可超过50个字！" verifytype="length" length="50"></verify>
                                 </ptext-text>
                             </div>
                         </div>
@@ -214,49 +218,55 @@
                         <div class="addItem">
                             <div class="name"><span>楼层面积：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'请填写数字'" text="'㎡'" bind="true" value="floorDetail.area">
+                                <ptext-text placeholder="'请填写数字'" text="'㎡'" bind="true" value="floorDetail.area" widtye="inputText">
+                                    <verify errtip="请输入数字" verifytype="number"></verify>
                                 </ptext-text>
                             </div>
                         </div>
                         <div class="addItem">
                             <div class="name"><span>楼层净高：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'请填写数字'" text="'m'" bind="true" value="floorDetail.net_height">
+                                <ptext-text placeholder="'请填写数字'" text="'m'" bind="true" value="floorDetail.net_height" widtye="inputText">
+                                    <verify errtip="请输入数字" verifytype="number"></verify>
                                 </ptext-text>
                             </div>
                         </div>
                         <div class="addItem">
                             <div class="name"><span>楼层常驻人数：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.permanent_people_num">
+                                <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.permanent_people_num" widtye="inputText">
+                                    <verify errtip="请输入数字" verifytype="number"></verify>
                                 </ptext-text>
                             </div>
                         </div>
                         <div class="addItem">
                             <div class="name"><span>逐时流出人数：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.out_people_flow">
+                                <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.out_people_flow" widtye="inputText">
+                                    <verify errtip="请输入数字" verifytype="number"></verify>
                                 </ptext-text>
                             </div>
                         </div>
                         <div class="addItem">
                             <div class="name"><span>逐时流入人数：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.in_people_flow">
+                                <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.in_people_flow" widtye="inputText">
+                                    <verify errtip="请输入数字" verifytype="number"></verify>
                                 </ptext-text>
                             </div>
                         </div>
                         <div class="addItem">
                             <div class="name"><span>逐时楼层内现有人数：</span></div>
                             <div class="cont">
-                                <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.exsit_people_num">
+                                <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.exsit_people_num" widtye="inputText">
+                                    <verify errtip="请输入数字" verifytype="number"></verify>
                                 </ptext-text>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="removeSpace addSpaceDiv" id="addSpaceDiv"  v-if="showPage=='addSpace'">
+            <div class="removeSpace addSpaceDiv" id="addSpaceDiv" v-if="showPage=='addSpace'">
                 <div class="removeHead">
                     <pbutton-white text="取消" click="addSpaceHide" style="float: left;"></pbutton-white>
                     <pbutton-blue text="保存" style="float: right;" click="saveAddSpace"></pbutton-blue>

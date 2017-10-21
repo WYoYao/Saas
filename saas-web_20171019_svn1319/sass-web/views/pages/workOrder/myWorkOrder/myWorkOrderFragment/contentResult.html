@@ -1,0 +1,527 @@
+<div class="content-prev">
+    <div class="prev-title">
+        <div class="title-tip-div">
+            <span>需记录的操作结果</span>
+            <img src="../images/question.png" class="question"/>
+            <p>若在此添加需确认的操作结果，工人在执行工单时需要反馈此处设置的内容</p>
+        </div>
+        <div class="edit-clear-div">
+            <div class="edit-div" v-show="commonData.publicModel.editBtn">
+                <pbutton-white text="编辑" icon="e" isborder="false" click="yn_method.editable"></pbutton-white>
+            </div>
+            <div class="clear-div" v-show="!commonData.publicModel.editBtn">
+                <img src="../images/clear_03.png" alt="清空图标"/>
+                <pbutton-white text="清空" isborder="false" click="yn_method.delBubbleShow"></pbutton-white>
+            </div>
+            <!-- 清空按钮弹窗 -->
+            <pwindow-bubble>
+                <button>
+                    <pbutton-blue text="删除" click="yn_method.clearAll"></pbutton-blue>
+                    <pbutton-white text="取消" click="yn_method.delBubbleHide"></pbutton-white>
+                </button>
+            </pwindow-bubble>
+        </div>
+    </div>
+    <div class="prev-body">
+        <div class="slide-div result">
+            <div class="objs">
+                <div class="obj-div" v-show="commonData.publicModel.workContent.confirm_result.length!=0"
+                     v-for="(confirmObj, index1) in commonData.publicModel.workContent.confirm_result">
+                    <div class="obj-name">
+                        <span v-text="confirmObj.obj_name">对象名称1</span>
+                        <em v-text="yn_method.getParentsLinks(confirmObj.parents)">(建筑-楼层-空间名称/专业-系统/)</em>
+                        <!--<a href="javascript:void (0)" onclick="yn_method.delObjs(this)"><i>p</i>删除对象</a>-->
+                        <a href="javascript:void (0)" @click="publicMethod.deleteObj(confirmObj, index1, 0)"><i>p</i>删除对象</a>
+                    </div>
+                    <div class="obj-info-self">
+                        <!--选择的信息点列表-->
+                        <div class="obj-info">
+                            <div class="info-dot" v-for="(info_point, index2) in confirmObj.info_points">
+                                <span v-text="info_point.name">信息点1</span>
+                                <!--<img src="../images/info_close.png" alt="删除图标x" onclick="yn_method.removeImage(this)"/>-->
+                                <img src="../images/info_close.png" alt="删除图标x"
+                                     @click="publicMethod.deleteInfoPoint(info_point, index2, index1, 0)"/>
+                            </div>
+                        </div>
+                        <!--自定义的信息点列表-->
+                        <div class="obj-self">
+                            <div class="single-self" id="aaa">
+                                <div class="self-div" v-for="(custom, index2) in confirmObj.customs">
+                                    <!--<img src="../images/del.png" alt="删除图标-" onclick="yn_method.removeImage(this)">-->
+                                    <img src="../images/del.png" alt="删除图标-"
+                                         @click="publicMethod.deleteCustomizedInfoPoint(custom, index2, index1, 0)">
+                                    <div class="info-dot">
+                                        <span v-text="custom.name">自定义</span>
+                                        <!--<img src="../images/info_close.png" alt="删除图标x"-->
+                                        <!--onclick="yn_method.removeImage(this)"/>-->
+                                    </div>
+                                    <div class="info-dot">
+                                        <span v-text="'文本'" v-show="custom.type=='1'"></span>
+                                        <span v-text="'单选'" v-show="custom.type=='2'"></span>
+                                        <span v-text="'多选'" v-show="custom.type=='3'"></span>
+                                        <span v-text="'无单位数字'" v-show="custom.type=='4'"></span>
+                                        <span v-text="'有单位数字'" v-show="custom.type=='5'"></span>
+                                    </div>
+                                    <span v-show="custom.type == '2' || custom.type == '3'|| custom.type == '5'"
+                                    >选项:</span>
+                                    <span v-show="custom.type == '5'"
+                                    >单位:</span>
+                                    <div class="info-dot" v-show="custom.type == '5'">
+                                        <span v-text="custom.unit">平方米</span>
+                                        <img src="../images/info_close.png" alt="删除图标x"
+                                             onclick="yn_method.removeImage(this)"/>
+                                    </div>
+                                    <div class="info-dot" v-show="custom.type == '2' || custom.type == '3'"
+                                         v-for="(item, index3) in custom.items">
+                                        <input type="text" :value="item" class="info-self-input"/>
+                                        <!--<img src="../images/info_close.png" alt="删除图标x"
+                                             onclick="yn_method.removeImage(this)"/>-->
+                                        <img src="../images/info_close.png" alt="删除图标x"
+                                             @click="publicMethod.deleteOption2(custom, index3, $event, 0)"/>
+                                    </div>
+                                    <div class="add-sel-div">
+                                        <div class="add-sel-btn" @click="publicMethod.addOption2(custom, $event, 0)"
+                                             v-show="custom.type == '2' || custom.type == '3'">
+                                            <!--onclick="yn_method.addSel(this)"-->
+                                            <span class="sel-btn">添加选项</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="add-info-btn">
+                            <span class="info-btn"
+                                  @click="publicMethod.addInfoPoint(confirmObj, index1, $event, 0)">添加信息点</span>
+                            <div class="aite-bubble" v-show="false">
+                                <div class="aite-title">
+                                    <img src="../images/return_left.png" alt="返回图片"
+                                         onclick="yn_method.defaultPage2(this)" v-show="commonData.publicModel.curObjType === 'custom'"/>
+                                    <!--<span>选择信息点</span>-->
+                                    <span><em
+                                            v-show="commonData.publicModel.curObjType2 !== 'custom' && commonData.publicModel.curObjType2 !== 'search'">选择</em><em
+                                            v-text="commonData.publicModel.popTitleText2[commonData.publicModel.curObjType2]">分类</em></span>
+                                </div>
+                                <div class="list-search">
+                                    <div class="info-search-box">
+                                        <input type="text" class="keyinput">
+                                        <div class="icon-div">
+                                            <i onclick="yn_method.removeAllKey(this)">x</i>
+                                            <i onclick="yn_method.addKey(this)">f</i>
+                                        </div>
+                                    </div>
+                                    <div class="search-result">
+                                        <span>搜索结果</span>
+                                    </div>
+                                </div>
+                                <div class="aite-body">
+                                    <div>
+                                        <div class="list-body">
+                                            <!--无复选、搜索
+                                            <div class="none-both" v-show="false">
+                                                <div class="aite-list"
+                                                     onclick="myWorkOrderController.querySystem(this,true)">
+                                                    <div>
+                                                        <span>系统</span>
+                                                    </div>
+                                                </div>
+                                                <div class="aite-list"
+                                                     onclick="myWorkOrderController.queryBuildFloorSpaceTree(this)">
+                                                    <div>
+                                                        <span>设备</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            &lt;!&ndash;树1-3级，专业、系统搜索、复选&ndash;&gt;
+                                            <div class="both-all" v-show="false">
+                                                <div class="tree-body">
+                                                    <div class="tree-body">
+                                                        <div class="tree-box">
+                                                            <ptree-normal bind="true"
+                                                                          datasource="commonData.publicModel.leftLevel"
+                                                                          sel="yn_method.clickLeftItem">
+                                                                <item text="obj_name" issearch="false"
+                                                                      child="content"></item>
+                                                            </ptree-normal>
+                                                        </div>
+                                                        <div class="last-level-box">
+                                                            <div class="aite-list"
+                                                                 v-show="commonData.publicModel.lastLevel.length!=0"
+                                                                 v-for="(obj,index) in commonData.publicModel.lastLevel">
+                                                                <div :title="obj.obj_name"
+                                                                     @click="myWorkOrderController.queryInfoPointForObject(obj)">
+                                                                    <span v-text="obj.obj_name">建筑体</span>
+                                                                </div>
+                                                                <div></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="info-level-box">
+                                                            <div class="aite-list"
+                                                                 v-for="(info,index) in commonData.publicModel.infoArray">
+                                                                <div :title="info.name">
+                                                                    <span v-text="info.name">建筑体</span>
+                                                                </div>
+                                                                <div>
+                                                                    <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                                                    &lt;!&ndash;<div class="pcheckbox" @click="$root.checkObject(obj, index,event)">
+                                                                        <span class="pcheckbox_input" :class="obj.checked ? 'pcheckbox-checked' : ''"></span>
+                                                                        <span class="pswitch_label"></span>
+                                                                    </div>&ndash;&gt;
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <!--无级别 只有复选-->
+                                            <div class="only-checkbox" v-show="true">
+                                                <div class="aite-list"
+                                                     v-for="(info,index) in commonData.publicModel.infoArray">
+                                                    <div :title="info.name">
+                                                        <span v-text="info.name"></span>
+                                                    </div>
+                                                    <div>
+                                                        <!--<pswitch-checkbox bind="true"></pswitch-checkbox>-->
+                                                        <!--<span class="pcheckbox_input"></span>-->
+                                                        <!--<span class="pswitch_label"></span>-->
+                                                        <div :id="'classSelectInfoPoint' + index" class="pcheckbox"
+                                                             @click="publicMethod.checkInfoPoint(info, index, 0,event)">
+                                                                    <span class="pcheckbox_input"
+                                                                          :class="info.checked ? 'pcheckbox-checked' : ''"></span>
+                                                            <span class="pswitch_label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--及时搜索，只有复选-->
+                                            <!--<div class="timely-checkbox" v-show="false">
+                                                <div class="aite-list">
+                                                    <div>
+                                                        <p><span>空间1</span></p>
+                                                        <p><em>建筑1 > 2层空调 > 空调供暖系统001</em></p>
+                                                    </div>
+                                                    <div>
+                                                        <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                                        &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                                        &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                                                    </div>
+                                                </div>
+                                            </div>-->
+                                            <!--自定义-->
+                                            <div class="customize" v-show="false">
+                                                <div>
+                                                    <p>说明文字</p>
+                                                    <ptext-text id="#errorText" placeholder="请输入要采集内容的说明或介绍">
+                                                        <verify errtip="请输入自定义内容" verifytype="space"></verify>
+                                                        <!--<verify length="40" errtip="最多只能输入40个字符" verifytype="length"></verify>-->
+                                                    </ptext-text>
+                                                </div>
+                                                <div>
+                                                    <p>使用控件</p>
+                                                    <div>
+                                                        <pcombobox-normal bind="true" sel="yn_method.selContent">
+                                                            <header
+                                                                    placeholder="请选择"></header>
+                                                            <item
+                                                                    datasource="commonData.publicModel.controlsList"
+
+                                                                    text="name"></item>
+                                                        </pcombobox-normal>
+                                                    </div>
+                                                </div>
+                                                <div v-show="commonData.publicModel.myseltype!=1 && commonData.publicModel.seltype!=4">
+                                                    <div class="single-select-input">
+                                                        <div class="selection-input"
+                                                             v-show="commonData.publicModel.seltype==5">
+                                                            <p><span>单位</span><em></em></p>
+                                                            <div class="unit-div">
+                                                                <ptext-text bind="true"
+                                                                            placeholder="'请输入要采集数据的单位'"></ptext-text>
+                                                                <!--<input type="text" v-model="model.name" />-->
+                                                                <!--@click="$root.deleteOption(model, index, $event, index0)"-->
+                                                            </div>
+                                                        </div>
+                                                        <div class="selection-input"
+                                                             v-show="commonData.publicModel.seltype==2 || commonData.publicModel.seltype==3"
+                                                             v-for="(model, index) in commonData.publicModel.customItem.items">
+                                                            <p><span>选项</span><em v-text="index+1">1</em></p>
+                                                            <div>
+                                                                <ptext-text bind="true" value="model.name"></ptext-text>
+                                                                <!--<input type="text" v-model="model.name" />-->
+                                                                <i @click="publicMethod.deleteOption(model, index, $event, 0)">p</i>
+                                                                <!--@click="$root.deleteOption(model, index, $event, index0)"-->
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="self-add-select"
+                                                         v-show="commonData.publicModel.seltype==2 || commonData.publicModel.seltype==3">
+                                                        <div class="self-add-btn"
+                                                             @click="publicMethod.addOption($event, 0)">
+                                                            <!-- @click="$root.addOption($event, index0)"-->
+                                                            <i>J</i>添加选项
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                            <!--关键字搜索-->
+                                            <div class="key-search-data">
+                                                <div class="key-search-list">
+                                                    <div class="search-list">
+                                                        <div>
+                                                            <p>空间1</p>
+                                                            <p>建筑1>2层空调>空调供暖系统001</p>
+                                                            <p>建筑1>2层空调>空调供暖系统001</p>
+                                                        </div>
+                                                        <div>
+                                                            <pswitch-checkbox></pswitch-checkbox>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="nodata-box">
+                                            <i class="question-i">!</i><span>搜索无结果</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="aite-footer">
+                                    <div class="customize-btn-div">
+                                        <pbutton-white text="自定义"
+                                                       click="publicMethod.customizeInfoPoint2"></pbutton-white>
+
+                                    </div>
+                                    <!--<pbutton-blue text="确定" disabled="false" click="publicMethod.confirmCheckedInfoPoints2"></pbutton-blue>-->
+                                    <div v-show="commonData.publicModel.curObjType !== 'custom'" class="sureBtnDivs">
+                                        <pbutton-blue text="确定"
+                                                      id="sureBtn"
+                                                      click="publicMethod.confirmCheckedInfoPoints2"></pbutton-blue>
+                                    </div>
+                                    <div v-show="commonData.publicModel.curObjType === 'custom'" class="sureBtnDivs">
+                                        <pbutton-blue text="确定"
+                                                      id="sureBtn"
+                                                      click="publicMethod.confirmCustomizeInfoPoint"></pbutton-blue>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="obj-info-btn">
+                <span class="aite-btn" onclick="yn_method.infoBubbleShow(this,event)">+ 添加对象和信息点</span>
+                <div class="aite-bubble" v-show="false">
+                    <div class="aite-title">
+                        <img src="../images/return_left.png" alt="返回图片" onclick="yn_method.defaultPage(this)" v-show="commonData.publicModel.curObjType !== 'init'"/>
+                        <span><em
+                                v-show="commonData.publicModel.curObjType2 !== 'custom' && commonData.publicModel.curObjType2 !== 'search'">选择</em><em
+                                v-text="commonData.publicModel.popTitleText2[commonData.publicModel.curObjType2]">分类</em></span>
+                    </div>
+                    <div class="list-search">
+                        <div class="info-search-box">
+                            <input type="text" class="keyinput"><!-- id="inp"-->
+                            <div class="icon-div">
+                                <!--<i onclick="yn_method.removeAllKey(this)">x</i>-->
+                                <i onclick="publicMethod.clearInfoPointKeyword(this,1)">x</i>
+                                <i onclick="yn_method.addKey(this)">f</i>
+                            </div>
+                        </div>
+                        <div class="search-result">
+                            <!--<span>搜索结果</span>-->
+                            <div class="key-result"><span>共搜索到<em class="search-num">20</em>个相关结果</span></div>
+                        </div>
+                    </div>
+                    <div class="aite-body">
+                        <div>
+                            <div class="list-body">
+                                <!--无复选、搜索-->
+                                <div class="none-both" v-show="true">
+                                    <div class="aite-list" onclick="myWorkOrderController.querySystem(this,true)">
+                                        <div>
+                                            <span>系统</span>
+                                        </div>
+                                    </div>
+                                    <div class="aite-list"
+                                         onclick="myWorkOrderController.queryBuildFloorSpaceTree(this)">
+                                        <div>
+                                            <span>设备</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--树1-3级，专业、系统搜索、复选-->
+                                <div class="both-all" v-show="false">
+                                    <div class="tree-body">
+                                        <div class="tree-body">
+                                            <div class="tree-box">
+                                                <ptree-normal bind="true" datasource="commonData.publicModel.leftLevel"
+                                                              sel="yn_method.clickLeftItem">
+                                                    <item text="obj_name" issearch="false" child="content"></item>
+                                                </ptree-normal>
+                                            </div>
+                                            <div class="last-level-box">
+                                                <div class="aite-list"
+                                                     v-show="commonData.publicModel.lastLevel.length!=0"
+                                                     v-for="(obj,index) in commonData.publicModel.lastLevel">
+                                                    <div :title="obj.obj_name"
+                                                         @click="publicMethod.getInfoPointForObject(obj, index, $event, 0)"
+                                                    >
+                                                        <span v-text="obj.obj_name">建筑体</span>
+                                                    </div>
+                                                    <div></div>
+                                                </div>
+                                            </div>
+                                            <div class="info-level-box">
+                                                <div class="aite-list"
+                                                     v-for="(info,index) in commonData.publicModel.infoArray">
+                                                    <div :title="info.name">
+                                                        <span v-text="info.name">建筑体</span>
+                                                    </div>
+                                                    <div>
+                                                        <div :id="'classSelectInfoPoint' + index" class="pcheckbox"
+                                                             @click="publicMethod.checkInfoPoint(info, index, 0)">
+                                                            <span class="pcheckbox_input"
+                                                                  :class="info.checked ? 'pcheckbox-checked' : ''"></span>
+                                                            <span class="pswitch_label"></span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--无级别 只有复选-->
+                                <div class="only-checkbox" v-show="false">
+                                    <!--
+                                                                        <div class="aite-list" v-for="(item, index) in commonData.publicModel.buildList">
+                                                                            <div :title="item.obj_name">
+                                                                                <span v-text="item.obj_name"></span>
+                                                                            </div>
+                                                                            <div>
+                                                                                &lt;!&ndash;<pswitch-checkbox bind="true"></pswitch-checkbox>&ndash;&gt;
+                                                                                &lt;!&ndash;<span class="pcheckbox_input"></span>&ndash;&gt;
+                                                                                &lt;!&ndash;<span class="pswitch_label"></span>&ndash;&gt;
+                                                                                <div :id="'noLeftLevelCheckbox' + index" class="pcheckbox"
+                                                                                     @click="$root.checkObject(item)">
+                                                                            <span class="pcheckbox_input"
+                                                                                  :class="item.checked ? 'pcheckbox-checked' : ''"></span>
+                                                                                    <span class="pswitch_label"></span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                    -->
+                                </div>
+                                <!--及时搜索，只有复选-->
+                                <div class="timely-checkbox" v-show="false">
+                                    <div class="aite-list">
+                                        <div>
+                                            <p><span>空间1</span></p>
+                                            <p><em>建筑1 > 2层空调 > 空调供暖系统001</em></p>
+                                        </div>
+                                        <div>
+                                            <pswitch-checkbox bind="true"></pswitch-checkbox>
+                                            <!--<span class="pcheckbox_input"></span>-->
+                                            <!--<span class="pswitch_label"></span>-->
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--自定义-->
+                                <div class="customize" v-show="false">
+                                    <div>
+                                        <p>说明文字</p>
+                                        <ptext-text id="#errorText" placeholder="请输入要采集内容的说明或介绍">
+                                            <verify errtip="请输入自定义内容" verifytype="space"></verify>
+                                            <!--<verify length="40" errtip="最多只能输入40个字符" verifytype="length"></verify>-->
+                                        </ptext-text>
+                                    </div>
+                                    <div>
+                                        <p>使用控件</p>
+                                        <div>
+                                            <pcombobox-normal bind="true" sel="yn_method.selContent" id="'controlSel'">
+                                                <header
+                                                        placeholder="'请选择'"></header>
+                                                <item
+                                                        datasource="commonData.publicModel.controlsList"
+
+                                                        text="name"></item>
+                                            </pcombobox-normal>
+                                        </div>
+                                    </div>
+                                    <div v-show="commonData.publicModel.myseltype!=1 && commonData.publicModel.seltype!=4">
+                                        <div class="single-select-input">
+                                            <div class="selection-input" v-show="commonData.publicModel.seltype==5">
+                                                <p><span>单位</span><em></em></p>
+                                                <div class="unit-div">
+                                                    <ptext-text bind="true" placeholder="'请输入要采集数据的单位'"></ptext-text>
+                                                    <!--<input type="text" bind="true" v-model="model.name"  placeholder="'请输入要采集数据的单位'" />-->
+                                                    <!--@click="$root.deleteOption(model, index, $event, index0)"-->
+                                                </div>
+                                            </div>
+                                            <div class="selection-input"
+                                                 v-show="commonData.publicModel.customItem.items && commonData.publicModel.customItem.items.length"
+                                                 v-for="(model, index) in commonData.publicModel.customItem.items">
+                                                <!-- v-show="commonData.publicModel.seltype==2 || commonData.publicModel.seltype==3"-->
+                                                <p><span>选项</span><em v-text="index + 1">1</em></p>
+                                                <div>
+                                                    <ptext-text bind="true" value="model.name"></ptext-text>
+                                                    <!--<input type="text" v-model="model.name" />-->
+                                                    <i @click="publicMethod.deleteOption(model, index, $event, 0)">p</i>
+                                                    <!--@click="$root.deleteOption(model, index, $event, index0)"-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="self-add-select"
+                                             v-show="commonData.publicModel.seltype==2 || commonData.publicModel.seltype==3">
+                                            <div class="self-add-btn" @click="publicMethod.addOption($event, 0)">
+                                                <!-- @click="$root.addOption($event, index0)"-->
+                                                <i>J</i>添加选项
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--关键字搜索结果-->
+                                <div class="key-search-data">
+                                    <div class="key-search-list">
+                                        <div class="search-list">
+                                            <div>
+                                                <p>空间1</p>
+                                                <p>建筑1>2层空调>空调供暖系统001</p>
+                                                <p>建筑1>2层空调>空调供暖系统001</p>
+                                            </div>
+                                            <div>
+                                                <pswitch-checkbox></pswitch-checkbox>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="nodata-box">
+                                <i class="question-i">!</i><span>搜索无结果</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="aite-footer">
+                        <div class="customize-btn-div" v-show="commonData.publicModel.curObjType2 == 'infoPoint'"
+                        >
+                            <pbutton-white text="自定义" click="publicMethod.customizeInfoPoint"
+                            ></pbutton-white><!--disabled="!commonData.publicModel.isCustomizeBtnAble"-->
+                        </div>
+                        <!--yn_method.customShow-->
+                        <!--<pbutton-blue text="确定" disabled="true"></pbutton-blue>-->
+                        <div v-show="commonData.publicModel.curObjType !== 'custom'" class="sureBtnDivs">
+                            <pbutton-blue text="确定"
+                                          id="sureBtn"
+                                          click="publicMethod.confirmCheckedInfoPoints2"></pbutton-blue>
+                        </div>
+                        <div v-show="commonData.publicModel.curObjType === 'custom'" class="sureBtnDivs">
+                            <pbutton-blue text="确定"
+                                          id="sureBtn"
+                                          click="publicMethod.confirmCustomizeInfoPoint"></pbutton-blue>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

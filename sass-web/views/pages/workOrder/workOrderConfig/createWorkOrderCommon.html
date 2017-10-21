@@ -51,7 +51,7 @@
                         <div @click="deletePersonPosition(items,itIndex)" class="createWorkOrderCommon_delete"><img src="../../../images/delete.png" alt=""></div>
                         <div class="createWorkOrderCommon_person_position_box_left" v-text="items.name">岗位B</div>
                         <div class="createWorkOrderCommon_person_position_box_list">
-                            <ul>
+                            <ul class="more_work_add">
                                 <li :class = {"redBorder":center.redBorder} v-for="(center,index1) in items.duty" @click="clickDutyShowModal(items,center,center.control_name,center.control_code,itIndex,index1)">
                                     <div class="createWorkOrderCommon_person_position_box_list_top">
                                         <em v-text="center.control_name" :code="center.control_code"></em>
@@ -65,7 +65,7 @@
                                     <em>+</em>
                                     <span>添加更多职责</span>
                                     <!-- <div>{{items.right}}</div> -->
-                                    <ul>
+                                    <ul class="more_work_list">
                                         <li v-for="(right,index2) in items.right" v-text="right.control_name" :name="right.control_name" :code="right.control_code"
                                             @click="addMoreDuty(operateOptionList,itIndex,items.right,index2)"></li>
 
@@ -125,12 +125,12 @@
                 请选择岗位或人员
             </p>
             <div class="choicePersonPosition_con_box_list">
-                <div class="choicePersonPosition_con_box_list_div" v-for="(items, index) in personPositionList">
+                <div class="choicePersonPosition_con_box_list_div" v-for="(items, index) in oneStep_personPositionList">
                     <div class="choicePersonPosition_con_box_list_div_ul" v-if="items.type == '2'">
                         <div class="choicePersonPosition_con_box_list_div_posi">
                             <span @click="personPositionShow(event,items)">r</span>
                             <em v-text="items.name"></em>
-                            <div class="position_checkbox positionChoice1" @click.stop='clickAdditem(items)'>
+                            <div class="position_checkbox positionChoice1" @click.stop='oneStep_clickAdditem(items)'>
                                 <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
                                 <!-- <pswitch-checkbox state='items.isSelected' bind='true'></pswitch-checkbox> -->
                             </div>
@@ -138,7 +138,7 @@
                         <ul class="choicePersonPosition_con_box_list_div_pers choicePersonPosition_con_persion_position">
                             <li v-for="info in items.persons">
                                 <span v-text="info.name" :id="info.person_id"></span>
-                                <div class="persion_checkbox" @click.stop='clickAdditem(info)'>
+                                <div class="persion_checkbox" @click.stop='oneStep_clickAdditem(info)'>
                                     <!--  <pswitch-checkbox state='info.isSelected' bind='true'></pswitch-checkbox> -->
                                     <span class="checkboxChioce" :class="{state:info.isSelected}"></span>
                                 </div>
@@ -149,7 +149,7 @@
                         <ul class="choicePersonPosition_con_box_list_div_pers choicePersonPosition_con_choice_person" v-if="items.type == '3'">
                             <li class="personChoice1">
                                 <span v-text="items.name"></span>
-                                <div class="persion_checkbox" @click.stop='clickAdditem(items)'>
+                                <div class="persion_checkbox" @click.stop='oneStep_clickAdditem(items)'>
                                     <!-- <pswitch-checkbox state='items.isSelected' bind='true'></pswitch-checkbox> -->
                                     <span class="checkboxChioce" :class="{state:items.isSelected}"></span>
                                 </div>

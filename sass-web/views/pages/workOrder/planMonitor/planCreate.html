@@ -40,7 +40,7 @@
                             <!-- <span>提前：</span> -->
                             <ptext-text text="提前：" placeholder="请在此输入时间" align="left">
                                  <verify errtip="时间不能为空" verifytype="space"></verify>
-                                 <verify errtip="请输入数字" verifytype="number"></verify>
+                                 <verify errtip="请输入正整数" verifytype="positiveint"></verify>
 
                             </ptext-text>
                             <strong>小时</strong>
@@ -176,4 +176,6 @@
             </div>
         </div>
     </div>
+    <%include ../myWorkOrder/myWorkOrderFragment/addContent.html %>
+    <%include ../myWorkOrder/myWorkOrderFragment/detailSop.html %>
 </div>

@@ -4,22 +4,22 @@
         <p class="textareafont" v-show='!showIDE' v-text='value'></p>
         <em class="ide" v-show='!showIDE' @click='_clickShowIDE'>e</em>
 
-    <!-- 编辑状态Start -->
+        <!-- 编辑状态Start -->
         <span class="textareaword" v-show='showIDE'>
             <ptext-textarea id='_clickValueText' bind='true'>
                 <verify errtip="'不可为空'" verifytype="space">
-                    <verify>
+                </verify>
             </ptext-textarea>
         </span>
-    <em class="smt" v-show='showIDE' @click='_clickSubmit'>Z</em>
-    <em class="ide" v-show='showIDE' @click='_clickCancelIDE'>x</em>
-    <!-- 编辑状态End -->
+        <em class="smt" v-show='showIDE' @click='_clickSubmit'>Z</em>
+        <em class="ide" v-show='showIDE' @click='_clickCancelIDE'>x</em>
+        <!-- 编辑状态End -->
     </span>
 </script>
 
 <script>
     Vue.component('showboxtextarea', {
-        data: function() {
+        data: function () {
             return {
                 showIDE: false, //是否展示编辑框
                 newValue: '', //新的内容
@@ -29,7 +29,7 @@
         },
         template: "#showboxtextarea",
         props: ['keyname', 'value', 'set'],
-        beforeMount: function() {
+        beforeMount: function () {
 
             // 创建需要修改的属性
             this.newValue = this.value;
@@ -38,7 +38,7 @@
             this._clickValueText = ptool.produceId();
 
             var _that = this;
-            setTimeout(function() {
+            setTimeout(function () {
                 // 文本控件赋值
                 _that.block = $("#" + _that._clickValueText);
                 _that.block.pval(this.newValue);
@@ -53,13 +53,13 @@
         // },
         methods: {
             // 显示编辑框
-            _clickShowIDE: function() {
+            _clickShowIDE: function () {
 
                 this.showIDE = true;
                 this.block.pval(this.value);
             },
             // 提交修改
-            _clickSubmit: function() {
+            _clickSubmit: function () {
 
                 var _that = this;
                 this.newValue = _that.block.pval();
@@ -74,7 +74,7 @@
                 }
 
                 // 提交修改修改完成后的修改列表中的数据
-                controllerbuild.updateBuildInfo(res, function() {
+                controllerbuild.updateBuildInfo(res, function () {
                     _that.set(_that.keyname, _that.newValue);
                 });
 
@@ -83,7 +83,7 @@
                 this.showIDE = false; //是否展示编辑框
             },
             // 取消编辑
-            _clickCancelIDE: function() {
+            _clickCancelIDE: function () {
 
                 this.newValue = this.value;
                 this.showIDE = false; //是否展示编辑框

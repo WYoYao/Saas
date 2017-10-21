@@ -1,0 +1,86 @@
+
+<div class="scheme-all" v-show="curPage == pages[0]">
+    <pnotice-message id="scheme-notice"></pnotice-message>
+    <div class="scheme">
+        <div class="scheme-tab">
+            <div class="scheme-content">
+                <div class="scheme-header">
+                    <span class="tip-span" v-text="workOrderModel.tipMsg"></span><pbutton-blue bind='true' text="'创建执行方案'" @click="newCreateOrder()"></pbutton-blue>
+                </div>
+                <div class="scheme-body">
+                    <div class="scheme-body-table">
+                        <div class="scheme-table" v-show="workOrderModel.schemeList.length!=0">
+                            <div class="scheme-table-header">
+                                <!--<div class="table-header-number"><span>编号</span></div>-->
+                                <div class="table-header-state"><span>状态</span></div>
+                                <div class="table-header-scheme"><span>流转方案</span></div>
+                                <div class="table-header-operate"><span>操作</span></div>
+                            </div>
+                            <div class="scheme-table-body">
+                                <div class="tr" v-for="item in workOrderModel.schemeList" @click="controller.queryFlowPlanById(0, item.plan_id, $event)">
+                                    <!--<div class="table-header-number"><span v-text="item.plan_id"></span></div>-->
+                                    <div class="table-header-state"><span v-text="item.plan_status==1?'正常':'需维护'" :class="{ dataRed: item.plan_status== 0}"></span></div>
+                                    <div class="table-header-scheme"><span v-text="item.execute_type_name"></span><span v-text="item.order_type_name"></span><span v-text="item.execute_type_name!='--' && item.order_type_name!='--' ? '工单' : ''">工单</span></div>
+                                    <div class="table-header-operate" ><span @click.stop="editOrderListInfo(item)"><i>`</i><em>编辑</em></span><span @click="yn_method.delConfirm(0, item.plan_id, $event)"><i>p</i><em>删除</em></span></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="scheme-table-noData" v-show="workOrderModel.schemeList.length==0">
+                            <div class="image-div">
+                                <img src="../images/nodata.png" alt="暂无内容" />
+                                <p>暂无内容</p>
+                            </div>
+                        </div>
+                        <ploading-part id="loadCover" text="加载中..."></ploading-part>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scheme-float">
+        <pwindow-float id="floatWindow" isshade="true" title="这是标题" templateid="floatTemp">
+                    <animate maxpx="0" minpx="-830" orientation="right"></animate>
+        </pwindow-float>
+
+    </div>
+    <pwindow-confirm id="del-confirm">
+        <button>
+            <pbutton-blue id="sure-btn" text="确定" click="controller.deleteFlowPlanById"></pbutton-blue>
+            <pbutton-white text="取消" click="yn_method.cancelConfirm"></pbutton-white>
+        </button>
+    </pwindow-confirm>
+</div>
+<script type="text/html" id="floatTemp">
+    <div class="single-scheme-content">
+        <div class="single-scheme-content-s">
+            <div><span>工单类型：</span></div>
+            <div><span v-text="workOrderModel.detailScheme.order_type_name"></span></div>
+        </div>
+        <div class="single-scheme-content-s">
+            <div><span>时间类型：</span></div>
+            <div><span v-text="workOrderModel.detailScheme.execute_type_name"></span></div>
+        </div>
+        <div class="">
+            <div><span>涉及的人员/岗位以及对应职责：</span></div>
+            <div class="single-scheme-content-s-child" v-for="post in workOrderModel.detailScheme.post_and_duty">
+                <div class="single-scheme-content-s-child-name"><span v-text="post&&post.name"></span><span>：</span></div>
+                <div class="single-scheme-content-s-child-operate" >
+                    <div class="single-scheme-content-s-child-operate-content" v-for="duty in post.duty">
+                        <h3 v-text="duty.control_name"></h3>
+                        <div v-if="duty.control_name == '新建工单'"><span v-show="duty.next_route.length !=0">新建工单下级：</span><span v-show="duty.next_route.length !=0" v-for="(person,index) in duty.next_route" v-text="index == duty.next_route.length-1 ? person.name : person.name + '、'"></span></div>
+                        <div v-if="duty.control_name == '新建工单'"><span>执行方式：</span><span v-text="duty.executie_mode && duty.executie_mode== 2 ? '允许多人并行执行' : '只允许单人串行执行'"></span></div>
+                        <div v-if="duty.control_name == '指派'"><span>可以指派的范围：</span><span v-show="duty.next_route.length !=0"  v-for="(person,index) in duty.next_route" v-text="index == duty.next_route.length-1 ? person.name : person.name + '、'"></span></div>
+                        <div v-if="duty.control_name == '新建工单' || duty.control_name == '指派'"><span v-text="duty.filter_scheduling ? '启动按照排班表过滤每次指派的人员范围
+' : '不启动按照排班表过滤每次指派的人员范围
+'"></span></div>
+                        <div v-if="duty.control_name=='执行工作步骤'"><span v-text="duty.limit_domain ? '启动专业控制' : '不启动专业控制'"></span></div>
+                        <div v-if="duty.control_name=='审核'"><span v-text="duty.audit_close_way == 1 ? '手动点击结束工单才可结束' : '审核结束通过后，工单自动结束'"></span></div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</script>

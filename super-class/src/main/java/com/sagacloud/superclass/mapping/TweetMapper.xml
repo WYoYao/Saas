@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.TweetMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.Tweet" >
+    <id column="tweet_id" property="tweetId" jdbcType="VARCHAR" />
+    <result column="page_num" property="pageNum" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    tweet_id, page_num, user_id, content, create_time
+  </sql>
+  <select id="selectByPageNum" resultMap="BaseResultMap" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_tweet
+    where page_num = #{pageNum,jdbcType=VARCHAR}
+    order by create_time desc 
+    limit 0,#{size,jdbcType=INTEGER}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_tweet
+    where tweet_id = #{tweetId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_tweet
+    where tweet_id = #{tweetId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.Tweet" >
+    insert into t_tweet (tweet_id, page_num, user_id, 
+      content, create_time)
+    values (#{tweetId,jdbcType=VARCHAR}, #{pageNum,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{content,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.Tweet" >
+    insert into t_tweet
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tweetId != null" >
+        tweet_id,
+      </if>
+      <if test="pageNum != null" >
+        page_num,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tweetId != null" >
+        #{tweetId,jdbcType=VARCHAR},
+      </if>
+      <if test="pageNum != null" >
+        #{pageNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.Tweet" >
+    update t_tweet
+    <set >
+      <if test="pageNum != null" >
+        page_num = #{pageNum,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where tweet_id = #{tweetId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.Tweet" >
+    update t_tweet
+    set page_num = #{pageNum,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where tweet_id = #{tweetId,jdbcType=VARCHAR}
+  </update>
+</mapper>

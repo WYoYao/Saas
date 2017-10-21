@@ -152,6 +152,20 @@
     /* overflow: auto; */
     
 }
+.confirm_result_div1{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+.confirm_result_div1 >section{
+    margin-left: 10px;
+}
+.confirm_result_div2{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;   
+}
+
 .see_orderDetail_grid_tab_div{
     width: 100%;
     display: flex;
@@ -683,4 +697,10 @@
 }
 #stop_order_no{
     margin-left: 20px;
+}
+.no_tool_tip{
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
 }

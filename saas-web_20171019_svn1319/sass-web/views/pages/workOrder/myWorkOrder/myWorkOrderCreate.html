@@ -1,0 +1,91 @@
+<div class="myWork-tab-create" v-show="!commonData.publicModel.LorC && commonData.publicModel.LorC !== 0">
+    <div class="myWork-content">
+        <div class="myWork-content-create">
+            <div class="myWork-content-create-header">
+                <pbutton-white id="cancel-work-btn" text="取消" click="yn_method.listShow"></pbutton-white>
+                <pbutton-white id="save-work-btn" text="保存草稿" click="publicMethod.toSaveWorkOrderDraft"></pbutton-white>
+            </div>
+            <div class="myWork-content-create-body">
+                <div class="myWork-create-left">
+                    <div class="left-content">
+                        <h3>基本信息</h3>
+                        <hr />
+                        <div class="type-urgency">
+                            <div>
+                                <h4>工单类型：</h4>
+                                <pcombobox-normal id="'work-typec'" bind="true" sel="yn_method.workTypeFn">
+                                    <header placeholder="'请选择'"></header>
+                                    <item datasource="commonData.publicModel.workTypeC" text="name"></item>
+                                </pcombobox-normal>
+                            </div>
+                            <div>
+                                <h4>工单紧急程度：</h4>
+                                <pcombobox-normal id="'work-urgency'" bind="true" sel="yn_method.urgencyFn">
+                                    <item datasource="commonData.publicModel.urgency" text="name"></item>
+                                </pcombobox-normal>
+                            </div>
+
+                        </div>
+                        <div class="time-radio">
+                            <div>
+                                <pswitch-radio id="ask-radio" name="time-radio" text="要求开始和结束时间" change="yn_method.radioChange"></pswitch-radio>
+                            </div>
+                            <div>
+                                <pswitch-radio id="fixed-radio" name="time-radio" text="要求固定时间内完成" state="true" change="yn_method.radioChange"></pswitch-radio>
+                            </div>
+                        </div>
+                        <div class="time-sel">
+                            <div>
+                                <h4>要求开始时间：</h4>
+                                <pcombobox-normal id="'time-combobox'" bind="true" sel="yn_method.starTimeTypeSel">
+                                    <item datasource="commonData.publicModel.starTimeType" text="name"></item>
+                                </pcombobox-normal>
+                            </div>
+                            <div v-show="!commonData.publicModel.timeTypeSel ">
+                                <ptime-form id="ask_start_time" sel="yn_method.startTimeSave"><!-- startyear="commonData.publicModel.starYear" endyear="commonData.publicModel.endYear" -->
+                                    <panel timetype="yMdhm" startyear="2017" endyear="2020"></panel>
+                                </ptime-form>
+                            </div>
+                        </div>
+                        <div class="detail-time">
+                            <div v-show="commonData.publicModel.fixedRadio">
+                                <h4>要求固定时间内完成：</h4>
+                                <div class="regular-time">
+                                    <div class="time-div">
+                                        <div>
+                                            <input type="text" placeholder="请输入数字,支持小数点后一位" id="ask_end_limit" @input="yn_method.askLimit($event)"
+                                                   onkeyup="if(!/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{0,1})$/gi.test(value) && value!='')execCommand('undo')" onafterpaste="if(!/^[+]{0,1}(\d+)$|^[+]{0,1}(\d+\.\d{0,1})$/gi.test(value) && value!='')execCommand('undo')">
+                                        </div>
+                                        <div>
+                                            <span>小时</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--<span class="regular-error-span" v-show="false">* 数字只支持小数点后一位</span>-->
+                            </div>
+                            <div v-show="!commonData.publicModel.fixedRadio">
+                                <h4>要求结束时间：</h4>
+                                <ptime-form bind="true" id="'ask_end_time'" sel="yn_method.verifyTime"><!-- startyear="commonData.publicModel.starYear" endyear="commonData.publicModel.endYear" -->
+                                    <panel timetype="yMdhm" startyear="2017" endyear="2020"></panel>
+                                </ptime-form>
+                                <br />
+                                <span class="time-error-tips">结束时间需大于开始时间</span>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <% include ./workMatter.html %>
+            </div>
+            <div class="myWork-content-create-footer">
+                <pbutton-blue id="next-work-btn" text="下一步" click="publicMethod.toPreviewWorkOrder"></pbutton-blue>
+            </div>
+        </div>
+    </div>
+    <%include myWorkOrderFragment/addContent.html %>
+    <%include myWorkOrderFragment/detailSop.html %>
+</div>
+<div v-if="commonData.publicModel.LorC === 0">
+<% include ../planMonitor/see_orderDetail.html %>
+</div>

@@ -1,0 +1,278 @@
+<div class="addSpaceCont">
+    <div class="verticalAxes" id="spaceNavigBar">
+        <div class="circleDiv">
+            <div class="circle sel" stype="baseSection">
+                <span class="name">基础</span>
+            </div>
+            <div class="circle" stype="tenantSection">
+                <span class="name">租户</span>
+            </div>
+            <div class="circle" stype="personSection">
+                <span class="name">人员</span>
+            </div>
+            <div class="circle" stype="physicalSection">
+                <span class="name">水电气</span>
+            </div>
+            <div class="circle" stype="quotaSection">
+                <span class="name">关键指标</span>
+            </div>
+        </div>
+    </div>
+    <div class="moduleItem" id="baseSection">
+        <div class="header">基础</div>
+        <div class="eachItem leftItem">
+            <div class="name"><span><em>*</em>所属建筑</span></div>
+            <div class="cont">
+                <pcombobox-normal bind="true" sel="spaceBuildSel" id="'spaceBuildDrop'"> 
+                                        <header placeholder="请选择建筑"></header>
+                                        <item datasource="allBuild" text="obj_name"></item>
+                                    </pcombobox-normal>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span><em>*</em>所属楼层</span></div>
+            <div class="cont">
+                <pcombobox-normal align="left" sel="spaceFloorSel" bind="true" id="'spaceFloorDrop'">
+                                        <header placeholder="请选择楼层"></header>
+                                        <item datasource="spaceFloorArr" text="floor_local_name"></item>
+                                    </pcombobox-normal>
+            </div>
+        </div>
+        <div class="eachItem lineItem">
+            <div class="name"><span><em>*</em>空间名称</span></div>
+            <div class="cont">
+                <ptext-text placeholder="'最多20个字'" bind="true" value="spaceDetail.room_local_name" widtye="inputText">
+                                        <verify errtip="不能为空" verifytype="space"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span><em>*</em>空间编码</span></div>
+            <div class="cont">
+                <ptext-text placeholder="'最多20个字'" bind="true" value="spaceDetail.room_local_id" widtye="inputText">
+                                        <verify errtip="不能为空" verifytype="space"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>BIM模型中编码</span></div>
+            <div class="cont">
+                <ptext-text placeholder="'最多20个字'" bind="true" value="spaceDetail.BIMID" widtye="inputText">    
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>空间功能区类型</span></div>
+            <div class="cont">
+                <div class="contTreeHead"><span>{{spaceDetail.room_func_type_name?spaceDetail.room_func_type_name:'请选择类型'}}</span><em>v</em></div>
+                <ul class="contTreeList">
+                    <room-point v-for="item in allSpaceCode" :finfo="item"></room-point>
+                </ul>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>长</span></div>
+            <div class="cont">
+                <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.length" widtye="inputText">
+                    <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>宽</span></div>
+            <div class="cont">
+                <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.width" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>高</span></div>
+            <div class="cont">
+                <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.height" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>空间面积</span></div>
+            <div class="cont">
+                <ptext-text text="'㎡'" placeholder="'请填写数字'" bind="true" value="spaceDetail.area" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>配电容量</span></div>
+            <div class="cont">
+                <ptext-text text="'A'" placeholder="'请填写数字'" bind="true" value="spaceDetail.elec_cap" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem lineItem">
+            <div class="name"><span>备注</span></div>
+            <div class="cont">
+                <ptext-textarea length="50" placeholder="'最多50个字'" bind="true" value="spaceDetail.intro">
+
+                                    </ptext-textarea>
+            </div>
+        </div>
+    </div>
+    <div class="moduleItem" id="tenantSection">
+        <div class="header">租户</div>
+        <div class="eachItem leftItem">
+            <div class="name"><span><em>*</em>租赁业态类型</span></div>
+            <div class="cont">
+                <div class="contTreeHead"><span>{{spaceDetail.tenant_type_name?spaceDetail.tenant_type_name:'请选择类型'}}</span><em>v</em></div>
+                <ul class="contTreeList">
+                   <tenant-point v-for="item in allRentalCode" :finfo="item" :rootcode="spaceDetail.tenant_type"></tenant-point>
+                </ul>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>所属租户</span></div>
+            <div class="cont">
+                <ptext-text placeholder="'请输入租户名称'" bind="true" value="spaceDetail.tenant" widtye="inputText">
+                                    </ptext-text>
+            </div>
+        </div>
+    </div>
+    <div class="moduleItem" id="personSection">
+        <div class="header">人员信息</div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>空间常驻人数</span></div>
+            <div class="cont">
+                <ptext-text text="'人'" placeholder="'请填写数字'" bind="true" value="spaceDetail.permanent_people_num" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>逐时流出人数</span></div>
+            <div class="cont">
+                <ptext-text text="'人/min'" placeholder="'请填写数字'" bind="true" value="spaceDetail.out_people_flow" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>逐时流入人数</span></div>
+            <div class="cont">
+                <ptext-text text="'人/min'" placeholder="'请填写数字'" bind="true" value="spaceDetail.in_people_flow" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>逐时空间内现有人数</span></div>
+            <div class="cont">
+                <ptext-text text="'人'" placeholder="'请填写数字'" bind="true" value="spaceDetail.exsit_people_num" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+    </div>
+    <div class="moduleItem" id="physicalSection">
+        <div class="header">水电气</div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>用电功率</span></div>
+            <div class="cont">
+                <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.elec_power" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>逐时冷量</span></div>
+            <div class="cont">
+                <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.cool_consum" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>逐时热量</span></div>
+            <div class="cont">
+                <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.heat_consum" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>空调水压力</span></div>
+            <div class="cont">
+                <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.ac_water_press" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>用水量</span></div>
+            <div class="cont">
+                <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.water_consum" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>自来水压力</span></div>
+            <div class="cont">
+                <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.water_press" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>热水用水量</span></div>
+            <div class="cont">
+                <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.hot_water_consum" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>热水压力</span></div>
+            <div class="cont">
+                <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.hot_water_press" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>用燃气量</span></div>
+            <div class="cont">
+                <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.gas_consum" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>燃气压力</span></div>
+            <div class="cont">
+                <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.gas_press" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+    </div>
+    <div class="moduleItem" id="quotaSection">
+        <div class="header">关键指标</div>
+        <div class="eachItem leftItem">
+            <div class="name"><span>热舒适PMV</span></div>
+            <div class="cont">
+                <ptext-text placeholder="'请填写数字'" bind="true" value="spaceDetail.PMV" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+        <div class="eachItem rightItem">
+            <div class="name"><span>热舒适PPD</span></div>
+            <div class="cont">
+                <ptext-text placeholder="'请填写数字'" bind="true" value="spaceDetail.PPD" widtye="inputText">
+                      <verify errtip="请输入数字" verifytype="number"><verify>
+                                    </ptext-text>
+            </div>
+        </div>
+    </div>
+</div>

@@ -152,16 +152,16 @@
                 })
 
                 //选择建筑和空间
-                if(key=="build_id"){
+                if (key == "build_id") {
 
                     // 是空间的时候
-                    if(item.Parent_obj_id!=item.obj_id){
+                    if (item.Parent_obj_id != item.obj_id) {
                         // 赋值空间管理
-                        _that["insertModel"].space_id=item.obj_id;
+                        _that["insertModel"].space_id = item.obj_id;
 
-                    }else{
+                    } else {
 
-                        if(_that.insertModel.hasOwnProperty("space_id")) delete _that.insertModel["space_id"];
+                        if (_that.insertModel.hasOwnProperty("space_id")) delete _that.insertModel["space_id"];
                     }
                 }
 
@@ -266,7 +266,7 @@
                     _that.insertModel[key] = fileList.map(function (info) {
 
                         info.toPro = "key";
-                        info.multiFile=false;
+                        info.multiFile = false;
                         return {
                             "type": "2",
                             "name": info.fileName,
@@ -414,7 +414,7 @@
             return function (item) {
                 var _that = v.instance;
 
-                _that.insertModel[key] = item.pEventAttr.startTime;
+                _that.insertModel[key] = item.pEventAttr.startTime.replace(/-/g,'')+'000000';
             }
         }
 
@@ -424,7 +424,7 @@
         });
 
         // 根据的key值 类型获取对应的值
-        function getEquipDynamicInfoBykey(el,key, type, content) {
+        function getEquipDynamicInfoBykey(el, key, type, content) {
 
             // 获取DOM
             // var el = $("#EDI" + key),
@@ -450,5 +450,73 @@
         };
 
         window.getEquipDynamicInfoBykey = getEquipDynamicInfoBykey;
+
+
+        window.ie_blur = createEvents(TextSel2Fn, function (el) {
+
+
+
+            var val = el.pval(),
+                el = $(el),
+                key = el.attr('id').replace("insert_", "");
+
+            // 验证字母下划线
+            function vFN(str, el) {
+
+                if(!str.length) return;
+
+                var bool = str.pisAlphanumeric()
+
+                if (!bool) el.pshowTextTip('仅支持数字字母下划线');
+
+                return bool
+            }
+
+            // 验证传入的 key 值不能为空
+            if (!_.isString(key)) throw new TypeError('key is null');
+
+            if (key == "equip_local_id") {
+
+                // 验证汉字
+                if (vFN(val, el)) return;
+
+                // 当有建筑ID 的时候再验证重复
+                controllerInsert.verifyEquipLocalId({
+                    equip_local_id: val,
+                }).then(function (data) {
+
+                    if (!data.can_use) {
+                        el.pshowTextTip('与当前已添加内容重复');
+                    } else {
+                        el.precover();
+                        el.pval(val);
+                    }
+                })
+                // 验证不可重复
+
+
+            } else if (key == "BIMID") {
+
+                // 验证汉字
+                if (vFN(val, el)) return;
+
+                // 验证不可重复
+                controllerInsert.verifyEquipBimId({
+                    BIMID: val,
+                }).then(function (data) {
+
+                    if (!data.can_use) {
+                        el.pshowTextTip('与当前已添加内容重复');
+                    } else {
+                        el.precover();
+                        el.pval(val);
+                    }
+                })
+
+
+            }
+
+
+        })
 
     })();

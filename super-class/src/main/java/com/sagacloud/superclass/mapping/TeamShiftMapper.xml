@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.TeamShiftMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.TeamShift" >
+    <id column="shift_id" property="shiftId" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+    <result column="shift_name" property="shiftName" jdbcType="VARCHAR" />
+    <result column="short_name" property="shortName" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="VARCHAR" />
+    <result column="end_time" property="endTime" jdbcType="VARCHAR" />
+    <result column="max_user_num" property="maxUserNum" jdbcType="VARCHAR" />
+    <result column="min_user_num" property="minUserNum" jdbcType="VARCHAR" />
+    <result column="is_min_rest_day" property="isMinRestDay" jdbcType="VARCHAR" />
+    <result column="is_must_join" property="isMustJoin" jdbcType="VARCHAR" />
+    <result column="min_join_num" property="minJoinNum" jdbcType="VARCHAR" />
+    <result column="creater_id" property="createrId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    shift_id, team_id, shift_name, short_name, start_time, end_time, max_user_num, min_user_num, 
+    is_min_rest_day, is_must_join, min_join_num, creater_id, create_time
+  </sql>
+  
+  <select id="selectByShiftIdList" resultMap="BaseResultMap" >
+  	select
+  	 <include refid="Base_Column_List" />
+  	from t_team_shift
+  	where shift_id in
+  	<foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+  		#{item}
+  	</foreach>
+  </select>
+  
+  <select id="existShiftNameOrshortName" resultType="java.lang.Integer">
+  	select 1
+  	from t_team_shift
+  	where team_id = #{teamId,jdbcType=VARCHAR} and (shift_name = #{shiftName,jdbcType=VARCHAR} or short_name = #{shortName,jdbcType=VARCHAR})
+  </select>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_team_shift
+    where shift_id = #{shiftId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_team_shift
+    where shift_id = #{shiftId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.TeamShift" >
+    insert into t_team_shift (shift_id, team_id, shift_name, 
+      short_name, start_time, end_time, 
+      max_user_num, min_user_num, is_min_rest_day, 
+      is_must_join, min_join_num, 
+      creater_id, create_time)
+    values (#{shiftId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, #{shiftName,jdbcType=VARCHAR}, 
+      #{shortName,jdbcType=VARCHAR}, #{startTime,jdbcType=VARCHAR}, #{endTime,jdbcType=VARCHAR}, 
+      #{maxUserNum,jdbcType=VARCHAR}, #{minUserNum,jdbcType=VARCHAR}, #{isMinRestDay,jdbcType=VARCHAR}, 
+      #{isMustJoin,jdbcType=VARCHAR}, #{minJoinNum,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.TeamShift" >
+    insert into t_team_shift
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="shiftId != null" >
+        shift_id,
+      </if>
+      <if test="teamId != null" >
+        team_id,
+      </if>
+      <if test="shiftName != null" >
+        shift_name,
+      </if>
+      <if test="shortName != null" >
+        short_name,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="maxUserNum != null" >
+        max_user_num,
+      </if>
+      <if test="minUserNum != null" >
+        min_user_num,
+      </if>
+      <if test="isMinRestDay != null" >
+        is_min_rest_day,
+      </if>
+      <if test="isMustJoin != null" >
+        is_must_join,
+      </if>
+      <if test="minJoinNum != null" >
+        min_join_num,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="shiftId != null" >
+        #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftName != null" >
+        #{shiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="maxUserNum != null" >
+        #{maxUserNum,jdbcType=VARCHAR},
+      </if>
+      <if test="minUserNum != null" >
+        #{minUserNum,jdbcType=VARCHAR},
+      </if>
+      <if test="isMinRestDay != null" >
+        #{isMinRestDay,jdbcType=VARCHAR},
+      </if>
+      <if test="isMustJoin != null" >
+        #{isMustJoin,jdbcType=VARCHAR},
+      </if>
+      <if test="minJoinNum != null" >
+        #{minJoinNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.TeamShift" >
+    update t_team_shift
+    <set >
+      <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftName != null" >
+        shift_name = #{shiftName,jdbcType=VARCHAR},
+      </if>
+      <if test="shortName != null" >
+        short_name = #{shortName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=VARCHAR},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=VARCHAR},
+      </if>
+      <if test="maxUserNum != null" >
+        max_user_num = #{maxUserNum,jdbcType=VARCHAR},
+      </if>
+      <if test="minUserNum != null" >
+        min_user_num = #{minUserNum,jdbcType=VARCHAR},
+      </if>
+      <if test="isMinRestDay != null" >
+        is_min_rest_day = #{isMinRestDay,jdbcType=VARCHAR},
+      </if>
+      <if test="isMustJoin != null" >
+        is_must_join = #{isMustJoin,jdbcType=VARCHAR},
+      </if>
+      <if test="minJoinNum != null" >
+        min_join_num = #{minJoinNum,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where shift_id = #{shiftId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.TeamShift" >
+    update t_team_shift
+    set team_id = #{teamId,jdbcType=VARCHAR},
+      shift_name = #{shiftName,jdbcType=VARCHAR},
+      short_name = #{shortName,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=VARCHAR},
+      end_time = #{endTime,jdbcType=VARCHAR},
+      max_user_num = #{maxUserNum,jdbcType=VARCHAR},
+      min_user_num = #{minUserNum,jdbcType=VARCHAR},
+      is_min_rest_day = #{isMinRestDay,jdbcType=VARCHAR},
+      is_must_join = #{isMustJoin,jdbcType=VARCHAR},
+      min_join_num = #{minJoinNum,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where shift_id = #{shiftId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -56,6 +56,27 @@ var orderDetail_pub = {
             }
         });
     },
+    getObjExample:function(_data){//获取对象实例请求
+        pajax.post({
+            // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
+            url: 'restObjectService/queryObjectByClass',
+            data: _data,
+            success: function(res) {
+                var _data = res && res.data ? res.data : [];
+                // _data = d.objExample; //临时使用
+                commonData.publicModel.planObjExampleArr = _data;
+                // console.log(_data)
+                $(".choiceObjExampleModal").show();
+            },
+            error: function(error) {
+
+            },
+
+            complete: function() {
+                $("#list_loading").phide();
+            }
+        });
+    },
     getWorkOrderServiceList: function(pub_model, userId, orderId, flag) { //获取工单操作时间列表
         pajax.post({
             // url: 'restWoPlanService/queryDestroyedWoPlanList', //临时使用
@@ -181,6 +202,54 @@ var orderDetail_pub = {
             }
         });
     },
+    choiceObjExample: function(_obj, event, objId, objType ,index1,index2,index3,index4) { //选择对象实例
+        var _data = {
+            obj_id: objId,
+            obj_type: objType
+        };
+        orderDetail_data.pub_model.obj_example = _obj;
+        orderDetail_data.pub_model.index1 = index1;
+        orderDetail_data.pub_model.index2 = index2;
+        orderDetail_data.pub_model.index3 = index3;
+        orderDetail_data.pub_model.index4 = index4;
+        var _scrollTop = $(".see_orderDetail_page_grid").scrollTop();
+        var _left = $(event.target).offset().left + 120 + 'px';
+        var _top = $(event.target).offset().top - '240' + _scrollTop + 'px';
+        // console.log($(event.target).offset().top);
+        $(".choiceObjExampleModal").css("left", _left);
+        $(".choiceObjExampleModal").css("top", _top);
+        orderDetail_pub.getObjExample(_data); //获取对象实例请求
+    },
+    replaceObjExample: function(_obj) { //替换对象实例(创建计划下一步)
+        // console.log(_obj)
+        var index1 = orderDetail_data.pub_model.index1;
+        var index2 = orderDetail_data.pub_model.index2;
+        var index3 = orderDetail_data.pub_model.index3;
+        var index4 = orderDetail_data.pub_model.index4;
+        //var matters_obj = orderDetail_pub.getObjectByKey(orderDetail_data.pub_model.orderDetailData.matters,[index1,'matter_steps',index2,'steps',index3,'confirm_result',index4]);
+        orderDetail_data.pub_model.orderDetailData.matters[index1].matter_steps[index2].steps[index3].confirm_result[index4].obj_id = _obj.obj_id;
+        orderDetail_data.pub_model.orderDetailData.matters[index1].matter_steps[index2].steps[index3].confirm_result[index4].obj_name = _obj.obj_name;
+        orderDetail_data.pub_model.orderDetailData.matters[index1].matter_steps[index2].steps[index3].confirm_result[index4].obj_type = _obj.obj_type;
+        orderDetail_data.pub_model.orderDetailData.matters[index1].matter_steps[index2].steps[index3].confirm_result[index4].parents = _obj.parents;
+        // matters_obj.obj_id =_obj.obj_id;
+        // matters_obj.obj_name =_obj.obj_name;
+        // matters_obj.obj_type =_obj.obj_type;
+        // matters_obj.parents =_obj.parents;
+        // orderDetail_data.pub_model.orderDetailData = JSON.parse(JSON.stringify(orderDetail_data.pub_model.orderDetailData));
+        $(".choiceObjExampleModal").hide();
+        console.log(JSON.stringify(orderDetail_data.pub_model.orderDetailData.matters));
+    },
+    getObjectByKey:function (obj, k) {
+
+    // 字符转换数组
+        if (Object.prototype.toString.call(k).slice(8,-1) == 'String')k = [k];
+
+        // 循环返回对应的属性值
+        return k.reduce(function(con,key){
+
+            return con[key];
+        },obj);
+    },
     orderDetail_goBack: function() { //工单详情返回
         if (orderDetail_data.goBackFlag == '1') {//空间返回
             orderDetail_data.pub_model.curPage = '';
@@ -194,7 +263,12 @@ var orderDetail_pub = {
             console.log(orderDetail_data.pub_model)
             orderDetail_data.pub_model.curPage = orderDetail_data.pub_model.pages[0];
         } else if(orderDetail_data.goBackFlag == '4'){//工单创建
-            orderDetail_data.pub_model.LorC = false;
+            if(commonData.publicModel.Published!==1){
+                orderDetail_data.pub_model.LorC = false;
+            }else{
+                orderDetail_data.pub_model.LorC = true;//发布列表页
+                commonData.publicModel.Published=null;
+            }
         }
     },
     arrToString: function(arr) { //普通数组转字符串方法
@@ -337,8 +411,13 @@ var orderDetail_pub = {
             "operator_name": operatorName,
             "next_route": nextRoute
         };
-        orderDetail_pub.assignOrderSet(_data);
-        $("#createAssignSet").hide();
+        if(nextRoute.length > 0){
+            orderDetail_pub.assignOrderSet(_data);
+            $("#createAssignSet").hide();
+        }else{
+             $("#publishNotice").pshow({ text: '请选择指派的岗位或人员范围', state: "failure" });
+        }
+        
     },
     stopOrderSetYes: function() {//中止工单确定
         var operatorName = orderDetail_data.userInfo.user.name;
@@ -372,23 +451,31 @@ var orderDetail_pub = {
         $("#stopOrder").phide();
         orderDetail_data.pub_model.stop_order_content = '';
     },
-    choiceObjExample: function(_obj, event, objId, objType) { //选择对象实例
-        var _data = {
-            obj_id: objId,
-            obj_type: objType
-        };
-        orderDetail_data.pub_model.obj_example = _obj;
-        var _scrollTop = $(".see_orderDetail_page_grid").scrollTop();
-        var _left = $(event.target).offset().left + 120 + 'px';
-        var _top = $(event.target).offset().top - '240' + _scrollTop + 'px';
-        console.log($(event.target).offset().top);
-        $(".choiceObjExampleModal").css("left", _left);
-        $(".choiceObjExampleModal").css("top", _top);
-        controller.getObjExample(_data); //获取对象实例请求
-    },
     orderNewCreatePublish:function(){//发布工单
+        var flag = true;
         var _data = orderDetail_data.pub_model.orderDetailData;
-        myWorkOrderController.publishWorkOrder(_data);
+        _data.matters.map(function(item){
+            item.matter_steps.map(function(info){
+                info.steps.map(function(x){
+                    if(x.step_type == '5'){
+                        x.confirm_result.map(function(y){
+                            if(y.obj_type == 'system_class' || y.obj_type == 'equip_class'){
+                                flag = false;
+                                return;
+                            }else{
+                                flag = true;
+                            }
+                        })
+                    }
+                })
+            })
+        })
+        if(flag){
+            myWorkOrderController.publishWorkOrder(_data);
+            
+        }else{
+             $("#globalnotice").pshow({text:"请选择设备对象实例后，再次发布", state: "failure" });
+        }
     },
 }
 
@@ -398,6 +485,11 @@ var orderDetail_data = {
     userInfo: {}, //用户信息存储
     personPositionList:[],//人员岗位列表
     stop_order_content:'',//中止工单内容
+    planObjExampleArr:[],//对象实例
+    index1:'',
+    index2:'',
+    index3:'',
+    index4:'',//matters层级索引
 
 }
 $(function(){

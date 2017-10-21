@@ -1,0 +1,403 @@
+.upload {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #d9e2e8;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: #ffffff;
+}
+
+.upload .content {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    border: 1px solid #d9e2e8;
+    /* padding: 0 20px; */
+    box-sizing: border-box;
+    overflow-y: overlay;
+}
+
+.upload .header {
+    position: relative;
+    height: 50px;
+    width: 100%;
+    border-bottom: 1px solid #d9e2e8;
+    text-align: center;
+}
+
+.upload .header .date,
+.upload .header .edate {
+    display: inline-block;
+    height: 50px;
+    padding-top: 10px;
+}
+
+.upload .header .btn,
+.upload .header .rbtn {
+    position: absolute;
+    display: block;
+    display: inline-block;
+    height: 30px;
+    width: 80px;
+}
+
+.upload .header .btn {
+    top: 10px;
+    right: 10px;
+}
+
+.upload .header .rbtn {
+    top: 10px;
+    left: 10px;
+}
+
+.upload .topheader {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    right: 20px;
+    height: 50px;
+    line-height: 50px;
+    /* border: 1px solid #d9e2e8; */
+    /* padding: 0 20px; */
+}
+
+.upload .topheader .btn {
+    float: right;
+    margin-right: 10px;
+}
+
+.upload .topheader .uploadCon {
+    margin-top: 10px;
+}
+
+.upload .contenter {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    /* border: 1px solid #d9e2e8; */
+    /* padding: 0 20px; */
+    box-sizing: border-box;
+    overflow-y: overlay;
+}
+
+.upload .block {
+    margin: 70px auto 0;
+    width: 170px;
+}
+
+.upload .block .wordicon {
+    font-family: 'perficon';
+    font-size: 170px;
+    text-align: center;
+    color: #e0e0e0;
+}
+
+.upload .block .word {
+    width: 100%;
+    height: 18px;
+    line-height: 18px;
+    font-size: 18px;
+    text-align: center;
+    color: #333333;
+}
+
+.upload .do {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.upload .do .btn {
+    display: block;
+    margin-top: 20px;
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+.upload .do .btn>div {
+    width: 100%;
+}
+
+.upload .border {
+    border: 1px solid #d9e2e8;
+}
+
+.upload .theader {
+    width: 100%;
+}
+
+.upload .tbody {
+    position: absolute;
+    top: 80px;
+    bottom: 0px;
+    width: 100%;
+    overflow-y: overlay;
+}
+
+.upload .theader li {
+    width: 100%;
+    height: auto;
+    /* overflow: hidden; */
+    position: relative;
+}
+
+.upload li .item,
+.upload li .item31,
+.upload li .item30,
+.upload li .item29,
+.upload li .item28 {
+    position: relative;
+    float: left;
+    height: 40px;
+    width: 2.5%;
+    box-sizing: border-box;
+    border-left: 1px solid #d9e2e8;
+    border-bottom: 1px solid #d9e2e8;
+    text-align: center;
+    line-height: 40px;
+}
+
+.upload li .item:nth-child(1) {
+    width: 5.57%;
+    border-left: none;
+    /* padding-left: 20px; */
+}
+
+.upload li .item31 {
+    flex: 1;
+    width: 9%;
+}
+
+.upload li .item30 {
+    flex: 1;
+    width: 11.5%;
+}
+
+.upload li .item29 {
+    flex: 1;
+    width: 14%;
+}
+
+.upload li .item28 {
+    flex: 1;
+    width: 16.5%;
+}
+
+.upload li .item:nth-child(3) {
+    width: 7.79%;
+}
+
+.upload .contenter .box {
+    position: relative;
+    width: 600px;
+    margin: auto;
+    height: 100%;
+    /* overflow: hidden; */
+}
+
+.upload .box .title1 {
+    margin-top: 30px;
+    font-size: 14px;
+    color: #333333;
+    height: 30px;
+    line-height: 30px;
+}
+
+.upload .box .title2 {
+    font-size: 12px;
+    color: #cecece;
+    height: 30px;
+    line-height: 30px;
+}
+
+.upload .box .title3 {
+    font-size: 12px;
+    color: #fd7b3d;
+    height: 30px;
+    line-height: 30px;
+}
+
+.upload .box .tb {
+    position: absolute;
+    top: 120px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+.upload .error {
+    border: 1px solid red !important;
+}
+
+.upload .tb .item {
+    display: block;
+    width: 100%;
+    line-height: 40px;
+    text-align: center;
+}
+
+.clearfix:after {
+    content: "\0020";
+    display: block;
+    height: 0;
+    clear: both;
+}
+
+.clearfix {
+    zoom: 1;
+}
+
+.upload .tb .item .left {
+    float: left;
+    width: 50%;
+    height: 50px;
+}
+
+.upload .tb .item .left .delete {
+    float: left;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    font-family: perficon;
+    color: #ef6767;
+    font-size: 16px;
+    text-align: center;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+.upload .tb .item .left .id {
+    margin: 0 5px;
+    float: left;
+    height: 30px;
+    width: 80px;
+    background: #f8f8f8;
+    line-height: 30px;
+}
+
+.upload .tb .item .left .name {
+    float: left;
+    height: 30px;
+    width: 180px;
+    background: #ffffff;
+    line-height: 30px;
+}
+
+.upload .tb .item .left .delete:hover {
+    border-radius: 2px;
+    border: 1px solid #ef6767;
+}
+
+.upload .tb .item .right {
+    float: left;
+    width: 50%;
+}
+
+.upload .right .time {
+    width: 110%;
+}
+
+.upload .right .time li {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+}
+
+.upload .right .time .date,
+.upload .right .time .edate {
+    float: left;
+    line-height: 40px;
+    height: 40px;
+}
+
+.upload .right .time .font {
+    float: left;
+    width: 20px;
+    height: 40px;
+    line-height: 30px;
+    text-align: center;
+    color: #333333;
+}
+
+.upload .item .addbanctext {
+    display: inline-block;
+    width: 60px;
+    height: 20px;
+    line-height: 20px;
+    text-align: center;
+    color: #7a94ad;
+    border-radius: 50%;
+    font-size: 14px;
+    /* background: #7a94ad; */
+    cursor: pointer;
+}
+
+.upload .item .addbanc {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    font-family: perficon;
+    line-height: 20px;
+    text-align: center;
+    color: #7a94ad;
+    border-radius: 50%;
+    font-size: 14px;
+    /* background: #7a94ad; */
+    cursor: pointer;
+}
+
+.upload .right .time .sum,
+.upload .right .time .re {
+    margin: 5px 5px;
+    float: left;
+    width: 20px;
+    height: 20px;
+    font-family: perficon;
+    line-height: 20px;
+    text-align: center;
+    color: #7a94ad;
+    border-radius: 50%;
+    font-size: 14px;
+    /* background: #7a94ad; */
+    cursor: pointer;
+}
+
+.upload .tipsource {
+    position: relative;
+    display: inline-block;
+    /* font-family: perficon; */
+    font-size: 12px;
+    /* top: 14px; */
+    /* left: 8px; */
+    color: #ffffff;
+    width: 12px;
+    height: 12px;
+    line-height: 12px;
+    background: #fb8f54;
+    border-radius: 2px;
+}
+
+.upload .tipsource .ErrorWord {
+    display: none;
+}
+
+.upload .tipsource:hover .ErrorWord {
+    display: inline;
+    position: absolute;
+    top: -30px;
+    left: 20px;
+    border: 1px solid #d9d9d9;
+    line-height: 30px;
+    height: 30px;
+    font-size: 12px;
+    background: #ffffff;
+    z-index: 3;
+    white-space: nowrap;
+    color: #333333;
+}

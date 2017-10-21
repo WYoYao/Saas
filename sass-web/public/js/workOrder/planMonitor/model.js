@@ -2,53 +2,51 @@ var model = {
 
     /******BEGIN: Same With MyWorkOrder******/
     //------------------------------------------zy__start------------------------------------------
-    orderDetailData: {},        //工单详情
+    orderDetailData: {}, //工单详情
     curPage: '',
     curObjType: "",
     orderOperatList: [],
     personPositionList: [],
 
-    allMatters: [
-        {
-            "matter_name": "未命名事项-1",
-            "description": "",
-            "desc_forepart": "",
-            "desc_aftpart": "",
-            "desc_photos": [],
-            "desc_objs": [],
-            "desc_sops": [],
-            "desc_works": [],
-            "required_control": []
-        }
-    ],       //所有的事项
-    curMatterIndex: 0,      //当前操作的事项索引
-    curMatterPopType: 4,       //当前事项弹框类型，0-4为选择或搜索对象弹框，0搜索，1选择大类结果无级别，2选择大类结果有左侧级别，3自定义，4选择大类
-    curContent: {},     //当前工作内容
+    allMatters: [{
+        "matter_name": "未命名事项-1",
+        "description": "",
+        "desc_forepart": "",
+        "desc_aftpart": "",
+        "desc_photos": [],
+        "desc_objs": [],
+        "desc_sops": [],
+        "desc_works": [],
+        "required_control": []
+    }], //所有的事项
+    curMatterIndex: 0, //当前操作的事项索引
+    curMatterPopType: 4, //当前事项弹框类型，0-4为选择或搜索对象弹框，0搜索，1选择大类结果无级别，2选择大类结果有左侧级别，3自定义，4选择大类
+    curContent: {}, //当前工作内容
+    inputToCustomize: false,        //是否为输入未匹配时展开自定义列表
+
     //------------------------------------------zy__end------------------------------------------
 
     //------------------------------------------yn__start------------------------------------------
     //vue绑定的数据data
-    LorC: true,//列表页或者新建页
-    workAlready: [
-        {
-            id: "0",
-            name: "草稿箱"
-        }, {
-            id: "1",
-            name: "我发布的工单"
-        }, {
-            id: "2",
-            name: "我参与的工单"
-        },
-    ],
+    LorC: true, //列表页或者新建页
+    workAlready: [{
+        id: "0",
+        name: "草稿箱"
+    }, {
+        id: "1",
+        name: "我发布的工单"
+    }, {
+        id: "2",
+        name: "我参与的工单"
+    }, ],
     workAlreadyID: "",
-    workTypeL: [],//工单类型,列表页
-    workTypeC: [],//工单类型，创建页
-    del_plan_id: "",//方案计划id
+    workTypeL: [], //工单类型,列表页
+    workTypeC: [], //工单类型，创建页
+    del_plan_id: "", //方案计划id
     pageNum: 1,
-    temList: [],//存储工单
-    workList: [],//工单
-    urgency: [//工单紧急程度
+    temList: [], //存储工单
+    workList: [], //工单
+    urgency: [ //工单紧急程度
         {
             id: "0",
             name: "低"
@@ -60,8 +58,8 @@ var model = {
             name: "高"
         }
     ],
-    fixedRadio: true,//要求固定时间完成
-    starTimeType: [//要求开始时间执行类型
+    fixedRadio: true, //要求固定时间完成
+    starTimeType: [ //要求开始时间执行类型
         {
             id: "1",
             name: "发单后立即开始"
@@ -70,22 +68,22 @@ var model = {
             name: "自定义开始时间"
         }
     ],
-    timeTypeSel: true,//要求开始时间类型选中
+    timeTypeSel: true, //要求开始时间类型选中
     starYear: null,
     endYear: null,
-    regular: false,//结构化输入
-    editBtn: true,//编辑或清空
+    regular: false, //结构化输入
+    editBtn: true, //编辑或清空
 
     controlsList: [
-        {name: "普通文本", type: "1"},
-        {name: "单选", type: "2"},
-        {name: "多选", type: "3"},
-        {name: "无单位的数字", type: "4"},
-        {name: "有单位的数字", type: "5"}
+        { name: "普通文本", type: "1" },
+        { name: "单选", type: "2" },
+        { name: "多选", type: "3" },
+        { name: "无单位的数字", type: "4" },
+        { name: "有单位的数字", type: "5" }
     ],
     focusContent: false,
     contentItemAttrNames: ['pre_conform', 'content', 'notice', 'confirm_result', 'domain'],
-    emptyContent: {     //空的工作内容
+    emptyContent: { //空的工作内容
         editContent: true,
         "from_sop": false,
         "pre_conform": "",
@@ -97,81 +95,72 @@ var model = {
     },
     description: "",
     preContent: "",
-    domainList: [],//设备实例下专业需求
-    systemList: [],//系统专业下所有系统
+    domainList: [], //设备实例下专业需求
+    systemList: [], //系统专业下所有系统
 
-    treeList: [
-        {
+    treeList: [{
             name: "建筑名称1",
             id: "1",
-            child: [
-                {
-                    name: "1层",
-                    id: "1-1",
+            child: [{
+                name: "1层",
+                id: "1-1",
+                child: []
+            }, {
+                name: "2层",
+                id: "1-2",
+                child: [{
+                    name: "空间名称1",
+                    id: "1-2-1",
                     child: []
                 }, {
-                    name: "2层",
-                    id: "1-2",
-                    child: [
-                        {
-                            name: "空间名称1",
-                            id: "1-2-1",
-                            child: []
-                        }, {
-                            name: "空间名称2",
-                            id: "1-2-2",
-                            child: []
-                        }
-                    ]
-                },
-            ]
+                    name: "空间名称2",
+                    id: "1-2-2",
+                    child: []
+                }]
+            }, ]
         },
         {
             name: "建筑名称2",
             id: "2",
-            child: [
-                {
-                    name: "1层",
-                    id: "1-1",
+            child: [{
+                name: "1层",
+                id: "1-1",
+                child: []
+            }, {
+                name: "2层",
+                id: "1-2",
+                child: [{
+                    name: "空间名称1",
+                    id: "1-2-1",
                     child: []
                 }, {
-                    name: "2层",
-                    id: "1-2",
-                    child: [
-                        {
-                            name: "空间名称1",
-                            id: "1-2-1",
-                            child: []
-                        }, {
-                            name: "空间名称2",
-                            id: "1-2-2",
-                            child: []
-                        }
-                    ]
-                },
-            ]
+                    name: "空间名称2",
+                    id: "1-2-2",
+                    child: []
+                }]
+            }, ]
         },
     ],
-    ask_end_limit: "",//要求固定时间完成
+    ask_end_limit: "", //要求固定时间完成
     aite: true,
     //curObjType: "",
-    buildList: [],//建筑体
-    leftLevel: [],//楼层通用设备
-    sopList: [],//sop列表
-    sopCriteria: {},//筛选条件
-    addContentWindow: false,//添加工作内容
-    detailSopShow: false,//sop详细内容展现
-    detailSopData: {},//sop详细内容
-    curLevelList: [],       //当前有级别列表
+    buildList: [], //建筑体
+    leftLevel: [], //楼层通用设备
+    sopList: [], //sop列表
+    sopCriteria: {}, //筛选条件
+    addContentWindow: false, //添加工作内容
+    detailSopShow: false, //sop详细内容展现
+    detailSopData: {}, //sop详细内容
+    curLevelList: [], //当前有级别列表
     lastLevel: [],
     clickAiteShow: false,
     clickHashShow: false,
-    workOrderDraft: {},//工单草稿内容
-    matters: [],//步骤信息,事项
-    singleMatters: {},//单步事项
-    desc_works: [],//工作中设计的工作内容
-    workContent: {},//工作内容
-    infoArray: [],//信息点list
+    workOrderDraft: {}, //工单草稿内容
+    matters: [], //步骤信息,事项
+    singleMatters: {}, //单步事项
+    desc_works: [], //工作中设计的工作内容
+    workContent: {}, //工作内容
+    infoArray: [], //信息点list
     seltype: null,
     desc_forepart: "",
 
@@ -183,32 +172,32 @@ var model = {
 
         infoPoint: '信息点'
     },
-    mattersVip: null,//打开的事项
-    customs: [],        //自定义项列表
-    customItem: {items: []},     //自定义项
-    isCustomizeBtnAble: false,        //自定义按钮是否able
+    mattersVip: null, //打开的事项
+    customs: [], //自定义项列表
+    customItem: { items: [] }, //自定义项
+    isCustomizeBtnAble: false, //自定义按钮是否able
 
     singleMatters: {
-        matter_name: "",          //事项名称
-        description: "",         //事项描述
-        desc_forepart: "",       //描述内容前段,结构化时用
-        desc_aftpart: "",        //描述内容后段,结构化时用
-        desc_photos: [],         //描述中的图片
-        desc_sops: [],            //描述中涉及的sop
-        desc_works: [],            //描述中涉及的工作内容
+        matter_name: "", //事项名称
+        description: "", //事项描述
+        desc_forepart: "", //描述内容前段,结构化时用
+        desc_aftpart: "", //描述内容后段,结构化时用
+        desc_photos: [], //描述中的图片
+        desc_sops: [], //描述中涉及的sop
+        desc_works: [], //描述中涉及的工作内容
     },
 
     workContent: {
-        work_id: "",        //工作内容id
-        work_name: "未命名工作内容1",      //工作内容名称
-        pre_conform: "",  //强制确认
-        content: "",        //操作内容
-        content_objs: [],       //操作内容中涉及的对象
-        notice: "",        //注意事项
-        confirm_result: [],	//需确认的操作结果
-        domain: "",                //专业code
-        domain_name: "",            //专业名称
-        selectedObj: {},        //选择信息点 对象列表已选择的对象
+        work_id: "", //工作内容id
+        work_name: "未命名工作内容1", //工作内容名称
+        pre_conform: "", //强制确认
+        content: "", //操作内容
+        content_objs: [], //操作内容中涉及的对象
+        notice: "", //注意事项
+        confirm_result: [], //需确认的操作结果
+        domain: "", //专业code
+        domain_name: "", //专业名称
+        selectedObj: {}, //选择信息点 对象列表已选择的对象
 
     },
     //------------------------------------------yn__end------------------------------------------
@@ -232,6 +221,8 @@ var model = {
     orderStateList: [], //工单状态列表
     choiceOrderType: {}, //选择的工单状态
     buttonMenus: [{}],
+    listTitlePlanName:'',//列表表头类型名称
+    listTitlePlanRaceType:'',//列表频率类型
     prevDayDate: [], //上个月天数
     currDayDate: [], //当前月天数
     nextDayDate: [], //下个月天数
@@ -253,23 +244,23 @@ var model = {
     orderOperatList: [], //工单操作列表
     orderStateList_img: [], //工单状态列表用于列表中解析对应图标
     cycleListData: [
-        {name: "每日", type: "d"},
-        {name: "每周", type: "w"},
-        {name: "每月", type: "m"},
-        {name: "每年", type: "y"}
+        { name: "每日", type: "d" },
+        { name: "每周", type: "w" },
+        { name: "每月", type: "m" },
+        { name: "每年", type: "y" }
     ],
     cycleType: "d", //列表周期记录  
     //计划创建
     orderLevelList: [ //工单紧急程度
-        {name: "高"},
-        {name: "中"},
-        {name: "低"}
+        { name: "高" },
+        { name: "中" },
+        { name: "低" }
     ],
     planRateLeft: [
-        {name: "年"},
-        {name: "月"},
-        {name: "周"},
-        {name: "日"},
+        { name: "年" },
+        { name: "月" },
+        { name: "周" },
+        { name: "日" },
 
     ], //计划频率年月周天
     planRateRig: [],
@@ -278,13 +269,13 @@ var model = {
     rateWeek: '', //周频率数
     rateDay: '', //日频率数
     weekChoice_List: [ //选择星期列表
-        {name: "周一"},
-        {name: "周二"},
-        {name: "周三"},
-        {name: "周四"},
-        {name: "周五"},
-        {name: "周六"},
-        {name: "周日"}
+        { name: "周一" },
+        { name: "周二" },
+        { name: "周三" },
+        { name: "周四" },
+        { name: "周五" },
+        { name: "周六" },
+        { name: "周日" }
     ],
     effectTime_startList: [ //生效时间
         {
@@ -301,7 +292,7 @@ var model = {
         name: "自定义"
     }],
     seePlanId: '', //查看计划id
-    orderTypeObj: {code: "1", name: ""}, //工单类型列表存
+    orderTypeObj: { code: "1", name: "" }, //工单类型列表存
     newPlanObj: { //新建计划提交对象
         plan_name: '', //计划名称
         order_type: '', //工单类型code,
@@ -325,47 +316,55 @@ var model = {
     toolList: [], //工具列表
     selectedTool: [], //工具存储数组
     personPositionList: [], //人员岗位列表
-    editOrderType:'',//编辑工单类型
-    stop_order_content:"",//中止内容
-
+    editOrderType: '', //编辑工单类型
+    stop_order_content: "", //中止内容
+    choiceObjectExample:{//选择对象实例存储层级结构索引
+        "index1":"",
+        "index2":"",
+        "index3":"",
+        "index4":""
+    },//新建计划
 
 }
 
 var methods = {
-    openScrapDetail: function (planId) { //打开作废计划详情
+    openScrapDetail: function(planId) { //打开作废计划详情
         model.plan_id = planId;
         controller.getScrapDetail(planId);
     },
-    scrapDetailGoBack: function () { //作废详情页返回
+    scrapDetailGoBack: function() { //作废详情页返回
         this.curPage = this.pages[1];
         model.scrapPlanDetail = {};
     },
-    createNewPlan: function () { //创建计划
+    createNewPlan: function() { //创建计划
         var _index = $("#navBar").psel() ? $("#navBar").psel() : 0;
         model.orderTypeCode = model.buttonMenus[_index].order_type;
         model.orderTypeName = model.buttonMenus[_index].name;
+        model.orderTypeIndex = model.buttonMenus[_index].plan_index;
         $("#plan_name").precover(); //计划名称
         $("#orderUrgency").precover("低");
-        $("#aheadCreateTime").precover();  
-        $("#planRateLeft").precover("请选择"); 
-        $("#planRateRig").precover("请选择"); 
-        $("#choice_planStartTime").precover("发布成功后立即"); 
-        $("#choice_planEndTime").precover("一直有效"); 
+        $("#aheadCreateTime").precover();
+        $("#planRateLeft").precover("请选择");
+        $("#planRateLeft >div").pdisable(false);//启用计划频率类星
+        $("#planRateRig").precover("请选择");
+        $("#choice_planStartTime").precover("发布成功后立即");
+        $("#choice_planEndTime").precover("一直有效");
         $("#plan_startTime").hide();
         $("#plan_endTime").hide();
         model.rateYear = "";
-        model.rateMonth = "";  
+        model.rateMonth = "";
         model.rateWeek = "";
-        model.rateDay = ""; 
-        commonData.publicModel.allMatters = [];//初始化计划新建右侧
+        model.rateDay = "";
+        model.seePlanId = "";
+        commonData.publicModel.allMatters = []; //初始化计划新建右侧
         publicMethod.addMatter();
         this.curPage = this.pages[6];
 
     },
-    editNewPlan: function () { //编辑计划
+    editNewPlan: function() { //编辑计划
 
     },
-    choiceOrderFn: function (modelData, event) { //过去发出的作废工单切换选项
+    choiceOrderFn: function(modelData, event) { //过去发出的作废工单切换选项
         this.choiceTimerType = modelData;
         var orderState = event.pEventAttr.currItem.code;
         var page = 1;
@@ -381,13 +380,13 @@ var methods = {
         controller.getOldOrderList(data)
     },
 
-    scrapModalHide: function () { //作废模态框隐藏
+    scrapModalHide: function() { //作废模态框隐藏
         $("#scrapModal").phide();
     },
-    historyModalShow: function () { //历史记录侧弹框显示
+    historyModalShow: function() { //历史记录侧弹框显示
         controller.getHistoryRecordList();
     },
-    orderRecordListShow: function (planId) { //作废历史记录列表
+    orderRecordListShow: function(planId) { //作废历史记录列表
         controller.getOrderStateList(); //获取工单状态列表
         model.planId = planId; //进入过去发出的工单列表页存储
         var orderState = model.choiceOrderType.code || '';
@@ -401,25 +400,27 @@ var methods = {
         };
         controller.getOldOrderList(data)
     },
-    oldRecordGoBack: function () { //历史工单记录返回
+    oldRecordGoBack: function() { //历史工单记录返回
         model.planId = '';
         model.oldOrderList = '';
         this.curPage = this.pages[2];
 
     },
-    goBackPlanList: function () { //返回计划列表
+    goBackPlanList: function() { //返回计划列表
         this.curPage = this.pages[0];
         model.scrapListArr = [];
-        model.planDetailData = {};//返回清空计划详情数据
-
+        model.seePlanId = "";
+        model.planDetailData = {}; //返回清空计划详情数据
+        $("#planRateLeft >div").pdisable(false);//启用计划频率
     },
-    clickScrapPlan: function () { //作废提示框显示
+    clickScrapPlan: function() { //作废提示框显示
         $("#scrapModal").pshow();
     },
-    clickEditPlan: function () { //点击修改计划
+    clickEditPlan: function() { //点击修改计划
         commonData.publicModel.allMatters = model.planDetailData.draft_matters;
         var planDetailObj = model.planDetailData;
-        console.log(JSON.stringify(planDetailObj));
+        $("#planRateLeft >div").pdisable(true);//禁用计划频率类型
+        // console.log(JSON.stringify(planDetailObj));
         this.curPage = this.pages[6];
         //设置计划相关信息
         $("#plan_name").pval(planDetailObj.plan_name); //计划名称
@@ -445,12 +446,12 @@ var methods = {
         }
         var _num = planDetailObj.freq_num;
         // console.log(_num.toString())
-        setTimeout(function () {
+        setTimeout(function() {
             $("#planRateRig").psel(_num.toString()); //频率
 
         }, 0);
         //设置计划频率时间开始
-        setTimeout(function () {
+        setTimeout(function() {
             if (planDetailObj.freq_cycle == 'y') { //年
                 var _arr = planDetailObj.freq_times;
                 var _newArr = [];
@@ -463,9 +464,9 @@ var methods = {
                     var _etd = _arr[i].end_time.time_day.substr(3, 2);
                     var _eth = _arr[i].end_time.time_hour;
                     var _etm = _arr[i].end_time.time_minute;
-                    _newArr.push({st: {M: _stM, d: _std, h: _sth, m: _stm}, et: {M: _etM, d: _etd, h: _eth, m: _etm}})
-                    $("#yearStartTime" + i).psel({M: _stM, d: _std, h: _sth, m: _stm});
-                    $("#yearEndTime" + i).psel({M: _etM, d: _etd, h: _eth, m: _etm});
+                    _newArr.push({ st: { M: _stM, d: _std, h: _sth, m: _stm }, et: { M: _etM, d: _etd, h: _eth, m: _etm } })
+                    $("#yearStartTime" + i).psel({ M: _stM, d: _std, h: _sth, m: _stm });
+                    $("#yearEndTime" + i).psel({ M: _etM, d: _etd, h: _eth, m: _etm });
                 }
                 console.log(_newArr);
             } else if (planDetailObj.freq_cycle == 'm') { //月
@@ -478,9 +479,9 @@ var methods = {
                     var _etd = _arr[i].end_time.time_day;
                     var _eth = _arr[i].end_time.time_hour;
                     var _etm = _arr[i].end_time.time_minute;
-                    _newArr.push({st: {d: _std, h: _sth, m: _stm}, et: {d: _etd, h: _eth, m: _etm}})
-                    $("#monthStartTime" + i).psel({d: _std, h: _sth, m: _stm});
-                    $("#monthEndTime" + i).psel({d: _etd, h: _eth, m: _etm});
+                    _newArr.push({ st: { d: _std, h: _sth, m: _stm }, et: { d: _etd, h: _eth, m: _etm } })
+                    $("#monthStartTime" + i).psel({ d: _std, h: _sth, m: _stm });
+                    $("#monthEndTime" + i).psel({ d: _etd, h: _eth, m: _etm });
                 }
 
             } else if (planDetailObj.freq_cycle == 'w') { //周
@@ -493,11 +494,11 @@ var methods = {
                     var _etd = methods.filter_weekDetail_trans(_arr[i].end_time.time_day);
                     var _eth = _arr[i].end_time.time_hour;
                     var _etm = _arr[i].end_time.time_minute;
-                    _newArr.push({st: {d: _std, h: _sth, m: _stm}, et: {d: _etd, h: _eth, m: _etm}})
+                    _newArr.push({ st: { d: _std, h: _sth, m: _stm }, et: { d: _etd, h: _eth, m: _etm } })
                     $("#weekChoiceList_prev" + i).psel(_std);
                     $("#weekChoiceList_next" + i).psel(_etd);
-                    $("#weekStartTime" + i).psel({h: _sth, m: _stm});
-                    $("#weekEndTime" + i).psel({h: _eth, m: _etm});
+                    $("#weekStartTime" + i).psel({ h: _sth, m: _stm });
+                    $("#weekEndTime" + i).psel({ h: _eth, m: _etm });
                 }
 
 
@@ -509,9 +510,9 @@ var methods = {
                     var _stm = _arr[i].start_time.time_minute;
                     var _eth = _arr[i].end_time.time_hour;
                     var _etm = _arr[i].end_time.time_minute;
-                    _newArr.push({st: {h: _sth, m: _stm}, et: {h: _eth, m: _etm}})
-                    $("#dayStartTime" + i).psel({h: _sth, m: _stm});
-                    $("#dayEndTime" + i).psel({h: _eth, m: _etm});
+                    _newArr.push({ st: { h: _sth, m: _stm }, et: { h: _eth, m: _etm } })
+                    $("#dayStartTime" + i).psel({ h: _sth, m: _stm });
+                    $("#dayEndTime" + i).psel({ h: _eth, m: _etm });
                 }
 
             }
@@ -522,7 +523,7 @@ var methods = {
         if (planDetailObj.plan_start_time != "") {
             $("#choice_planStartTime").psel("自定义");
             $("#plan_startTime >div").pshow();
-            setTimeout(function () {
+            setTimeout(function() {
                 var str = planDetailObj.plan_start_time;
                 $("#plan_startTime >div").psel({
                     y: str.substr(0, 4),
@@ -541,7 +542,7 @@ var methods = {
         if (planDetailObj.plan_end_time != "") {
             $("#choice_planEndTime").psel("自定义");
             $("#plan_endTime >div").pshow();
-            setTimeout(function () {
+            setTimeout(function() {
                 var str = planDetailObj.plan_end_time;
                 $("#plan_endTime>div").psel({
                     y: str.substr(0, 4),
@@ -560,22 +561,26 @@ var methods = {
 
     },
     //*tab切换
-    tabChange: function (model, event) {
+    tabChange: function(model, event) {
         var _this = this;
         var vueModel = window.model;
         var _index = event.pEventAttr.index;
+        var plan_name;
+        plan_name = vueModel.buttonMenus[_index].name;
+        vueModel.listTitlePlanName = plan_name;
+        $("#sop_name_search1").pval("");
         _this.getListMonthDate(null, null, null);
     },
-    mGetDate: function (_year, _month) { //获取每个月天数
+    mGetDate: function(_year, _month) { //获取每个月天数
         // console.log(_year)
         var d = new Date(_year, _month, 0);
         return d.getDate();
     },
 
-    getListMonthDate: function (_year, _month, order_type) { //获取当前月和上下月天数
+    getListMonthDate: function(_year, _month, order_type) { //获取当前月和上下月天数
         var _this = this;
         var date = new Date();
-        if(_year){
+        if (_year) {
             model.year = _year;
         }
         if (!model.year) {
@@ -611,8 +616,7 @@ var methods = {
                 prevMonthLength["year"] = year;
             }
 
-        }
-        ;
+        };
         //当前月
         if (_month) {
             currMonthLength["length"] = _this.mGetDate(year, _month);
@@ -653,30 +657,27 @@ var methods = {
                 "year": prevMonthLength.year,
                 "month": prevMonthLength.month,
                 "day": i + 1,
-                "markDay": (year) + "" + (prevMonthLength.month < 10 ? "0" + prevMonthLength.month : prevMonthLength.month) + "" + (i + 1)
+                "markDay": (prevMonthLength.year) + "" + (prevMonthLength.month < 10 ? "0" + prevMonthLength.month : prevMonthLength.month) + "" + (i + 1)
             })
-        }
-        ;
+        };
         //当前月
         for (var j = 0; j < currMonthLength.length; j++) {
             currArr.push({
                 "year": currMonthLength.year,
                 "month": currMonthLength.month,
                 "day": j + 1,
-                "markDay": (year) + "" + (currMonthLength.month < 10 ? "0" + currMonthLength.month : currMonthLength.month) + "" + (j < 9 ? "0" + (j + 1) : j + 1)
+                "markDay": (currMonthLength.year) + "" + (currMonthLength.month < 10 ? "0" + currMonthLength.month : currMonthLength.month) + "" + (j < 9 ? "0" + (j + 1) : j + 1)
             })
-        }
-        ;
+        };
         //下月
         for (var k = 0; k < nextMonthLength.length; k++) {
             nextArr.push({
                 "year": nextMonthLength.year,
                 "month": nextMonthLength.month,
                 "day": k + 1,
-                "markDay": (year) + "" + (nextMonthLength.month < 10 ? "0" + nextMonthLength.month : nextMonthLength.month) + "" + (k < 9 ? "0" + (k + 1) : k + 1)
+                "markDay": (nextMonthLength.year) + "" + (nextMonthLength.month < 10 ? "0" + nextMonthLength.month : nextMonthLength.month) + "" + (k < 9 ? "0" + (k + 1) : k + 1)
             })
-        }
-        ;
+        };
         var newPrevArr = prevArr.slice(prevMonthLength.length - 2);
         var newNextArr = nextArr.slice(0, 2);
         //console.log(newPrevArr[0].markDay,newNextArr[newNextArr.length-1].markDay);
@@ -687,7 +688,7 @@ var methods = {
         var toDayArr = newPrevArr.concat(currArr, newNextArr)
         model.currDayDate = JSON.parse(JSON.stringify(toDayArr));
         var emptyTableListDay = JSON.parse(JSON.stringify(toDayArr));
-        model.tableListDay = emptyTableListDay.map(function (info) {
+        model.tableListDay = emptyTableListDay.map(function(info) {
             info.day = "";
             return info
         });
@@ -705,7 +706,7 @@ var methods = {
         $("#searchList_top_nextMonth").width(nextWidth);
         $("#searchList_top_currMonth").width(currWidth);
         model.rightTab_liWidth = (totalWdith / liLength).toFixed(2);
-        setTimeout(function () {
+        setTimeout(function() {
             $("#searchList_bott_currMonth >ul >li").css("width", totalWdith / liLength);
 
         }, 0);
@@ -734,13 +735,13 @@ var methods = {
 
 
     },
-    getListMonth: function () { //获取当前月和上下月份
+    getListMonth: function() { //获取当前月和上下月份
         var _this = this;
         var date = new Date();
         var currMonth = date.getMonth() + 1
         _this.currMonth = currMonth;
     },
-    searchPrevMonth: function (event) { //切换上一月数据
+    searchPrevMonth: function(event) { //切换上一月数据
         var _this = this;
         var prev = parseInt($(event.target).text());
         // console.log(prev);
@@ -749,7 +750,7 @@ var methods = {
         }
         _this.getListMonthDate(null, prev);
     },
-    searchNextMonth: function (event) { //切换下一月数据
+    searchNextMonth: function(event) { //切换下一月数据
         var _this = this;
         var next = parseInt($(event.target).text());
         // console.log(next);
@@ -758,20 +759,20 @@ var methods = {
         }
         _this.getListMonthDate(null, next);
     },
-    openScrapList: function () { //打开作废计划列表
+    openScrapList: function() { //打开作废计划列表
         model.curPage = model.pages[1];
         controller.getScrapList();
     },
-    arrTransfString: function (arr, key) { //数组对象转字符串通用
+    arrTransfString: function(arr, key) { //数组对象转字符串通用
         var str = '';
         var newArr = [];
-        arr.forEach(function (item) {
+        arr.forEach(function(item) {
             newArr.push(item[key])
         });
         return str = newArr.join(" ")
     },
 
-    transfYMWD: function (str) { //通过年月周天转换对应的中文
+    transfYMWD: function(str) { //通过年月周天转换对应的中文
         var obj = {
             y: "年",
             m: "月",
@@ -781,29 +782,31 @@ var methods = {
         return obj[str]
     },
 
-    seePlanDetailShow: function (planId) { //查看计划详情
+    seePlanDetailShow: function(planId) { //查看计划详情
         model.seePlanId = planId; //计划id存储
+        model.orderTypeIndex = $("#navBar").psel();
         controller.getPlanDetailById(planId);
         if (planId) {
             model.curPage = model.pages[4];
 
         }
     },
-    scrapBtnYes: function () { //确定作废
+    scrapBtnYes: function() { //确定作废
         controller.getScrapOperat();
     },
-    clickSeeOrderDetail: function (order_id) { //点击列表内工单列表查看工单详情
-        var fn = function(){
+    clickSeeOrderDetail: function(order_id) { //点击列表内工单列表查看工单详情
+        var fn = function() {
             controller.getTabList();
         }
-        if (order_id != "" && order_id != "--") {
-            orderDetail_pub.getOrderDetail(model, order_id, "2" ,fn);
+        if (order_id != "" && order_id != "--" && order_id !=undefined) {
+            orderDetail_pub.getOrderDetail(model, order_id, "2", fn);
 
         }
     },
-    cycleTabChange: function (index, type) { //列表内周期tab切换
+    cycleTabChange: function(index, type ,_name) { //列表内周期tab切换
         var type = type || '';
         this.cycleType = type;
+        model.listTitlePlanRaceType = _name;
         if (index == 0) {
             $("#searchList_table_day").show();
             $("#searchList_table_common").hide();
@@ -827,7 +830,7 @@ var methods = {
         var d = "0" + date.getDate();
         return y + "" + m.substring(m.length - 2, m.length) + "" + d.substring(d.length - 2, d.length);
     },
-    filterItemByKeyValue: function (list, key, value) { //数组过滤key,value
+    filterItemByKeyValue: function(list, key, value) { //数组过滤key,value
         function fltbyName(con, item) {
             if (item[key] == value) con = item;
             return con;
@@ -835,41 +838,43 @@ var methods = {
 
         return list.reduce(fltbyName);
     },
-    setYMWD_type: function (pp_model, e) { //设置频率类型
+    setYMWD_type: function(pp_model, e) { //设置频率类型
         var rateType = pp_model.name;
         model.rateMonth = ''; //月频率数
         model.rateWeek = ''; //周频率数
         model.rateDay = ''; //日频率数
         model.rateYear = '';
-        if (rateType == '年') {
+        $("#planRateRig").precover("请选择");
+        if (rateType == '年') { //年频率数
             model.planRateRig = [];
             for (var i = 0; i < 365; i++) {
-                model.planRateRig.push({"name": i + 1});
-            }
-            ; //年频率数
+                model.planRateRig.push({ "name": i + 1 });
+            };
+
         } else if (rateType == '月') {
             model.planRateRig = [];
             for (var i = 1; i <= 12; i++) {
-                model.planRateRig.push({"name": i}); //月频率数
-            }
-            ;
+                model.planRateRig.push({ "name": i }); //月频率数
+            };
+
         } else if (rateType == '周') {
             model.planRateRig = [];
             for (var i = 1; i <= 7; i++) { //周频率数
-                model.planRateRig.push({"name": i});
-            }
-            ;
+                model.planRateRig.push({ "name": i });
+            };
+
         } else if (rateType == '日') {
             model.planRateRig = [];
             for (var i = 1; i <= 31; i++) { //频率数
-                model.planRateRig.push({"name": i});
-            }
-            ;
+                model.planRateRig.push({ "name": i });
+            };
+
         }
+
         // console.log(JSON.stringify(pmodel))
         // console.log(JSON.stringify(model.rateYear))
     },
-    set_RateNum: function (pp_model, e) { //设置频率次数
+    set_RateNum: function(pp_model, e) { //设置频率次数
         var planId = model.seePlanId;
         if (!planId) {
             var rateType = $("#planRateLeft").psel().text;
@@ -881,10 +886,10 @@ var methods = {
                 model.rateMonth = ''; //月频率数
                 model.rateWeek = ''; //周频率数
                 model.rateDay = ''; //日频率数
-                setTimeout(function () {
+                setTimeout(function() {
                     for (var i = 0; i < rateTime; i++) {
-                        $("#yearStartTime" + i).psel({M: "01", d: "01", h: "00", m: "00"});
-                        $("#yearEndTime" + i).psel({M: "01", d: "01", h: "00", m: "00"});
+                        $("#yearStartTime" + i).psel({ M: "01", d: "01", h: "00", m: "00" });
+                        $("#yearEndTime" + i).psel({ M: "01", d: "01", h: "00", m: "00" });
                     }
                 }, 0);
 
@@ -894,10 +899,10 @@ var methods = {
                 model.rateMonth = rateTime; //月频率数
                 model.rateWeek = ''; //周频率数
                 model.rateDay = ''; //日频率数
-                setTimeout(function () {
+                setTimeout(function() {
                     for (var i = 0; i < rateTime; i++) {
-                        $("#monthStartTime" + i).psel({d: "01", h: "00", m: "00"});
-                        $("#monthEndTime" + i).psel({d: "01", h: "00", m: "00"});
+                        $("#monthStartTime" + i).psel({ d: "01", h: "00", m: "00" });
+                        $("#monthEndTime" + i).psel({ d: "01", h: "00", m: "00" });
                     }
                 }, 0);
             } else if (rateType == '周') {
@@ -905,10 +910,10 @@ var methods = {
                 model.rateMonth = ''; //月频率数
                 model.rateWeek = rateTime; //周频率数
                 model.rateDay = ''; //日频率数
-                setTimeout(function () {
+                setTimeout(function() {
                     for (var i = 0; i < rateTime; i++) {
-                        $("#weekStartTime" + i).psel({w: "01", h: "00", m: "00"});
-                        $("#weekEndTime" + i).psel({w: "01", h: "00", m: "00"});
+                        $("#weekStartTime" + i).psel({ w: "01", h: "00", m: "00" });
+                        $("#weekEndTime" + i).psel({ w: "01", h: "00", m: "00" });
                     }
                 }, 0)
             } else if (rateType == '日') {
@@ -916,72 +921,72 @@ var methods = {
                 model.rateMonth = ''; //月频率数
                 model.rateWeek = ''; //周频率数
                 model.rateDay = rateTime; //日频率数
-                setTimeout(function () {
+                setTimeout(function() {
                     for (var i = 0; i < rateTime; i++) {
-                        $("#dayStartTime" + i).psel({h: "00", m: "00"});
-                        $("#dayEndTime" + i).psel({h: "00", m: "00"});
+                        $("#dayStartTime" + i).psel({ h: "00", m: "00" });
+                        $("#dayEndTime" + i).psel({ h: "00", m: "00" });
                     }
                 }, 0)
             }
-        }else{
-            var rateType = $("#planRateLeft").psel().text;
-            var rateTime = pp_model.name;
-            // console.log(rateTime)
-            // console.log(rateType)
-            if (rateType == '年') {
-                model.rateYear = rateTime;
-                model.rateMonth = ''; //月频率数
-                model.rateWeek = ''; //周频率数
-                model.rateDay = ''; //日频率数
-                setTimeout(function () {
-                    for (var i = 0; i < rateTime; i++) {
-                        $("#yearStartTime" + i).psel({M: "01", d: "01", h: "00", m: "00"});
-                        $("#yearEndTime" + i).psel({M: "01", d: "01", h: "00", m: "00"});
-                    }
-                }, 0);
+        } else {
+            // var rateType = $("#planRateLeft").psel().text;
+            // var rateTime = pp_model.name;
+            // // console.log(rateTime)
+            // // console.log(rateType)
+            // if (rateType == '年') {
+            //     model.rateYear = rateTime;
+            //     model.rateMonth = ''; //月频率数
+            //     model.rateWeek = ''; //周频率数
+            //     model.rateDay = ''; //日频率数
+            //     setTimeout(function() {
+            //         for (var i = 0; i < rateTime; i++) {
+            //             $("#yearStartTime" + i).psel({ M: "01", d: "01", h: "00", m: "00" });
+            //             $("#yearEndTime" + i).psel({ M: "01", d: "01", h: "00", m: "00" });
+            //         }
+            //     }, 0);
 
 
-            } else if (rateType == '月') {
-                model.rateYear = '';
-                model.rateMonth = rateTime; //月频率数
-                model.rateWeek = ''; //周频率数
-                model.rateDay = ''; //日频率数
-                setTimeout(function () {
-                    for (var i = 0; i < rateTime; i++) {
-                        $("#monthStartTime" + i).psel({d: "01", h: "00", m: "00"});
-                        $("#monthEndTime" + i).psel({d: "01", h: "00", m: "00"});
-                    }
-                }, 0);
-            } else if (rateType == '周') {
-                model.rateYear = '';
-                model.rateMonth = ''; //月频率数
-                model.rateWeek = rateTime; //周频率数
-                model.rateDay = ''; //日频率数
-                setTimeout(function () {
-                    for (var i = 0; i < rateTime; i++) {
-                        $("#weekStartTime" + i).psel({w: "01", h: "00", m: "00"});
-                        $("#weekEndTime" + i).psel({w: "01", h: "00", m: "00"});
-                    }
-                }, 0)
-            } else if (rateType == '日') {
-                model.rateYear = '';
-                model.rateMonth = ''; //月频率数
-                model.rateWeek = ''; //周频率数
-                model.rateDay = rateTime; //日频率数
-                setTimeout(function () {
-                    for (var i = 0; i < rateTime; i++) {
-                        $("#dayStartTime" + i).psel({h: "00", m: "00"});
-                        $("#dayEndTime" + i).psel({h: "00", m: "00"});
-                    }
-                }, 0)
-            }
+            // } else if (rateType == '月') {
+            //     model.rateYear = '';
+            //     model.rateMonth = rateTime; //月频率数
+            //     model.rateWeek = ''; //周频率数
+            //     model.rateDay = ''; //日频率数
+            //     setTimeout(function() {
+            //         for (var i = 0; i < rateTime; i++) {
+            //             $("#monthStartTime" + i).psel({ d: "01", h: "00", m: "00" });
+            //             $("#monthEndTime" + i).psel({ d: "01", h: "00", m: "00" });
+            //         }
+            //     }, 0);
+            // } else if (rateType == '周') {
+            //     model.rateYear = '';
+            //     model.rateMonth = ''; //月频率数
+            //     model.rateWeek = rateTime; //周频率数
+            //     model.rateDay = ''; //日频率数
+            //     setTimeout(function() {
+            //         for (var i = 0; i < rateTime; i++) {
+            //             $("#weekStartTime" + i).psel({ w: "01", h: "00", m: "00" });
+            //             $("#weekEndTime" + i).psel({ w: "01", h: "00", m: "00" });
+            //         }
+            //     }, 0)
+            // } else if (rateType == '日') {
+            //     model.rateYear = '';
+            //     model.rateMonth = ''; //月频率数
+            //     model.rateWeek = ''; //周频率数
+            //     model.rateDay = rateTime; //日频率数
+            //     setTimeout(function() {
+            //         for (var i = 0; i < rateTime; i++) {
+            //             $("#dayStartTime" + i).psel({ h: "00", m: "00" });
+            //             $("#dayEndTime" + i).psel({ h: "00", m: "00" });
+            //         }
+            //     }, 0)
+            // }
         }
 
     },
-    goBackPlanCreate: function () { //返回计划创建
+    goBackPlanCreate: function() { //返回计划创建
         this.curPage = this.pages[6];
     },
-    next_btn_step: function () { //下一步
+    next_btn_step: function() { //下一步
         model.newPlanObj.plan_name = $("#plan_name").pval(); //计划名称
         model.newPlanObj.order_type = model.orderTypeCode; //工单类型code
         model.newPlanObj.urgency = $("#orderUrgency").psel().text;
@@ -1018,13 +1023,12 @@ var methods = {
                     time_hour: ed_h,
                     time_minute: ed_m
                 };
-                yearArr.push({start_time: obj_st, end_time: obj_et});
+                yearArr.push({ start_time: obj_st, end_time: obj_et });
                 model.newPlan_frequencyArr.push({ //组装年时间显示
                     st: st_yM.substr(0, 2) + '-' + st_yM.substr(2, 2) + ' ' + st_h + ':' + st_m,
                     et: ed_yM.substr(0, 2) + '-' + ed_yM.substr(2, 2) + ' ' + ed_h + ':' + ed_m
                 });
-            }
-            ;
+            };
             model.newPlanObj.freq_times = yearArr;
             // console.log(JSON.stringify(yearArr));
         } else if (freqCycle == "月") {
@@ -1055,13 +1059,12 @@ var methods = {
                     time_hour: ed_h,
                     time_minute: ed_m
                 };
-                monthArr.push({start_time: obj_st, end_time: obj_et});
+                monthArr.push({ start_time: obj_st, end_time: obj_et });
                 model.newPlan_frequencyArr.push({ //组装月份时间显示
                     st: st_d + ' ' + st_h + ':' + st_m,
                     et: ed_d + ' ' + ed_h + ':' + ed_m
                 });
-            }
-            ;
+            };
             model.newPlanObj.freq_times = monthArr;
             // console.log(JSON.stringify(monthArr));
         } else if (freqCycle == "周") {
@@ -1094,14 +1097,13 @@ var methods = {
                     time_hour: ed_h,
                     time_minute: ed_m
                 };
-                weekArr.push({start_time: obj_st, end_time: obj_et});
+                weekArr.push({ start_time: obj_st, end_time: obj_et });
                 model.newPlan_frequencyArr.push({
                     st: st_dz + ' ' + st_h + ':' + st_m,
                     et: ed_dz + ' ' + ed_h + ':' + ed_m
                 });
                 // console.log(JSON.stringify(weekArr))
-            }
-            ;
+            };
             model.newPlanObj.freq_times = weekArr;
 
         } else if (freqCycle == "日") {
@@ -1136,13 +1138,12 @@ var methods = {
                     time_hour: ed_h,
                     time_minute: ed_m
                 };
-                dayArr.push({start_time: obj_st, end_time: obj_et});
+                dayArr.push({ start_time: obj_st, end_time: obj_et });
                 model.newPlan_frequencyArr.push({
                     st: st_h + ':' + st_m,
                     et: ed_h + ':' + ed_m
                 });
-            }
-            ;
+            };
             model.newPlanObj.freq_times = dayArr;
             // console.log(JSON.stringify(dayArr));
 
@@ -1151,63 +1152,69 @@ var methods = {
         var choiceSt = $("#choice_planStartTime").psel().text;
         var choiceEt = $("#choice_planEndTime").psel().text;
         if (choiceSt == '发布成功后立即') { //判断选择开始时间类型
-            model.newPlanObj.plan_start_type = "1";//计划开始类型
+            model.newPlanObj.plan_start_type = "1"; //计划开始类型
             model.newPlanObj.plan_start_time = ""; //计划开始时间
         } else {
             var str = $("#plan_startTime >div").psel().startTime;
-            model.newPlanObj.plan_start_type = "2";//计划开始类型
+            model.newPlanObj.plan_start_type = "2"; //计划开始类型
             var newStr = str.substr(0, 4) + str.substr(5, 2) + str.substr(8, 2) + str.substr(11, 2) + str.substr(14, 2) + '00';
             model.newPlanObj.plan_start_time = newStr; //计划开始时间
-        }
-        ;
+        };
 
         if (choiceEt == '一直有效') { //判断选择结束时间类型
-            model.newPlanObj.plan_start_time = ""; //计划结束时间
+            model.newPlanObj.plan_end_time = ""; //计划结束时间
         } else {
             var str = $("#plan_endTime >div").psel().startTime;
             var newStr = str.substr(0, 4) + str.substr(5, 2) + str.substr(8, 2) + str.substr(11, 2) + str.substr(14, 2) + '00';
             model.newPlanObj.plan_end_time = newStr; //计划结束时间
-        }
-        ;
+        };
         // console.log(JSON.stringify(model.newPlanObj))
         publicMethod.dealMattersParam();
+        var input_mode = commonData.publicModel.regular ? '2' : '1';
         var matters = commonData.publicModel.allMatters || []; //用于存储右侧操作后的结果数组
 
         model.newPlanObj.draft_matters = matters;
         var _data = {
-            "draft_matters": matters
+            "draft_matters": matters,
+            "input_mode":input_mode
         };
-        var _nameCheck = $("#plan_name").pverifi();//验证计划名称
-        var _aheadCreateTimeCheck = $("#aheadCreateTime").pverifi();//验证提前发送时间
-        var raceCheck = $("#planRateRig").psel().text;//验证频率
+        var _nameCheck = $("#plan_name").pverifi(); //验证计划名称
+        var _aheadCreateTimeCheck = $("#aheadCreateTime").pverifi(); //验证提前发送时间
+        var _aheadTime = $("#aheadCreateTime >div").pval();
+        var raceCheck = $("#planRateRig").psel().text; //验证频率
         if (_nameCheck && _aheadCreateTimeCheck) {
-            if (raceCheck) {//验证计划频率
-                $("#planRace_error").hide();
-                if (choiceSt == '发布成功后立即' || choiceEt == '一直有效') {
-                    controller.getPlanCreateNext(_data);
-                } else if (choiceSt == '自定义' && choiceEt == '自定义') {//判断自定义时间处理类型
-                    var plan_st = $("#plan_startTime >div").psel().startTime;
-                    var plan_et = $("#plan_endTime >div").psel().startTime;
-                    var plan_st_tran = new Date(plan_st).getTime() + 6 * 1000;
-                    var plan_et_tran = new Date(plan_et).getTime();
-                    if (plan_st_tran > plan_et_tran) {
-                        $("#choicePlanTime_error").show();
-                    } else {
+            if (_aheadTime >= 0 && _aheadTime <= 24) {
+                if (raceCheck) { //验证计划频率
+                    $("#planRace_error").hide();
+                    if (choiceSt == '发布成功后立即' || choiceEt == '一直有效') {
                         controller.getPlanCreateNext(_data);
+                    } else if (choiceSt == '自定义' && choiceEt == '自定义') { //判断自定义时间处理类型
+                        var plan_st = $("#plan_startTime >div").psel().startTime;
+                        var plan_et = $("#plan_endTime >div").psel().startTime;
+                        var plan_st_tran = new Date(plan_st).getTime() + 6 * 1000;
+                        var plan_et_tran = new Date(plan_et).getTime();
+                        if (plan_st_tran > plan_et_tran) {
+                            $("#choicePlanTime_error").show();
+                        } else {
+                            controller.getPlanCreateNext(_data);
+                        }
+
                     }
 
+                } else {
+                    $("#planRace_error").show();
                 }
-
-            } else {
-                $("#planRace_error").show();
+            }else{
+                $("#publishNotice").pshow({ text: '提前发送时间需小于24小时', state: "failure" });
             }
+
         } else {
-            $("#publishNotice").pshow({text: '缺少必填项，请完善', state: "failure"});
+            $("#publishNotice").pshow({ text: '缺少必填项，请完善', state: "failure" });
         }
 
 
     },
-    filter_weekDetail: function (str) {
+    filter_weekDetail: function(str) {
         var obj = {
             "周一": 1,
             "周二": 2,
@@ -1219,7 +1226,7 @@ var methods = {
         };
         return obj[str]
     },
-    filter_weekDetail_trans: function (str) {
+    filter_weekDetail_trans: function(str) {
         var obj = {
             "01": "周一",
             "02": "周二",
@@ -1231,7 +1238,7 @@ var methods = {
         };
         return obj[str]
     },
-    plan_startTime_show: function (pp_model, e) {
+    plan_startTime_show: function(pp_model, e) {
         // console.log(pp_model.name, e);
         if (pp_model.name == '自定义') {
             $("#plan_startTime").show();
@@ -1240,7 +1247,7 @@ var methods = {
 
         }
     },
-    plan_endTime_show: function (pp_model, e) {
+    plan_endTime_show: function(pp_model, e) {
         // console.log(pp_model.name, e);
         if (pp_model.name == '自定义') {
             $("#plan_endTime").show();
@@ -1249,12 +1256,17 @@ var methods = {
 
         }
     },
-    choiceObjExample: function (_obj, event, objId, objType) { //选择对象实例
+    choiceObjExample: function(_obj, event, objId, objType ,index1,index2,index3,index4) { //选择对象实例
         var _data = {
             obj_id: objId,
             obj_type: objType
         };
-        pub_model.obj_example = _obj;
+        // pub_model.obj_example = _obj;
+        model.choiceObjectExample.index1 = index1;
+        model.choiceObjectExample.index2 = index2;
+        model.choiceObjectExample.index3 = index3;
+        model.choiceObjectExample.index4 = index4;
+
         // console.log(pub_model.obj_example);
         var _scrollTop = $(".see_planDetail_page_grid").scrollTop();
         var _left = $(event.target).offset().left + 120 + 'px';
@@ -1264,18 +1276,41 @@ var methods = {
         $(".choiceObjExampleModal").css("top", _top);
         controller.getObjExample(_data); //获取对象实例请求
     },
-    choiceObjExampleYes: function () {
+    choiceObjExampleYes: function() {
 
     },
-    replaceObjExample: function (_obj) { //替换对象实例(创建计划下一步)
+    replaceObjExample: function(_obj) { //替换对象实例(创建计划下一步)
         // console.log(_obj)
-        pub_model.obj_example.obj_id = _obj.obj_id;
-        pub_model.obj_example.obj_name = _obj.obj_name;
-        pub_model.obj_example.obj_type = _obj.obj_type;
-        pub_model.obj_example.parents = _obj.parents;
+        var index1 = model.choiceObjectExample.index1;
+        var index2 = model.choiceObjectExample.index2;
+        var index3 = model.choiceObjectExample.index3;
+        var index4 = model.choiceObjectExample.index4;
+        model.planCreateDetail[index1].matter_steps[index2].steps[index3].confirm_result[index4].obj_id = _obj.obj_id;
+        model.planCreateDetail[index1].matter_steps[index2].steps[index3].confirm_result[index4].obj_name = _obj.obj_name;
+        model.planCreateDetail[index1].matter_steps[index2].steps[index3].confirm_result[index4].obj_type = _obj.obj_type;
+        model.planCreateDetail[index1].matter_steps[index2].steps[index3].confirm_result[index4].parents = _obj.parents;
         $(".choiceObjExampleModal").hide();
     },
-    publishPlanCreate: function () { //发布&编辑计划
+    publishPlanCreate: function() { //发布&编辑计划
+        var planId = model.seePlanId || '';
+        var flag = true;
+        var planDetail = model.planCreateDetail;
+        planDetail.map(function(item){//判断设备实例中如果obj_type是'system_class'或'equip_class'不能发布
+            item.matter_steps.map(function(info){
+                info.steps.map(function(x){
+                    if(x.step_type == '5'){
+                        x.confirm_result.map(function(y){
+                            if(y.obj_type == 'system_class' || y.obj_type == 'equip_class'){
+                                flag = false;
+                                return;
+                            }else{
+                                flag = true;
+                            }
+                        })
+                    }
+                })
+            })
+        })
         var _data = {
             // user_id: model.userId,
             // project_id: model.projectId,
@@ -1293,19 +1328,46 @@ var methods = {
             published_matters: model.planCreateDetail, //预览后的matters
         };
         console.log(JSON.stringify(_data));
-        var planId = model.seePlanId || '';
         if (planId) {
             _data.plan_id = model.plan_id;
             _data.order_type = model.editOrderType;
-            controller.getEditOrderPlan(_data); //编辑计划
+            var planIndex = model.orderTypeIndex;
+            var raceType = model.newPlanObj.freq_cycle;//计划类型
+            if(flag){
+                controller.getEditOrderPlan(_data,planIndex,raceType); //编辑计划
+            }else{
+                 $("#globalnotice").pshow({text:"请选择设备对象实例后，再次发布", state: "failure" });
+            }
+            
         } else {
-            controller.getAddOrderPlan(_data); //新建计划
+            var planIndex = model.orderTypeIndex;
+            var raceType = model.newPlanObj.freq_cycle;//计划类型
+            if(flag){
+                controller.getAddOrderPlan(_data,planIndex,raceType); //新建计划
+            }else{
+                 $("#globalnotice").pshow({text:"请选择设备对象实例后，再次发布", state: "failure" });
+            }
+            
         }
     },
-    removePlanFn:function(str){//删除工单类型中的最后两位
+    removePlanFn: function(str) { //删除工单类型中的最后两位
         var str = str || '';
-        return str.substring(0,str.length-2);
-    }
+        return str.substring(0, str.length - 2);
+    },
+    comparePlanEffect: function(str) { //与当前时间做比较，判断计划生效时间
+        if (str != '') {
+            var _st = orderDetail_pub.timeFormatting(str);
+            var _st_tran = Date.parse(new Date(_st));
+            var date = new Date();
+            var _curr_t = Date.parse(new Date()); //当前时间
+            if (_st_tran > _curr_t) {
+                return 1;
+            } else {
+                return 2;
+            }
+        }
+
+    },
 
 
 }

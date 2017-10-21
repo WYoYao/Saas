@@ -1,0 +1,101 @@
+<!-- 项目管理中的文本组件 Start -->
+<script type="text/html" id="showdowload">
+    <span class="auto">
+        <!-- 编辑状态Start -->
+        <ul class="showdowloadul" v-show='!showIDE'>
+            <li class="item" v-for='item in value'>{{item.name}}<p class="loadIcon" @click='_download(item)'>D</p></li>
+        </ul>
+        <em class="ide" v-show='!showIDE' @click='_clickShowIDE'>e</em>
+        <div class="showdowloadul" v-show='showIDE'>
+            <pupload-attachment id='_clickValueText' bind='true' number="9"></pupload-attachment>
+        </div>
+        <em class="smt" v-show='showIDE' @click='_clickSubmit'>Z</em>
+        <em class="ide" v-show='showIDE' @click='_clickCancelIDE'>x</em> 
+        <!-- 编辑状态End -->
+        </span>
+</script>
+
+<script>
+    Vue.component('showdowload', {
+        data: function() {
+            return {
+                showIDE: false, //是否展示编辑框
+                newValue: '', //新的内容
+                isError: false,
+                _clickValueText: ''
+            };
+        },
+        template: "#showdowload",
+        props: ['keyname', 'value', 'set'],
+        beforeMount: function() {
+
+            // 创建需要修改的属性
+            this.newValue = this.value;
+
+            // 生成键值处理input 文本框
+            this._clickValueText = ptool.produceId();
+
+            var _that = this;
+            setTimeout(function() {
+                // 文本控件赋值
+                _that.block = $("#" + _that._clickValueText);
+
+                _that.block.pval(_that.newValue.map(function(item) {
+                    return {
+                        name: item.name,
+                        url: item.url || item.key,
+                    }
+                }));
+            }, 0)
+
+        },
+        beforeUpdate: function(value) {
+
+            this.newValue = this.value;
+            // this.block.precover(this.newValue);
+        },
+        methods: {
+            // 显示编辑框
+            _clickShowIDE: function() {
+
+                this.showIDE = true;
+            },
+            // 提交修改
+            _clickSubmit: function() {
+
+                var _that = this;
+                this.newValue = _that.block.pval();
+
+                // 获取修改时间
+                var res = {
+                    info_point_code: this.keyname,
+                    info_point_value: this.newValue,
+                    valid_time: '', // 判断是否发布新内容
+                }
+
+                // 提交修改修改完成后的修改列表中的数据
+                controllerproject.updateProjectInfo(res, function() {
+                    _that.set(_that.keyname, _that.newValue);
+                });
+
+                // 恢复默认值
+                this.value = this.newValue;
+                this.showIDE = false; //是否展示编辑框
+            },
+            // 取消编辑
+            _clickCancelIDE: function() {
+
+                this.newValue = this.value;
+                this.showIDE = false; //是否展示编辑框
+
+                // 重置文本框
+                // this.block.precover(this.newValue);
+            },
+            // 下载按钮
+            _download: function() {
+                alert('下载成功');
+            }
+        }
+    })
+</script>
+<!-- 项目管理中的文本组件 End -->

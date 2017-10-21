@@ -1,0 +1,175 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>基本页面</title>-->
+    <!--<link rel="stylesheet" href="css/flatBlueSeries_min_2.0.css"/>-->
+    <!--<link rel="stylesheet" href="css/basic.css"/>-->
+    <!--<script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="js/flatBlueSeries_src_2.0.js"></script>&ndash;&gt;-->
+    <!--<script type="text/javascript" src="js/basic.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<div class="person-info log-in-win interim" v-show="frameModel.person_password==='个人信息'">
+    <div class="info-all">
+        <div class="info-box">
+            <div class="person">
+                <div class="person-title">
+                    <em></em>
+                    <h3>个人资料</h3>
+                </div>
+                <div class="information">
+                    <div class="name-div">
+                        <div class="name-tag">姓名:</div>
+                        <div class="unable-edit">
+                            <div v-text="frameModel.userInfo.name" :title="frameModel.userInfo.name">张三</div>
+                            <span onclick="editableMode(this)">e</span>
+                        </div>
+                        <div class="able-edit">
+                            <input type="text" class="transfer-input" value="张三"/>
+                            <div class="tel-div-btn">
+                                <span onclick="uneditableMode(this)">取消</span>
+                                <span onclick="saveEdit(this,'name')">保存</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="phone-div">
+                        <div class="name-tag">手机号码:</div>
+                        <div class="unable-edit">
+                            <div v-text="frameModel.userInfo.phone_num" :title="frameModel.userInfo.phone_num">18300000000</div>
+                            <span onclick="editableMode(this)">e</span>
+                        </div>
+                        <div class="able-edit">
+                            <div class="tel-div">
+                                <input type="text" id="phone-number" class="transfer-input" placeholder="手机号" maxlength="11" onkeyup="verifyAble(this,this.value)" onblur="verifyAble(this,this.value)"/>
+                                <div class="send-code-countdown">
+                                    <span onclick="sendCode(this)">发送验证码</span>
+                                    <span><b>60</b>s</span>
+                                </div>
+                            </div>
+                            <div class="verify-div">
+                                <div class="code-div">
+                                    <input type="text" placeholder="验证码"/>
+                                </div>
+                            </div>
+                            <div class="tel-div-btn">
+                                <span class="error-tel-span">手机号码格式不正确！</span>
+                                <!--<span class="error-tel-span">验证码错误</span>-->
+                                <span onclick="uneditableMode(this)">取消</span>
+                                <span onclick="saveEdit(this,'phone_num')">保存</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="name-div">
+                        <div class="name-tag">性别:</div>
+                        <div class="unable-edit">
+                            <div v-text="frameModel.userInfo.gender=='male'?'男':'女'" :title="frameModel.userInfo.gender=='male'?'男':'女'">女</div>
+                            <span onclick="editableMode(this)">e</span>
+                        </div>
+                        <div class="able-edit">
+                            <input type="text" class="transfer-input" value="女"/>
+                            <div class="tel-div-btn">
+                                <span onclick="uneditableMode(this)">取消</span>
+                                <span onclick="saveEdit(this,'gender')">保存</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="name-div">
+                        <div class="name-tag">身份证号码:</div>
+                        <div class="unable-edit">
+                            <div v-text="frameModel.userInfo.id_number" :title="frameModel.userInfo.id_number">123456789987654321</div>
+                            <span onclick="editableMode(this)">e</span>
+                        </div>
+                        <div class="able-edit">
+                            <input type="text" class="transfer-input" value="123456789987654321"/>
+                            <div class="tel-div-btn">
+                                <span class="error-id-span">身份证号输入不正确！</span>
+                                <span onclick="uneditableMode(this)">取消</span>
+                                <span onclick="saveEdit(this,'id_number')">保存</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="name-div">
+                        <div class="name-tag">出生年月:</div>
+                        <div class="unable-edit">
+                            <div v-text="frameModel.userInfo.birthday" :title="frameModel.userInfo.birthday">1891-05-01</div>
+                            <span onclick="editableMode(this)">e</span>
+                        </div>
+                        <div class="able-edit">
+                            <input type="text" class="transfer-input" value="1891-05-01"/>
+                            <div class="tel-div-btn">
+                                <span onclick="uneditableMode(this)">取消</span>
+                                <span onclick="saveEdit(this,'birthday')">保存</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="project">
+                <div class="person-title">
+                    <em></em>
+                    <h3>项目名片查看</h3>
+                </div>
+                <div class="project-card">
+                    <div class="project-box">
+                        <div class="single-card" v-for="(project,index) in frameModel.userInfo.project_persons">
+                            <div class="card-box">
+                                <div class="card-image">
+                                    <img :src="!project.head_portrait?'images/maliao.png':project.head_portrait" alt="系统头像">
+                                    <!--<img src="images/maliao.png" alt="系统头像" v-show="project.id_photo">-->
+                                    <!--<img src="" alt="无系统头像" v-show="!project.id_photo">-->
+                                    <div class="image-cover">
+                                        <span>
+                                            点击更改
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-summary">
+                                    <h4 v-text="project.project_name" :title="project.project_name">
+                                        项目名称
+                                    </h4>
+                                    <p><span>岗位:</span><em v-text="project.position" :title="project.position">强电</em></p>
+                                    <p><span>员工编号:</span><em v-text="project.person_num" :title="project.person_num">010123</em></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!--<div class="single-card">
+                            <div class="card-box">
+                                <div class="card-image">
+                                    <img src="images/maliao.png" alt="photo">
+                                    <div class="image-cover">
+                                        <span>
+                                            点击更改
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="card-summary">
+                                    <h4>
+                                        项目名称
+                                    </h4>
+                                    <p><span>岗位:</span><em>强电</em></p>
+                                    <p><span>员工编号:</span><em>010123</em></p>
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="close-btn" onclick="closePersonPassword()">
+        <img src="images/alert_close_btn.png" alt="关闭按钮"/>
+    </div>
+
+</div>
+<!--<div class="person-edit-tab-black">
+    <div class="person-password">
+        <span>修改密码</span>
+    </div>
+    <div class="person-exit">
+        <span>退出</span>
+    </div>
+</div>-->
+
+<!--</body>-->
+<!--</html>-->

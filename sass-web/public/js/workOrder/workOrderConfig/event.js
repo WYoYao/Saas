@@ -8,7 +8,15 @@ $(function(){
 		}else{
 			$(this).find("ul").hide();
 		}
-	})
+	});
+    $(document).click(function (event) {
+        var tg = event.target;
+        if (!$(tg).hasClass('more_work_add') && !$(tg).parents('.more_work_add').length && $(".more_work_list").length && $(".more_work_list").is(':visible') /*&& !commonData.focusContent*/) {
+
+            $(".more_work_list").hide();
+        }
+        
+    });
 
 
 

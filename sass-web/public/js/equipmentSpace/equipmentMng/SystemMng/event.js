@@ -12,12 +12,16 @@ $(function () {
 
 function showAddSystem() {
     v.initPage("addSystem");
-    $("#addSystemDiv").show();
+    v.instance.isShowAddSystem=true;
+    // $("#addSystemDiv").show();
 }
 
 function hideAddSystem() {
-    $("#addSystemDiv").hide();
+    // $("#addSystemDiv").hide();
+    v.instance.isShowAddSystem=false;
+    v.initPage("systemMng");
 }
+
 
 function editItem(event) {
     var $this = $(event.currentTarget);
@@ -185,7 +189,7 @@ var IstmComboxEnum = {
         build_id: 'obj_id',
     },
     domin: {
-        EList:'content',
+        EList: 'content',
     },
     system_category: {
         system_category: 'code',
@@ -237,18 +241,132 @@ function createIstmComboxSelFn(key, vkey, elid) {
                 })
             }
         });
+
+
+        // 选择所属建筑需要验证当前系统编码的值是否重复
+        if (key == "build_id") {
+
+            
+            if (v.instance[vkey]["system_local_name"]) {
+
+                controllerAddSystem.verifySystemName({
+                    build_id: v.instance[vkey]["build_id"],
+                    system_local_name: v.instance[vkey]["system_local_name"],
+                }).then(function (data) {
+
+                    var el = $(v.instance.addSystemKey + 'system_local_id'),
+                        val = el.pval();
+
+                    if (!data.can_use) {
+                        el.pshowTextTip('与当前已添加内容重复');
+                    } else {
+                        el.precover();
+                        el.pval(val);
+                    }
+                })
+            }
+        }
     }
 
 }
 
 Object.keys(IstmComboxEnum).forEach(function (key) {
-    
-        if (window['istm_sel_' + key]) {
-            console.error('当前声明' + 'istm_sel_' + key + '与现有方法发生冲突');
-        }
-    
-        // 将对应的函数绑定 window 对象上面
-        window['istm_sel_' + key] = createIstmComboxSelFn(key, 'InsertSystemModel', '#istm_id_');
-    });
+
+    if (window['istm_sel_' + key]) {
+        console.error('当前声明' + 'istm_sel_' + key + '与现有方法发生冲突');
+    }
+
+    // 将对应的函数绑定 window 对象上面
+    window['istm_sel_' + key] = createIstmComboxSelFn(key, 'InsertSystemModel', '#istm_id_');
+});
 
 //=============================================下拉菜单模块 End  ===========================================
+
+
+
+window.as_blur = createEvents(TextSel2Fn, function (el) {
+
+
+
+    var val = el.pval(),
+        el = $(el),
+        key = el.attr('id').replace(v.instance.addSystemKey, "");
+
+    // 验证字母下划线
+    function vFN(str, el) {
+
+        var bool = str.pisAlphanumeric()
+
+        if (!bool) el.pshowTextTip('仅支持数字字母下划线');
+
+        return bool
+    }
+
+    // 验证传入的 key 值不能为空
+    if (!_.isString(key)) throw new TypeError('key is null');
+
+    if (key == "system_local_name") {
+        // 当有建筑ID 的时候再验证重复
+        if (v.instance.InsertSystemModel.build_id) {
+            controllerAddSystem.verifySystemName({
+                build_id: obj.build_id,
+                system_local_name: val,
+            }).then(function (data) {
+
+                if (!data.can_use) {
+                    el.pshowTextTip('与当前已添加内容重复');
+                } else {
+                    el.precover();
+                    el.pval(val);
+                }
+            })
+        }
+        // 验证不可重复
+
+
+    } else if (key == "system_local_id") {
+
+        // 验证汉字
+        if (vFN(val, el)) return;
+
+        // 验证不可重复
+        controllerAddSystem.verifySystemLocalId({
+            system_local_id: val,
+        }).then(function (data) {
+
+            if (!data.can_use) {
+                el.pshowTextTip('与当前已添加内容重复');
+            } else {
+                el.precover();
+                el.pval(val);
+            }
+        })
+
+
+    } else if (key == "BIMID") {
+
+        // 验证汉字
+        if (vFN(val, el)) return;
+
+        // 验证不可重复
+        controllerAddSystem.verifySystemBimId({
+            BIMID: val,
+        }).then(function (data) {
+
+            if (!data.can_use) {
+                el.pshowTextTip('与当前已添加内容重复');
+            } else {
+                el.precover();
+                el.pval(val);
+            }
+        })
+
+
+    }
+
+})
+
+window.as_focus = createEvents(TextSel2Fn, function (obj, el) {
+
+    console.log(arguments);
+})

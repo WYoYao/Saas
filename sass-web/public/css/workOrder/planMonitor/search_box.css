@@ -2588,7 +2588,7 @@ textarea {
     font-size: 12px;
     text-align: center;
     cursor: pointer;
-    vertical-align: top;
+    /*vertical-align: top;*/
     line-height: normal;
 
 }

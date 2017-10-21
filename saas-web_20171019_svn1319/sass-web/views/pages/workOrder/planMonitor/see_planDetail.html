@@ -1,0 +1,260 @@
+<div id="see_detail_bg" v-if="curPage == pages[4]">
+    <div class="see_detail_box">
+        <div class="see_detail_page">
+            <div class="see_detail_page_top">
+                <div class="see_detail_page_back">
+                    <pbutton-white  bind='true' text="'返回'" @click="goBackPlanList()"></pbutton-white>
+                </div>
+                <div class="see_detail_page_title">
+                    <span v-text="planDetailData.plan_name">计划详情名称</span>
+                </div>
+                <div class="see_detail_page_save">
+                    <ul>
+                        <li @click="historyModalShow()">
+                            <img src="../../../../../images/history_icon.png" alt="">
+                        </li>
+                        <li @click="clickScrapPlan()">
+                            <img src="../../../../../images/scrap_btn.png" alt="">
+                            <span>作废计划</span>
+                        </li>
+                        <li @click="clickEditPlan()">
+                            <img src="../../../../../images/edit_btn.png" alt="">
+                            <span>修改计划</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="see_detail_page_box">
+                <div class="see_detail_page_con">
+                    <h3 class="see_detail_page_con_tit" v-if="comparePlanEffect(planDetailData.plan_start_time) == '1'">
+						<span>最新修改内容尚未生效：生效时间为<i v-text="orderDetail_pub.timeFormatting(planDetailData.plan_start_time)"></i></span>
+					</h3>
+                    <div class="see_detail_plan_set">
+                        <h4 class="see_detail_plan_set_tit"><span>计划设置</span></h4>
+                    </div>
+                    <div class="see_detail_plan_name">
+                        <div>计划名称：</div><span v-text="planDetailData.plan_name"></span>
+                    </div>
+                    <div class="see_detail_plan_name">
+                        <div>工单类型：</div><span v-text="planDetailData.order_type_name">维保</span>
+                    </div>
+                    <div class="see_detail_plan_name">
+                        <div>工单紧急程度：</div><span v-text="planDetailData.urgency">中</span>
+                    </div>
+                    <div class="see_detail_plan_name">
+                        <div>工单提前发送时间：</div><span>提前<i v-text="planDetailData.ahead_create_time"></i>小时</span>
+                    </div>
+                    <div class="see_detail_plan_name">
+                        <div>计划频率：</div><span>每<i v-text="transfYMWD(planDetailData.freq_cycle)"></i><i v-text="planDetailData.freq_num"></i>次</span>
+                    </div>
+                    <div class="planMonitor_detail_plan_name planMonitor_detail_plan_name1">
+                        <ul>
+                            <li v-for="(times,index) in planDetailData.freq_times">
+                                <div>第<span>{{index +1}}</span>次</div>：
+                                <div>
+                                    <i v-text="times.start_time.time_day"></i>
+                                    <i v-text="times.start_time.time_hour"></i>:<i v-text="times.start_time.time_minute"></i>
+                                </div>
+                                <div> 至 </div>
+                                <div>
+                                    <i v-text="times.end_time.time_day"></i>
+                                    <i v-text="times.end_time.time_hour"></i>:<i v-text="times.end_time.time_minute"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="see_detail_plan_name">
+                        <div>计划生效时间：</div>
+                        <span>
+                            <i v-text="planDetailData.plan_start_type == '1'?'发布成功后立即':orderDetail_pub.timeFormatting(planDetailData.plan_start_time)"></i>&nbsp;—&nbsp;
+                            <i v-text="planDetailData.plan_end_time == ''?' 一直生效':orderDetail_pub.timeFormatting(planDetailData.plan_end_time)"></i>
+                        </span>
+                    </div>
+                    <div class="border_dashed">
+                    </div>
+                    <div class="see_detail_plan_set">
+                        <h4 class="see_detail_plan_set_tit"><span>工作事项</span></h4>
+                    </div>
+                    <div class="see_detail_word_item">
+                        <ul>
+                            <li class="see_detail_item_li" v-for="info in planDetailData.draft_matters">
+                                <h4>未命名事项1</h4>
+                                <div>
+                                    <span>
+                                    <i v-text="arrTransfString(info.desc_objs,'obj_name')"></i>
+                                    <i v-text="arrTransfString(info.desc_sops,'sop_name')"></i>
+                                    <i v-text="info.description"></i></span>
+                                </div>
+                            </li>
+                            
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 侧弹框 -->
+<!-- <pwindow-float id="floatWindow" isshade="true" title="计划修改历史" templateid="plan_old_record">
+    <animate maxpx="0" minpx="-830" orientation="right"></animate>
+</pwindow-float>
+<script type="text/html" id="plan_old_record">
+    <div class="oldRecord_modal">
+        <div class="oldRecord_modal_box">
+            <ul class="oldRecord_modal_ul">
+                <li>
+                    <div class="oldRecord_modal_title">
+                        <div><i>2017.08.15</i>修改版本</div>
+                        <div>生效时间：<span>2017.10.1</span><i>一直生效</i></div>
+                    </div>
+                    <div class="oldRecord_modal_con">
+                        <div class="oldRecord_page_box">
+                            <div class="oldRecord_page_con">
+                                <h3 class="oldRecord_page_con_tit">
+									<span>该计划已在<i>2017.10.10</i>被作废</span>
+								</h3>
+                                <div class="oldRecord_plan_set">
+                                    <h4 class="oldRecord_plan_set_tit"><span>计划设置</span></h4>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划名称：</div><span>消防水泵</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单类型：</div><span>维保</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单紧急程度：</div><span>中</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单提前发送时间：</div><span>提前2小时</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划频率：</div><span>每年2次</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划生效时间：</div><span>发布后立即生效</span>
+                                </div>
+                                <div class="border_dashed">
+                                </div>
+                                <div class="oldRecord_plan_set">
+                                    <h4 class="oldRecord_plan_set_tit"><span>工作事项</span></h4>
+                                </div>
+                                <div class="oldRecord_word_item">
+                                    <ul>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项1</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项2</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                 <li>
+                    <div class="oldRecord_modal_title">
+                        <div><i>2017.08.15</i>修改版本</div>
+                        <div>生效时间：<span>2017.10.1</span><i>一直生效</i></div>
+                    </div>
+                    <div class="oldRecord_modal_con">
+                        <div class="oldRecord_page_box">
+                            <div class="oldRecord_page_con">
+                                <h3 class="oldRecord_page_con_tit">
+									<span>该计划已在<i>2017.10.10</i>被作废</span>
+								</h3>
+                                <div class="oldRecord_plan_set">
+                                    <h4 class="oldRecord_plan_set_tit"><span>计划设置</span></h4>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划名称：</div><span>消防水泵</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单类型：</div><span>维保</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单紧急程度：</div><span>中</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单提前发送时间：</div><span>提前2小时</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划频率：</div><span>每年2次</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划生效时间：</div><span>发布后立即生效</span>
+                                </div>
+                                <div class="border_dashed">
+                                </div>
+                                <div class="oldRecord_plan_set">
+                                    <h4 class="oldRecord_plan_set_tit"><span>工作事项</span></h4>
+                                </div>
+                                <div class="oldRecord_word_item">
+                                    <ul>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项1</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项2</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项2</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项2</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项2</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项2</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                        <li class="oldRecord_item_li">
+                                            <h4>未命名事项2</h4>
+                                            <div>
+                                                @消防控制箱@消防控制箱@消防控制箱@消防控制箱@消防控制箱
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</script> -->
+<!-- 作废计划 -->
+<pwindow-confirm id="scrapModal" title="您确定要作废计划吗？" subtitle="被作废的计划将无法恢复">
+
+    <button>
+        <pbutton-blue text="'作废'" bind='true' @click="scrapBtnYes()"></pbutton-blue>
+        <pbutton-white text="'取消'" bind='true' @click="scrapModalHide()"></pbutton-white>
+    </button>
+</pwindow-confirm>

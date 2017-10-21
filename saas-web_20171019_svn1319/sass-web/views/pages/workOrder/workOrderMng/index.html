@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Saas平台运营平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+
+    <link rel="stylesheet" href="/css/basicMng/person/index.css" />
+    <link rel="stylesheet" href="/css/workOrder/workOrderMng/WorkOrderMonitoring.css" />
+    <link rel="stylesheet" href="/css/workOrder/workOrderMng/WorkOrderDetail.css" />
+    <link rel="stylesheet" href="/css/workOrder/planMonitor/see_orderDetail.css" />
+    <link rel="stylesheet" href="/css/workOrder/planMonitor/search_box.css" />
+
+    <script src="/js/workOrder/workOrderMng/controller.js"></script>
+    <script src="/js/workOrder/workOrderMng/model.js"></script>
+    <script src="/js/workOrder/workOrderMng/event.js"></script>
+    <script src="/js/public/orderDetail_pub.js"></script>
+    <script src="/js/public/publicMethod.js"></script>
+    <!--<script src="/js/workOrder/workOrderMng/tempData.js"></script>-->
+    <style>
+
+    </style>
+</head>
+
+<body>
+<div id="workOrderManage-Monitor">
+
+    <!--html by yangning-->
+    <%include WorkOrderMonitoring.html%>
+    
+
+    <!--html by yuedongxu-->
+    <%include ../planMonitor/see_orderDetail.html%>
+
+
+</div>
+</body>
+</html>

@@ -65,20 +65,20 @@ var _SystemDomainChange = function (item) {
     // 下拉菜单参数对应的数据源的值
     var ComboxEnum = {
         manufacturer: {
-            maintainer_id: 'company_id',
-            maintainer: 'company_name',
+            manufacturer_id: 'company_id',
+            manufacturer: 'company_name',
         },
         supplier: {
-            maintainer_id: 'company_id',
-            maintainer: 'company_name',
+            supplier_id: 'company_id',
+            supplier: 'company_name',
         },
         maintainer: {
             maintainer_id: 'company_id',
             maintainer: 'company_name',
         },
         insurer: {
-            maintainer_id: 'company_id',
-            maintainer: 'company_name',
+            insurer_id: 'company_id',
+            insurer: 'company_name',
         },
         insurer_num: {
             insurer_num: 'name',
@@ -322,7 +322,7 @@ var _SystemDomainChange = function (item) {
             struct: 1,
         },
         nameplate: {
-            type: 2,
+            type: 1,
             struct: 2,
         },
         archive: {
@@ -412,7 +412,6 @@ var _SystemDomainChange = function (item) {
 
     //         }
 
-            
     //     }
 
     // };

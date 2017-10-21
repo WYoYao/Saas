@@ -20,7 +20,7 @@
                 <div class="nameTitle"><span class="star">*</span>角色名：</div>
                 <div class="nameInput">
                     <ptext-text placeholder="输入名称" id="editRoleInput">
-                    <verify errtip="不能为空" verifytype="space"><verify>
+                    <verify errtip="不能为空" verifytype="space"></verify>
                 </ptext-text>
                 </div>
             </div>
@@ -71,7 +71,7 @@
                 <span class="pertitle">专业：</span><span class="percont"><em v-show="selPerson.specialty_name.length==0">--</em><em v-for="(item,index) in selPerson.specialty_name" v-show="selPerson.specialty_name.length>0">{{item.name}}<em v-show="index != selPerson.specialty_name.length-1">、</em></em></span>
             </li>
             <li class="perItem">
-                <span class="pertitle">自定义标签：</span><span class="percont"><em v-show="selPerson.custom_tag.length==0">--</em><em v-for="(item,index) in selPerson.custom_tag" v-show="selPerson.custom_tag.length>0">{{item}}<em v-show="index != selPerson.custom_tag.length-1">、</em></em></span>
+                <span class="pertitle">标签：</span><span class="percont"><em v-show="selPerson.custom_tag.length==0">--</em><em v-for="(item,index) in selPerson.custom_tag" v-show="selPerson.custom_tag.length>0">{{item}}<em v-show="index != selPerson.custom_tag.length-1">、</em></em></span>
             </li>
             <li class="perItem">
                 <span class="pertitle">图片：</span><span class="percont"><img v-bind:src="!selPerson.id_photo?'/images/person.png':selPerson.id_photo" /><img v-bind:src="!selPerson.head_portrait?'/images/person.png':selPerson.head_portrait" /></span>

@@ -1,0 +1,171 @@
+<div class="detail-alert"><!-- v-show="commonData.publicModel.detailSopShow"-->
+    <div class="alert-all">
+        <div class="alert-shade">
+            <div class="alert-box">
+                <div class="alert-content">
+                    <div class="alert-container">
+                        <div class="alert-header">
+                            <div class="alert-title">
+                                <h3><img src="../images/return.png"><span v-text="commonData.publicModel.detailSopData.sop_name">这是详细的sop</span><em v-text="commonData.publicModel.detailSopData.version">V2.0</em></h3>
+                            </div>
+                        </div>
+                        <div class="alert-body">
+                            <div class="detail-table-div">
+                                <div class="detail-table">
+                                    <table cellspacing="0">
+                                        <tr>
+                                            <td>编号</td>
+                                            <td v-text="commonData.publicModel.detailSopData.sop_id"><span>AC001</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>专业要求</td>
+                                            <td><span  v-for="(major,index) in commonData.publicModel.detailSopData.domains" v-text="index == commonData.publicModel.detailSopData.domains.length-1 ? major : major + '、'">强电</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>所需工具</td>
+                                            <td><span  v-for="(toolx,index) in commonData.publicModel.detailSopData.tools" v-text="index == commonData.publicModel.detailSopData.tools.length-1 ? toolx.tool : toolx.tool + '、'">钳子</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>适用工单类型</td>
+                                            <td><span v-for="(orderType,index) in commonData.publicModel.detailSopData.order_type" v-text="index == commonData.publicModel.detailSopData.order_type.length-1 ? orderType : orderType + '、'">维保</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>适用对象</td>
+                                            <td><span v-for="(obj,index) in commonData.publicModel.detailSopData.fit_objs" v-text="index == commonData.publicModel.detailSopData.fit_objs.length-1 ? obj.obj_name : obj.obj_name + '、'">空间1</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>品牌</td>
+                                            <td><span v-for="(brand,index) in commonData.publicModel.detailSopData.brands" v-text="index == commonData.publicModel.detailSopData.brands.length-1 ? brand : brand + '、'">品牌1</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>自定义</td>
+                                            <td><span v-for="(label,index) in commonData.publicModel.detailSopData.labels" v-text="index == commonData.publicModel.detailSopData.labels.length-1 ? label : label + '、'">品牌1</span></td>
+                                        </tr>
+                                        <tr>
+                                            <td>相关资料</td>
+                                            <td>
+                                                <a :href="linked.url.substr(0,7).toLowerCase() =='http://' ? linked.url : 'http://' + linked.url" target="_blank"  v-for="(linked,index) in commonData.publicModel.detailSopData.related_data" v-text="linked.name">视频资料</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="detail-step">
+                                <div class="single-step" v-for="(step,index) in commonData.publicModel.detailSopData.steps">
+                                    <h4>步骤<span v-text="index+1"></span></h4>
+                                    <div class="step-content-sop" v-for="(stepContent,index) in step.step_content">
+                                        <div class="step-content-div"  v-if="!stepContent.from_sop">
+                                            <div class="unable-prev" v-if="stepContent.pre_conform && stepContent.pre_conform != '--'">
+                                                <div class="unable-prev-title">
+                                                    <span>强制确认操作前提:</span>
+                                                </div>
+                                                <div class="unable-prev-body">
+                                                    <span v-text="stepContent.pre_conform">确认机器处于断电状态，确认气门关闭</span>
+                                                </div>
+                                            </div>
+                                            <div class="unable-prev"  v-if="stepContent.content && stepContent.content != '--'">
+                                                <div class="unable-prev-title">
+                                                    <span>标准作业操作内容:</span>
+                                                </div>
+                                                <div class="unable-prev-body">
+                                                    <span v-text="stepContent.content">这里是工作描述，确认气门关闭</span>
+                                                </div>
+                                            </div>
+                                            <div class="unable-prev" v-if="stepContent.notice && stepContent.notice != '--'">
+                                                <div class="unable-prev-title">
+                                                    <span>注意事项:</span>
+                                                </div>
+                                                <div class="unable-prev-body">
+                                                    <span v-text="stepContent.notice">这里是注意事项，确认气门关闭</span>
+                                                </div>
+                                            </div>
+                                            <div class="unable-prev" v-if="stepContent.confirm_result && stepContent.confirm_result.length">
+                                                <div class="unable-prev-title">
+                                                    <span>需确认的结果:</span>
+                                                </div>
+                                                <div class="unable-prev-body">
+                                                    <div class="single-list" v-for="(results,index) in stepContent.confirm_result">
+                                                        <div class="list-nub">
+                                                            <span v-text="index+1">1</span>.
+                                                        </div>
+                                                        <div class="list-con">
+                                                            <div>
+                                                                <span v-text="results.obj_name">对象名称1</span><em v-text="yn_method.getParentsLinks(results.parents)">(建筑-楼层-空间/专业-系统)</em>
+                                                            </div>
+                                                            <div v-if="results.info_points && results.info_points.length">
+                                                                <span v-for="point in results.info_points" v-text="point.name">信息点1</span>
+                                                            </div>
+                                                            <div v-if="results.customs && results.customs.length" v-for="custom in results.customs">
+                                                                <span v-text="custom.name">信息点1</span>
+                                                                <span v-text="yn_method.contolTransfer(custom.type)"></span>
+                                                                <span v-if="custom.type==2 || custom.type==3">选项:</span>
+                                                                <span v-if="custom.items" v-for="sel in custom.items" v-text="sel"></span>
+                                                                <span v-if="custom.type==5">单位:</span>
+                                                                <span v-if="custom.type==5" v-text="custom.unit"></span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="unable-prev" v-if="stepContent.domain && stepContent.domain != '--'">
+                                                <div class="unable-prev-title">
+                                                    <span>专业:</span>
+                                                </div>
+                                                <div class="unable-prev-body">
+                                                    <span v-text="stepContent.domain">强电</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="step-sop-div" v-if="stepContent.from_sop">
+                                            <div class="sop-name-div">
+                                                <span v-text="stepContent.sop_name"></span>
+                                            </div>
+                                            <div class="sop-version-div">
+                                                <span>版本:</span><em v-text="stepContent.version">V2.0</em>
+                                                <span>最后修改时间:</span><em v-text="stepContent.upadte_time">2017-09-15</em>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="step-sop-div" v-if="step.from_sop">
+                                        <div class="sop-name-div">
+                                            <span v-text="step.sop_name"></span>
+                                        </div>
+                                        <div class="sop-version-div">
+                                            <span>版本:</span><em v-text="step.version"></em>
+                                            <span>最后修改时间:</span><em v-text="step.upadte_time">2017-09-15</em>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="alert-close" @click="publicMethod.closeDetailSop">
+                    <img src="../images/alert_close_btn.png"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

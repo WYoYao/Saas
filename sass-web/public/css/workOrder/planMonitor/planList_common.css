@@ -224,7 +224,7 @@
 }
 .searchList_table_state >ul{
 	clear: both;
-	max-width:580px;
+	max-width:1000px;
 	height: 30px;
 }
 .searchList_table_state >ul >li{
@@ -270,6 +270,9 @@
 	box-sizing: border-box;
 	border-right: 1px solid #d9e2e8;
 	background: #f7f9fb;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 .searchList_table_title_date{
 	width: 81%;
@@ -349,6 +352,24 @@
 	align-items: center;
 	min-height: 50px;
 	width: 100%;
+	position: relative;
+}
+.searchList_table_list1_box >section{
+	position: absolute;
+	top: 0;
+	left: 0;
+	font-size: 12px;
+	height: 16px;
+	color: #fff;
+	text-align: center;
+}
+.searchList_table_list1_box >section.yellow{
+	width: 60px;
+	background: #fd9055;
+}	
+.searchList_table_list1_box >section.red{
+	width: 100px;
+	background: #f87c7c;
 }
 .searchList_table_list1_box:not(:last-child){
 	border-bottom: 1px solid #d9e2e8;
@@ -404,7 +425,7 @@
 }
 .searchList_table_list1_date>div >ul >li{
 	width: 50%;
-	height: 50px;
+	height: 60px;
 }
 .searchList_table_list1_date >div >ul >li:not(:last-child){
 	border-right: 1px solid #d9e2e8;
@@ -475,7 +496,7 @@
 }
 .searchList_table_list2_date>div >ul >li{
 	width: 50%;
-	height: 50px;
+	height: 60px;
 }
 .searchList_table_list2_date >div >ul >li:not(:last-child){
 	border-right: 1px solid #d9e2e8;

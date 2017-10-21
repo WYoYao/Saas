@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.UserCustomMapper">
+	<resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.UserCustom" >
+		<id column="user_id" property="userId" jdbcType="VARCHAR"/>
+		<result column="last_team_id" property="lastTeamId" jdbcType="VARCHAR"/>
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+		<result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+	</resultMap>
+	
+	<sql id="Base_Column_List">
+		user_id,last_team_id,create_time,update_time
+	</sql>
+	
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 
+		<include refid="Base_Column_List" />
+		from t_user_custom
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</select>
+	
+	<insert id="insert" parameterType="com.sagacloud.superclass.pojo.UserCustom">
+		insert into 
+		t_user_custom(user_id, last_team_id, create_time, update_time)
+		values(#{userId,jdbcType=VARCHAR}, #{lastTeamId,jdbcType=VARCHAR},
+			 #{createTime, jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.UserCustom">
+		update t_user_custom
+		set last_team_id = #{lastTeamId,jdbcType=VARCHAR},
+			update_time =  #{updateTime,jdbcType=TIMESTAMP}
+		where user_id = #{userId,jdbcType=VARCHAR}
+	</update>
+</mapper>

@@ -138,7 +138,8 @@ var controller = {
                 });
 
                 workOrderModel.falsePersonPosition = JSON.parse(JSON.stringify(falseList));
-                
+                workOrderModel.oneStep_personPositionList = JSON.parse(JSON.stringify(falseList));
+                workOrderModel.oneStep_personPositionList_yes = JSON.parse(JSON.stringify(falseList));
                 workOrderModel.personPositionList = workOrderModel.personPositionList.length > 0 ? workOrderModel.personPositionList : workOrderModel.falsePersonPosition;
 
 

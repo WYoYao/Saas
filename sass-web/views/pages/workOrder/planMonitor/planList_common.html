@@ -21,7 +21,7 @@
             <div class="searchList_operat">
                 <ul>
                     <li @click="openScrapList()"><img src="../../../../../images/scrap_blue_btn.png" alt=""><span>查看已作废的计划</span></li>
-                    <li><img src="../../../../../images/edit.png" alt=""><span @click="createNewPlan()">录入新计划</span></li>
+                    <li @click="createNewPlan()"><img src="../../../../../images/edit.png" alt=""><span>录入新计划</span></li>
                 </ul>
             </div>
         </div>
@@ -34,7 +34,7 @@
                     <li>每周</li>
                     <li>每月</li>
                     <li>每年</li> -->
-                    <li :class="{active:items.type == cycleType}" v-for="(items,index) in cycleListData" v-text="items.name" :type="items.type" @click="cycleTabChange(index,items.type)"></li>
+                    <li :class="{active:items.type == cycleType}" v-for="(items,index) in cycleListData" v-text="items.name" :type="items.type" @click="cycleTabChange(index,items.type,items.name)"></li>
                 </ul>
             </div>
             <div class="searchList_condi_rig">
@@ -43,12 +43,15 @@
         <!-- 条件切换列表 -->
         <div class="searchList_table">
             <div class="searchList_table_name">
-                <span>每日维保计划</span>
+                <span>
+                    <i v-text="listTitlePlanRaceType == ''?'每日':listTitlePlanRaceType"></i>
+                    <i v-text="listTitlePlanName"></i>
+                </span>
                 <div class="searchList_table_state">
                     <ul>
                         <li v-for="items in orderStateList_img">
                             <span v-if="items.code">
-                                <img :src="'../../../../../images/orderState/' + items.code +'.png'" alt="">
+                                <img v-if="items.code!=''" :src="'../../../../../images/orderState/' + items.code +'.png'" alt="">
                                 <i v-text="items.name">下次待发出工单</i>
                             </span>
                         </li>
@@ -63,10 +66,10 @@
             </div>
             <div class="searchList_table_title">
                 <div class="searchList_table_title_name">
-                    维保名称
+                    <span :title="listTitlePlanName +'名称'" v-text="listTitlePlanName"></span>名称
                 </div>
                 <div class="searchList_table_title_cycle">
-                    维保周期
+                    <span :title="listTitlePlanName +'周期'" v-text="listTitlePlanName"></span>周期
                 </div>
                 <div class="searchList_table_title_date">
                     <div class="searchList_table_title_data_top">
@@ -91,10 +94,14 @@
             </div>
             <div class="searchList_table_list1" id="searchList_table_day">
                 <div v-if="renderTableListDay" class="searchList_table_list1_box" v-for="renders in renderTableListDay">
-                    <div :style="{height:renders.max_freq_num*50 +10+'px'}" class="searchList_table_list1_name" @click="seePlanDetailShow(renders.plan_id)">
+                    <section v-if="renders.remind_type=='1'">正常</section>
+                    <section v-if="renders.remind_type=='2'" class="yellow">即将失效</section>
+                    <section v-if="renders.remind_type=='3'" class="red">已经到达失效时间</section>
+
+                    <div :style="{height:renders.max_freq_num*60 +10+'px'}" class="searchList_table_list1_name" @click="seePlanDetailShow(renders.plan_id)">
                         <div class="planName" :title="renders.plan_name" v-text="renders.plan_name"></div>
                     </div>
-                    <div :style="{height:renders.max_freq_num*50 +10+'px'}" class="searchList_table_list1_cycle">
+                    <div :style="{height:renders.max_freq_num*60 +10+'px'}" class="searchList_table_list1_cycle">
                         <div>
                             <span v-text="renders.freq_cycle_desc"></span>
                         </div>
@@ -108,7 +115,7 @@
                             <ul v-for="items in renders.renderListDay">
                                 <li v-for="(data,index) in items" @click="clickSeeOrderDetail(data.order_id)">
                                     <span v-if="data.order_id" :code=d ata.markDay>
-                                        <img v-if="data.order_state !='--'" :src="'../../../../../images/orderState/' + data.order_state +'.png'" alt="">    
+                                        <img v-if="data.order_state !='--'&&data.order_state !=''" :src="'../../../../../images/orderState/' + data.order_state +'.png'" alt="">    
                                     </span>
                                     <span v-if="!data.order_id && data.ask_end_time">
                                         <img :src="'../../../../../images/orderState/' + 'next.png'" alt="">    
@@ -127,10 +134,10 @@
             <div class="searchList_table_list2" id="searchList_table_common">
                 <div class="searchList_table_list2_box" v-for="renders in renderTableListCommon">
                     <!-- <div v-text="renders.row_count"></div> -->
-                    <div :style="{height:renders.row_count*50 +'px'}" class="searchList_table_list2_name" @click="seePlanDetailShow(renders.plan_id)">
+                    <div :style="{height:renders.row_count*60 +'px'}" class="searchList_table_list2_name" @click="seePlanDetailShow(renders.plan_id)">
                         <div class="planName" :title="renders.plan_name" v-text="renders.plan_name"></div>
                     </div>
-                    <div :style="{height:renders.row_count*50 +'px'}" class="searchList_table_list2_cycle">
+                    <div :style="{height:renders.row_count*60 +'px'}" class="searchList_table_list2_cycle">
                         <div>
                             <span>
                                 <i v-text="renders.freq_cycle_desc"></i>
@@ -144,11 +151,11 @@
                         <div>
                             <ul v-for="items in renders.dataCompareList">
                                 <li :style="{width:data.mark*model.rightTab_liWidth+data.mark-1 +'px'}" v-for="(data,index) in items.step1" @click="clickSeeOrderDetail(data.order_id)">
-                                    <span v-if="!data.is_next_order" :code=d ata.markDay>
-                                        <img v-if="data.order_state!='none'" :src="'../../../../../images/orderState/' + data.order_state +'.png'" alt="">    
+                                    <span v-if="!data.is_next_order" :code=data.markDay>
+                                        <img :state="data.order_state" v-if="data.order_state && data.order_state!=''" :src="'../../../../../images/orderState/' + data.order_state +'.png'" alt="">    
                                     </span>
                                     <span v-if="data.is_next_order">
-                                        <img :src="'../../../../../images/orderState/' + 'next.png'" alt="">    
+                                        <img v-show="data.is_next_order" :src="'../../../../../images/orderState/' + 'next.png'" alt="">    
                                     </span>
                                 </li>
                             </ul>

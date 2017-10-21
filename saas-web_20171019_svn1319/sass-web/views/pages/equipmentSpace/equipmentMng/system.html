@@ -1,0 +1,118 @@
+<div class="equipmentDetail" id="addSystem" v-show='onPage=="System"'>
+    <div class="content">
+        <div class="headerd">
+            <span class="btn fl" @click.capture="_clickInsertBack()">
+                <pbutton-white text="取消"></pbutton-white>
+            </span>
+            <span class="btn fr">
+                <pbutton-white text="添加新系统" click="showAddSystem"></pbutton-white>
+            </span>
+        </div>
+        <div class="contentd addSystemCont">
+            <div class="leftCont">
+                <div class="leftHead">
+                    <div class="dropItem">
+                        <span class="dropTitle">系统类型：
+                        </span>
+                        <div class="dropBox">
+                            <pcombobox-normal bind="true" id="'cbx_id_system'" sel="cbx_sel_system">
+                                <header placeholder="请选择系统"></header>
+                                <item datasource="systemTypeArr" text="name"></item>
+                            </pcombobox-normal>
+                        </div>
+                    </div>
+                    <div class="dropItem">
+                        <span class="dropTitle">专业：
+                        </span>
+                        <div class="dropBox">
+                            <pcombobox-normal bind="true" id="'cbx_id_domin'" sel="cbx_sel_domin">
+                                <header placeholder="请选择专业"></header>
+                                <item datasource="majorTypeArr" text="name"></item>
+                            </pcombobox-normal>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="treeList">
+                    <div class="buildItem" v-for="item in buildSystemTree">
+                        <div class="buildTitle" stype="close"><span class="arrow" onclick="showSystList(event)">r</span><span>{{item.build_name}}</span></div>
+                        <div class="systemCont">
+                            <div class="noData" v-show="item.system.length==0">该建筑在当前筛选项下尚无系统</div>
+                            <ul class="systemList" v-show="item.system.length>0">
+                                <li v-for="sitem in item.system" @click='queryPoints(sitem)'>{{sitem.system_local_name}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="buildItem" v-show='!buildSystemTree.length'>
+                        <div class="buildTitle" stype="close"><span class="arrow" onclick="showSystList(event)">r</span><span>建筑名称a</span></div>
+                        <div class="systemCont">
+                            <div class="noData">该建筑在当前筛选项下尚无系统</div>
+                            <ul class="systemList"></ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="rightCont">
+                <div class="detailFloat">
+                    <div class="detailHead">系统详情</div>
+
+                    <div v-for='item in totalPoints'>
+                        <div class="detailItem" v-for='info in item.info_Points'>
+                            <div class="contShow canEdit">
+                                <span class="name">{{info.info_name}}：</span><span class="cont">{{info.str_value | filterStrValue}}</span>
+                                <span class="edit" onclick="editItem(event)" v-if='info.info_code!="build_local_name"  && info.info_code!="domain_name"  && info.info_code!="system_category_name"'><em>e</em>编辑</span>
+                            </div>
+                            <div class="editShow">
+                                <span class="name">{{info.info_name}}：</span>
+
+                                <div class="editInput" v-if='info.type==0'>
+                                    <ptext-text placeholder="'最多10个字'" value='info.str_value' bind='true'>
+                                        <verify errtip="不能为空" verifytype="space">
+                                            <verify>
+                                    </ptext-text>
+                                </div>
+                                <div class="editInput" v-if='info.type==1'>
+                                    <pcombobox-normal id="'cbx_Points_id_'+info.info_code" bind='true'>
+                                        <header placeholder=""></header>
+                                        <item datasource="info.cmpt_data" text="name"></item>
+                                    </pcombobox-normal>
+                                </div>
+                                <div class="editInput" v-if='info.type==2'>
+                                    <div class="per-switch-checkbox" v-for='check in info.cmpt_data' @click='check.isChecked=!check.isChecked'>
+                                        <span class="per-checkbox_input" :class="{'per-checkbox-checked':check.isChecked}"></span>
+                                        <span class="per-switch_label" v-text='check.name'></span>
+                                    </div>
+                                </div>
+                                <div class="editInput" v-if='info.type==3'>
+                                    <pupload-attachment id="'cbx_Points_id_'+info.info_code" number="4" bind='true'></pupload-attachment>
+                                </div>
+                                <div class="editInput" v-if='info.type==4'>
+                                    <ptext-text value='info.str_value' bind='true' text="info.unit">
+                                    </ptext-text>
+                                </div>
+
+                                <span class="cancel" @click="_clickSystemWillCancel($event,info)">x</span>
+                                <span class="sure" @click="_clickSystemWillSubmit($event,info)">Z</span>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="noData"></div>
+            </div>
+        </div>
+    </div>
+    <div class="content" id="addSystemDiv" style="display: none;">
+        <div class="headerd">
+            <span class="btn fl">
+                <pbutton-white text="取消" click="hideAddSystem"></pbutton-white>
+            </span>
+            <span class="btn fr" @click.capture="_clickInsertSystem()">
+                <pbutton-blue text="保存"></pbutton-blue>
+            </span>
+        </div>
+        <% include ./addSystem.html %>
+    </div>
+</div>

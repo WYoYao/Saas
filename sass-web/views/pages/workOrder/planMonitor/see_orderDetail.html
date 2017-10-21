@@ -66,6 +66,12 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <section class="no_tool_tip" v-show="commonData.publicModel.toolList.length == '0'">
+                                            <div>
+                                                <img src="../../../../images/nodata.png" alt="">
+                                            </div>
+                                            <span>当前尚无工具</span>
+                                        </section>
                                     </div>
                                     <div class="tool-select-list-btn">
                                         <!--<div>-->
@@ -91,7 +97,7 @@
                     </div>
                     <div class="see_orderDetail_grid_tab" v-for="(matter_steps,index2) in matters.matter_steps">
                         <!-- {{有id或者有描述}} -->
-                        <div v-if="matter_steps.obj_step_id || matter_steps.description" class="see_orderDetail_grid_tab_div">
+                        <div v-if="matter_steps.obj_id || matter_steps.description" class="see_orderDetail_grid_tab_div">
                             <!-- 左侧列表 -->
                             <div class="see_orderDetail_grid_tab_left">
                                 <div class="see_orderDetail_grid_matter_info">
@@ -121,13 +127,24 @@
                                                     </li>
                                                     <li>
                                                         <h5>确认操作结果：</h5>
-                                                        <div v-for="confirm_result in steps.confirm_result">
+                                                        <div v-for="(confirm_result,index4) in steps.confirm_result">
                                                             <!-- {{steps.confirm_result}} -->
-                                                            <em v-text="confirm_result.obj_name"></em>
-                                                            <span v-for="parents in confirm_result.parents">
-                                                                (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
-                                                                <pbutton-blue  v-if="orderDetail_data.goBackFlag =='4'" bind="true" text="'选择对象实例'" @click="orderDetail_pub.choiceObjExample(confirm_result,$event,confirm_result.obj_id,confirm_result.obj_type)"></pbutton-blue>
-                                                            </span>
+                                                            <div class="confirm_result_div1">
+                                                                <div class="confirm_result_div2">
+                                                                    <em v-text="confirm_result.obj_name"></em>
+                                                                    <span v-for="parents in confirm_result.parents">
+                                                                        (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
+                                                                        
+                                                                    </span>
+                                                                </div>
+                                                                <div :type="confirm_result.obj_type"></div>
+                                                                 <section v-if="orderDetail_data.goBackFlag =='4'">
+                                                                 <div v-show="confirm_result.obj_type == 'system_class' || confirm_result.obj_type == 'equip_class'">
+                                                                     <pbutton-blue bind="true" text="'选择对象实例'" @click="orderDetail_pub.choiceObjExample(confirm_result,$event,confirm_result.obj_id,confirm_result.obj_type,index1,index2,index3,index4)"></pbutton-blue>
+                                                                 </div>
+                                                                    
+                                                                </section>
+                                                            </div>
                                                             <div>
                                                                 <i v-for="info_points in confirm_result.info_points" v-text="info_points.name"></i>
                                                                 <i v-for="customs in confirm_result.customs" v-text="customs.name"></i>
@@ -145,23 +162,34 @@
                             <div class="see_orderDetail_grid_tab_rig">
                                 <div class="see_orderDetail_grid_tab_rig_box" v-for="(feedback,index4) in matter_steps.feedback">
                                     <ul class="see_orderDetail_grid_tab_rig_box_list">
-                                        <li v-if="!feedback.confirm_result">
+                                    <!-- step_type = 3 拍照  step_type = 4 扫码-->
+                                        <li v-if="feedback.step_type == '3' || feedback.step_type == '4'">
                                             <h4>
                                                 <span v-if="feedback.step_sequence" v-text="feedback.step_sequence + ','"></span>
-                                                <i v-if="feedback.pre_conform_result" v-text="feedback.pre_conform_result + ':'"></i>
+                                                <i v-text="feedback.description"></i>
                                             </h4>
                                             <div v-for="photos in feedback.photos">
                                                 <img :src="photos" alt="">
                                             </div>
                                         </li>
-                                        <li v-else-if="feedback.confirm_result">
+                                        <!-- step_type = 1 文字输入 -->
+                                        <li v-if="feedback.step_type == '1'">
                                             <h4>
                                                 <span v-if="feedback.step_sequence" v-text="feedback.step_sequence + ','"></span>
+                                                <i v-text="feedback.description"></i>
+                                            </h4>
+                                        </li>
+                                        <!-- 有confirm_result是常规内容的信息点反馈 -->
+                                        <li v-if="feedback.step_type == '5'">
+                                            <h4>
+                                                <span v-if="feedback.step_sequence" v-text="feedback.step_sequence + ','">
+                                                    <em v-text="feedback.description"></em>
+                                                </span>
                                                 <div>
                                                     <ul v-for="item in feedback.confirm_result">
-                                                        <li v-text="item.obj_name +'设备类'">
-                                                            <span v-text="item.obj_name +'设备类'"></span>
-                                                            <i>-</i>
+                                                        <li v-text="item.obj_name">
+                                                            <!-- <span v-text="item.obj_name +'设备类'"></span>
+                                                            <i>-</i> -->
                                                         </li>
 
                                                         <li v-if="item.info_points" v-for="info_points in item.info_points" v-text="info_points.value + info_points.unit +','"></li>
@@ -184,19 +212,22 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="see_orderDetail_grid_tab_rig_box_operatPerson">
+                                <div class="see_orderDetail_grid_tab_rig_box_operatPerson" v-if="matter_steps.executors.length >0">
                                     <div>操作人：</div>
                                     <p v-for="executors in matter_steps.executors" v-text="executors"></p>
                                 </div>
                             </div>
                         </div>
                         <!-- 没有id且没有描述 -->
-                        <div v-if="!matter_steps.obj_step_id && !matter_steps.description" class="see_orderDetail_grid_tab_div_sign">
+                        <div v-if="!matter_steps.obj_id && !matter_steps.description" class="see_orderDetail_grid_tab_div_sign">
                             <div class="see_orderDetail_grid_tab_div_sign_left">
                                 签字：
                             </div>
-                            <div class="see_orderDetail_grid_tab_div_sign_img">
-                                <img :src="matter_steps.feedback[0].photos[0]" alt="">
+                            <div v-if="matter_steps.feedback && matter_steps.feedback.length >0" class="see_orderDetail_grid_tab_div_sign_img" v-for="matter_steps in matter_steps.feedback">
+                                <div v-if = "matter_steps.photos && matter_steps.photos.length >0" v-for="images in matter_steps.photos">
+                                    <img :src="images" alt="">
+                                    
+                                </div>
                             </div>
                             <div class="see_orderDetail_grid_tab_div_sign_rig">
                                 <span>操作人:</span><i v-text="orderDetail_pub.arrToString(matter_steps.executors)"></i>
@@ -204,10 +235,11 @@
                         </div>
                     </div>
                     <!-- 选择对象实例 -->
-                    <div class="choiceObjExampleModal" :id="'choiceObjExample'">
+                    <div class="choiceObjExampleModal" id="choiceObjExample_pub">
                         <h4><span>设备类</span>(<i>专业-系统</i>)</h4>
                         <ul id="choiceObjExample_tree">
-                            <li v-for="item in model.planObjExampleArr" v-text="item.obj_name" @click="replaceObjExample(item)"></li>
+                            <!-- <span v-text="commonData.publicModel.planObjExampleArr"></span> -->
+                            <li v-for="item in planObjExampleArr" v-text="item.obj_name" @click="orderDetail_pub.replaceObjExample(item)"></li>
                         </ul>
                         <!-- <ptree-normal :id="'choiceObjExample_tree'" bind="true" datasource="model.planObjExampleArr">
                                         <item itemid="obj_id" text="obj_name" child="content" issearch="false"></item>

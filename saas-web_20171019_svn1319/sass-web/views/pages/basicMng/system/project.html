@@ -1,0 +1,279 @@
+<div id="project" class="system" v-if='onPage=="project"'>
+    <div class="content project">
+
+        <div class="contenterScrollBar">
+
+            <!-- 基本信息 Start -->
+            <div class="part">
+                <h2 class="title">基本信息</h2>
+                <ul class="tables">
+                    <li class="row">
+                        <p>项目本地编码</p>
+                        <projecttexteditor :keys='"project_local_id"' :value='ProjectInfo.project_local_id' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+
+                    <li class="row">
+                        <p>项目本地名称</p>
+                        <projecttexteditor :keys='"project_local_name"' :value='ProjectInfo.project_local_name' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                    <li class="row">
+                        <p>BIM模型中编码</p>
+                        <projecttexteditor :keys='"BIMID"' :value='ProjectInfo.BIMID' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                </ul>
+            </div>
+            <!-- 基本信息 End -->
+
+            <!-- 地理位置信息 Start -->
+            <div class="part">
+                <h2 class="title">地理位置信息</h2>
+                <ul class="tables">
+                    <li class="row">
+                        <p>省市区域</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.province_city_name'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>气候区</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.climate_zone_name'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>城市发展水平</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.urban_devp_lev_name'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>经度</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.longitude'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>纬度</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.latitude'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>海拔</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.altitude'></span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <!-- 地理位置信息 End -->
+
+            <!-- 商业信息Start -->
+            <div class="part">
+                <h2 class="title">商业信息</h2>
+                <ul class="tables">
+                    <li class="row">
+                        <p>所属集团</p>
+                        <projecttexteditor :keys="'group'" :value='ProjectInfo.group' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                    <li class="row">
+                        <p>业主</p>
+                        <projecttexteditor :keys='"owner"' :value='ProjectInfo.owner' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                    <li class="row">
+                        <p>设计方</p>
+                        <projecttexteditor :keys='"designer"' :value='ProjectInfo.designer' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                    <li class="row">
+                        <p>施工方</p>
+                        <projecttexteditor :keys='"constructors"' :value='ProjectInfo.constructors' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                    <li class="row">
+                        <p>物业公司</p>
+                        <projecttexteditor :keys='"property"' :value='ProjectInfo.property' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                    <li class="row">
+                        <p>集团管理分区</p>
+                        <projecttexteditor :keys='"group_manage_zone"' :value='ProjectInfo.group_manage_zone' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                    <li class="row">
+                        <p>集团经营分区</p>
+                        <projecttexteditor :keys='"group_operate_zone"' :value='ProjectInfo.group_operate_zone' :set='setProject.bind(this)'>
+                        </projecttexteditor>
+                    </li>
+                </ul>
+            </div>
+            <!-- 商业信息End -->
+
+            <!-- 天气预报Start -->
+            <div class="part">
+                <div>
+                    <h2 class="title">天气预报</h2>
+                </div>
+                <div class="weather">
+                    <soan class="prompt">天气预报-未来第一天</soan>
+                    <ul class="tables">
+                        <li class="row">
+                            <p>天气状态</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["1st_weather_name"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气（干球）温度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["1stTdb"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气相对湿度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["1stRH"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气PM2.5质量浓度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["1stPM2.5"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气PM10浓度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["1stPM10"]'></span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="weather">
+                    <soan class="prompt">天气预报-未来第二天</soan>
+                    <ul class="tables">
+                        <li class="row">
+                            <p>天气状态</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["2nd_weather_name"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气（干球）温度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["2ndTdb"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气相对湿度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["2ndRH"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气PM2.5质量浓度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["2ndPM2.5"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气PM10浓度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["2ndPM10"]'></span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="weather">
+                    <soan class="prompt">天气预报-未来第三天</soan>
+                    <ul class="tables">
+                        <li class="row">
+                            <p>天气状态</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["3rd_weather_name"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气（干球）温度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["3rdTdb"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气相对湿度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["3rdRH"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气PM2.5质量浓度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["3rdPM2.5"]'></span>
+                            </span>
+                        </li>
+                        <li class="row">
+                            <p>空气PM10浓度</p>
+                            <span class="col">
+                                <span class="text" v-text='ProjectInfo["3rdPM10"]'></span>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!-- 天气预报End -->
+
+            <!-- 当前室外环境Start -->
+            <div class="part">
+                <h2 class="title">当前室外环境</h2>
+                <ul class="tables">
+                    <li class="row">
+                        <p>天气状态</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.out_weather_name'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>空气（干球）温度</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.outTdb'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>空气相对湿度</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.outRH'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>空气绝对湿度</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.outD'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>空气（湿球）温度</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.outTwb'></span>
+                        </span>
+                    </li>
+                    <li class="row">
+                        <p>空气露点温度</p>
+                        <span class="col">
+                            <span class="text" v-text='ProjectInfo.outTd'></span>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            <!-- 当前室外环境End -->
+        </div>
+
+
+
+
+    </div>
+</div>

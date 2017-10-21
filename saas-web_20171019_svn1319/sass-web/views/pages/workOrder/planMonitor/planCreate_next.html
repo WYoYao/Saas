@@ -1,0 +1,143 @@
+<div id="see_planDetail_bg" v-if="curPage == pages[7]">
+    <div class="see_planDetail_box">
+        <div class="see_planDetail_page">
+            <div class="see_planDetail_page_top">
+                <div class="see_planDetail_page_back">
+                    <pbutton-white bind='true' text="'返回'" @click="goBackPlanCreate()"></pbutton-white>
+                </div>
+                <div class="see_planDetail_page_save">
+                    <div>
+                        <pbutton-blue bind='true' text="'发布'" @click="methods.publishPlanCreate()"></pbutton-blue>
+                    </div>
+                </div>
+            </div>
+            <div class="see_planDetail_page_grid">
+                <!-- 顶部列表 -->
+                <div class="see_planDetail_grid_top">
+                    <div class="see_planDetail_grid_top_title">
+                        <h3>基本信息</h3>
+                    </div>
+                    <div class="see_planDetail_grid_top_tit_con see_planDetail_grid_top_tit_con1">
+                        <div>
+                            <span>工单类型：</span><i v-text="model.orderTypeName">维保</i>
+                        </div>
+                        <div>
+                            <span>工单紧急程度：</span><i v-text="model.newPlanObj.urgency">中</i>
+                        </div>
+                    </div>
+                    <div class="see_planDetail_grid_top_tit_con see_planDetail_grid_top_tit_con2">
+                        <div>
+                            <span>
+                                工单提前发送时间：
+                            </span>
+                            <i>提前<em v-text="model.newPlanObj.ahead_create_time"></em>小时</i>
+                        </div>
+                        <div>
+                            <span>计划生效时间：</span>
+                            <i v-text="model.newPlanObj.plan_start_time == ''?'发布成功后立即':orderDetail_pub.timeFormatting(model.newPlanObj.plan_start_time)">
+                                
+                            </i>&nbsp;——&nbsp;<i v-text="model.newPlanObj.plan_end_time == ''?'一直有效':orderDetail_pub.timeFormatting(model.newPlanObj.plan_end_time)"></i>
+                        </div>
+                    </div>
+                    <div class="see_planDetail_grid_top_tit_con see_planDetail_grid_top_tit_con3">
+                        <h4>计划频率：</h4>
+                        <span>每<i v-text="transfYMWD(model.newPlanObj.freq_cycle)"></i><em v-text="model.newPlanObj.freq_num"></em>次</span>
+                        <div>
+                            (<span v-for="item in  model.newPlan_frequencyArr">
+                                <i v-text="item.st"></i><em>至</em><i v-text="item.et"></i>
+                            </span>)
+                        </div>
+                    </div>
+                    <div class="see_planDetail_grid_line">
+                    </div>
+                    <div class="see_planDetail_grid_top_title">
+                        <h3>计划内的工作事项详情</h3>
+                    </div>
+                </div>
+                <!-- 内容区域 -->
+                <div class="see_planDetail_grid_tab_ul" v-for="(matters,index1) in planCreateDetail">
+                    <div class="see_planDetail_grid_tab_tit">
+                        <div class="see_planDetail_grid_name" v-text="matters.matter_name">
+                        </div>
+                    </div>
+                    <div class="see_planDetail_grid_tab" v-for="(matter_steps,index2) in matters.matter_steps">
+                        <!-- {{有id或者有描述}} -->
+                        <div class="see_planDetail_grid_tab_div">
+                            <!-- 左侧列表 -->
+                            <div class="see_planDetail_grid_tab_left">
+                                <div class="see_planDetail_grid_matter_info">
+                                    <h4>事件概述：</h4>
+                                    <p v-text="matter_steps.description"></p>
+                                </div>
+                                <div class="see_planDetail_grid_list" v-for="(steps,index3) in matter_steps.steps">
+                                    <ul>
+                                        <li class="see_planDetail_grid_list_operat2">
+                                            <h4 v-text="steps.step_sequence"></h4>
+                                            <div>
+                                                <span v-text="steps.content" v-if="steps.step_type == '3'||steps.step_type == '4'">
+                                                    到达指定位置拍照
+                                                </span>
+                                                <ul v-if="steps.step_type != '3'&& steps.step_type != '4'&& steps.step_type != '6'">
+                                                    <li>
+                                                        <h5>强制确认操作前提：</h5>
+                                                        <p v-if="steps.pre_conform" v-text="steps.pre_conform"></p>
+                                                    </li>
+                                                    <li>
+                                                        <h5>标准作业操作内容：</h5>
+                                                        <p v-if="steps.content" v-text="steps.content"></p>
+                                                    </li>
+                                                    <li>
+                                                        <h5>注意事项：</h5>
+                                                        <p v-if="steps.notice" v-text="steps.notice"></p>
+                                                    </li>
+                                                    <li>
+                                                        <h5>确认操作结果：</h5>
+                                                        <div v-for="(confirm_result,_index) in steps.confirm_result">
+                                                            <!-- {{steps.confirm_result}} -->
+                                                            <em v-text="confirm_result.obj_name"></em>
+                                                            <span v-for="(parents,pIndex) in confirm_result.parents">
+                                                                (<i v-for="(names,naIndex) in parents.parent_names" v-text="parents.parent_names.length == naIndex + 1?names : names + '-'"></i>)
+                                                                <pbutton-blue bind="true" text="'选择对象实例'" @click="choiceObjExample(confirm_result,event,confirm_result.obj_id,confirm_result.obj_type)"></pbutton-blue>
+                                                                
+                                                                
+                                                            </span>
+                                                            <div>
+                                                                <i v-for="info_points in confirm_result.info_points" v-text="info_points.name"></i>
+                                                                <i v-for="customs in confirm_result.customs" v-text="customs.name"></i>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </ul>
+                                                <!-- <p v-if="steps.step_type == '6'" v-text="steps.content"></p> -->
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 没有id且没有描述 -->
+                        <div v-if="!matter_steps.obj_id && !matter_steps.description" class="see_planDetail_grid_tab_div_sign">
+                            <div class="see_planDetail_grid_tab_div_sign_left">
+                                签字：
+                            </div>
+                            <div class="see_planDetail_grid_tab_div_sign_rig">
+                                <span>操作人:</span><i v-text="orderDetail_pub.arrToString(matter_steps.executors)"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="choiceObjExampleModal" :id="'choiceObjExample'">
+                        <h4><span>设备类</span>(<i>专业-系统</i>)</h4>
+                        <ul id="choiceObjExample_tree">
+                            <li v-for="item in model.planObjExampleArr" v-text="item.obj_name" @click="replaceObjExample(item)"></li>
+                        </ul>
+                        <!-- <ptree-normal :id="'choiceObjExample_tree'" bind="true" datasource="model.planObjExampleArr">
+                                        <item itemid="obj_id" text="obj_name" child="content" issearch="false"></item>
+                                    </ptree-normal> -->
+                        <div class="choiceObjExampleModal_bottom">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

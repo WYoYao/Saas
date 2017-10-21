@@ -282,7 +282,7 @@ var controller = {
                 var data = result && result.data ? result.data : [];
                 var allArr=[
                     {
-                        code:"all",
+                        person_id:"all",
                         name:"全部",
                         description:"",
                         dic_type:'work_order_type'
@@ -311,7 +311,7 @@ var controller = {
                 var data = result && result.data ? result.data : [];
                 workOrderMngModel.temList=workOrderMngModel.temList.concat(data);
                 workOrderMngModel.workList= workOrderMngModel.temList;
-                $("#monitor-list-notice").pshow({text: '获取工单列表成功', state: "success"});
+                // $("#monitor-list-notice").pshow({text: '获取工单列表成功', state: "success"});
             },
             error: function (err) {
                 $("#monitor-list-notice").pshow({text: '获取工单列表失败', state: "failure"});
@@ -323,6 +323,7 @@ var controller = {
     },
     /*根据筛选条件查询工单*/
     selEvent:function (selObj,event) {
+        debugger;
         if($("#time-type").psel()){
             var time=workOrderMngModel.timeType[$("#time-type").psel().index].code;
         }
@@ -350,12 +351,8 @@ var controller = {
        };
         workOrderMngModel.temList=[];
         controller.queryAllWorkOrder(conditionObj);
-
-
-
-
-
-    }
+    },
+    
     //------------------------------------------yn__end------------------------------------------
 
 }

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.Schedule_join_userMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.Schedule_join_user" >
+    <id column="join_user_id" property="joinUserId" jdbcType="VARCHAR" />
+    <result column="schedule_id" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="creater_id" property="createrId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    join_user_id, schedule_id, user_id, creater_id, create_time
+  </sql>
+   <delete id="deleteByScheduleId"  parameterType="java.lang.String" >
+  	delete 
+  	from t_schedule_join_user
+  	where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByScheduleId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_schedule_join_user
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_schedule_join_user
+    where join_user_id = #{joinUserId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_schedule_join_user
+    where join_user_id = #{joinUserId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.Schedule_join_user" >
+    insert into t_schedule_join_user (join_user_id, schedule_id, user_id, 
+      creater_id, create_time)
+    values (#{joinUserId,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, 
+      #{createrId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.Schedule_join_user" >
+    insert into t_schedule_join_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="joinUserId != null" >
+        join_user_id,
+      </if>
+      <if test="scheduleId != null" >
+        schedule_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="joinUserId != null" >
+        #{joinUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null" >
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.Schedule_join_user" >
+    update t_schedule_join_user
+    <set >
+      <if test="scheduleId != null" >
+        schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where join_user_id = #{joinUserId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.Schedule_join_user" >
+    update t_schedule_join_user
+    set schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where join_user_id = #{joinUserId,jdbcType=VARCHAR}
+  </update>
+</mapper>

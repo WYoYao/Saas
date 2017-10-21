@@ -1,0 +1,172 @@
+<div id="planMonitor_detail_bg" v-if="curPage == pages[2]">
+    <div class="planMonitor_detail_box">
+        <div class="planMonitor_detail_page">
+            <div class="planMonitor_detail_page_top">
+                <div class="planMonitor_detail_page_back">
+                    <pbutton-white @click="scrapDetailGoBack" bind='true' text="'返回'"></pbutton-white>
+                </div>
+                <div class="planMonitor_detail_page_title">
+                    <span v-text="scrapPlanDetail.plan_name"></span>
+                </div>
+                <div class="planMonitor_detail_page_save">
+                    <ul>
+                        <li @click="historyModalShow()">
+                            <img src="../../../../../images/history_icon.png" alt="">
+                        </li>
+                        <li @click="orderRecordListShow()">
+                            <img src="../../../../../images/order_record.png" alt="">
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="planMonitor_detail_page_box">
+                <div class="planMonitor_detail_page_con">
+                    <h3 class="planMonitor_detail_page_con_tit">
+                        <span>该计划已在<i  v-text="orderDetail_pub.timeFormatting(scrapPlanDetail.destroy_time)"></i>被作废</span>
+                    </h3>
+                    <div class="planMonitor_detail_plan_set">
+                        <h4 class="planMonitor_detail_plan_set_tit"><span>计划设置</span></h4>
+                    </div>
+                    <div class="planMonitor_detail_plan_name">
+                        <div>计划名称：</div><span v-text="scrapPlanDetail.plan_name"></span>
+                    </div>
+                    <div class="planMonitor_detail_plan_name">
+                        <div>工单类型：</div><span v-text="scrapPlanDetail.order_type_name"></span>
+                    </div>
+                    <div class="planMonitor_detail_plan_name">
+                        <div>工单紧急程度：</div><span v-text="scrapPlanDetail.urgency"></span>
+                    </div>
+                    <div class="planMonitor_detail_plan_name">
+                        <div>工单提前发送时间：</div><span>提前<i v-text="scrapPlanDetail.ahead_create_time"></i>小时</span>
+                    </div>
+                    <div class="planMonitor_detail_plan_name">
+                        <div>计划频率：</div><span>每<i v-text="transfYMWD(scrapPlanDetail.freq_cycle)"></i><i v-text="scrapPlanDetail.freq_num"></i>次</span>
+                    </div>
+                    <div class="planMonitor_detail_plan_name planMonitor_detail_plan_name1">
+                        <ul>
+                            <li v-for="(times,index) in scrapPlanDetail.freq_times">
+                                <div>第<span>{{index +1}}</span>次</div>：
+                                <div>
+                                    <i v-text="times.start_time.time_day"></i>
+                                    <i v-text="times.start_time.time_hour"></i>:<i v-text="times.start_time.time_minute"></i>
+                                </div>
+                                <div> 至 </div>
+                                <div>
+                                    <i v-text="times.end_time.time_day"></i>
+                                    <i v-text="times.end_time.time_hour"></i>:<i v-text="times.end_time.time_minute"></i>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="planMonitor_detail_plan_name">
+                        <div>计划生效时间：</div><span v-text="scrapPlanDetail.plan_start_type == '1'?'发布成功后立即生效':'指定时间'"></span>
+                    </div>
+                    <div class="border_dashed">
+                    </div>
+                    <div class="planMonitor_detail_plan_set">
+                        <h4 class="planMonitor_detail_plan_set_tit"><span>工作事项</span></h4>
+                    </div>
+                    <div class="planMonitor_detail_word_item">
+                        <ul>
+                            <li class="planMonitor_detail_item_li" v-for="info in scrapPlanDetail.draft_matters">
+                                <h4 v-text="info.matter_name"></h4>
+                                <div>
+                                    <span>
+                                    <i v-text="arrTransfString(info.desc_objs,'obj_name')"></i>
+                                    <i v-text="arrTransfString(info.desc_sops,'sop_name')"></i>
+                                    <i v-text="info.description"></i></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 侧弹框 -->
+<pwindow-float id="floatWindow" isshade="true" title="计划修改历史" templateid="plan_old_record">
+    <animate maxpx="0" minpx="-830" orientation="right"></animate>
+</pwindow-float>
+<script type="text/html" id="plan_old_record">
+    <div class="oldRecord_modal">
+        <div class="oldRecord_modal_box">
+            <ul class="oldRecord_modal_ul">
+                <li v-for="(item,index) in historyRecordList">
+                    <div class="oldRecord_modal_title">
+                        <div><i v-text="orderDetail_pub.timeFormatting(item.update_time)">2017.08.15</i><i>修改版本</i></div>
+                        <div>生效时间：<span v-text="orderDetail_pub.timeFormatting(item.plan_start_time)"></span> - <i v-text="item.plan_start_time !=' '?orderDetail_pub.timeFormatting(item.plan_start_time):'一直生效'"></i></div>
+                    </div>
+                    <div class="oldRecord_modal_con">
+                        <div class="oldRecord_page_box">
+                            <div class="oldRecord_page_con">
+                                <!-- <h3 class="oldRecord_page_con_tit">
+                                    <span>该计划已在<i>2017.10.10</i>被作废</span>
+                                </h3> -->
+                                <div class="oldRecord_plan_set">
+                                    <h4 class="oldRecord_plan_set_tit"><span>计划设置</span></h4>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划名称：</div><span v-text="item.plan_name"></span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单类型：</div><span v-text="item.order_type_name"></span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单紧急程度：</div><span v-text="item.urgency"></span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>工单提前发送时间：</div><span>提前<i v-text="item.ahead_create_time"></i>小时</span>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划频率：</div>
+                                    <span>每<i v-text="transfYMWD(item.freq_cycle)"></i><i v-text="item.freq_num"></i>次</span>
+                                </div>
+                                <div class="oldRecord_plan_name planMonitor_detail_plan_name1">
+                                    <ul>
+                                        <li v-for="(times,num) in item.freq_times">
+                                            <div>第<span v-text="num +1"></span>次</div>：
+                                            <div>
+                                                <i v-text="times.start_time.time_day"></i>
+                                                <i v-text="times.start_time.time_hour"></i>:<i v-text="times.start_time.time_minute"></i>
+                                            </div>
+                                            <div> 至 </div>
+                                            <div>
+                                                <i v-text="times.end_time.time_day"></i>
+                                                <i v-text="times.end_time.time_hour"></i>:<i v-text="times.end_time.time_minute"></i>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="oldRecord_plan_name">
+                                    <div>计划生效时间：</div>
+                                    <span v-text="item.plan_start_type == '1'?'发布成功后立即生效':'指定时间'"></span>
+                                </div>
+                                <div class="border_dashed">
+                                </div>
+                                <div class="oldRecord_plan_set">
+                                    <h4 class="oldRecord_plan_set_tit"><span>工作事项</span></h4>
+                                </div>
+                                <div class="oldRecord_word_item">
+                                    <ul>
+                                        <li class="oldRecord_item_li" v-for="info in item.draft_matters">
+                                            <h4 v-text="info.matter_name"></h4>
+                                            <div>
+                                                <span>
+                                                    <i v-text="arrTransfString(info.desc_objs,'obj_name')"></i>
+                                                    <i v-text="arrTransfString(info.desc_sops,'sop_name')"></i>
+                                                    <i v-text="info.description"></i>
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+               
+            </ul>
+        </div>
+    </div>
+</script>

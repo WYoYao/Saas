@@ -243,3 +243,9 @@ html, body {
     margin-left: 10px;
     font-size: 12px;
 }
+.flash-pub{
+    display: none;
+}
+.publish-detail-tab{
+
+}

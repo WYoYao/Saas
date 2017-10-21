@@ -1157,6 +1157,7 @@
 
         .saveModeCont .historyList li {
             border-bottom: 1px solid #dddddd;
+            overflow: hidden;
         }
 
             .saveModeCont .historyList li:last-child {
@@ -1164,11 +1165,11 @@
             }
 
             .saveModeCont .historyList li span {
-                display: inline-block;
                 width: 50%;
                 height: 36px;
                 line-height: 36px;
                 text-align: center;
                 box-sizing: border-box;
                 border-right: 1px solid #dddddd;
+                float: left;
             }

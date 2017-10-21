@@ -1,10 +1,9 @@
 <% include ../../../template/pageHead.html %>
+<link rel="stylesheet" href="../css/equipmentSpace/printCard/print.css" />
 <script type="text/javascript" src="../js/equipmentSpace/printCard/event.js"></script>
 <script type="text/javascript" src="../js/equipmentSpace/printCard/model.js"></script>
 <script type="text/javascript" src="../js/public/globalController.js"></script>
 <script type="text/javascript" src="../js/equipmentSpace/printCard/controller.js"></script>
-
-<link rel="stylesheet" href="../css/equipmentSpace/printCard/print.css" />
 <div class="printCardWrap" id="cardPrintWrap">
     <div class="printCardCon">
         <div class="printCardConA" id="printCardList">
@@ -59,7 +58,7 @@
                     </div>
                     <div class="gridCon" style="height: 400px;" id="gridCardPrintForEq" >
                         <pgrid-multifunction>
-                            <panel datasource="eqArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="gridTemp" change="cardPrintVueMethod.gridCheckboxChange"></panel>
+                            <panel pagesize="50"  datasource="eqArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="gridTemp" change="cardPrintVueMethod.gridCheckboxChange"></panel>
                             <header>
                                 <column name="设备编号" source="equip_local_id" ></column>
                                 <column name="设备名称" source="equip_local_name"></column>
@@ -113,7 +112,7 @@
                     </div>
                     <div class="gridCon" style="height: 400px;" id="gridCardPrintForSp">
                         <pgrid-multifunction >
-                            <panel datasource="spArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="spGridTemp" change="cardPrintVueMethod.gridCheckboxChange"></panel>
+                            <panel pagesize="50" datasource="spArr" checkbox="true" sel="cardPrintVueMethod.gridPageChange" sortevent="cardPrintVueMethod.gridSortChange" operation="true" templateid="spGridTemp" change="cardPrintVueMethod.gridCheckboxChange"></panel>
                             <header>
                                 <column name="空间编号" source="space_id"  ></column>
                                 <column name="空间名称" source="room_local_name"></column>
@@ -156,7 +155,7 @@
                     </div>
                     <div class="printCard_con">
                         <div class="printCard_name">
-                            <input type="text" :value="eqCardInfoToUpdate.title" />
+                            <input type="text" v-model="eqCardInfoToUpdate.title" />
                         </div>
                         <ul class="printCard_ul" id="uleqCardInfo">
                             <li class="printCard_li"><em>设备名称:</em></li>
@@ -183,7 +182,7 @@
                     </div>
                     <div class="printCard_con">
                         <div class="printCard_name">
-                            <input type="text" :value="spCardInfoToUpdate.title" />
+                            <input type="text" v-model="spCardInfoToUpdate.title" />
                         </div>
                         <ul class="printCard_ul" id="ulspCardInfo">
                             <li class="printCard_li"><em>空间名称:</em></li>
@@ -241,7 +240,7 @@
                     <em v-text="eqCardInfoToUpdate.title"></em>
                 </div>
                 <ul class="printCard_ul">
-                    <li class="printCard_li" v-for="item in selEqCardTemplateArr">
+                    <li class="printCard_li" v-for="item in selEqCardTemplateArr" v-if="item.info_point_code!='not_have'">
                         <em v-text="item.info_point_name">设备名称:</em>
                         <b>ZHILENGJI09871</b>
                     </li>
@@ -258,7 +257,7 @@
                     <em v-text="spCardInfoToUpdate.title"></em>
                 </div>
                 <ul class="printCard_ul">
-                    <li class="printCard_li" v-for="item in selSpCardTemplateArr">
+                    <li class="printCard_li" v-for="item in selSpCardTemplateArr" v-if="item.info_point_code!='not_have'">
                         <em v-text="item.info_point_name">设备名称:</em>
                         <b>ZHILENGJI09871</b>
                     </li>

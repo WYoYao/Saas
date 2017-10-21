@@ -1,0 +1,122 @@
+<div class="addPerCont">
+    <div class="contWrap">
+        <div class="addItem">
+            <div class="atitle"><span class="star">*</span>员工姓名：</div>
+            <div class="acont">
+                <ptext-text pertype="personInput" placeholder="'输入姓名'" bind="true" value="selPerson.name">
+                    <verify errtip="不能为空" verifytype="space"><verify>
+                </ptext-text>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle"><span class="star">*</span>身份证号：</div>
+            <div class="acont">
+                <ptext-text pertype="personInput" placeholder="'输入身份证号'" bind="true" value="idNumberInput">
+                    <verify errtip="不能为空" verifytype="space"><verify>
+                    <verify errtip="身份证号不正确" verifytype="idcard"><verify>
+                </ptext-text>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle"><span class="star">*</span>手机号：</div>
+            <div class="acont">
+                <ptext-text pertype="personInput" placeholder="'输入手机号'" bind="true" value="selPerson.phone_num">
+                    <verify errtip="不能为空" verifytype="space"><verify>
+                    <verify errtip="手机号码不正确" verifytype="mobile"><verify>
+                </ptext-text>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle"><span class="star">*</span>性别：</div>
+            <div class="acont">
+                <pcombobox-normal pertype="sexCombobox" align="left" sel="editSexSel">
+                    <item datasource="sexArr" text="name"></item>
+                </pcombobox-normal>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle">出生年月：</div>
+            <div class="acont disable">
+                <ptime-form pertype="borthTimeForm" lock="true">
+                    <panel timetype="yMd">
+                    </panel>
+                </ptime-form>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle">员工编码：</div>
+            <div class="acont">
+                <ptext-text pertype="personInput" placeholder="'输入编码'" bind="true" value="selPerson.person_num">
+                </ptext-text>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle">岗位：</div>
+            <div class="acont">
+                <ptext-combobox pertype="posiCombobox" bind="true" value="selPerson.position">
+                    <header placeholder="'请选择岗位'"></header>
+                    <item datasource="positionList" text="pname"></item>
+                </ptext-combobox>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle">角色：</div>
+            <div class="acont">
+                <ul>
+                    <li class="hasLi" v-for="(ritem,rindex) in selPerson.role_array"><em v-on:click="delRoleClick(ritem,rindex)"></em><span>{{ritem.role_name}}</span></li>
+                </ul>
+                <pbutton-menuminor sel="addPerRole" bind="true">
+                    <header placeholder="添加角色"></header>
+                    <item datasource="roleList" text="role_name"></item>
+                </pbutton-menuminor>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle">专业：</div>
+            <div class="acont">
+                <ul>
+                    <li class="hasLi" v-for="(sitem,sindex) in selPerson.specialty_name"><em v-on:click="delSpecialClick(sitem,sindex)"></em><span>{{sitem.name}}</span></li>
+                </ul>
+                <pbutton-menuminor sel="addSpecialClick" bind="true">
+                    <header placeholder="添加专业"></header>
+                    <item datasource="allSpeciality" text="name"></item>
+                </pbutton-menuminor>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle">标签：</div>
+            <div class="acont tagCont">
+                <ul>
+                    <li class="hasLi" v-for="(titem,tindex) in selPerson.custom_tag"><em v-on:click="delTagClick(titem,tindex)"></em><span>{{titem}}</span></li>
+                </ul>
+                <div>
+                    <ptext-combobox pertype="defineTagBox" bind="true" style="float: left; margin-right: 20px; width: 200px;">
+                        <header placeholder="'添加标签'"></header>
+                        <item datasource="customTags" text="name"></item>
+                    </ptext-combobox>
+                    <pbutton-white icon="J" shape="ellipse" click="addTagClick" style="float: left; margin-top: 3px;"></pbutton-white>
+                </div>
+            </div>
+        </div>
+        <div class="addItem">
+            <div class="atitle">图片：</div>
+            <div class="acont picCont">
+                <div class="idPhoto">
+                    <pupload-img pertype="uplodImgBox" number="1">
+                        <panel success="imageSuccess" clear="imageClear"></panel>
+                    </pupload-img>
+                </div>
+                <div class="perImg" pertype="personImgBox">
+                    <img src="/images/person.png" />
+                </div>
+                <div class="imgNote">
+                    图片格式为jpg、gif、bmp<br />
+                    建议尺寸50mm*35mm
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="buttonDiv">
+    <pbutton-blue text="保存" click="perAddEditSave"></pbutton-blue>
+</div>

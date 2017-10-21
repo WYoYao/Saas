@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.ScheduleNoWeeksMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.ScheduleNoWeeks" >
+    <id column="no_weeks_id" property="noWeeksId" jdbcType="VARCHAR" />
+    <result column="schedule_id" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="user_ids" property="userIds" jdbcType="VARCHAR" />
+    <result column="weeks_codes" property="weeksCodes" jdbcType="VARCHAR" />
+    <result column="weeks_names" property="weeksNames" jdbcType="VARCHAR" />
+    <result column="creater_id" property="createrId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    no_weeks_id, schedule_id, user_ids, weeks_codes, weeks_names, creater_id, create_time
+  </sql>
+  <select id="selectByScheduleId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_schedule_no_weeks
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByScheduleId"  parameterType="java.lang.String" >
+  	delete 
+  	from t_schedule_no_weeks
+  	where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_schedule_no_weeks
+    where no_weeks_id = #{noWeeksId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_schedule_no_weeks
+    where no_weeks_id = #{noWeeksId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.ScheduleNoWeeks" >
+    insert into t_schedule_no_weeks (no_weeks_id, schedule_id, user_ids, 
+      weeks_codes, weeks_names, creater_id, 
+      create_time)
+    values (#{noWeeksId,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, #{userIds,jdbcType=VARCHAR}, 
+      #{weeksCodes,jdbcType=VARCHAR}, #{weeksNames,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.ScheduleNoWeeks" >
+    insert into t_schedule_no_weeks
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="noWeeksId != null" >
+        no_weeks_id,
+      </if>
+      <if test="scheduleId != null" >
+        schedule_id,
+      </if>
+      <if test="userIds != null" >
+        user_ids,
+      </if>
+      <if test="weeksCodes != null" >
+        weeks_codes,
+      </if>
+      <if test="weeksNames != null" >
+        weeks_names,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="noWeeksId != null" >
+        #{noWeeksId,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null" >
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="userIds != null" >
+        #{userIds,jdbcType=VARCHAR},
+      </if>
+      <if test="weeksCodes != null" >
+        #{weeksCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="weeksNames != null" >
+        #{weeksNames,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.ScheduleNoWeeks" >
+    update t_schedule_no_weeks
+    <set >
+      <if test="scheduleId != null" >
+        schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="userIds != null" >
+        user_ids = #{userIds,jdbcType=VARCHAR},
+      </if>
+      <if test="weeksCodes != null" >
+        weeks_codes = #{weeksCodes,jdbcType=VARCHAR},
+      </if>
+      <if test="weeksNames != null" >
+        weeks_names = #{weeksNames,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where no_weeks_id = #{noWeeksId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.ScheduleNoWeeks" >
+    update t_schedule_no_weeks
+    set schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      user_ids = #{userIds,jdbcType=VARCHAR},
+      weeks_codes = #{weeksCodes,jdbcType=VARCHAR},
+      weeks_names = #{weeksNames,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where no_weeks_id = #{noWeeksId,jdbcType=VARCHAR}
+  </update>
+</mapper>

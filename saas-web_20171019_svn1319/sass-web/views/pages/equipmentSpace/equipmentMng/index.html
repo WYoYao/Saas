@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Saas平台运营平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+    <!-- createVue -->
+    <script src="/js/equipmentSpace/equipmentMng/index.js"></script>
+
+    <!-- 控件库处理 -->
+    <script src="/js/equipmentSpace/equipmentMng/tool.js"></script>
+
+    <script type="text/javascript" src="/js/public/polyfill.js"></script>
+    <script type="text/javascript" src="/js/public/lodash.min.js"></script>
+    <script type="text/javascript" src="/js/public/promise.min.js"></script>
+
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+
+    <% include ./layer.html %>
+
+        <!-- 设备管理列表 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/list.css">
+        <script src="/js/equipmentSpace/equipmentMng/list/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/list/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/list/event.js"></script>
+        <!-- 设备管理列表 End -->
+
+        <!-- 设备管理详情 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/detail.css">
+        <script src="/js/equipmentSpace/equipmentMng/detail/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/detail/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/detail/event.js"></script>
+        <!-- 设备管理详情 End -->
+
+        <!-- 新建设备详情 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/insert.css">
+        <script src="/js/equipmentSpace/equipmentMng/insert/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/insert/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/insert/event.js"></script>
+        <!-- 新建设备详情 End -->
+
+        <!-- 新建设备详情 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentMng/SystemMng.css">
+        <script src="/js/equipmentSpace/equipmentMng/SystemMng/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/SystemMng/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentMng/SystemMng/event.js"></script>
+        <!-- 新建设备详情 End -->
+
+        <!-- 新建设备中的弹窗需要文件 Start -->
+
+        <!-- 新建厂商 Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/equipmentAddress/equiment.css">
+        <script src="/js/equipmentSpace/equipmentAddress/controller.js"></script>
+        <script src="/js/equipmentSpace/equipmentAddress/model.js"></script>
+        <script src="/js/equipmentSpace/equipmentAddress/event.js"></script>
+        <!-- 新建厂商 End -->
+
+        <!-- 新建位置  Start -->
+        <link rel="stylesheet" href="/css/equipmentSpace/spaceMng/index.css" />
+        <script type="text/javascript" src="/js/equipmentSpace/spaceMng/controller.js"></script>
+        <script type="text/javascript" src="/js/equipmentSpace/spaceMng/event.js"></script>
+        <script type="text/javascript" src="/js/equipmentSpace/spaceMng/model.js"></script>
+        <!-- 新建位置  End -->
+
+
+        <!-- 新建设备中的弹窗需要文件 End -->
+
+        <!-- 工单详情Start  -->
+
+        <link rel="stylesheet" href="/css/workOrder/planMonitor/see_orderDetail.css" />
+        <link rel="stylesheet" href="/css/workOrder/planMonitor/search_box.css" />
+        <script src="/js/public/orderDetail_pub.js"></script>
+        <script type="text/javascript" src="/js/public/publicMethod.js"></script>
+
+        <!-- 工单详情End -->
+
+</head>
+
+<body>
+
+    <% include ./../spaceMng/treeTemplate.html %>
+        <!-- component Start -->
+        <div class="component" id="component" style="display:none;">
+
+
+
+            <div id="equipmentMng">
+
+                <layer :layer="layer"></layer>
+
+
+                <% include ./list.html %>
+
+                    <% include ./detail.html %>
+
+                        <% include ./insert.html %>
+
+                            <% include ./system.html %>
+            </div>
+            <div v-show='onPage=="wordorder"'>
+                <%include ../../workOrder/planMonitor/see_orderDetail.html%>
+            </div>
+
+        </div>
+        <!-- component End -->
+
+        <pwindow-modal id="float_postion" isshade="true" title="" templateid="float_postion">
+            <button>
+                <pbutton-blue text="取消" icon="e" click="confirmhide" isborder="false" id="ds"></pbutton-blue>
+            </button>
+            <animate maxpx="0" minpx="-830" orientation="right"> </animate>
+        </pwindow-modal>
+
+        <pwindow-modal id="float_system" isshade="true" title="" templateid="float_system">
+            <button>
+                <pbutton-blue text="取消" icon="e" click="confirmhide" isborder="false" id="ds"></pbutton-blue>
+            </button>
+            <animate maxpx="0" minpx="-830" orientation="right"> </animate>
+        </pwindow-modal>
+
+        <!-- 添加系统 Start -->
+        <script type="text/html" id="float_system">
+            <div style="width: 900px; height: 640px;">
+                <div class="htxt">添加成功后将被自动加入到系统列表中</div>
+                <div class='fW'>
+                    <div class="contenter">
+                        <div class="eqaddressFloatWrap lyr">
+                            <% include ./addSystem.html %>
+                        </div>
+                    </div>
+                    <div class="bottmer">
+                        <div class='iln' @click.capture='_clickInsertLayerCancelSystem()'>
+                            <pbutton-white text="取消"></pbutton-white>
+                        </div>
+                        <div class='iln' @click.capture='_clickInsertSystemLayer()'>
+                            <pbutton-blue text="保存"></pbutton-blue>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <!-- 添加系统 End -->
+
+        <!-- 添加位置 Start -->
+        <script type="text/html" id="float_postion">
+            <div style="width: 940px;height: 640px;">
+                <div class="htxt">添加成功后将被自动加入到生产厂家列表中</div>
+                <div class='fW'>
+                    <div class="contenter">
+                        <div class="eqaddressFloatWrap lyr">
+                            <% include ../spaceMng/addSpace.html %>
+                        </div>
+
+                        <div class="bottmer">
+                            <div class='iln' @click.capture='_clickInsertLayerCancelByPostion()'>
+                                <pbutton-white text="取消"></pbutton-white>
+                            </div>
+                            <div class='iln' @click.capture='_clickInsertLayerSubmitByPostion()'>
+                                <pbutton-blue text="保存"></pbutton-blue>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <!-- 添加位置 End -->
+
+        <!-- 添加四个厂家 Start -->
+        <script type="text/html" id="floatTemp_factory">
+            <div style="width: 540px; height: 640px;">
+                <div class="htxt">添加成功后将被自动加入到生产厂家列表中</div>
+                <div class='fW'>
+                    <div class="contenter">
+                        <div class="eqaddressFloatWrap lyr">
+                            <% include ../../../template/newMerchant.html %>
+                        </div>
+
+                        <div class="bottmer">
+                            <div class='iln' @click.capture='_clickInsertLayerCancel()'>
+                                <pbutton-white text="取消"></pbutton-white>
+                            </div>
+                            <div class='iln' @click.capture='_clickInsertLayerSubmit()'>
+                                <pbutton-blue text="保存"></pbutton-blue>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </script>
+        <!-- 添加四个厂家 End -->
+
+        <!-- 报废设备 Start -->
+        <pwindow-confirm id="confirmWindow">
+            <button>
+                <pbutton-blue text="确定" click="scrappedEquipment"></pbutton-blue>
+                <pbutton-white text="取消" click="cancelScrappedEquipment"></pbutton-white>
+            </button>
+        </pwindow-confirm>
+        <!-- 报废设备 End -->
+
+
+        <ploading-part id='equipmentMngloading'></ploading-part>
+        <pnotice-message id='equipmentMngpnotice'></pnotice-message>
+
+        <ploading-part id='globalloading'></ploading-part>
+        <pnotice-message id='globalnotice'></pnotice-message>
+
+
+</body>
+
+</html>

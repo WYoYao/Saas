@@ -1,4 +1,4 @@
-<div class="equipmentDetail" v-show='onPage=="insert"'>
+<div class="equipmentDetail" v-if='onPage=="insert"'>
     <div class="content ">
         <div class="headerd">
             <span class="btn fl">
@@ -12,37 +12,53 @@
             <div class="i_content">
                 <!-- 进度轴 Start -->
                 <div class="own verticalAxes">
-                    <div class="circle" :class='{sel:item.isSelected}' :style="{top:item.top+'px'}" v-for='item in ScrollList' @click='toggleSel(item)'><span class="name" v-text='item.title'></span></div>
+                    <div class="circle" :class='{sel:item.isSelected}' :style="{top:item.top+'px'}" v-for='item in ScrollList' @click='toggleSel(item)'>
+                        <span class="name" v-text='item.title'></span>
+                    </div>
                 </div>
                 <!-- 进度轴 End -->
                 <div class="moduleItem" id='SrcollInsert_base'>
                     <div class="header">基础</div>
                     <div class="eachItem lineItem">
-                        <div class="name"><span><em>*</em>设备名称</span></div>
+                        <div class="name">
+                            <span>
+                                <em>*</em>设备名称</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id='insert_equip_local_name' placeholder="最多20个字">
-                                <verify errtip="不可为空,最多20个字" verifytype="space" length='20'></verify>
+                                <verify errtip="最多20个字" verifytype="length" length='20'></verify>
+                                <verify errtip="不可为空" verifytype="space"></verify>
                             </ptext-text>
                         </div>
                     </div>
                     <div class="eachItem leftItem">
-                        <div class="name"><span><em>*</em>设备编码</span></div>
+                        <div class="name">
+                            <span>
+                                <em>*</em>设备编码</span>
+                        </div>
                         <div class="cont">
-                            <ptext-text id='insert_equip_local_id' placeholder="最多20个字">
-                                <verify errtip="不可为空,最多20个字" verifytype="space" length='20'></verify>
+                            <ptext-text id="'insert_equip_local_id'" blur="ie_blur" bind="true" placeholder="'最多50个字'">
+                                <verify errtip="最多50个字" verifytype="length" length='50'></verify>
+                                <verify errtip="不可为空" verifytype="space"></verify>
                             </ptext-text>
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>BIM模型中编码</span></div>
+                        <div class="name">
+                            <span>BIM模型中编码</span>
+                        </div>
                         <div class="cont">
-                            <ptext-text id='insert_BIMID' placeholder="最多20个字">
-                                <verify errtip="不可为空,最多20个字" verifytype="space" length='20'></verify>
+                            <ptext-text id="'insert_BIMID'" blur="ie_blur" bind="true" placeholder="'最多20个字'">
+                                <verify errtip="最多20个字" verifytype="length" length='20'></verify>
                             </ptext-text>
                         </div>
                     </div>
                     <div class="eachItem leftItem">
-                        <div class="name"><span><em>*</em>安装位置</span><span class="add" @click='_ClickAddBlock("postion")'>+添加新位置</span></div>
+                        <div class="name">
+                            <span>
+                                <em>*</em>安装位置</span>
+                            <span class="add" @click='_ClickAddBlock("postion")'>+添加新位置</span>
+                        </div>
                         <div class="cont">
                             <div class="per-combobox-title treeCombox" @click='iv.build_id=!iv.build_id;'>
                                 <span class="per-combobox_name">{{ insertModel.build_name || '请选择安装位置'}}</span>
@@ -57,7 +73,10 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>所属系统</span><span class="add" @click='_ClickAddBlock("system")'>+添加新系统</span></div>
+                        <div class="name">
+                            <span>所属系统</span>
+                            <span class="add" @click='_ClickAddBlock("system")'>+添加新系统</span>
+                        </div>
                         <div class="cont">
                             <div class="cont">
                                 <div class="per-combobox-title treeCombox" @click='insertModel.build_id?iv.system_id=!iv.system_id:void 0;'>
@@ -74,7 +93,10 @@
                         </div>
                     </div>
                     <div class="eachItem leftItem">
-                        <div class="name"><span><em>*</em>设备类型</span></div>
+                        <div class="name">
+                            <span>
+                                <em>*</em>设备类型</span>
+                        </div>
                         <div class="cont">
                             <div class="per-combobox-title treeCombox" @click='iv.equip_category=!iv.equip_category;'>
                                 <span class="per-combobox_name">{{ insertModel.equip_category_name || '请选择设备类型'}}</span>
@@ -90,7 +112,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>长</span></div>
+                        <div class="name">
+                            <span>长</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_length" placeholder="请输入数字" text="m">
                                 <verify errtip="请输入10位以内数字" verifytype="positivenumber" length='10'></verify>
@@ -98,7 +122,9 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>宽</span></div>
+                        <div class="name">
+                            <span>宽</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_width" placeholder="请输入数字" text="m">
                                 <verify errtip="请输入10位以内数字" verifytype="positivenumber" length='10'></verify>
@@ -106,7 +132,9 @@
                         </div>
                     </div>
                     <div class="eachItem leftItem">
-                        <div class="name"><span>高</span></div>
+                        <div class="name">
+                            <span>高</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_height" placeholder="请输入数字" text="m">
                                 <verify errtip="请输入10位以内数字" verifytype="positivenumber" length='10'></verify>
@@ -114,7 +142,9 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>重</span></div>
+                        <div class="name">
+                            <span>重</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_mass" placeholder="请输入数字" text="kg">
                                 <verify errtip="请输入10位以内数字" verifytype="positivenumber" length='10'></verify>
@@ -123,7 +153,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>主要材质</span></div>
+                        <div class="name">
+                            <span>主要材质</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_material" placeholder="最多20个字符">
                                 <verify errtip="最多20个字符" length='20'></verify>
@@ -131,7 +163,9 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>所属部门</span></div>
+                        <div class="name">
+                            <span>所属部门</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_dept" placeholder="请填写所属部门">
                                 <verify errtip="最多20个字符" length='20'></verify>
@@ -140,7 +174,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>设备照片</span></div>
+                        <div class="name">
+                            <span>设备照片</span>
+                        </div>
                         <div class="cont">
                             <pupload-img number="4" id="insert_picture" accept='png,jpg'>
                                 <panel success='pupload_picture'></panel>
@@ -149,7 +185,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>设备图纸</span></div>
+                        <div class="name">
+                            <span>设备图纸</span>
+                        </div>
                         <div class="cont">
                             <pupload-attachment number="4" id="insert_drawing">
                                 <panel success='pupload_drawing'></panel>
@@ -158,7 +196,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>质检报告</span></div>
+                        <div class="name">
+                            <span>质检报告</span>
+                        </div>
                         <div class="cont">
                             <pupload-attachment number="4" id="insert_check_report">
                                 <panel success='pupload_check_report'></panel>
@@ -167,7 +207,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>铭牌照片</span></div>
+                        <div class="name">
+                            <span>铭牌照片</span>
+                        </div>
                         <div class="cont">
                             <pupload-attachment number="4" id="insert_nameplate">
                                 <panel success='pupload_nameplate'></panel>
@@ -176,7 +218,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>设备文档</span></div>
+                        <div class="name">
+                            <span>设备文档</span>
+                        </div>
                         <div class="cont">
                             <pupload-attachment number="4" id="insert_archive">
                                 <panel success='pupload_archive'></panel>
@@ -188,7 +232,10 @@
                     <div class="header">厂家</div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>生产厂家</span><span class="add" @click='_ClickAddBlock("factory")'>+添加新厂家</span></div>
+                        <div class="name">
+                            <span>生产厂家</span>
+                            <span class="add" @click='_ClickAddBlock("factory")'>+添加新厂家</span>
+                        </div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_manufacturer_id'" sel='cmbx_manufacturer_id' bind='true'>
                                 <header placeholder="请选择生产厂家"></header>
@@ -197,7 +244,10 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>设备品牌</span><span class="add" @click='_ClickAddBlock("brand")'>+添加新品牌</span></div>
+                        <div class="name">
+                            <span>设备品牌</span>
+                            <span class="add" @click='_ClickAddBlock("brand")'>+添加新品牌</span>
+                        </div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_brand'" sel='cmbx_brand' bind='true'>
                                 <header placeholder="请选择设备品牌"></header>
@@ -207,7 +257,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>生产日期</span></div>
+                        <div class="name">
+                            <span>生产日期</span>
+                        </div>
                         <div class="cont">
                             <ptime-form id="insert_product_date" sel="ptime_product_date">
                                 <panel timetype="yMd" startyear="1993" endyear="2020"></panel>
@@ -216,7 +268,9 @@
                     </div>
 
                     <div class="eachItem rightItem">
-                        <div class="name"><span>出厂编号</span></div>
+                        <div class="name">
+                            <span>出厂编号</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_serial_num" placeholder="最多50个字符">
                                 <verify errtip="最多50个字符" length='50'></verify>
@@ -225,7 +279,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>设备型号</span></div>
+                        <div class="name">
+                            <span>设备型号</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_specification" placeholder="最多50个字符">
                                 <verify errtip="最多50个字符" length='50'></verify>
@@ -238,7 +294,10 @@
                     <div class="header">供应&购买</div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>供应商名称</span><span class="add" @click='_ClickAddBlock("buy")'>+添加新供应商</span></div>
+                        <div class="name">
+                            <span>供应商名称</span>
+                            <span class="add" @click='_ClickAddBlock("buy")'>+添加新供应商</span>
+                        </div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_supplier_id'" sel='cmbx_supplier_id' bind='true'>
                                 <header placeholder="请选择供应商"></header>
@@ -247,7 +306,9 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>合同编号</span></div>
+                        <div class="name">
+                            <span>合同编号</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_contract_id" placeholder="最多50个字符">
                                 <verify errtip="最多50个字符" length='50'></verify>
@@ -255,7 +316,9 @@
                         </div>
                     </div>
                     <div class="eachItem leftItem">
-                        <div class="name"><span>资产编号</span></div>
+                        <div class="name">
+                            <span>资产编号</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_asset_id" placeholder="最多50个字符">
                                 <verify errtip="最多50个字符" length='50'></verify>
@@ -263,7 +326,9 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>采购价格</span></div>
+                        <div class="name">
+                            <span>采购价格</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_purchase_price" placeholder="最多50个字符" text='元'>
                                 <verify errtip="请输入10位以内数字" verifytype="positivenumber" length='10'></verify>
@@ -275,7 +340,9 @@
                     <div class="header">运行&维保</div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>设备负责人</span></div>
+                        <div class="name">
+                            <span>设备负责人</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_principal" placeholder="最多5个字">
                                 <verify errtip="最多5个字" length='5'></verify>
@@ -283,7 +350,9 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>维保编码</span></div>
+                        <div class="name">
+                            <span>维保编码</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_maintain_id" placeholder="最多50个字符">
                                 <verify errtip="最多50个字符" length='50'></verify>
@@ -292,7 +361,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>投产日期</span></div>
+                        <div class="name">
+                            <span>投产日期</span>
+                        </div>
                         <div class="cont">
                             <ptime-form id="insert_start_date" sel="ptime_start_date">
                                 <panel timetype="yMd" startyear="1993" endyear="2020" id="formtime"></panel>
@@ -300,7 +371,9 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>合同截止日期</span></div>
+                        <div class="name">
+                            <span>合同截止日期</span>
+                        </div>
                         <div class="cont">
                             <ptime-form id="insert_maintain_deadline" sel="ptime_maintain_deadline">
                                 <panel timetype="yMd" startyear="1993" endyear="2020" id="formtime"></panel>
@@ -309,7 +382,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>使用寿命</span></div>
+                        <div class="name">
+                            <span>使用寿命</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_service_life" placeholder="请输入整数" text='年'>
                                 <verify errtip="请输入10位以内整数" verifytype="int" length='10'></verify>
@@ -317,7 +392,9 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>设备保修期</span></div>
+                        <div class="name">
+                            <span>设备保修期</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_warranty" placeholder="请输入整数" text='年'>
                                 <verify errtip="请输入10位以内整数" verifytype="int" length='10'></verify>
@@ -326,7 +403,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>包养周期</span></div>
+                        <div class="name">
+                            <span>包养周期</span>
+                        </div>
                         <div class="cont">
                             <ptext-text id="insert_maintain_cycle" placeholder="请输入整数" text='天'>
                                 <verify errtip="请输入10位以内整数" verifytype="int" length='10'></verify>
@@ -334,7 +413,10 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>维修商名称</span><span class="add" @click='_ClickAddBlock("service")'>+添加新维修商</span></div>
+                        <div class="name">
+                            <span>维修商名称</span>
+                            <span class="add" @click='_ClickAddBlock("service")'>+添加新维修商</span>
+                        </div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_maintainer_id'" sel='cmbx_maintainer_id' bind='true'>
                                 <header placeholder="请选择供应商"></header>
@@ -344,7 +426,9 @@
                     </div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>投产状态</span></div>
+                        <div class="name">
+                            <span>投产状态</span>
+                        </div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_status'" bind='true'>
                                 <header placeholder="请选择投产状态"></header>
@@ -359,7 +443,10 @@
                     <div class="header">保险</div>
 
                     <div class="eachItem leftItem">
-                        <div class="name"><span>保险公司名称</span><span class="add" @click='_ClickAddBlock("insurance")'>+添加新保险公司</span></div>
+                        <div class="name">
+                            <span>保险公司名称</span>
+                            <span class="add" @click='_ClickAddBlock("insurance")'>+添加新保险公司</span>
+                        </div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_insurer_id'" sel='cmbx_insurer_id' bind='true'>
                                 <header placeholder="请选择保险公司"></header>
@@ -368,7 +455,10 @@
                         </div>
                     </div>
                     <div class="eachItem rightItem">
-                        <div class="name"><span>保险单号</span><span class="add" @click='_ClickAddBlock("Insurance_num")'>+添加新保险单号</span></div>
+                        <div class="name">
+                            <span>保险单号</span>
+                            <span class="add" @click='_ClickAddBlock("Insurance_num")'>+添加新保险单号</span>
+                        </div>
                         <div class="cont">
                             <pcombobox-normal id="'insert_insurer_num'" sel='cmbx_insurer_num' bind='true'>
                                 <header placeholder="请选择保险单号"></header>
@@ -382,8 +472,10 @@
                 <div class="moduleItem" :id="'SrcollInsert_tag'+ index" v-for='(item,index) in EquipDynamicInfoList'>
                     <div class="header" v-text='item.tag'></div>
 
-                    <div class="eachItem" :class='{leftItem:index%2==0,rightItem:index%2==1}' v-for='(info,i) in item.info_Points'>
-                        <div class="name"><span v-text='info.info_name'></span></div>
+                    <div class="eachItem" :class='{leftItem:i%2==0,rightItem:i%2==1}' v-for='(info,i) in item.info_Points'>
+                        <div class="name">
+                            <span v-text='info.info_name'></span>
+                        </div>
 
                         <!-- 文本开始 Start -->
                         <div class="cont" v-if='info.type==0'>
@@ -430,3 +522,4 @@
             </div>
         </div>
     </div>
+</div>

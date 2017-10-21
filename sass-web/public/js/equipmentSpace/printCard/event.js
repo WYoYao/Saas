@@ -1,8 +1,6 @@
 $(function () {
     cardPrintLogic.init();
-    var height = $($(".printCardConA")[0]).height();
-    var heightA = $("#printCardList .printCardCon_pageA").height();
-    $("#printCardList .printCardCon_pageB .gridCon").height(height - heightA - 46 - 100);
+   
 });
 
 var cardPrintEvent = {
@@ -17,6 +15,11 @@ var cardPrintEvent = {
             case 1:
                 $("#downEquipmentWrap").hide();
                 $("#downSpaceWrap").show();
+
+                if (cardPrintLogic.first === true) {
+                    cardPrintLogic.first = false;
+                    cardPrintEvent.setSpGridHeight(false);
+                }
                 break;
         }
     },
@@ -75,5 +78,33 @@ var cardPrintEvent = {
     },
     customMadeCardConfirmHide: function () {
         $("#confirmCardModal").phide();
+    },
+    /*设置设备名片页面表格的高
+    *初始化时 建筑、专业获取完成之后调用；后续每获取一次系统调用一次
+    */
+    setEqGridHeight: function () {
+        Vue.nextTick(function () {
+            //此处写设置高的代码
+            var height = $($(".printCardConA")[0]).height();
+            var heightA = $("#downEquipmentWrap .printCardCon_pageA").height();
+            $("#gridCardPrintForEq").height(height - heightA - 145);
+        });
+    },
+    /*设置空间名片页面表格的高
+    *切换到空间名片页面时调用，每获取一次楼层调用一次
+    */
+    setSpGridHeight: function (isVue) {
+        if (isVue) {
+            Vue.nextTick(function () {
+                set();
+            });
+        } else set();
+
+        function set() {
+            var height = $($(".printCardConA")[0]).height();
+            var heightA = $("#downSpaceWrap .printCardCon_pageA").height();
+            $("#gridCardPrintForSp").height(height - heightA - 145);
+            
+        };
     }
 };

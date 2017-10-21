@@ -51,9 +51,8 @@ var controllerInsert = {
             }, argu);
 
             // 如果有空间ID删除对应的建筑ID  没有空间ID 删除对应的空间ID
-            if(argu.hasOwnProperty("space_id") && argu["space_id"]) delete argu["build_id"];
+            if (argu.hasOwnProperty("space_id") && argu["space_id"]) delete argu["build_id"];
             else delete argu["space_id"];
-
 
             pajax[bool ? 'updateWithFile' : 'post']({
                 url: 'restEquipService/addEquip',
@@ -100,5 +99,62 @@ var controllerInsert = {
                 },
             });
         })
-    }
+    },
+    /**
+     *设备管理-新增页/编辑页:验证设备编码是否可以使用 
+     */
+    verifyEquipLocalId: function (argu) {
+
+        return new Promise(function (resolve, reject) {
+            pajax.post({
+                url: 'restEquipService/verifyEquipLocalId',
+                data: argu,
+                success: function (res) {
+                    if (_.isArray(res) && res.length) {
+                        resolve(res[0]);
+                    } else {
+
+                        resolve({
+                            can_use: false,
+                        });
+                    }
+                },
+                error: function (err) {
+                    reject(err);
+                },
+                complete: function () {
+
+                },
+            });
+        })
+    },
+    /**
+     * 设备管理-新增页/编辑页:验证设备BIM编码是否可以使用
+     */
+    verifyEquipBimId: function (argu) {
+
+        return new Promise(function (resolve, reject) {
+            pajax.post({
+                url: 'restEquipService/verifyEquipBimId',
+                data: argu,
+                success: function (res) {
+                    if (_.isArray(res) && res.length) {
+                        resolve(res[0]);
+                    } else {
+
+                        resolve({
+                            can_use: false,
+                        });
+                    }
+                },
+                error: function (err) {
+                    reject(err);
+                },
+                complete: function () {
+
+                },
+            });
+        })
+    },
+
 }

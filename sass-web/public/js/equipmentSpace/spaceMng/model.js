@@ -35,9 +35,86 @@ spaceInfoModel.instance = function () {
                 orderDetailData: {},
                 orderOperatList: [],
 
-                showPage:''//当前显示的页面
+                showPage: '',//当前显示的页面
+                layer: new layerModel(),
             },
             methods: {
+                sureEdit: function (event, ftype) {
+                    var $thisDom = $(event.currentTarget);
+                    var that = this;
+                    var $inputText = $thisDom.parents(".detailItem").find("[widtye='inputText']");
+                    if ($inputText.length > 0 && !$inputText.pverifi()) {//输入出现错误
+                        return;
+                    }
+                    function submitCb(res) {
+                        //保存数据
+                        var changeTime = res.isNewValue;
+                        function call() {//编辑状态隐藏
+                            that.detailEditSign = true;
+                            var $editShow = $thisDom.parents(".editShow");
+                            $editShow.hide();
+                            $editShow.siblings(".contShow").show();
+                        }
+                        if (that.editFloatName == 'floor') {
+                            var fvalue = that.floorDetail[ftype];
+                            if (ftype == 'floor_local_name') {//如果是楼层名字
+                                function floorCall() {
+                                    spaceInfoController.updateFloorInfo(changeTime, ftype, fvalue, call);//编辑接口
+                                }
+                                spaceInfoController.verifyFloorName(floorCall);//判断名字是否可用
+                                return;
+                            }
+                            spaceInfoController.updateFloorInfo(changeTime, ftype, fvalue, call);//编辑接口
+                        }
+                        if (that.editFloatName == 'space') {
+                            ftype == 'room_func_type_name' && (true, ftype = 'room_func_type');//空间类型
+                            ftype == 'tenant_type_name' && (true, ftype = 'tenant_type');//租户类型
+                            var fvalue = that.spaceDetail[ftype];
+                            if (ftype == 'room_local_name') {//如果是名字
+                                function spaceCall() {
+                                    spaceInfoController.updateSpaceInfo(changeTime, ftype, fvalue, call);//编辑接口
+                                }
+                                spaceInfoController.verifySpaceName(spaceCall);//判断名字是否可用
+                                return;
+                            }
+                            spaceInfoController.updateSpaceInfo(changeTime, ftype, fvalue, call);//编辑接口
+                        }
+                    }
+                    var getPoints = function (cb) {
+                        if (that.editFloatName == 'floor') {//楼层
+                            spaceInfoController.queryFloorInfoPointHis(ftype, cb);//查询历史信息
+                        } else {
+                            spaceInfoController.querySpaceInfoPointHis(ftype, cb);
+                        }
+                    }
+                    this.submitTip(event, submitCb, getPoints);
+                },
+                cancelEdit: function (event) {
+                    var $thisDom = $(event.currentTarget);
+                    var that = this;
+                    function cancelCb() {//取消 确认
+                        var instance = spaceInfoModel.instance();
+                        that.detailEditSign = true;
+                        var $editShow = $thisDom.parents(".editShow");
+                        $editShow.hide();
+                        $editShow.siblings(".contShow").show();
+                        if (that.editFloatName == 'floor') {
+                            that.floorDetail = JSON.parse(JSON.stringify(spaceInfoController.editDetailCopy));//还原 
+                        }
+                        if (that.editFloatName == 'space') {
+                            that.spaceDetail = JSON.parse(JSON.stringify(spaceInfoController.editDetailCopy));//还原 
+                        }
+                    }
+                    this.cancelTip(event, cancelCb);
+
+                },
+                submitTip: function (event, submitCb, getPoints) {//弹出确认框
+
+                    this.layer.submit(event.clientX, event.clientY, submitCb, getPoints);
+                },
+                cancelTip: function (event, cancelCb) {//
+                    this.layer.cancel(event.clientX, event.clientY, cancelCb);
+                },
                 upFloor: function (findex, item) {
                     if (findex == 0) return;//最高层
                     if (item.floor_sequence_id == -1) {//地下一层
@@ -165,7 +242,7 @@ function spaceObj() {
     self.area = '';
     self.elec_cap = '';                  //配电容量
     self.intro = '';                     //备注文字
-    self.tenant_type = '100';               //租赁业态类型
+    self.tenant_type = '';               //租赁业态类型
     self.tenant_type_name = '',
     self.tenant = '';                   //所属租户
     self.permanent_people_num = '';      //空间内常驻人数

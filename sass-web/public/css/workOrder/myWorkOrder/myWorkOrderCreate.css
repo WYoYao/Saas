@@ -198,6 +198,13 @@
     display: inline-block;
     vertical-align: middle;
 }
+.toggle-button{
+    width: 30px;
+    height: 16px;
+    line-height: normal;
+    overflow: hidden;
+    cursor: pointer;
+}
 .matter-body{
     width: 100%;
     height: calc(100% - 60px);
@@ -515,12 +522,16 @@
     height: 60px;
 }
 .timely-checkbox .aite-list>div:first-of-type>p{
-    margin-top: 10px;
+    /*margin-top: 10px;*/
     line-height: normal;
 }
-.timely-checkbox .aite-list>div:first-of-type>p:last-of-type{
+.timely-checkbox .aite-list>div:first-of-type>p:not(:first-of-type){
     font-size: 12px;
     color: #888;
+    max-width: 400px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 .timely-checkbox .aite-list>div:last-of-type{
     margin-top: 15px;
@@ -577,7 +588,45 @@
     background-color: #a0c5e8;
 }
 
-
+.key-result{
+    width:  100%;
+    height: 28px;
+    background: #f8f8f8;
+    font-size: 12px;
+    line-height: 28px;
+    box-sizing: border-box;
+    /*padding-left: 15px;*/
+    color: #b7b7b7;
+    /*padding-top: 6px;*/
+    /*display: none;*/
+}
+.search-num{
+    color: red;
+}
+.key-search-list{
+    display: none;
+}
+.key-search-list .search-list{
+    height: 60px;
+    float: none;
+}
+.key-search-list .search-list p{
+    line-height: normal;
+    color: #b7b7b7;
+}
+.key-search-list .search-list>div>p:first-of-type{
+    color: red;
+}
+.key-search-list .search-list>div:first-of-type{
+    float: none;
+    height: 100%;
+    max-width: 400px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    vertical-align: top;
+}
 
 
 .pcheckbox {
@@ -1419,7 +1468,7 @@
     width: 100%;
     height: 40px;
     line-height: 40px;
-    padding: 0 20px;
+    /*padding: 0 20px;*/
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
@@ -1455,7 +1504,7 @@
     overflow-y: auto;
 }
 .result .aite-bubble .aite-body .aite-list div:first-of-type{
-    max-width: 100%;
+    max-width: 400px;
     -ms-text-overflow: ellipsis;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -1521,11 +1570,13 @@
     font-size: 12px;
     text-align: center;
     cursor: pointer;
-    vertical-align: top;
+    /*vertical-align: top;*/
     line-height: normal;
 
 }
-
+.icon-div i:first-of-type {
+    display: none;
+}
 .icon-div i:last-of-type {
     background-color: white;
     color: #d9d9d9;
@@ -1577,7 +1628,7 @@ input.keyinput{
     padding-left: 10px;
     box-sizing: border-box;
     font-size: 12px;
-    display: none;
+    /*display: none;*/
 }
 
 .nodata-box {
@@ -1711,7 +1762,7 @@ input.keyinput{
     width: 100%;
     height: auto;
     text-align: center;
-    margin-top: 30px;
+    margin-top: 15px;
 }
 /*添加工作事项弹窗 end*/
 /*查看sop详情弹窗 start*/
@@ -1880,23 +1931,14 @@ input.keyinput{
 .redMark {
     color: red;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /*查看sop详情弹窗 end*/
+/*补充css*/
+.customText p+div {
+    margin-bottom: 18px;
+}
+
+.eleDisable {
+    pointer-events:none;
+    cursor:default !important;
+    opacity:.3
+}

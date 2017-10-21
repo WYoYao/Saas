@@ -13,14 +13,14 @@
                         <div class="type-urgency">
                             <div>
                                 <h4>工单类型：</h4>
-                                <pcombobox-normal id="'work-typec'" bind="true" sel="yn_method.workTypeFn">
+                                <pcombobox-normal id="'work-typec'" bind="true"><!-- sel="yn_method.workTypeFn"-->
                                     <header placeholder="'请选择'"></header>
                                     <item datasource="commonData.publicModel.workTypeC" text="name"></item>
                                 </pcombobox-normal>
                             </div>
                             <div>
                                 <h4>工单紧急程度：</h4>
-                                <pcombobox-normal id="'work-urgency'" bind="true" sel="yn_method.urgencyFn">
+                                <pcombobox-normal id="'work-urgency'" bind="true"><!-- sel="yn_method.urgencyFn"-->
                                     <item datasource="commonData.publicModel.urgency" text="name"></item>
                                 </pcombobox-normal>
                             </div>
@@ -43,7 +43,7 @@
                             </div>
                             <div v-show="!commonData.publicModel.timeTypeSel ">
                                 <ptime-form id="ask_start_time" sel="yn_method.startTimeSave"><!-- startyear="commonData.publicModel.starYear" endyear="commonData.publicModel.endYear" -->
-                                    <panel timetype="yMdhm" startyear="2017" endyear="2020"></panel>
+                                    <panel timetype="yMdhm" startyear="commonData.publicModel.starYear" endyear="2020"></panel>
                                 </ptime-form>
                             </div>
                         </div>
@@ -83,6 +83,12 @@
             </div>
         </div>
     </div>
+    <pwindow-confirm id="delete-matter-confirm">
+        <button>
+            <pbutton-blue  text="确定" click="publicMethod.deleteMatter"></pbutton-blue>
+            <pbutton-white text="取消" click="yn_method.cancelConfirm"></pbutton-white>
+        </button>
+    </pwindow-confirm>
     <%include myWorkOrderFragment/addContent.html %>
     <%include myWorkOrderFragment/detailSop.html %>
 </div>

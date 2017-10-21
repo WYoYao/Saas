@@ -6,7 +6,11 @@
             </div>
             <div class="switch-div">
                 <span>自由输入</span>
-                <pswitch-slide id="switch-slide" change="publicMethod.toggleInputMode"></pswitch-slide>
+                <div class="toggle-button" onclick="publicMethod.toggleInputMode()">
+                    <img src="../images/free_input_03.png" alt="自由输入图片" v-show="!commonData.publicModel.regular"/>
+                    <img src="../images/regular_input_03.png" alt="结构化输入图片" v-show="commonData.publicModel.regular"/>
+                 </div>
+                <!--<pswitch-slide id="switch-slide" change="publicMethod.toggleInputMode"></pswitch-slide>-->
                 <span>结构化输入</span>
             </div>
         </div>
@@ -27,11 +31,30 @@
                         <%include myWorkOrderFragment/myWorkOrderCreateRegular.html %>
                         <div class="checkbox-del-div">
                             <div class="checkbox-div">
-                                <pswitch-checkbox id="aaa" text="在到达每个对象位置时拍照"></pswitch-checkbox>
-                                <pswitch-checkbox text="在到达每个对象位置时扫码"></pswitch-checkbox>
-                                <pswitch-checkbox text="结束该事项时签字"></pswitch-checkbox>
+                                <pswitch-checkbox bind = "true"
+                                                  v-for="(model, index) in frameModel.controlRequireList"
+                                                  id = "index0 + 'separator' + index"
+                                                  text="model.name"
+                                                  disabled="model.code == 'obj_first_photo' && (!$root.allMatters[index0].desc_objs || !$root.allMatters[index0].desc_objs.length) || model.code == 'obj_first_sign' && (!$root.allMatters[index0].desc_objs || !$root.allMatters[index0].desc_objs.length || $root.allMatters[index0].onlyCustomizedObjs)"
+                                                  click="publicMethod.setControlRequire"></pswitch-checkbox>
+<!--
+                                <pswitch-checkbox text="'到达事项中指定的每个对象时扫码'" bind="true" disabled="!model.desc_objs || !model.desc_objs.length || model.onlyCustomizedObjs"></pswitch-checkbox>
+                                <pswitch-checkbox text="当工作事项完成后人工签字确认"></pswitch-checkbox>
+-->
+<!--
+                                <div class="pcheckbox"
+                                     @click="publicMethod.setControlRequire(model, controlRequireIndex)" v-for="(controlRequire, controlRequireIndex) in frameModel.controlRequireList"
+                                     :disabled="controlRequire.code == 'obj_first_photo' && (!$root.allMatters[index0].desc_objs || !$root.allMatters[index0].desc_objs.length) || controlRequire.code == 'obj_first_sign' && (!$root.allMatters[index0].desc_objs || !$root.allMatters[index0].desc_objs.length || $root.allMatters[index0].onlyCustomizedObjs)">
+                                        <span v-text="controlRequire.name"></span>
+                                        <span class="pcheckbox_input"
+                                              :class="model.checked ? 'pcheckbox-checked' : ''"></span>
+                                    <span class="pswitch_label"></span>
+                                </div>
+-->
+
                             </div>
-                            <div class="del-div" @click="publicMethod.deleteMatter(index0)">
+                            <!--<div class="del-div" @click="publicMethod.deleteMatter(index0,$event)">-->
+                            <div class="del-div" @click="publicMethod.deleteMatterWindow(index0,$event)">
                                 <em>p</em><span>删除该事项</span>
                             </div>
                         </div>
@@ -56,6 +79,14 @@
                         <div class="error error-invalid">
                             <div>
                                 <em>!</em><span>季度检修</span>无效，请重新选择
+                            </div>
+                            <div class="ignore" onclick="yn_method.ignoreError(this)">
+                                <span>忽略</span>
+                            </div>
+                        </div>
+                        <div class="error error-QRcode">
+                            <div>
+                                <em>!</em><span>季度检修</span>无二维码，在执行工单时将不会要求处理人扫码
                             </div>
                             <div class="ignore" onclick="yn_method.ignoreError(this)">
                                 <span>忽略</span>

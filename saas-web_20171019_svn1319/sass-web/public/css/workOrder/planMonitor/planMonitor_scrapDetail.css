@@ -1,0 +1,239 @@
+
+#planMonitor_scrapList{
+
+}
+
+#planMonitor_detail_bg {
+    width: 100%;
+    height: 100%;
+    background: #e5e8ea;
+    padding: 18px 12px 0 12px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.planMonitor_detail_box {
+    height: 100%;
+    background: #fff;
+    /* border-left: 1px solid #d9e2e8;
+	border-right: 1px solid #d9e2e8; */
+    box-shadow: -5px 6px 10px rgba(13, 4, 8, 0.1);
+    padding: 20px 20px 10px 20px;
+}
+
+.planMonitor_detail_page {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #d9e2e8;
+}
+
+.planMonitor_detail_page_top {
+    height: 50px;
+    border-bottom: 1px solid #d9e2e8;
+    position: relative;
+}
+
+.planMonitor_detail_page_back {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+.planMonitor_detail_page_title{
+    width: 80%;
+    position: absolute;
+    left: 50%;
+    top: 16px;
+    margin-left: -40%;
+    text-align: center;
+}
+.planMonitor_detail_page_save {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    padding-top: 4px;
+}
+.planMonitor_detail_page_save >ul >li{
+    float: left;
+    width: 30px;
+    height: 26px;
+    text-align: center;
+    line-height: 30px;
+    cursor: pointer;
+} 
+.planMonitor_detail_page_save >ul >li:nth-child(1){
+    border-right: 1px solid #d9e2e8;
+}
+.planMonitor_detail_page_box{
+    width: 100%;
+    padding-top: 30px;
+}
+.planMonitor_detail_page_con{
+    width: 720px;
+    margin: 0 auto;
+    /* border: 1px solid #ccc; */
+    height: 100%;
+}
+.planMonitor_detail_page_con_tit{
+    color: #f18181;
+}
+.planMonitor_detail_page_con_tit >i{
+    font-style: normal;
+}
+.planMonitor_detail_plan_set{
+    margin-top: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+.planMonitor_detail_plan_set_tit >span{
+    display: block;
+    margin-left: 8px;
+}
+.planMonitor_detail_plan_set >h4{
+    height: 16px;
+    border-left: 4px solid #7a94ad;
+
+}
+.planMonitor_detail_plan_name{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-bottom: 18px;
+    margin-left: 12px;
+}
+.planMonitor_detail_plan_name >span{
+    display: block;
+}
+.planMonitor_detail_plan_name1 >ul >li{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+.planMonitor_detail_plan_name1 >ul >li >div:nth-child(3){
+    margin: 0 6px;
+}
+.border_dashed{
+    border: 1px dashed #e1dede;
+    font-size: 2px;
+}
+.planMonitor_detail_item_li{
+    margin-bottom: 24px;
+    padding-left: 12px;
+}
+
+/* .planMonitor_detail_item_li >div{
+    display: flex;
+    flex-flow: row wrap;
+    width: 100%;
+}
+
+.planMonitor_detail_item_li >div >span{
+    display: block;
+} */
+
+/* 侧弹框修改历史 */
+.oldRecord_modal{
+    min-width: 450px;
+    /* max-width: 920px; */
+    height: 100%;
+}
+.oldRecord_modal_box{
+    height: 100%;
+}
+.oldRecord_modal_ul{
+    height: 99%;
+    display: flex;
+    flex-flow: row nowrap;
+    min-width: 450px;
+    overflow: scroll;
+}
+.oldRecord_modal_ul >li{
+    padding: 0 25px;
+    height: 100%;
+
+}
+.oldRecord_modal_title{
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    margin: 20px 0 10px;
+    max-width: 500px;
+
+}
+.oldRecord_modal_title >div:first-child{
+    margin-right: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+.oldRecord_modal_title >div:first-child > i{
+    margin-right: 6px;
+}
+.oldRecord_modal_title >div:last-child{
+    color: #f18181;
+} 
+.oldRecord_modal_con{
+    max-width: 500px;
+    height: 88%;
+    overflow: scroll;
+    padding: 10px 10px 10px 10px ;
+    border: 1px solid #d9e2e8;
+}
+
+.oldRecord_page_box{
+    width: 100%;
+   /*  padding-top: 30px; */
+}
+.oldRecord_page_con{
+    width: 100%;
+    margin: 0 auto;
+    /* border: 1px solid #ccc; */
+    height: 100%;
+}
+.oldRecord_page_con_tit{
+    color: #f18181;
+}
+.oldRecord_page_con_tit >i{
+    font-style: normal;
+}
+.oldRecord_plan_set{
+    margin-top: 20px;
+    margin-bottom: 16px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+.oldRecord_plan_set_tit >span{
+    display: block;
+    margin-left: 8px;
+}
+.oldRecord_plan_set >h4{
+    height: 16px;
+    border-left: 4px solid #7a94ad;
+
+}
+.oldRecord_plan_name{
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-bottom: 18px;
+    margin-left: 12px;
+}
+.oldRecord_plan_name >span{
+    display: block;
+}
+.border_dashed{
+    border: 1px dashed #e1dede;
+    font-size: 2px;
+}
+.oldRecord_item_li{
+    margin-bottom: 24px;
+    padding-left: 12px;
+}
+
+
+

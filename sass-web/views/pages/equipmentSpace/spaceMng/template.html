@@ -11,7 +11,7 @@
             <div class="contTitle">生效时间：</div>
             <div class="timeBox">
                 <ptime-form id="editTimeBox">
-                    <panel timetype="yMd">
+                    <panel timetype="yMd" startyear="2017">
                     </panel>
                 </ptime-form>
             </div>
@@ -54,14 +54,13 @@
             <div class="editShow">
                 <span class="name">楼层名称：</span>
                 <div class="editInput">
-                    <ptext-text placeholder="'最多10个字'" bind="true" value="floorDetail.floor_local_name"
-                                id="'floor_local_name'">
-                        <verify errtip="不能为空" verifytype="space">
-                            <verify>
+                    <ptext-text placeholder="'最多10个字'" bind="true" value="floorDetail.floor_local_name" widtye="inputText">
+                        <verify errtip="不能为空" verifytype="space"></verify>
+                        <verify errtip="楼层名称不可超过10个字！" verifytype="length" length="10"></verify>
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'floor_local_name')">Z</span>
             </div>
         </div>
         <div class="detailItem">
@@ -86,8 +85,8 @@
                         <item datasource="floorTypeArr" text="name"></item>
                     </pcombobox-normal>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'floor_type')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="floor_func_type">
@@ -100,9 +99,9 @@
                 <div class="editText">
                     <ptext-textarea placeholder="'输入释义'" bind="true" value="floorDetail.floor_func_type">
                     </ptext-textarea>
-                </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                </div> 
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'floor_func_type')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="area">
@@ -116,8 +115,8 @@
                     <ptext-text placeholder="'请填写数字'" text="'㎡'" bind="true" value="floorDetail.area">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'area')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="net_height">
@@ -131,8 +130,8 @@
                     <ptext-text placeholder="'请填写数字'" text="'m'" bind="true" value="floorDetail.net_height">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'net_height')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="permanent_people_num">
@@ -143,12 +142,11 @@
             <div class="editShow">
                 <span class="name">楼层常驻人数：</span>
                 <div class="editInput">
-                    <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.permanent_people_num"
-                                id="'permanent_people_num'">
+                    <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.permanent_people_num">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'permanent_people_num')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="out_people_flow">
@@ -159,12 +157,11 @@
             <div class="editShow">
                 <span class="name">逐时流出人数：</span>
                 <div class="editInput">
-                    <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.out_people_flow"
-                                id="'out_people_flow`'">
+                    <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.out_people_flow">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'out_people_flow')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="in_people_flow">
@@ -175,12 +172,11 @@
             <div class="editShow">
                 <span class="name">逐时流入人数：</span>
                 <div class="editInput">
-                    <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.in_people_flow"
-                                id="'in_people_flow'">
+                    <ptext-text placeholder="'请填写数字'" text="'人/min'" bind="true" value="floorDetail.in_people_flow">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'in_people_flow')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="exsit_people_num">
@@ -191,12 +187,11 @@
             <div class="editShow">
                 <span class="name">逐时楼层内现有人数：</span>
                 <div class="editInput">
-                    <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.exsit_people_num"
-                                id="'exsit_people_num'">
+                    <ptext-text placeholder="'请填写数字'" text="'人'" bind="true" value="floorDetail.exsit_people_num">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'exsit_people_num')">Z</span>
             </div>
         </div>
     </div>
@@ -222,13 +217,13 @@
             <div class="editShow">
                 <span class="name">空间名称：</span>
                 <div class="editInput">
-                    <ptext-text placeholder="'最多20个字'" bind="true" value="spaceDetail.room_local_name">
-                        <verify errtip="不能为空" verifytype="space">
-                            <verify>
+                    <ptext-text placeholder="'最多20个字'" bind="true" value="spaceDetail.room_local_name" widtye="inputText">
+                        <verify errtip="不能为空" verifytype="space"></verify>
+                        <verify errtip="空间名称不可超过20个字！" verifytype="length" length="20"></verify>
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'room_local_name')">Z</span>
             </div>
         </div>
         <div class="detailItem">
@@ -251,12 +246,12 @@
                 <div class="editDown">
                     <div class="contTreeHead"><span>{{spaceDetail.room_func_type_name?spaceDetail.room_func_type_name:'请选择类型'}}</span><em>v</em>
                     </div>
-                    <ul class="contTreeList">
-                        <room-point v-for="item in allSpaceCode" :finfo="item"></room-point>
+                    <ul class="contTreeList" treeType="spaceTree">
+                        <tenant-point v-for="item in allSpaceCode" :finfo="item" :rootcode="spaceDetail.room_func_type"></tenant-point>
                     </ul>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'room_func_type_name')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="length">
@@ -270,8 +265,8 @@
                     <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.length">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'length')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="width">
@@ -285,8 +280,8 @@
                     <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.width">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'width')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="height">
@@ -300,8 +295,8 @@
                     <ptext-text text="'m'" placeholder="'请填写数字'" bind="true" value="spaceDetail.height">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'height')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="area">
@@ -315,8 +310,8 @@
                     <ptext-text text="'㎡'" placeholder="'请填写数字'" bind="true" value="spaceDetail.area">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'area')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="elec_cap">
@@ -330,8 +325,8 @@
                     <ptext-text text="'A'" placeholder="'请填写数字'" bind="true" value="spaceDetail.elec_cap">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'elec_cap')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="intro">
@@ -345,8 +340,8 @@
                     <ptext-textarea length="50" placeholder="'最多50个字'" bind="true" value="spaceDetail.intro">
                     </ptext-textarea>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'intro')">Z</span>
             </div>
         </div>
         <div class="detailHead">租户</div>
@@ -360,12 +355,12 @@
                 <div class="editDown">
                     <div class="contTreeHead"><span>{{spaceDetail.tenant_type_name?spaceDetail.tenant_type_name:'请选择类型'}}</span><em>v</em>
                     </div>
-                    <ul class="contTreeList">
-                        <tenant-point v-for="item in allRentalCode" :finfo="item"></tenant-point>
+                    <ul class="contTreeList" treeType="tenantTree">
+                        <tenant-point v-for="item in allRentalCode" :finfo="item" :rootcode="spaceDetail.tenant_type"></tenant-point>
                     </ul>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'tenant_type_name')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="tenant">
@@ -379,8 +374,8 @@
                     <ptext-text placeholder="'请输入租户名称'" bind="true" value="spaceDetail.tenant">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'tenant')">Z</span>
             </div>
         </div>
         <div class="detailHead">人员信息</div>
@@ -395,8 +390,8 @@
                     <ptext-text text="'人'" placeholder="'请填写数字'" bind="true" value="spaceDetail.permanent_people_num">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'permanent_people_num')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="out_people_flow">
@@ -410,8 +405,8 @@
                     <ptext-text text="'人/min'" placeholder="'请填写数字'" bind="true" value="spaceDetail.out_people_flow">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'out_people_flow')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="in_people_flow">
@@ -425,8 +420,8 @@
                     <ptext-text text="'人/min'" placeholder="'请填写数字'" bind="true" value="spaceDetail.in_people_flow">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'in_people_flow')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="exsit_people_num">
@@ -440,8 +435,8 @@
                     <ptext-text text="'人'" placeholder="'请填写数字'" bind="true" value="spaceDetail.exsit_people_num">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'exsit_people_num')">Z</span>
             </div>
         </div>
         <div class="detailHead">水电气</div>
@@ -456,8 +451,8 @@
                     <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.elec_power">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'elec_power')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="cool_consum">
@@ -471,8 +466,8 @@
                     <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.cool_consum">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'cool_consum')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="heat_consum">
@@ -486,8 +481,8 @@
                     <ptext-text text="'kW'" placeholder="'请填写数字'" bind="true" value="spaceDetail.heat_consum">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'heat_consum')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="ac_water_press">
@@ -501,8 +496,8 @@
                     <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.ac_water_press">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'ac_water_press')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="water_consum">
@@ -516,8 +511,8 @@
                     <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.water_consum">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'water_consum')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="water_press">
@@ -531,8 +526,8 @@
                     <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.water_press">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'water_press')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="hot_water_consum">
@@ -546,8 +541,8 @@
                     <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.hot_water_consum">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'hot_water_consum')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="hot_water_press">
@@ -561,8 +556,8 @@
                     <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.hot_water_press">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'hot_water_press')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="gas_consum">
@@ -576,8 +571,8 @@
                     <ptext-text text="'m³/h'" placeholder="'请填写数字'" bind="true" value="spaceDetail.gas_consum">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'gas_consum')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="gas_press">
@@ -591,8 +586,8 @@
                     <ptext-text text="'MPa'" placeholder="'请填写数字'" bind="true" value="spaceDetail.gas_press">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'gas_press')">Z</span>
             </div>
         </div>
         <div class="detailHead">关键指标</div>
@@ -607,8 +602,8 @@
                     <ptext-text placeholder="'请填写数字'" bind="true" value="spaceDetail.PMV">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'PMV')">Z</span>
             </div>
         </div>
         <div class="detailItem" ftype="PPD">
@@ -622,8 +617,8 @@
                     <ptext-text placeholder="'请填写数字'" bind="true" value="spaceDetail.PPD">
                     </ptext-text>
                 </div>
-                <span class="cancel" onclick="cancelEdit(event)">x</span>
-                <span class="sure" onclick="sureEdit(event)">Z</span>
+                <span class="cancel" @click="cancelEdit($event)">x</span>
+                <span class="sure" @click="sureEdit($event,'PPD')">Z</span>
             </div>
         </div>
 

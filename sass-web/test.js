@@ -1,54 +1,190 @@
-var list={
-    "Item": {
-        "BIMID": "BIM模型中编码",
-        "GFA": "建筑建筑总面积",
-        "SFI": "1",
-        "SFI_name": "6度",
-        "ac_type": "1",
-        "ac_type_name": "中央空调系统",
-        "build_age": "建筑年代",
-        "build_code": "Bd130102000100D",
-        "build_direct": "1",
-        "build_direct_name": "北",
-        "build_func_type": "110",
-        "build_func_type_name": "单独功能区多建筑",
-        "build_id": "JZ1508157557820",
-        "build_local_id": "建筑体本地编码",
-        "build_local_name": "我再添加一个",
-        "cover_area": "建筑占地面积",
-        "design_cool_load_index": "单位面积设计冷量",
-        "design_elec_load_index": "单位面积配电设计容量",
-        "design_heat_load_index": "单位面积设计热量",
-        "drawing": [],
-        "green_build_lev": "2",
-        "heat_type": "2",
-        "heat_type_name": "一星级",
-        "insulate_type": "1",
-        "insulate_type_name": "无保温",
-        "intro": "建筑年代",
-        "permanent_people_num": "建筑常驻人数",
-        "picture": [
+var obj1 = {
+    "data": [{
+        "create_time": "20170912204254",
+        "equip_id": "Eq1301020001001ACCCCC001",
+        "equip_local_id": "设备编码001",
+        "equip_local_name": "1号楼-离心机-001",
+        "maintainer": "维修商1",
+        "position": "上格云-001-1号楼",
+        "specification": "设备型号001",
+        "work_orders": [{
+                "order_id": "Wo13010200011507540386402",
+                "order_state_desc": "",
+                "summary": ""
+            },
             {
-                "key": "150815766906386608044779859481123123.jpg",
-                "name": "123123"
+                "order_id": "Wo13010200011507541838961",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507546367621",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507547491168",
+                "order_state_desc": "执行中",
+                "summary": "测试-自定义状态-016"
+            },
+            {
+                "order_id": "Wo13010200011507547660106",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507548305785",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507548665076",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507550538104",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507599886061",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507599990341",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507602787894",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507605354609",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507639155582",
+                "order_state_desc": "",
+                "summary": ""
             }
-        ],
-        "shape_coeff": "建筑体系系数",
-        "struct_type": "1",
-        "struct_type_name": "钢筋混凝土结构",
-        "tot_height": "建筑建筑总高度"
-    },
-    "Result": "success"
-}
+        ]
+    }],
+    "count": 1
+};
+
+var obj2 = {
+    "data": [{
+        "create_time": "20170912204254",
+        "equip_id": "Eq1301020001001ACCCCC001",
+        "equip_local_id": "设备编码001",
+        "equip_local_name": "1号楼-离心机-001",
+        "maintainer": "维修商1",
+        "position": "上格云-001-1号楼",
+        "specification": "设备型号001",
+        "work_orders": [{
+                "order_id": "Wo13010200011507540386402",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507541838961",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507546367621",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507547491168",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507547660106",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507548305785",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507548665076",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507550538104",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507599886061",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507599990341",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507602787894",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507605354609",
+                "order_state_desc": "",
+                "summary": ""
+            },
+            {
+                "order_id": "Wo13010200011507639155582",
+                "order_state_desc": "",
+                "summary": ""
+            }
+        ]
+    }],
+    "count": 3
+};
 
 
-{
-    "url": "http://192.168.30.98:8080/saas/restCustomerService/queryBuildInfo",
+var req1 = {
+    "url": "http://192.168.30.96:8080/saas/restEquipService/queryRepairEquipList",
     "req": {
-        "build_id": "JZ1508157557820",
-        "build_code": "Bd130102000100D",
-        "user_id": "KH1504871131290",
-        "customer_id": "KH1504871131290",
+        "build_id": "",
+        "domain_code": "",
+        "system_id": "",
+        "keyword": "",
+        "valid": true,
+        "page": 1,
+        "page_size": 50,
+        "user_id": "RY1503737342744",
+        "customer_id": "",
         "project_id": "Pj1301020001"
     }
-}
+};
+
+var req2 = {
+    "url": "http://192.168.30.96:8080/saas/restEquipService/queryMaintEquipList",
+    "req": {
+        "build_id": "",
+        "domain_code": "",
+        "system_id": "",
+        "keyword": "",
+        "valid": true,
+        "page": 1,
+        "page_size": 50,
+        "user_id": "RY1503737342744",
+        "customer_id": "",
+        "project_id": "Pj1301020001"
+    }
+};

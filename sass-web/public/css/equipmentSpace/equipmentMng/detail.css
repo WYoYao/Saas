@@ -303,9 +303,24 @@
     background: #ffffff;
 }
 
-.equipmentDetail .verticalAxes .circle.sel {
+.equipmentDetail .verticalAxes .circle .name{
+    color: #aaaaaa;
+    font-size: 16px;
+    position: absolute;
+    right: 26px;
+    top: 0;
+    white-space: nowrap;
+}
+
+.equipmentDetail .verticalAxes .circle.sel,
+.equipmentDetail .verticalAxes .circle:hover {
     box-shadow: 0px 0px 0px 5px #b4e9f6;
     background: #02a9d1;
+    color: #02a9d1;
+}
+
+.equipmentDetail .verticalAxes .circle.sel .name,
+.equipmentDetail .verticalAxes .circle:hover .name{
     color: #02a9d1;
 }
 
@@ -333,6 +348,13 @@
     color: #aaaaaa;
     border-bottom: 1px dashed #aaaaaa;
     box-sizing: border-box;
+}
+
+.hvshow::after{
+    height:0;
+    content: " ";
+    display: block;
+    clear: both;
 }
 
 .hvshow:hover {
@@ -396,22 +418,24 @@
     float: left;
     /* width: 71px; */
     color: #777777;
-    width: 4.5em;
+    /* width: 4.5em; */
     overflow: hidden;
     height: 30px;
 }
 
 .equipmentDetail .a-box {
     position: initial;
-    /* float: left; */
+    float: left;
     /* width: 260px; */
-    margin-left: 90px;
+    /* margin-left: 90px; */
     /* line-height: 30px; */
+    min-width: 180px;
 }
 
 .equipmentDetail .a-box .ipt {
     display: block;
     margin-right: 50px;
+    min-width: 200px;
 }
 
 .equipmentDetail .icnb {

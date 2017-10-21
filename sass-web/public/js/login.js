@@ -127,7 +127,7 @@ function sendCode(dom) {
     //倒计时
     var color = $(dom).css("color");
     if (color == "rgb(2, 169, 209)") {
-        var second = 59;
+        var second = 60;
         var s = setInterval(function () {
             if (second > 0) {
                 second--;

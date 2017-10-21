@@ -1,0 +1,135 @@
+#planMonitor{
+	width: 100%;
+	height: 100%;
+	background: #E5E8EA;
+	overflow: hidden;
+}
+#planMonitor_oldRecord{
+
+}
+
+#planMonitor_oldRecord_bg {
+    width: 100%;
+    height: 100%;
+    background: #e5e8ea;
+    padding: 18px 12px 0 12px;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    display: block;
+}
+
+.planMonitor_oldRecord_box {
+    height: 100%;
+    background: #fff;
+    /* border-left: 1px solid #d9e2e8;
+	border-right: 1px solid #d9e2e8; */
+    box-shadow: -5px 6px 10px rgba(13, 4, 8, 0.1);
+    padding: 20px 20px 10px 20px;
+}
+
+.planMonitor_oldRecord_page {
+    width: 100%;
+    height: 100%;
+    border: 1px solid #d9e2e8;
+}
+
+.planMonitor_oldRecord_page_top {
+    height: 50px;
+    border-bottom: 1px solid #d9e2e8;
+    position: relative;
+}
+
+.planMonitor_oldRecord_page_back {
+    position: absolute;
+    top: 10px;
+    left: 20px;
+}
+.planMonitor_oldRecord_page_title{
+	width: 80%;
+	position: absolute;
+	top: 16px;
+	left: 50%;
+	margin-left: -40%;
+	text-align: center;
+}
+.planMonitor_oldRecord_page_search{
+	background: #eaeef0;
+	padding: 10px 20px;
+	height: 30px;
+	margin: 20px;
+}
+
+.planMonitor_oldRecord_page_select{
+	width: 166px;
+}
+.planMonitor_oldRecord_page_save {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+/* 以上通用 */
+.planMonitor_oldRecord_page_list{
+	width: 100%;
+	
+}
+.planMonitor_oldRecord_page_list_tit{
+	margin: 0 20px;
+	box-sizing: border-box;
+}
+.planMonitor_oldRecord_page_list_tit >ul{
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+}
+.planMonitor_oldRecord_page_list_tit > ul >li{
+	height: 30px;
+	line-height: 30px;
+}
+.planMonitor_oldRecord_page_list_tit > ul >li:nth-child(1){
+	padding-left:40px;
+	width: 30%;
+}
+.planMonitor_oldRecord_page_list_tit > ul >li:nth-child(2){
+	width: 30%;
+}
+.planMonitor_oldRecord_page_list_tit > ul >li:nth-child(3){
+	width: 30%;
+}
+.planMonitor_oldRecord_page_list_tit > ul >li:nth-child(4){
+	width: 10%;
+}
+.planMonitor_oldRecord_page_list_box{
+	margin: 0 20px;
+	box-sizing: border-box;
+
+}
+.planMonitor_oldRecord_page_list_box >ul{
+	display: flex;
+	flex-flow: row nowrap;
+	align-items: center;
+}
+.planMonitor_oldRecord_page_list_box > ul >li{
+	height: 38px;
+	line-height: 38px;
+}
+.planMonitor_oldRecord_page_list_box > ul >li:nth-child(1){
+	width: 30%;
+	padding-left: 40px;
+}
+.planMonitor_oldRecord_page_list_box > ul >li:nth-child(2){
+	width: 30%;
+}
+.planMonitor_oldRecord_page_list_box > ul >li:nth-child(3){
+	width: 30%;
+}
+.planMonitor_oldRecord_page_list_box > ul >li:nth-child(4){
+	width: 10%;
+}
+
+.planMonitor_oldRecord_page_list_box >ul:nth-child(odd){
+	background: #f5f7fa;
+}
+.planMonitor_oldRecord_page_list_box >ul:nth-child(even){
+	
+}

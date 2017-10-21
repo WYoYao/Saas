@@ -63,7 +63,7 @@ var EquipPublicInfo = function () {
         "maintainer_web": "", //维修商网址
         "maintainer_fax": "", //维修商传真
         "maintainer_email": "", //维修商电子邮件
-        "status": "1", //投产状态，1-投产 ，2-未投产 ，3-其他
+        // "status": "1", //投产状态，1-投产 ，2-未投产 ，3-其他
         "insurer": "", //保险公司
         "insurer_num": "", //保险单号
         "insurer_contactor": "", //保险联系人
@@ -122,7 +122,7 @@ var CardInfo = function () {
                 warranty: 0,
                 maintain_cycle: 0,
                 maintainer: 1,
-                status: 1,
+                // status: 1,
                 equip_local_name: 0,
                 equip_local_id: 0,
                 BIMID: 0,
@@ -170,7 +170,7 @@ var CardInfo = function () {
             warranty: 0,
             maintain_cycle: 0,
             maintainer: 1,
-            status: 1,
+            // status: 1,
             equip_local_name: 0,
             equip_local_id: 0,
             BIMID: 0,
@@ -221,10 +221,10 @@ var CardInfo = function () {
                 list: v.instance.maintainerList,
                 SearchKey: 'company_name',
             },
-            status: {
-                list: v.instance.statusList,
-                SearchKey: 'code',
-            },
+            // status: {
+            //     list: v.instance.statusList,
+            //     SearchKey: 'code',
+            // },
             position: {
                 list: v.instance.Build2.content.length ? v.instance.Build2.content : (v.instance.Build1.content.length ? v.instance.Build1.content : v.instance.BuildFloorSpaceTree),
                 SearchKey: 'obj_name',
@@ -258,24 +258,7 @@ var CardInfo = function () {
     v.pushComponent({
         name: 'equipmentMngDeatil',
         data: {
-            layer: new layerModel(function () {
-                console.log(arguments);
-
-                console.log('submitCb');
-            }, function () {
-                console.log('cancelCb');
-            }, function (cb) {
-                cb([{
-                    date: '2017/08/09',
-                    value: '时间节点2'
-                }, {
-                    date: '2017/08/09',
-                    value: '时间节点1'
-                }, {
-                    date: '2017/08/09',
-                    value: '时间节点3'
-                }])
-            }), // 全局共用弹窗
+            layer: new layerModel(), // 全局共用弹窗
             equip_id: '', // 设备ID
             EquipInfo: new EquipPublicInfo(),
             EquipInfoBak: new EquipPublicInfo(),
@@ -304,16 +287,16 @@ var CardInfo = function () {
             // 供应&购买 结束
             // 维保开始
             maintainerList: [], //维修商 集合
-            statusList: [{
-                name: "投产",
-                code: 1
-            }, {
-                name: "未投产",
-                code: 2
-            }, {
-                name: "其他",
-                code: 3
-            }],
+            // statusList: [{
+            //     name: "投产",
+            //     code: 1
+            // }, {
+            //     name: "未投产",
+            //     code: 2
+            // }, {
+            //     name: "其他",
+            //     code: 3
+            // }],
             // 维保结束
             // 保险开始
             insurerList: [], // 保险公司集合
@@ -386,7 +369,7 @@ var CardInfo = function () {
                     maintainer_web: false,
                     maintainer_fax: false,
                     maintainer_email: false,
-                    status: false,
+                    // status: false,
                     insurer: false,
                     insurer_num: false,
                     insurer_contactor: false,
@@ -482,7 +465,7 @@ var CardInfo = function () {
                     "maintainer_web",
                     "maintainer_fax",
                     "maintainer_email",
-                    "status"
+                    // "status"
                 ];
 
                 //返回验证是否全部为空
@@ -501,14 +484,6 @@ var CardInfo = function () {
                 //返回验证是否全部为空
                 return this.fev(this.EquipInfo, keys);
             },
-            // 返回状态显示对应的状态名称
-            // stateCovert: function () {
-
-            //     var _that = this;
-            //     return this.statusList.filter(function (item) {
-            //         return item.code == _that.EquipInfo.status;
-            //     })[0].name;
-            // },
             // 计算左边滚动轴
             scrollLeft: function () {
                 var _that = this;
@@ -534,6 +509,34 @@ var CardInfo = function () {
 
         },
         methods: {
+
+            // 固定位置的点击事件
+            showPartIndex: function (align, index) {
+
+                var _that = this;
+
+                var el = align == "Left" ? $("#verticalAlxescontentA") : $("#verticalAlxescontentB");
+
+                if (align == "Left") {
+
+                    _that.view.scroll = _that.view.scroll.map(function (item, i) {
+
+                        item.isSelected = index == i ? true : false;
+                        return item;
+                    });
+                } else {
+
+                    _that.EquipDynamicInfo = _that.EquipDynamicInfo.map(function (item, i) {
+
+                        item.isSelected = index == i ? true : false;
+                        return item;
+                    });
+                };
+
+                el.find(".part").eq(index)[0].scrollIntoView();
+
+            },
+            // 滚动轴Start 跟随滚动
             //滚动轴点击事件
             _clickScroll: function (index, type) {
                 var _that = this;
@@ -666,6 +669,10 @@ var CardInfo = function () {
                     return con;
                 }, 0);
             },
+            // 滚动轴End 跟随滚动
+
+
+
             submitTip: function (event, submitCb, getPoints) {
 
                 this.layer.submit(event.clientX, event.clientY, submitCb, getPoints);
@@ -723,7 +730,7 @@ var CardInfo = function () {
                     req.attachments = attachments;
                 }
 
-                req.info_point_value=info_point_value;
+                req.info_point_value = info_point_value;
 
                 // 成功回调
                 submitCb = function (isNewValue) {
@@ -750,17 +757,22 @@ var CardInfo = function () {
 
                 var cancelCb = function () {
 
-                    _that.EquipDynamicInfoBak = JSON.parse(JSON.stringify(_that.EquipDynamicInfo));
+                    info.isShow=false;
+
+                    // _that.requeryEquipDynamicInfo();
+
+                    _that.EquipDynamicInfo = JSON.parse(JSON.stringify(_that.EquipDynamicInfoBak));
+                    // _that.EquipDynamicInfoBak = JSON.parse(JSON.stringify(_that.EquipDynamicInfo));
                 };
 
                 // 显示取消弹窗
                 _that.cancelTip(event, cancelCb);
             },
-            hideAllIde:function(){
-                var _that=this;
-                Object.keys(_that.view.ide).forEach(function(key){
-                    if(_that.view.ide.hasOwnProperty(key)){
-                        _that.view.ide[key]=false;
+            hideAllIde: function () {
+                var _that = this;
+                Object.keys(_that.view.ide).forEach(function (key) {
+                    if (_that.view.ide.hasOwnProperty(key)) {
+                        _that.view.ide[key] = false;
                     }
                 })
             },
@@ -772,49 +784,123 @@ var CardInfo = function () {
                 // 获取信息节点的方法
                 getPoints = equipmentMngDeatilController.queryEquipInfoPointHis.bind(null, _that.equip_id, key);
 
+                // 用于提交的参数
+                var req = {
+                    "equip_id": _that.equip_id,
+                    "info_point_code": key, //修改的信息点编码，必须
+                    "info_point_value": "", //修改的信息点的值，必须
+                    "valid_time": "",
+                };
+
+
                 // 选择提交时候的需要的调用的回调方法
                 // 如果的是下拉菜单需要查询对应的集合
                 var type = queryDataStuctTypeByKey(key);
 
-                submitCb = function (isNewValue) {
+                // 图片附件直接提交
+                if (type == 2 || type == 3) {
 
-                    var req = {
-                        "equip_id": _that.equip_id,
-                        "info_point_code": key, //修改的信息点编码，必须
-                        "info_point_value": "", //修改的信息点的值，必须
-                        "valid_time": isNewValue.isNewValue,
-                    };
 
-                    if (type == 0 || type == 3) {
+                    if (type == 2) {
 
-                        // 直接获取值
-                        req.info_point_value = _that.EquipInfoBak[key];
-                    } else if (type == 1) {
+                        req.info_point_value = [];
 
-                        req.info_point_code = key + '_id';
-                        req.info_point_value = _that.EquipInfoBak[key + '_id'];
-                    } else if (type == 2) {
+                        // 直接数组类型
+                        req.attachments = _that.attachments[key].map(function (item) {
 
-                        req.attachments = _that.attachments[key].filter(function (item) {
-                            return item.toPro == key;
-                        })
-                    };
+                            item.toPro = 'info_point_value';
+                            return item;
+                        });
+
+                    } else if (type == 3) {
+
+                        // 数组实例类型
+                        req.info_point_value = v.instance.EquipInfoBak[key];
+                    }
 
                     equipmentMngDeatilController.updateEquipInfo(req, (type == 2 || type == 3))
                         .then(function () {
 
-                            _that.view.ide[key]=false;
+                            _that.view.ide[key] = false;
 
                             // 更新设备信息
                             _that.requeryEquipPublicInfo();
                         })
 
+                } else {
 
-                };
+                    submitCb = function (isNewValue) {
 
-                // 显示提交弹窗
-                _that.submitTip(event, submitCb, getPoints);
+                        req.valid_time = isNewValue.isNewValue;
 
+                        if (type == 0 || type == 3) {
+
+                            // 直接获取值
+                            req.info_point_value = _that.EquipInfoBak[key];
+                        } else if (type == 1) {
+
+                            req.info_point_code = key + '_id';
+                            req.info_point_value = _that.EquipInfoBak[key + '_id'];
+                        }
+
+                        equipmentMngDeatilController.updateEquipInfo(req, (type == 2 || type == 3))
+                            .then(function () {
+
+                                
+
+                                // 如果是生产厂家 对应编辑品牌列表
+                                if (key == "manufacturer") {
+                                    // 清空下面的品牌
+                                    equipmentMngDeatilController.updateEquipInfo({
+                                        "equip_id": _that.equip_id,
+                                        "info_point_code": "brand",
+                                        "info_point_value":"",
+                                        "valid_time": "",
+                                    }).then(function(){
+
+                                        // 更新设备信息
+                                        _that.view.ide[key] = false;
+                                        _that.requeryEquipPublicInfo(function(){
+
+                                            //更新之后的回调
+                                            $("#globalnotice").pshow({text:"请重新选择品牌",state:"success"});
+                                            _that._clickStartChange("brand");
+                                        });
+                                    })
+                                   
+                                } else if (key == "insurer") {
+
+                                    // 如果是保险公司则同时编辑对应的保险订单
+
+                                    equipmentMngDeatilController.updateEquipInfo({
+                                        "equip_id": _that.equip_id,
+                                        "info_point_code": "insurer_num",
+                                        "info_point_value":"",
+                                        "valid_time": "",
+                                    }).then(function(){
+                                        // 更新设备信息
+                                        _that.view.ide[key] = false;
+                                        _that.requeryEquipPublicInfo(function(){
+                                            $("#globalnotice").pshow({text:"请重新选择保险单号",state:"success"});
+                                            _that._clickStartChange("insurer_num");
+                                        });
+                                    })
+
+                                } else {
+
+                                    _that.view.ide[key] = false;
+                                    
+                                    // 更新设备信息
+                                    _that.requeryEquipPublicInfo();
+                                }
+                            })
+
+
+                    };
+
+                    // 显示提交弹窗
+                    _that.submitTip(event, submitCb, getPoints);
+                }
             },
             // 编辑状态下的叉号按钮点击事件
             _clickCancel: function (event, key) {
@@ -823,7 +909,7 @@ var CardInfo = function () {
 
                 var cancelCb = function () {
 
-                    _that.view.ide[key]=false;
+                    _that.view.ide[key] = false;
                     _that.EquipInfoBak = JSON.parse(JSON.stringify(_that.EquipInfo));
                 };
 
@@ -833,11 +919,15 @@ var CardInfo = function () {
             // 点击编辑按钮控件赋值
             _clickStartChange: function (key) {
 
+                // 页面显示隐藏
+                this.view.ide[key] = !this.view.ide[key];
 
                 var el = $("#ideid_" + key),
                     type = querycontroTypeByKey(key), //0文本框  1 下拉框 2 图片上传 3 文件上传 4 日历控件 5 多级联动下拉菜单
                     value = this.EquipInfo[key],
                     _that = this; // 当前对应的值
+
+
 
                 if (type == 0) {
                     // 点击编辑文本赋值
@@ -855,11 +945,16 @@ var CardInfo = function () {
                 } else if (type == 2) {
 
                     var pics = _that.EquipInfo[key] || [];
+
                     // 给需要绑定值的上传控件绑定对应的内容
                     $("#ideid_" + key).pval(pics.map(function (url) {
+
                         return {
                             url: url,
                         }
+                    }).filter(function (item) {
+
+                        return _.isString(item.url);
                     }));
 
                 } else if (type == 3) {
@@ -882,9 +977,8 @@ var CardInfo = function () {
                         d: date.format('dd')
                     });
 
-                } else if (type == 5) {
-                    // 树形菜单暂时不使用
                 }
+
             },
             // 技术信息编辑
             _clickPointChange: function (id, list, value) {
@@ -1042,6 +1136,8 @@ var CardInfo = function () {
              */
             someSend: function (arr, type) {
 
+                var _that=this;
+
                 var result = [];
 
                 function fn() {
@@ -1050,6 +1146,9 @@ var CardInfo = function () {
                         if (result.filter(function (str) {
                                 return str == 'resolve'
                             }).length == arr.length) {
+
+                                // 更新设备信息
+                            _that.requeryEquipPublicInfo();
 
                             $("#equipmentMngpnotice").pshow({
                                 text: '添加成功',
@@ -1111,7 +1210,7 @@ var CardInfo = function () {
             // 添加保险信息
             _clickAddinsurance: function () {
 
-                var insuranceArr = this.getSettByKey['insurer', 'insurer_num'];
+                var insuranceArr = this.getSettByKey(['insurer', 'insurer_num']);
 
                 this.someSend(insuranceArr);
             },
@@ -1393,7 +1492,7 @@ var CardInfo = function () {
                         // _that.createPointsFn(_that.EquipDynamicInfoBak);
                     })
             },
-            requeryEquipPublicInfo: function () {
+            requeryEquipPublicInfo: function (cb) {
 
                 var _that = this;
 
@@ -1407,6 +1506,8 @@ var CardInfo = function () {
                     _that.EquipInfo = info;
                     // 复制一份做编辑处理
                     _that.EquipInfoBak = JSON.parse(JSON.stringify(info));
+
+                    if(_.isFunction(cb))cb();
                 })
             }
         },
@@ -1456,9 +1557,10 @@ var CardInfo = function () {
             /**
              * 查询工单状态下拉菜单
              */
-            var proQueryWorkOrderState = equipmentMngDeatilController.queryWorkOrderState();
+            var proQueryWorkOrderState = equipmentMngDeatilController.queryGeneralDictByKey();
             proQueryWorkOrderState.then(function (list) {
-                _that.WorkOrderState = list;
+
+                _that.WorkOrderState = [{code:'',description:'',name:'全部'}].concat(list);
 
                 //查询完之后默认查询第一个
                 _that.WorkOrderCode = list.length ? list[0].code : '';
@@ -1562,20 +1664,8 @@ var CardInfo = function () {
 
             // 技术参数赋值 **需要对后台的返回参数的进行转换**
             _that.requeryEquipDynamicInfo();
-            // equipmentMngDeatilController.queryEquipDynamicInfo(_that.equip_id)
-            //     .then(function (list) {
-            //         _that.EquipDynamicInfo = _that.EquipDynamicInfoCovert(list);
 
-            //         // 备份技术参数
-            //         _that.EquipDynamicInfoBak = JSON.parse(JSON.stringify(_that.EquipDynamicInfo));
-
-            //         // _that.createPointsFn(_that.EquipDynamicInfoBak);
-            //     })
-
-
-
-
-
+            this.layer = new layerModel();
 
             // 选择选项卡
             $("#baseTab").psel(_that.baseTab);

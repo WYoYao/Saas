@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.Work_calendar_userMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.Work_calendar_user" >
+    <id column="work_cal_user_id" property="workCalUserId" jdbcType="VARCHAR" />
+    <result column="team_id" property="teamId" jdbcType="VARCHAR" />
+    <result column="schedule_id" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="calendar_date" property="calendarDate" jdbcType="DATE" />
+    <result column="day_type" property="dayType" jdbcType="VARCHAR" />
+    <result column="shift_id" property="shiftId" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="from_type" property="fromType" jdbcType="VARCHAR" />
+    <result column="upload_addr" property="uploadAddr" jdbcType="VARCHAR" />
+    <result column="valid" property="valid" jdbcType="VARCHAR" />
+    <result column="creater_id" property="createrId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    work_cal_user_id, team_id, schedule_id, calendar_date, day_type, shift_id, user_id, 
+    from_type, upload_addr, valid, creater_id, create_time, update_time
+  </sql>
+  
+  <select id="selectRestCountByScheduleIdCalendarDate" resultMap="BaseResultMap" >
+  	select count(user_id)
+    from t_work_calendar_user
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR} and calendar_date = #{calendarDate,jdbcType=DATE} and day_type = 0
+  </select>
+  
+  <select id="selectCountByScheduleIdCalendarDateShiftId" resultMap="BaseResultMap" >
+  	select count(user_id)
+    from t_work_calendar_user
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR} and calendar_date = #{calendarDate,jdbcType=DATE} and shift_id = #{shiftId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectEffectiveByScheduleIdCalendarDate" resultMap="BaseResultMap" >
+  	select 
+    <include refid="Base_Column_List" />
+    from t_work_calendar_user
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR} and calendar_date = #{calendarDate,jdbcType=DATE}
+  </select>
+  
+  <select id="selectByScheduleId" resultMap="BaseResultMap" >
+  	select 
+    <include refid="Base_Column_List" />
+    from t_work_calendar_user
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="selectEffectiveByTeamIdCalendarDate" resultMap="BaseResultMap" >
+  	select 
+    <include refid="Base_Column_List" />
+    from t_work_calendar_user
+    where team_id = #{teamId,jdbcType=VARCHAR} and calendar_date = #{calendarDate,jdbcType=DATE}
+  </select>
+  
+  <select id="selectByUserIdMonth" resultMap="BaseResultMap" >
+  	select 
+    <include refid="Base_Column_List" />
+    from t_work_calendar_user
+    where team_id = #{teamId,jdbcType=VARCHAR} and user_id = #{userId,jdbcType=VARCHAR}
+    		and calendar_date &gt;= #{startTime,jdbcType=DATE} and calendar_date &lt; #{endTime,jdbcType=DATE} 
+    order by calendar_date asc
+  </select>
+  
+  <delete id="cancelShif" >
+  	delete 
+  	from t_work_calendar_user
+  	where team_id = #{teamId,jdbcType=VARCHAR}
+  		and schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  		and calendar_date = #{calendarDate,jdbcType=DATE} 
+  		<if test="userId != null" >
+  			and user_id = #{userId,jdbcType=VARCHAR}
+  		</if>
+  		<if test="dayType != null" >
+        	and day_type = #{dayType,jdbcType=VARCHAR}
+	    </if>
+	    <if test="shiftId != null" >
+	       	and shift_id = #{shiftId,jdbcType=VARCHAR}
+	    </if>
+  </delete>
+  
+  <delete id="deleteByScheduleId"  parameterType="java.lang.String" >
+  	delete 
+  	from t_work_calendar_user
+  	where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_work_calendar_user
+    where work_cal_user_id = #{workCalUserId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_work_calendar_user
+    where work_cal_user_id = #{workCalUserId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.Work_calendar_user" >
+    insert into t_work_calendar_user (work_cal_user_id, team_id, schedule_id, 
+      calendar_date, day_type, shift_id, 
+      user_id, from_type, upload_addr, 
+      valid, creater_id, create_time, 
+      update_time)
+    values (#{workCalUserId,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, 
+      #{calendarDate,jdbcType=DATE}, #{dayType,jdbcType=VARCHAR}, #{shiftId,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{fromType,jdbcType=VARCHAR}, #{uploadAddr,jdbcType=VARCHAR}, 
+      #{valid,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.Work_calendar_user" >
+    insert into t_work_calendar_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="workCalUserId != null" >
+        work_cal_user_id,
+      </if>
+      <if test="teamId != null" >
+        team_id,
+      </if>
+      <if test="scheduleId != null" >
+        schedule_id,
+      </if>
+      <if test="calendarDate != null" >
+        calendar_date,
+      </if>
+      <if test="dayType != null" >
+        day_type,
+      </if>
+      <if test="shiftId != null" >
+        shift_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="fromType != null" >
+        from_type,
+      </if>
+      <if test="uploadAddr != null" >
+        upload_addr,
+      </if>
+      <if test="valid != null" >
+        valid,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="workCalUserId != null" >
+        #{workCalUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="teamId != null" >
+        #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null" >
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="calendarDate != null" >
+        #{calendarDate,jdbcType=DATE},
+      </if>
+      <if test="dayType != null" >
+        #{dayType,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromType != null" >
+        #{fromType,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadAddr != null" >
+        #{uploadAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null" >
+        #{valid,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.Work_calendar_user" >
+    update t_work_calendar_user
+    <set >
+      <if test="teamId != null" >
+        team_id = #{teamId,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null" >
+        schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="calendarDate != null" >
+        calendar_date = #{calendarDate,jdbcType=DATE},
+      </if>
+      <if test="dayType != null" >
+        day_type = #{dayType,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftId != null" >
+        shift_id = #{shiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="fromType != null" >
+        from_type = #{fromType,jdbcType=VARCHAR},
+      </if>
+      <if test="uploadAddr != null" >
+        upload_addr = #{uploadAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="valid != null" >
+        valid = #{valid,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where work_cal_user_id = #{workCalUserId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.Work_calendar_user" >
+    update t_work_calendar_user
+    set team_id = #{teamId,jdbcType=VARCHAR},
+      schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      calendar_date = #{calendarDate,jdbcType=DATE},
+      day_type = #{dayType,jdbcType=VARCHAR},
+      shift_id = #{shiftId,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      from_type = #{fromType,jdbcType=VARCHAR},
+      upload_addr = #{uploadAddr,jdbcType=VARCHAR},
+      valid = #{valid,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where work_cal_user_id = #{workCalUserId,jdbcType=VARCHAR}
+  </update>
+</mapper>

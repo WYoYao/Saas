@@ -1,4 +1,4 @@
-<div class="myWork-tab" v-show="commonData.publicModel.LorC && commonData.publicModel.LorC !== 0">
+<div class="myWork-tab" v-show="commonData.publicModel.LorC && commonData.publicModel.LorC !== 0 && commonData.publicModel.Published !== 1">
     <div class="myWork-content">
         <div class="myWork-content-list">
             <div class="myWork-content-list-header">
@@ -32,4 +32,7 @@
             <pbutton-white text="取消" click="yn_method.cancelConfirm"></pbutton-white>
         </button>
     </pwindow-confirm>
+</div>
+<div class="publish-detail-tab" v-show="commonData.publicModel.Published=== 1">
+    <% include ../planMonitor/see_orderDetail.html %>
 </div>

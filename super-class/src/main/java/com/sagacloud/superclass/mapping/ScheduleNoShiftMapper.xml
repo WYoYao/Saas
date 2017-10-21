@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.sagacloud.superclass.dao.ScheduleNoShiftMapper" >
+  <resultMap id="BaseResultMap" type="com.sagacloud.superclass.pojo.ScheduleNoShift" >
+    <id column="no_shift_id" property="noShiftId" jdbcType="VARCHAR" />
+    <result column="schedule_id" property="scheduleId" jdbcType="VARCHAR" />
+    <result column="user_ids" property="userIds" jdbcType="VARCHAR" />
+    <result column="shift_ids" property="shiftIds" jdbcType="VARCHAR" />
+    <result column="shift_names" property="shiftNames" jdbcType="VARCHAR" />
+    <result column="creater_id" property="createrId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    no_shift_id, schedule_id, user_ids, shift_ids, shift_names, creater_id, create_time
+  </sql>
+  
+  <select id="selectByScheduleId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	select 
+    <include refid="Base_Column_List" />
+    from t_schedule_no_shift
+    where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByScheduleId"  parameterType="java.lang.String" >
+  	delete 
+  	from t_schedule_no_shift
+  	where schedule_id = #{scheduleId,jdbcType=VARCHAR}
+  </delete>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_schedule_no_shift
+    where no_shift_id = #{noShiftId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from t_schedule_no_shift
+    where no_shift_id = #{noShiftId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.sagacloud.superclass.pojo.ScheduleNoShift" >
+    insert into t_schedule_no_shift (no_shift_id, schedule_id, user_ids, 
+      shift_ids, shift_names, creater_id, 
+      create_time)
+    values (#{noShiftId,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, #{userIds,jdbcType=VARCHAR}, 
+      #{shiftIds,jdbcType=VARCHAR}, #{shiftNames,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sagacloud.superclass.pojo.ScheduleNoShift" >
+    insert into t_schedule_no_shift
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="noShiftId != null" >
+        no_shift_id,
+      </if>
+      <if test="scheduleId != null" >
+        schedule_id,
+      </if>
+      <if test="userIds != null" >
+        user_ids,
+      </if>
+      <if test="shiftIds != null" >
+        shift_ids,
+      </if>
+      <if test="shiftNames != null" >
+        shift_names,
+      </if>
+      <if test="createrId != null" >
+        creater_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="noShiftId != null" >
+        #{noShiftId,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null" >
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="userIds != null" >
+        #{userIds,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftIds != null" >
+        #{shiftIds,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftNames != null" >
+        #{shiftNames,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.sagacloud.superclass.pojo.ScheduleNoShift" >
+    update t_schedule_no_shift
+    <set >
+      <if test="scheduleId != null" >
+        schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="userIds != null" >
+        user_ids = #{userIds,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftIds != null" >
+        shift_ids = #{shiftIds,jdbcType=VARCHAR},
+      </if>
+      <if test="shiftNames != null" >
+        shift_names = #{shiftNames,jdbcType=VARCHAR},
+      </if>
+      <if test="createrId != null" >
+        creater_id = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where no_shift_id = #{noShiftId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.sagacloud.superclass.pojo.ScheduleNoShift" >
+    update t_schedule_no_shift
+    set schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      user_ids = #{userIds,jdbcType=VARCHAR},
+      shift_ids = #{shiftIds,jdbcType=VARCHAR},
+      shift_names = #{shiftNames,jdbcType=VARCHAR},
+      creater_id = #{createrId,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP}
+    where no_shift_id = #{noShiftId,jdbcType=VARCHAR}
+  </update>
+</mapper>

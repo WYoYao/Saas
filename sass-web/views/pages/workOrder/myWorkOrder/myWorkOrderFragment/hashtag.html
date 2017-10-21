@@ -1,7 +1,7 @@
 <div class="hashtag-bubble" :class="{'click-aite':commonData.publicModel.clickHashShow}">
     <div class="hashtag-sop">
         <div class="sop-header">
-            <span>选择SOP</span>
+            <span>选择标准操作</span>
             <div class="sop-header-btn">
                 <span onclick="yn_method.unfold(this,true)">筛选</span>
                 <span onclick="yn_method.unfold(this,false)">收起</span>
@@ -29,7 +29,10 @@
 -->
                 <div class="aite-list" v-for="(model, index) in commonData.publicModel.curLevelList" :index="index" :title="model.sop_name">
                     <div>
-                        <span v-text="model.sop_name" @click="publicMethod.detailSop(model, $event)"></span>
+                        <!--<span v-text="model.sop_name" @click="publicMethod.detailSop(model, $event)"></span>-->
+                        <span @click="publicMethod.detailSop(model, $event)">
+                            <em v-for="charObj in model.sop_name_arr" v-text="charObj.char" :class="charObj.mark ? 'redMark' : ''"></em>
+                        </span>
                     </div>
                     <div>
 

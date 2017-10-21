@@ -5,12 +5,13 @@ $(function () {
     controllerAddSystem.init();
 
 });
-function showAddSystem() {
-    $("#addSystemDiv").show();
-}
-function hideAddSystem() {
-    $("#addSystemDiv").hide();
-}
+// function showAddSystem() {
+//     $("#addSystemDiv").show();
+// }
+// function hideAddSystem() {
+//     $("#addSystemDiv").hide();
+//     v.initPage("systemMng");
+// }
 function editItem(event) {
     var $this = $(event.currentTarget);
     var $contShow = $this.parents(".contShow");
@@ -46,3 +47,5 @@ function selMajorType(item) {
     var typeArr = majorObj.content;
     v.instance.systemTypeArr = typeArr;//专业列表
 }
+
+

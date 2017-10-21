@@ -19,8 +19,13 @@
     <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
     <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
 
-    <script src="/js/equipmentSpace/equipmentMng/index.js"></script>
 
+    <!-- 控件库处理 -->
+    <script src="/js/equipmentSpace/equipmentMng/tool.js"></script>
+    <script src="/js/public/createVue.js"></script>
+
+    <!-- createVue -->
+    <script src="/js/equipmentSpace/equipmentMng/index.js"></script>
 
     <script type="text/javascript" src="/js/public/polyfill.js"></script>
     <script type="text/javascript" src="/js/public/lodash.min.js"></script>
@@ -78,12 +83,12 @@
         <!-- 新建设备中的弹窗需要文件 End -->
 
         <!-- 工单详情Start  -->
-        
+
         <link rel="stylesheet" href="/css/workOrder/planMonitor/see_orderDetail.css" />
         <link rel="stylesheet" href="/css/workOrder/planMonitor/search_box.css" />
-        <script src="/js/public/orderDetail_pub.js"></script>        
+        <script src="/js/public/orderDetail_pub.js"></script>
         <script type="text/javascript" src="/js/public/publicMethod.js"></script>
-        
+
         <!-- 工单详情End -->
 
 </head>
@@ -91,7 +96,11 @@
 <body>
 
     <% include ./../spaceMng/treeTemplate.html %>
-        <div class="component" id="component">
+        <!-- component Start -->
+        <div class="component" id="component" style="display:none;">
+
+
+
             <div id="equipmentMng">
 
                 <layer :layer="layer"></layer>
@@ -103,31 +112,112 @@
 
                         <% include ./insert.html %>
 
-
-
+                            <% include ./system.html %>
             </div>
-
-            <% include ./system.html %>
-            </div>
-            <div v-show='onPage=="wordorder"' id='qwe'>
+            <div v-show='onPage=="wordorder"'>
                 <%include ../../workOrder/planMonitor/see_orderDetail.html%>
             </div>
 
         </div>
+        <!-- component End -->
 
-        <pwindow-modal id="float_postion" isshade="true" title="" templateid="float_postion">
+
+
+
+
+        <!-- 添加品牌 Start -->
+        <pwindow-modal id="float_Brand" isshade="true" title="" templateid="float_Brand">
             <button>
-                    <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
-                    </button>
+                <pbutton-blue text="取消" icon="e" click="confirmhide" isborder="false" id="ds"></pbutton-blue>
+            </button>
             <animate maxpx="0" minpx="-830" orientation="right"> </animate>
         </pwindow-modal>
+        <script type="text/html" id="float_Brand">
+            <div style="width: 450px;height: 200px;">
+                <div class="htxt">添加成功后将被自动加入到xxxx生产厂家所含的品牌列表中</div>
+                <div class='fW'>
+                    <div class="contenter">
+                        <div class="moduleItem">
+                            <div class="eachItem leftItem">
+                                <div class="name">
+                                    <span>品牌名称</span>
+                                </div>
+                                <div class="cont">
+                                    <ptext-text>
+                                    </ptext-text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottmer">
+                        <div class='iln' @click.capture='cancelAddInsuranceNum'>
+                            <pbutton-white text="取消"></pbutton-white>
+                        </div>
+                        <div class='iln' @click.capture=''>
+                            <pbutton-blue text="保存"></pbutton-blue>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <!-- 添加品牌 End -->
 
+        <!-- 添加保险单号 Start -->
+        <pwindow-modal id="float_InsuranceNum" isshade="true" title="" templateid="float_InsuranceNum">
+            <button>
+                <pbutton-blue text="取消" icon="e" click="confirmhide" isborder="false" id="ds"></pbutton-blue>
+            </button>
+            <animate maxpx="0" minpx="-830" orientation="right"> </animate>
+        </pwindow-modal>
+        <script type="text/html" id="float_InsuranceNum">
+            <div style="width: 450px;height: 300px;">
+                <div class="htxt">添加成功后将被自动加入到xxxx保险公司所含的保险单号列表中</div>
+                <div class='fW'>
+                    <div class="contenter">
+                        <div class="moduleItem">
+                            <div class="eachItem leftItem">
+                                <div class="name">
+                                    <span>保险单号</span>
+                                </div>
+                                <div class="cont">
+                                    <ptext-text id='insert_equip_local_id' placeholder="最多20个字">
+                                        <verify errtip="不可为空,最多20个字" verifytype="space" length='20'></verify>
+                                    </ptext-text>
+                                </div>
+                            </div>
+                            <div class="eachItem leftItem">
+                                <div class="name">
+                                    <span>保险文件</span>
+                                </div>
+                                <div class="cont">
+                                    <pupload-attachment number="4" id="insert_drawing">
+                                        <panel success='pupload_drawing'></panel>
+                                    </pupload-attachment>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bottmer">
+                        <div class='iln' @click.capture='cancelAddBrand'>
+                            <pbutton-white text="取消"></pbutton-white>
+                        </div>
+                        <div class='iln' @click.capture=''>
+                            <pbutton-blue text="保存"></pbutton-blue>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </script>
+        <!-- 添加保险单号 End -->
+
+        <!-- 添加系统 Start -->
         <pwindow-modal id="float_system" isshade="true" title="" templateid="float_system">
             <button>
-                    <pbutton-blue text="取消" icon="e" click="confirmhide"  isborder="false"  id="ds"></pbutton-blue>
-                    </button>
+                <pbutton-blue text="取消" icon="e" click="confirmhide" isborder="false" id="ds"></pbutton-blue>
+            </button>
             <animate maxpx="0" minpx="-830" orientation="right"> </animate>
         </pwindow-modal>
+        <!-- 添加系统 End -->
 
         <!-- 添加系统 Start -->
         <script type="text/html" id="float_system">
@@ -153,6 +243,15 @@
         <!-- 添加系统 End -->
 
         <!-- 添加位置 Start -->
+        <pwindow-modal id="float_postion" isshade="true" title="" templateid="float_postion">
+            <button>
+                <pbutton-blue text="取消" icon="e" click="confirmhide" isborder="false" id="ds"></pbutton-blue>
+            </button>
+            <animate maxpx="0" minpx="-830" orientation="right"> </animate>
+        </pwindow-modal>
+        <!-- 添加位置 End -->
+
+        <!-- 添加位置 Start -->
         <script type="text/html" id="float_postion">
             <div style="width: 940px;height: 640px;">
                 <div class="htxt">添加成功后将被自动加入到生产厂家列表中</div>
@@ -175,6 +274,15 @@
             </div>
         </script>
         <!-- 添加位置 End -->
+
+        <!-- 添加厂家 Start -->
+        <pwindow-modal id="eqaddressfloat" isshade="true" title="" templateid="floatTemp_factory">
+            <button>
+                <pbutton-blue text="取消" icon="e" click="confirmhide" isborder="false" id="ds"></pbutton-blue>
+            </button>
+            <animate maxpx="0" minpx="-830" orientation="right"> </animate>
+        </pwindow-modal>
+        <!-- 添加厂家 End   -->
 
         <!-- 添加四个厂家 Start -->
         <script type="text/html" id="floatTemp_factory">
@@ -205,9 +313,9 @@
         <!-- 报废设备 Start -->
         <pwindow-confirm id="confirmWindow">
             <button>
-                    <pbutton-blue text="确定" click="scrappedEquipment"></pbutton-blue>
-                    <pbutton-white text="取消" click="cancelScrappedEquipment"></pbutton-white>
-                </button>
+                <pbutton-blue text="确定" click="scrappedEquipment"></pbutton-blue>
+                <pbutton-white text="取消" click="cancelScrappedEquipment"></pbutton-white>
+            </button>
         </pwindow-confirm>
         <!-- 报废设备 End -->
 

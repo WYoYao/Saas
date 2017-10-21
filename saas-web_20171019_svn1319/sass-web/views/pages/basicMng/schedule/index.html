@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Saas平台运营平台</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+
+    <script type="text/javascript" src="<%=host%>scripts/lib/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/lib/vue-2.2.0.min.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Array.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Date.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/jQueryDom.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Math.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/Number.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/extend/String.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/psecret.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/ptool.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pconst.js"></script>
+    <script type="text/javascript" src="<%=host%>scripts/tool/pajax.js"></script>
+    <script type="text/javascript" src="<%=host%>pcontrol/flatBlueSeries_src_2.0.js"></script>
+
+    <script type="text/javascript" src="/js/public/polyfill.js"></script>
+    <script type="text/javascript" src="/js/public/lodash.min.js"></script>
+    <script type="text/javascript" src="/js/public/promise.min.js"></script>
+
+    <link rel="stylesheet" href="<%=host%>pcontrol/css/flatBlueSeries_min_2.0.css" />
+    <script src="/js/basicMng/schedule/index.js"></script>
+    <link rel="stylesheet" href="/css/basicMng/schedule/index.css">
+
+
+    <link rel="stylesheet" href="/css/basicMng/schedule/upload.css">
+
+    <script src="/js/basicMng/schedule/upload/controller.js"></script>
+    <script src="/js/basicMng/schedule/upload/model.js"></script>
+    <script src="/js/basicMng/schedule/upload/event.js"></script>
+
+</head>
+
+<body>
+    <div class="component" id="component">
+        <% include upload.html %>
+            <pnotice-message id='uploadpnotice'></pnotice-message>
+    </div>
+</body>
+
+</html>
